@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Search Results | APHRS 2026 Busan</title>
+<link rel="stylesheet" href="../assets/hub.css">
+</head>
+<body>
+<header class="site-head"><div class="bar">
+  <a class="brand" href="hub.html"><img src="../assets/top_logo.png" alt="APHRS 2026 Busan" onerror="this.src='https://aphrs2026.com/home/2025/aphrs/image/top_logo.png'"></a>
+  <nav class="nav">
+    <a href="hub.html">Travel Home</a>
+    <a href="transportation-guide.html" class="active">Transportation</a>
+    <a href="plan-your-visit.html">Plan Your Visit</a>
+    <a href="busan.html">Explore Busan, Korea</a>
+    <a href="visa.html">Visa Information</a>
+  </nav>
+  <div class="head-right"><span class="lang">🌐 EN ▾</span><a class="back-sim" href="index.html">Conference Site</a></div>
+</div></header>
+
+<div class="page-band"><div class="inner">
+  <div>
+    <div class="crumb"><a href="hub.html">Travel Home</a> › <span>Search Results</span></div>
+    <h1>Available Transportation</h1>
+    <p>Compare and reserve the option that fits your trip.</p>
+  </div>
+  <div class="q-summary" id="qSummary">…</div>
+</div></div>
+
+<div class="wrap">
+  <!-- Loading -->
+  <div id="loading" class="loading-box">
+    <div class="spinner"></div>
+    Searching available options…
+  </div>
+
+  <!-- Results -->
+  <div id="results" class="results" hidden>
+    <!-- Filters -->
+    <aside class="filter-side">
+      <div class="panel">
+        <div class="panel-t">Filter</div>
+        <div style="font-size:12px;font-weight:600;color:var(--muted);margin-bottom:6px">SERVICE TYPE</div>
+        <label class="filter-row"><input type="checkbox" data-f="car" checked> 🚗 Private Car</label>
+        <label class="filter-row"><input type="checkbox" data-f="shuttle" checked> 🚌 Shuttle</label>
+        <label class="filter-row"><input type="checkbox" data-f="train" checked> 🚄 Train (KTX)</label>
+        <div style="border-top:1px solid var(--line);margin:14px 0 12px"></div>
+        <div style="font-size:12px;font-weight:600;color:var(--muted);margin-bottom:6px">SORT BY</div>
+        <select class="select" id="sortBy" style="height:40px">
+          <option value="price">Price (low → high)</option>
+          <option value="time">Duration (short → long)</option>
+        </select>
+      </div>
+    </aside>
+
+    <!-- List -->
+    <div>
+      <div style="font-size:13.5px;color:var(--muted);margin-bottom:12px"><b id="count" style="color:var(--ink)">0</b> options found</div>
+      <div id="list"></div>
+    </div>
+  </div>
+</div>
+
+<footer class="dark-foot"><div class="row">
+  <b>APHRS 2026 BUSAN</b>
+  <span>© 2026 APHRS 2026 Busan · Travel &amp; Transportation Hub by GroundK. All rights reserved.</span>
+  <div class="links"><a href="#" onclick="return false">Privacy Policy</a><a href="#" onclick="return false">Terms of Use</a></div>
+</div></footer>
+
+<script>
+  // query summary
+  var qp = new URLSearchParams(location.search);
+  var from = qp.get('from') || 'Incheon Int’l Airport (ICN)';
+  var to   = qp.get('to')   || 'Busan Paradise Hotel';
+  var date = qp.get('date') || '2026-10-21';
+  document.getElementById('qSummary').innerHTML =
+    '<b>' + from + '</b> → <b>' + to + '</b> · ' + date;
+
+  // mock options
+  var OPTIONS = [
+    {svc:'car', ic:'🚗', cls:'ic-red', name:'Private Car · Premium Sedan', desc:'Door-to-door · up to 3 passengers, 2 bags', mins:70, price:75000, badge:'Fastest', link:'gt-private-car.html'},
+    {svc:'car', ic:'🚙', cls:'ic-red', name:'Private Car · Van', desc:'Door-to-door · up to 6 passengers, 6 bags', mins:75, price:110000, badge:'', link:'gt-private-car.html'},
+    {svc:'shuttle', ic:'🚌', cls:'ic-blue', name:'Conference Shuttle', desc:'Scheduled 09:00 · shared · Airport → Hotels', mins:90, price:5000, badge:'Cheapest', link:'gt-shuttle.html'},
+    {svc:'shuttle', ic:'🚐', cls:'ic-blue', name:'Conference Shuttle · Direct to BEXCO', desc:'Scheduled 10:00 · shared', mins:80, price:5000, badge:'', link:'gt-shuttle.html'},
+    {svc:'train', ic:'🚄', cls:'ic-amber', name:'KTX · Economy', desc:'Seoul → Busan · high-speed rail', mins:150, price:59800, badge:'', link:'gt-korail.html'},
+    {svc:'train', ic:'🚄', cls:'ic-amber', name:'KTX · First Class', desc:'Seoul → Busan · spacious seating', mins:150, price:83700, badge:'', link:'gt-korail.html'}
+  ];
+  var won = function (n) { return 'KRW ' + n.toLocaleString('en-US'); };
+  var dur = function (m) { return m >= 60 ? Math.floor(m/60)+'h '+(m%60?m%60+'m':'').trim() : m+'m'; };
+
+  function render() {
+    var on = {};
+    document.querySelectorAll('[data-f]').forEach(function (c) { on[c.dataset.f] = c.checked; });
+    var sort = document.getElementById('sortBy').value;
+    var rows = OPTIONS.filter(function (o) { return on[o.svc]; })
+      .sort(function (a, b) { return sort === 'price' ? a.price - b.price : a.mins - b.mins; });
+    document.getElementById('count').textContent = rows.length;
+    document.getElementById('list').innerHTML = rows.map(function (o) {
+      return '<div class="result-card">' +
+        '<div class="ric ' + o.cls + '">' + o.ic + '</div>' +
+        '<div class="rmeta"><b>' + o.name + '</b>' +
+          (o.badge ? ' <span class="badge">' + o.badge + '</span>' : '') +
+          '<div class="tags"><span>🕒 ' + dur(o.mins) + '</span><span>' + o.desc + '</span></div></div>' +
+        '<div class="rprice"><div class="p">' + won(o.price) + '</div><div class="u">per vehicle / seat</div></div>' +
+        '<a class="btn btn-red btn-sm rbtn" href="' + o.link + '">Reserve</a>' +
+      '</div>';
+    }).join('');
+  }
+
+  document.querySelectorAll('[data-f]').forEach(function (c) { c.addEventListener('change', render); });
+  document.getElementById('sortBy').addEventListener('change', render);
+
+  // loading -> results
+  setTimeout(function () {
+    document.getElementById('loading').hidden = true;
+    document.getElementById('results').hidden = false;
+    render();
+  }, 1300);
+</script>
+<script src="../assets/book-widget.js"></script>
+</body>
+</html>
