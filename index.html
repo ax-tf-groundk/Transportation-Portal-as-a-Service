@@ -5,59 +5,102 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Transportation Portal as a Service (TPaaS) — GroundK</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
-  :root{--red:#e8344e;--navy:#15294d;--ink:#1f2733;--muted:#6c7585;--line:#e7eaf0;--bg:#f6f8fb}
+  :root{
+    --gk:#2E3192;          /* GroundK brand indigo */
+    --gk-d:#23265f;        /* darker */
+    --gk-l:#edeefb;        /* soft tint */
+    --ink:#1b2030; --muted:#69708a; --line:#e6e8f2; --bg:#f5f6fb;
+  }
   *{margin:0;padding:0;box-sizing:border-box}
-  body{font-family:"Poppins","Noto Sans KR",sans-serif;color:var(--ink);background:var(--bg);line-height:1.6}
-  .top{height:6px;background:var(--red)}
-  header{background:#fff;border-bottom:1px solid var(--line)}
-  header .bar{max-width:1080px;margin:0 auto;padding:20px 24px;display:flex;align-items:center;gap:12px}
-  header b{color:var(--red);font-size:18px;font-weight:700;letter-spacing:-.3px}
-  header span{color:var(--muted);font-size:13px;border-left:1px solid var(--line);padding-left:12px}
-  .hero{max-width:1080px;margin:0 auto;padding:52px 24px 8px}
-  .hero h1{font-size:34px;font-weight:700;letter-spacing:-.6px;color:var(--navy)}
-  .hero p{margin-top:10px;color:var(--muted);font-size:16px;max-width:640px}
-  .grid{max-width:1080px;margin:30px auto 60px;padding:0 24px;display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:18px}
-  .card{display:flex;flex-direction:column;background:#fff;border:1px solid var(--line);border-radius:16px;padding:24px;transition:.2s;position:relative;overflow:hidden}
-  .card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--red)}
-  .card:hover{transform:translateY(-3px);box-shadow:0 12px 30px rgba(20,40,80,.10);border-color:#d9e0ec}
-  .card .tag{font-size:11px;font-weight:600;color:var(--red);letter-spacing:.5px}
-  .card h2{font-size:20px;font-weight:600;color:var(--navy);margin:8px 0 6px}
-  .card p{font-size:13.5px;color:var(--muted);flex:1}
-  .card .go{margin-top:16px;font-size:14px;font-weight:600;color:var(--red)}
-  .card.soon{opacity:.6}
-  .card.soon::before{background:#cfd6e2}
-  .card.soon .tag,.card.soon .go{color:var(--muted)}
-  footer{max-width:1080px;margin:0 auto;padding:24px;color:var(--muted);font-size:12.5px;border-top:1px solid var(--line)}
+  body{font-family:"Poppins","Noto Sans KR",sans-serif;color:var(--ink);background:var(--bg);line-height:1.6;-webkit-font-smoothing:antialiased}
+  a{text-decoration:none;color:inherit}
+  .wrap{max-width:1100px;margin:0 auto;padding:0 24px}
+
+  .topbar{height:5px;background:var(--gk)}
+  header{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:10}
+  header .bar{max-width:1100px;margin:0 auto;padding:16px 24px;display:flex;align-items:center;gap:16px}
+  header .logo{height:30px;width:auto}
+  header .tag{color:var(--muted);font-size:12.5px;border-left:1px solid var(--line);padding-left:16px;font-weight:500}
+  header .right{margin-left:auto;font-size:12.5px;color:var(--gk);font-weight:600;letter-spacing:.5px}
+
+  /* hero */
+  .hero{background:linear-gradient(180deg,#fff 0%,var(--bg) 100%);border-bottom:1px solid var(--line)}
+  .hero .inner{max-width:1100px;margin:0 auto;padding:64px 24px 56px}
+  .hero .eyebrow{display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:600;letter-spacing:1px;
+    color:var(--gk);background:var(--gk-l);padding:6px 14px;border-radius:50px}
+  .hero h1{font-size:42px;font-weight:800;letter-spacing:-1px;color:var(--gk);margin:18px 0 14px;line-height:1.08}
+  .hero p{color:#4a5168;font-size:17px;max-width:660px}
+
+  /* projects */
+  .section{max-width:1100px;margin:0 auto;padding:40px 24px 70px}
+  .section h2{font-size:15px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:18px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:18px}
+  .card{display:flex;flex-direction:column;background:#fff;border:1px solid var(--line);border-radius:16px;
+    padding:26px;position:relative;overflow:hidden;transition:.2s}
+  .card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px;background:var(--gk)}
+  .card:hover{transform:translateY(-3px);box-shadow:0 14px 34px rgba(46,49,146,.13);border-color:#d4d7ee}
+  .card .kicker{font-size:11px;font-weight:600;color:var(--gk);letter-spacing:.6px}
+  .card h3{font-size:21px;font-weight:700;color:var(--ink);margin:9px 0 7px}
+  .card p{font-size:14px;color:var(--muted);flex:1}
+  .card .go{margin-top:18px;font-size:14px;font-weight:600;color:var(--gk);display:inline-flex;align-items:center;gap:6px}
+  .card:hover .go{gap:10px}
+  .card.soon{opacity:.62}
+  .card.soon::before{background:#cfd3e6}
+  .card.soon .kicker,.card.soon .go{color:var(--muted)}
+
+  /* footer */
+  footer{background:var(--gk);color:#c9cbe9;font-size:12.5px}
+  footer .inner{max-width:1100px;margin:0 auto;padding:26px 24px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+  footer .inner b{color:#fff;font-weight:600;letter-spacing:.3px}
+  footer .inner .r{margin-left:auto}
+  footer a:hover{color:#fff}
 </style>
 </head>
 <body>
-  <div class="top"></div>
-  <header><div class="bar">
-    <b>TPaaS</b><span>Transportation Portal as a Service · GroundK</span>
-  </div></header>
+  <div class="topbar"></div>
+  <header>
+    <div class="bar">
+      <img class="logo" src="./assets/groundk-logo.png" alt="GroundK"
+           onerror="this.outerHTML='<b style=&quot;color:#2E3192;font-size:22px;font-weight:800&quot;>GroundK</b>'">
+      <span class="tag">Transportation Portal as a Service</span>
+      <span class="right">TPaaS</span>
+    </div>
+  </header>
 
   <section class="hero">
-    <h1>Transportation Portal as a Service</h1>
-    <p>Event-specific travel &amp; ground-transportation portals by GroundK. Each project below is an independent demo hub. Select a project to enter.</p>
+    <div class="inner">
+      <span class="eyebrow">● GROUNDK · MOBILITY FOR EVENTS</span>
+      <h1>Transportation Portal<br>as a Service</h1>
+      <p>Event-specific travel &amp; ground-transportation portals by GroundK. Each project below is an independent demo hub — select a project to enter.</p>
+    </div>
   </section>
 
-  <div class="grid">
-    <a class="card" href="./aphrs-2026-busan/">
-      <div class="tag">MICE · MEDICAL CONGRESS</div>
-      <h2>APHRS 2026 Busan</h2>
-      <p>19th Asia Pacific Heart Rhythm Society Scientific Session — Travel &amp; Transportation Hub (concept demo).</p>
-      <span class="go">Enter demo →</span>
-    </a>
-    <div class="card soon">
-      <div class="tag">COMING SOON</div>
-      <h2>Next project</h2>
-      <p>Additional event transportation portals will be added here as separate folders.</p>
-      <span class="go">—</span>
+  <section class="section">
+    <h2>Projects</h2>
+    <div class="grid">
+      <a class="card" href="./aphrs-2026-busan/">
+        <div class="kicker">MICE · MEDICAL CONGRESS</div>
+        <h3>APHRS 2026 Busan</h3>
+        <p>19th Asia Pacific Heart Rhythm Society Scientific Session — Travel &amp; Transportation Hub (concept demo).</p>
+        <span class="go">Enter demo →</span>
+      </a>
+      <div class="card soon">
+        <div class="kicker">COMING SOON</div>
+        <h3>Next project</h3>
+        <p>Additional event transportation portals will be added here as separate folders.</p>
+        <span class="go">—</span>
+      </div>
     </div>
-  </div>
+  </section>
 
-  <footer>© 2026 GroundK · Transportation Portal as a Service. Concept demos — details subject to change.</footer>
+  <footer>
+    <div class="inner">
+      <b>GroundK</b>
+      <span>Transportation Portal as a Service · Concept demos — details subject to change.</span>
+      <span class="r">© 2026 GroundK</span>
+    </div>
+  </footer>
 </body>
 </html>
