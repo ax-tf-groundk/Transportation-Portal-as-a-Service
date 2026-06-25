@@ -3,13 +3,61 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta http-equiv="refresh" content="0; url=./simulation/index.html">
-<link rel="canonical" href="./simulation/index.html">
-<title>APHRS 2026 Busan — Travel &amp; Transportation Hub (Demo)</title>
-<style>body{font-family:system-ui,sans-serif;padding:48px;color:#1f2733}a{color:#e8344e}</style>
+<title>Transportation Portal as a Service (TPaaS) — GroundK</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{--red:#e8344e;--navy:#15294d;--ink:#1f2733;--muted:#6c7585;--line:#e7eaf0;--bg:#f6f8fb}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:"Poppins","Noto Sans KR",sans-serif;color:var(--ink);background:var(--bg);line-height:1.6}
+  .top{height:6px;background:var(--red)}
+  header{background:#fff;border-bottom:1px solid var(--line)}
+  header .bar{max-width:1080px;margin:0 auto;padding:20px 24px;display:flex;align-items:center;gap:12px}
+  header b{color:var(--red);font-size:18px;font-weight:700;letter-spacing:-.3px}
+  header span{color:var(--muted);font-size:13px;border-left:1px solid var(--line);padding-left:12px}
+  .hero{max-width:1080px;margin:0 auto;padding:52px 24px 8px}
+  .hero h1{font-size:34px;font-weight:700;letter-spacing:-.6px;color:var(--navy)}
+  .hero p{margin-top:10px;color:var(--muted);font-size:16px;max-width:640px}
+  .grid{max-width:1080px;margin:30px auto 60px;padding:0 24px;display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:18px}
+  .card{display:flex;flex-direction:column;background:#fff;border:1px solid var(--line);border-radius:16px;padding:24px;transition:.2s;position:relative;overflow:hidden}
+  .card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--red)}
+  .card:hover{transform:translateY(-3px);box-shadow:0 12px 30px rgba(20,40,80,.10);border-color:#d9e0ec}
+  .card .tag{font-size:11px;font-weight:600;color:var(--red);letter-spacing:.5px}
+  .card h2{font-size:20px;font-weight:600;color:var(--navy);margin:8px 0 6px}
+  .card p{font-size:13.5px;color:var(--muted);flex:1}
+  .card .go{margin-top:16px;font-size:14px;font-weight:600;color:var(--red)}
+  .card.soon{opacity:.6}
+  .card.soon::before{background:#cfd6e2}
+  .card.soon .tag,.card.soon .go{color:var(--muted)}
+  footer{max-width:1080px;margin:0 auto;padding:24px;color:var(--muted);font-size:12.5px;border-top:1px solid var(--line)}
+</style>
 </head>
 <body>
-Redirecting to the demo… <a href="./simulation/index.html">Enter the demo →</a>
-<script>location.replace('./simulation/index.html');</script>
+  <div class="top"></div>
+  <header><div class="bar">
+    <b>TPaaS</b><span>Transportation Portal as a Service · GroundK</span>
+  </div></header>
+
+  <section class="hero">
+    <h1>Transportation Portal as a Service</h1>
+    <p>Event-specific travel &amp; ground-transportation portals by GroundK. Each project below is an independent demo hub. Select a project to enter.</p>
+  </section>
+
+  <div class="grid">
+    <a class="card" href="./aphrs-2026-busan/">
+      <div class="tag">MICE · MEDICAL CONGRESS</div>
+      <h2>APHRS 2026 Busan</h2>
+      <p>19th Asia Pacific Heart Rhythm Society Scientific Session — Travel &amp; Transportation Hub (concept demo).</p>
+      <span class="go">Enter demo →</span>
+    </a>
+    <div class="card soon">
+      <div class="tag">COMING SOON</div>
+      <h2>Next project</h2>
+      <p>Additional event transportation portals will be added here as separate folders.</p>
+      <span class="go">—</span>
+    </div>
+  </div>
+
+  <footer>© 2026 GroundK · Transportation Portal as a Service. Concept demos — details subject to change.</footer>
 </body>
 </html>

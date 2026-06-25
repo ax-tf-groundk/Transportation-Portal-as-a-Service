@@ -1,33 +1,33 @@
-# APHRS 2026 Busan — Travel & Transportation Hub (Concept Demo)
+# Transportation Portal as a Service (TPaaS)
 
-A **concept demonstration** of a Travel & Transportation service hub for APHRS 2026 Busan,
-produced by **GroundK** for proposal purposes.
+Event-specific travel & ground-transportation portals by **GroundK**.
+Each event is managed as an independent project folder under this repository.
 
-> ⚠️ This is a non-functional concept mockup. Booking flows are illustrative only and are not
-> connected to any live reservation system. Not affiliated with the official event website.
+> ⚠️ Concept demos. Booking flows are illustrative only and not connected to any live
+> reservation system. Not affiliated with the official event websites.
 
-## Live demo
+## Live
 
-👉 **https://lsjlwj5371.github.io/Transportation-Portal-as-a-Service/**
+👉 **https://ax-tf-groundk.github.io/Transportation-Portal-as-a-Service/**
 
-Start at the simulation page and click the **“Busan, Korea”** menu to enter the hub.
+The root page lists all projects. Each project is also directly reachable:
 
-## Structure
+| Project | Folder | Live |
+|---|---|---|
+| APHRS 2026 Busan | `aphrs-2026-busan/` | https://ax-tf-groundk.github.io/Transportation-Portal-as-a-Service/aphrs-2026-busan/ |
+
+## Repository structure
 
 ```
-index.html              → redirect to the demo
-simulation/
-  index.html            → APHRS 2026 main-site simulation (entry)
-  hub.html              → Busan, Korea hub landing
-  plan-your-visit.html  → essential Korea info
-  busan-korea.html      → Busan attractions + K-Food
-  visa.html             → visa & K-ETA information
-  ground-transportation.html
-  gt-private-car.html / gt-shuttle.html / gt-shuttle-routes.html
-  gt-luggage.html / gt-esim.html / gt-korail.html
-assets/
-  hub.css               → shared design system
-  top_logo.png
+index.html                       → TPaaS portal landing (lists projects)
+aphrs-2026-busan/                 → one project
+  index.html                      → redirect into the demo
+  simulation/                     → all pages (sim, hub, sub-pages, booking mockups)
+  assets/                         → that project's css + images
+<next-project>/                   → future events get their own folder
 ```
+
+Each project folder is **self-contained** (its own `assets/` and pages), so projects
+can evolve independently.
 
 © 2026 GroundK. Concept design — details subject to change.
