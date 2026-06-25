@@ -72,11 +72,11 @@
   tabs.forEach(function (t) { t.addEventListener('click', function () { select(t.dataset.svc); }); });
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape') close(); });
 
-  // First-visit auto-expand (once per page, per session)
+  // Auto-expand only ONCE on first arrival to the site (per session).
+  // After the user closes it, it stays closed across all pages.
   try {
-    var key = 'gkBookSeen:' + location.pathname;
-    if (!sessionStorage.getItem(key)) {
-      sessionStorage.setItem(key, '1');
+    if (!sessionStorage.getItem('gkBookSeenSite')) {
+      sessionStorage.setItem('gkBookSeenSite', '1');
       setTimeout(open, 650);
     }
   } catch (e) { /* sessionStorage unavailable -> skip auto-open */ }
