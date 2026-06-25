@@ -91,7 +91,7 @@ img{display:block;max-width:100%}
 @media(max-width:880px){.pillars{grid-template-columns:repeat(2,1fr)}}
 
 /* ---------- SERVICE CARDS (services at a glance) ---------- */
-.svc-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:16px}
+.svc-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:16px}
 @media(max-width:1000px){.svc-grid{grid-template-columns:repeat(3,1fr)}}
 @media(max-width:620px){.svc-grid{grid-template-columns:repeat(2,1fr)}}
 .svc-card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:22px 18px 18px;

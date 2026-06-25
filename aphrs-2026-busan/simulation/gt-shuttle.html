@@ -12,7 +12,7 @@
   <nav class="nav">
     <a href="hub.html">Travel Home</a>
     <a href="plan-your-visit.html">Plan Your Visit</a>
-    <a href="busan-korea.html">Explore Busan, Korea</a>
+    <a href="busan.html">Explore Busan, Korea</a>
     <a href="visa.html">Visa Information</a>
     <a href="transportation-guide.html" class="active">Transportation</a>
   </nav>
@@ -78,6 +78,62 @@
 
   </div>
 </div>
+
+<!-- Shuttle Routes (integrated) -->
+<section class="section tight" id="routes">
+  <div class="wrap">
+    <div class="sec-head-row">
+      <div><div class="sec-h">Shuttle Routes &amp; Schedules</div>
+        <div class="sec-sub">Official shuttle routes connecting the airport, hotels, and the venue.</div></div>
+      <a class="btn btn-outline btn-sm" href="#" onclick="return false">⬇ Download Timetable</a>
+    </div>
+    <div class="book cols-2" style="padding:0">
+      <!-- Map -->
+      <div class="panel" style="padding:0;overflow:hidden">
+        <div class="route-map" style="border:none;border-radius:0">
+          <svg viewBox="0 0 460 300" width="100%" height="300" xmlns="http://www.w3.org/2000/svg">
+            <path d="M70 70 C 150 60, 180 150, 240 190 S 360 240, 390 130" fill="none" stroke="#8b5cf6" stroke-width="3" opacity=".55"/>
+            <path d="M70 70 C 160 120, 200 170, 240 190" fill="none" stroke="#14a098" stroke-width="3"/>
+            <path d="M240 190 C 300 220, 350 190, 390 130" fill="none" stroke="#2f6fed" stroke-width="3"/>
+            <g font-family="Poppins" font-size="11" fill="#1f2733">
+              <circle cx="70" cy="70" r="7" fill="#fff" stroke="#2f6fed" stroke-width="3"/>
+              <text x="70" y="52" text-anchor="middle" font-weight="600">Gimhae Airport (PUS)</text>
+              <circle cx="390" cy="130" r="7" fill="#fff" stroke="#8b5cf6" stroke-width="3"/>
+              <text x="390" y="112" text-anchor="middle" font-weight="600">Haeundae Hotels</text>
+              <circle cx="78" cy="200" r="7" fill="#fff" stroke="#14a098" stroke-width="3"/>
+              <text x="78" y="222" text-anchor="middle" font-weight="600">Seomyeon Hotels</text>
+              <circle cx="240" cy="190" r="13" fill="#e8344e"/>
+              <text x="240" y="195" text-anchor="middle" fill="#fff" font-size="13">📍</text>
+              <text x="240" y="226" text-anchor="middle" font-weight="700" fill="#e8344e">BEXCO (APHRS 2026 Venue)</text>
+            </g>
+          </svg>
+          <div class="note-line" style="padding:0 22px 18px">ℹ️ All shuttle buses are free of charge for APHRS 2026 registered participants.</div>
+        </div>
+      </div>
+      <!-- Route cards -->
+      <div>
+        <div class="route-card">
+          <div class="rt-h"><span class="dot" style="background:#2f6fed"></span> Gimhae Airport ↔ BEXCO (Venue)</div>
+          <div class="rt-row"><span>First Bus</span><b>07:00</b></div>
+          <div class="rt-row"><span>Last Bus</span><b>20:00</b></div>
+          <div class="rt-row"><span>Interval</span><b>30 min</b></div>
+        </div>
+        <div class="route-card">
+          <div class="rt-h"><span class="dot" style="background:#8b5cf6"></span> Haeundae Hotels ↔ BEXCO (Venue)</div>
+          <div class="rt-row"><span>First Bus</span><b>07:30</b></div>
+          <div class="rt-row"><span>Last Bus</span><b>20:30</b></div>
+          <div class="rt-row"><span>Interval</span><b>30 min</b></div>
+        </div>
+        <div class="route-card">
+          <div class="rt-h"><span class="dot" style="background:#14a098"></span> Seomyeon Hotels ↔ BEXCO (Venue)</div>
+          <div class="rt-row"><span>First Bus</span><b>07:20</b></div>
+          <div class="rt-row"><span>Last Bus</span><b>20:20</b></div>
+          <div class="rt-row"><span>Interval</span><b>30 min</b></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
 <footer class="dark-foot"><div class="row">
   <b>APHRS 2026 BUSAN</b>
