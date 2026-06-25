@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>APHRS 2026 Busan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --accent:#e92b44;   /* APHRS red */
+    --navy:#0e2d64;     /* APHRS navy */
+    --topbar:#ccc;
+    --ink:#111;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:"Poppins","Noto Sans KR",sans-serif;
+    color:var(--ink);
+    background:#fff;
+    line-height:1.5;
+  }
+  a{text-decoration:none;color:inherit}
+  ul{list-style:none}
+  img{display:block}
+
+  /* ============ TOP BAR ============ */
+  .top-menu-box{
+    display:flex;justify-content:flex-end;align-items:center;
+    width:100%;height:40px;
+    border-bottom:1px solid #ddd;background:var(--topbar);
+  }
+  .top-link{
+    display:flex;justify-content:flex-end;align-items:center;gap:.625rem;
+    max-width:1630px;width:100%;margin:0 auto;padding:0 10px;
+  }
+  .top-text-btn{
+    display:flex;justify-content:center;align-items:center;
+    height:30px;padding:2px 14px 0;border-radius:625rem;
+    font-size:14px;font-weight:500;
+    border:1px solid var(--navy);background:var(--navy);color:#fff;
+    transition:.2s;
+  }
+  .top-text-btn:hover{opacity:.85}
+
+  /* ============ HEADER ============ */
+  #header_wrap{
+    position:sticky;top:-40px;height:110px;
+    background:#fff;border-bottom:1px solid #eee;z-index:50;transition:.3s;
+  }
+  #header{
+    display:flex;justify-content:space-between;align-items:center;
+    height:70px;max-width:1740px;margin:0 auto;padding:0 20px;
+  }
+  #logo a img{width:auto;height:40px;object-fit:contain}
+
+  #gnb_wrap{display:flex;justify-content:flex-end;align-items:center;height:100%}
+  #gnb{display:flex;justify-content:flex-end;align-items:center;height:100%;gap:4px}
+  #gnb>li{position:relative;display:flex;align-items:center;height:100%}
+  #gnb>li>a{
+    display:flex;align-items:center;height:100%;padding:0 15px;
+    color:var(--ink);font-weight:500;font-size:15px;white-space:nowrap;transition:.2s;
+  }
+  #gnb>li:hover>a{color:var(--accent)}
+
+  /* dropdown */
+  .gnb_sub_wrap{
+    display:none;position:absolute;top:70px;left:50%;transform:translateX(-50%);
+    padding-top:0;min-width:200px;z-index:60;
+  }
+  #gnb>li:hover .gnb_sub_wrap{display:block}
+  .gnb_sub{
+    background:#fff;box-shadow:5px 5px 12px rgba(0,0,0,.12);
+    border-top:3px solid var(--accent);overflow:hidden;
+  }
+  .gnb_sub>li{border-bottom:1px solid #eee}
+  .gnb_sub>li:last-child{border-bottom:none}
+  .gnb_sub>li>a{
+    display:block;padding:11px 20px;text-align:left;
+    font-size:14px;font-weight:500;color:#434343;white-space:nowrap;transition:.15s;
+  }
+  .gnb_sub>li>a:hover{background:rgba(233,43,68,.12);color:var(--accent)}
+
+  /* demo highlight on the active path */
+  #gnb>li.demo-path>a{position:relative}
+  #gnb>li.demo-path>a::after{
+    content:"";position:absolute;left:8px;right:8px;bottom:16px;height:2px;
+    background:var(--accent);border-radius:2px;
+    box-shadow:0 0 0 0 rgba(233,43,68,.5);
+    animation:pulseLine 1.6s ease-in-out infinite;
+  }
+  @keyframes pulseLine{
+    0%,100%{opacity:.35;transform:scaleX(.6)}
+    50%{opacity:1;transform:scaleX(1)}
+  }
+  .demo-tip{
+    position:absolute;top:74px;left:50%;transform:translateX(-50%);
+    background:var(--accent);color:#fff;font-size:11.5px;font-weight:500;
+    padding:5px 10px;border-radius:6px;white-space:nowrap;pointer-events:none;
+    box-shadow:0 4px 12px rgba(233,43,68,.35);z-index:70;
+  }
+  .demo-tip::before{
+    content:"";position:absolute;top:-5px;left:50%;transform:translateX(-50%);
+    border-left:5px solid transparent;border-right:5px solid transparent;
+    border-bottom:6px solid var(--accent);
+  }
+  #gnb>li.demo-path:hover .demo-tip{opacity:0}
+
+  /* ============ HERO ============ */
+  .keyvisual{
+    position:relative;height:560px;overflow:hidden;background:var(--navy);
+  }
+  .kv-slide{
+    position:absolute;inset:0;background-size:cover;background-position:center;
+    opacity:0;transition:opacity 1.4s ease;
+  }
+  .kv-slide.on{opacity:1}
+  .kv-overlay{
+    position:absolute;inset:0;
+    background:linear-gradient(90deg,rgba(0,0,0,.55) 0%,rgba(0,0,0,.25) 45%,rgba(0,0,0,.1) 100%);
+  }
+  .kv-inner{
+    position:relative;max-width:1740px;margin:0 auto;height:100%;
+    padding:0 60px;display:flex;flex-direction:column;justify-content:center;
+  }
+  .kv-title{font-size:64px;font-weight:700;line-height:1.05;color:var(--accent);
+    text-shadow:0 2px 18px rgba(0,0,0,.35);letter-spacing:-1px}
+  .kv-txtbox{
+    margin-top:22px;max-width:max-content;padding:18px 20px;
+    background:rgba(0,0,0,.4);color:#fff;display:flex;flex-direction:column;gap:8px;
+  }
+  .kv-txtbox p{font-size:16px}
+  .kv-txtbox p.lead{font-size:18px;font-weight:500}
+  .kv-txtbox p.lead span{font-weight:400;opacity:.85;font-size:15px}
+  .kv-txtbox p.tag{color:var(--accent);font-weight:600;font-size:20px;font-family:"Poppins"}
+  .kv-dots{position:absolute;bottom:22px;left:50%;transform:translateX(-50%);display:flex;gap:8px;z-index:3}
+  .kv-dots button{width:9px;height:9px;border-radius:50%;border:none;background:rgba(255,255,255,.45);cursor:pointer;transition:.2s}
+  .kv-dots button.on{background:#fff;width:22px;border-radius:5px}
+
+  /* link cards on right */
+  .kv-links{
+    position:absolute;top:0;right:0;bottom:0;width:300px;z-index:3;
+    display:flex;flex-direction:column;
+  }
+  .kv-links a{
+    flex:1;display:flex;flex-direction:column;justify-content:center;
+    padding:0 34px;color:#fff;border-bottom:1px solid rgba(255,255,255,.18);
+    background:rgba(14,45,100,.55);backdrop-filter:blur(2px);transition:.25s;position:relative;
+  }
+  .kv-links a:last-child{border-bottom:none}
+  .kv-links a:hover{background:var(--accent)}
+  .kv-links a b{font-size:20px;font-weight:600}
+  .kv-links a span{font-size:13px;opacity:.8;margin-top:4px}
+  .kv-links a i{position:absolute;right:30px;font-style:normal;font-size:22px;opacity:.6}
+  @media(max-width:1100px){.kv-links{display:none}}
+
+  /* ============ D-DAY ============ */
+  .section-dday{background:var(--navy);color:#fff;padding:34px 20px}
+  .dday-box{
+    max-width:1100px;margin:0 auto;display:flex;align-items:center;
+    justify-content:space-between;gap:30px;flex-wrap:wrap
+  }
+  .dday-box .label b{display:block;font-size:14px;opacity:.8;font-weight:400}
+  .dday-box .label b.big{font-size:22px;font-weight:600;opacity:1;margin:2px 0}
+  .dday-box .label span{font-size:13px;color:var(--accent);font-weight:500}
+  .dday-list{display:flex;gap:14px}
+  .dday-list li{text-align:center;min-width:74px;background:rgba(255,255,255,.08);
+    border-radius:10px;padding:12px 8px}
+  .dday-list .num{font-size:34px;font-weight:700;font-family:"Poppins";line-height:1}
+  .dday-list small{display:block;font-size:11px;letter-spacing:1px;opacity:.7;margin-top:6px}
+
+  /* ============ FOOTER ============ */
+  footer{background:#1b1b1b;color:#aaa;font-size:13px;padding:30px 20px}
+  .foot-inner{max-width:1740px;margin:0 auto;line-height:1.9}
+  .foot-inner strong{color:#fff;font-weight:500}
+
+  /* demo banner */
+  .demo-banner{
+    background:#fff7e6;border-bottom:1px solid #ffe2a8;color:#7a5200;
+    font-size:13px;text-align:center;padding:7px 14px;font-weight:500
+  }
+  .demo-banner b{color:var(--accent)}
+</style>
+</head>
+<body>
+
+  <div class="demo-banner">
+    GroundK 시뮬레이션 — 실제 APHRS 2026 사이트 재현 화면입니다. 상단 메뉴 <b>“Busan, Korea”</b> 를 클릭하면 GroundK 수송 페이지로 이동합니다.
+  </div>
+
+  <!-- TOP BAR -->
+  <div class="top-menu-box">
+    <div class="top-link">
+      <a href="#" class="top-text-btn" onclick="return false">LOGIN</a>
+      <a href="#" class="top-text-btn" onclick="return false">CONTACT</a>
+    </div>
+  </div>
+
+  <!-- HEADER -->
+  <div id="header_wrap">
+    <div id="header">
+      <h1 id="logo">
+        <a href="#" onclick="return false" title="APHRS 2026 Busan">
+          <img src="../assets/top_logo.png" alt="APHRS 2026 Busan"
+               onerror="this.src='https://aphrs2026.com/home/2025/aphrs/image/top_logo.png'">
+        </a>
+      </h1>
+      <nav id="gnb_wrap">
+        <ul id="gnb">
+          <li><a href="#" onclick="return false">Home</a></li>
+          <li><a href="#" onclick="return false">APHRS 2026 BUSAN</a>
+            <div class="gnb_sub_wrap"><ul class="gnb_sub">
+              <li><a href="#" onclick="return false">Welcome Message</a></li>
+              <li><a href="#" onclick="return false">Conference Overview</a></li>
+              <li><a href="#" onclick="return false">Organizing Committee</a></li>
+              <li><a href="#" onclick="return false">APHRS Board of Trustees</a></li>
+            </ul></div>
+          </li>
+          <li><a href="#" onclick="return false">Scientific Program</a>
+            <div class="gnb_sub_wrap"><ul class="gnb_sub">
+              <li><a href="#" onclick="return false">Program at a Glance</a></li>
+              <li><a href="#" onclick="return false">Detailed Program</a></li>
+              <li><a href="#" onclick="return false">Faculty</a></li>
+            </ul></div>
+          </li>
+          <li><a href="#" onclick="return false">Abstracts</a>
+            <div class="gnb_sub_wrap"><ul class="gnb_sub">
+              <li><a href="#" onclick="return false">Important Dates</a></li>
+              <li><a href="#" onclick="return false">Submission Guideline</a></li>
+              <li><a href="#" onclick="return false">Simultaneous Publication Opportunities</a></li>
+            </ul></div>
+          </li>
+          <li><a href="#" onclick="return false">Registration</a>
+            <div class="gnb_sub_wrap"><ul class="gnb_sub">
+              <li><a href="#" onclick="return false">Registration Guideline</a></li>
+            </ul></div>
+          </li>
+          <li><a href="#" onclick="return false">Accommodation</a>
+            <div class="gnb_sub_wrap"><ul class="gnb_sub">
+              <li><a href="#" onclick="return false">Accommodation Guideline</a></li>
+              <li><a href="#" onclick="return false">List of Hotels</a></li>
+            </ul></div>
+          </li>
+          <li><a href="#" onclick="return false">Partners</a>
+            <div class="gnb_sub_wrap"><ul class="gnb_sub">
+              <li><a href="#" onclick="return false">Partners</a></li>
+              <li><a href="#" onclick="return false">Industry Program</a></li>
+              <li><a href="#" onclick="return false">Exhibition Floor Plan</a></li>
+            </ul></div>
+          </li>
+          <li><a href="#" onclick="return false">Venue</a>
+            <div class="gnb_sub_wrap"><ul class="gnb_sub">
+              <li><a href="#" onclick="return false">Conference Venue</a></li>
+              <li><a href="#" onclick="return false">Floor Plan</a></li>
+            </ul></div>
+          </li>
+
+          <!-- ===== DEMO PATH: Busan, Korea -> GroundK hub ===== -->
+          <li class="demo-path"><a href="hub.html">Busan, Korea</a>
+            <span class="demo-tip">클릭하면 GroundK 페이지로 이동 ▶</span>
+            <div class="gnb_sub_wrap"><ul class="gnb_sub">
+              <li><a href="hub.html">Hub Home</a></li>
+              <li><a href="plan-your-visit.html">Plan Your Visit</a></li>
+              <li><a href="busan-korea.html">Explore Busan</a></li>
+              <li><a href="visa.html">Visa Information</a></li>
+              <li><a href="ground-transportation.html">Ground Transportation</a></li>
+            </ul></div>
+          </li>
+
+          <li><a href="#" onclick="return false">Media Resource</a>
+            <div class="gnb_sub_wrap"><ul class="gnb_sub">
+              <li><a href="#" onclick="return false">News &amp; Notice</a></li>
+              <li><a href="#" onclick="return false">Resource</a></li>
+            </ul></div>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+
+  <!-- HERO -->
+  <section class="keyvisual">
+    <div class="kv-slide on" data-i="0"></div>
+    <div class="kv-slide" data-i="1"></div>
+    <div class="kv-slide" data-i="2"></div>
+    <div class="kv-overlay"></div>
+    <div class="kv-inner">
+      <h2 class="kv-title">APHRS 2026<br>Busan</h2>
+      <div class="kv-txtbox">
+        <p class="lead">19th Asia Pacific Heart Rhythm Society Scientific Session<br>
+          <span>in conjunction with KHRS 2026</span></p>
+        <p class="tag">Feel the Rhythm, Feel the Future</p>
+        <p>21 - 24 October 2026 ㅣ Bexco, Busan, Korea</p>
+      </div>
+    </div>
+    <div class="kv-links">
+      <a href="#" onclick="return false"><b>Welcome Message</b><i>›</i></a>
+      <a href="#" onclick="return false"><b>Abstracts</b><span>Submit Abstracts</span><i>›</i></a>
+      <a href="#" onclick="return false"><b>Registration</b><span>Register Online</span><i>›</i></a>
+    </div>
+    <div class="kv-dots">
+      <button class="on" data-i="0"></button>
+      <button data-i="1"></button>
+      <button data-i="2"></button>
+    </div>
+  </section>
+
+  <!-- D-DAY -->
+  <section class="section-dday">
+    <div class="dday-box">
+      <div class="label">
+        <b>Time Remaining Until</b>
+        <b class="big">APHRS 2026 BUSAN</b>
+        <span>21 October 2026 09:00</span>
+      </div>
+      <ul class="dday-list">
+        <li><b class="num" id="dd">0</b><small>DAYS</small></li>
+        <li><b class="num" id="hh">0</b><small>HOURS</small></li>
+        <li><b class="num" id="mm">0</b><small>MINUTES</small></li>
+        <li><b class="num" id="ss">0</b><small>SECONDS</small></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="foot-inner">
+      <strong>Secretariat of 19th Asia Pacific Heart Rhythm Society Scientific Session (APHRS 2026 Busan)</strong><br>
+      Partner ㅣ INTERCOM Convention Services, Inc. (Core PCO) &nbsp; Tel +82-2-566-3833 &nbsp; E-mail aphrs2026@intercom.co.kr &nbsp; Website https://www.aphrs2026.com<br>
+      Copyright © 19th Asia Pacific Heart Rhythm Society Scientific Session Organizing Committee. All Rights Reserved
+    </div>
+  </footer>
+
+<script>
+  /* ---- hero background slider (live Busan photos, navy fallback) ---- */
+  const heroImgs = [
+    'https://aphrs2026.com/home/2025/aphrs/image/main_visual_5.png',
+    'https://aphrs2026.com/home/2025/aphrs/image/main_visual_2.png',
+    'https://aphrs2026.com/home/2025/aphrs/image/main_visual_3.png'
+  ];
+  const slides = document.querySelectorAll('.kv-slide');
+  const dots = document.querySelectorAll('.kv-dots button');
+  slides.forEach((s,i)=>{ s.style.backgroundImage = `url('${heroImgs[i]}')`; });
+  let cur = 0;
+  function show(i){
+    slides.forEach(s=>s.classList.remove('on'));
+    dots.forEach(d=>d.classList.remove('on'));
+    slides[i].classList.add('on'); dots[i].classList.add('on'); cur=i;
+  }
+  dots.forEach(d=>d.addEventListener('click',()=>show(+d.dataset.i)));
+  setInterval(()=>show((cur+1)%slides.length), 5000);
+
+  /* ---- live D-day countdown to 21 Oct 2026 09:00 KST ---- */
+  const target = new Date('2026-10-21T09:00:00+09:00').getTime();
+  function tick(){
+    const now = Date.now();
+    let diff = Math.max(0, target - now);
+    const d = Math.floor(diff/86400000); diff -= d*86400000;
+    const h = Math.floor(diff/3600000);  diff -= h*3600000;
+    const m = Math.floor(diff/60000);    diff -= m*60000;
+    const s = Math.floor(diff/1000);
+    const pad = n => String(n).padStart(2,'0');
+    document.getElementById('dd').textContent = d;
+    document.getElementById('hh').textContent = pad(h);
+    document.getElementById('mm').textContent = pad(m);
+    document.getElementById('ss').textContent = pad(s);
+  }
+  tick(); setInterval(tick, 1000);
+</script>
+</body>
+</html>

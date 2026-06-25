@@ -1,0 +1,16 @@
+# internal working docs — not for deployment
+.claude/
+APHRS2026_Busan_Korea_콘텐츠_전체.md
+구조명세_v1.md
+
+# internal client source assets — keep private
+*.ai
+*.pdf
+*.psd
+디자인톤1.png
+디자인톤2.png
+
+# OS / editor
+Thumbs.db
+.DS_Store
+desktop.ini
