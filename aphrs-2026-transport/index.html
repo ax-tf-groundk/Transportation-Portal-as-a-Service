@@ -6,10 +6,10 @@
 <meta http-equiv="Cache-Control" content="no-cache">
 <title>APHRS 2026 Busan — Transportation | RIDEUS Events · GroundK</title>
 <meta name="description" content="Official transportation portal for APHRS 2026 Busan (19th Asia Pacific Heart Rhythm Society, Oct 21–24, BEXCO). Airport shuttle, venue shuttle, private chauffeur, KTX, baggage & eSIM.">
-<meta name="version" content="2026.06.27.4">
+<meta name="version" content="2026.06.27.5">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="assets/transport.css?v=2026.06.27.4">
+<link rel="stylesheet" href="assets/transport.css?v=2026.06.27.5">
 <style>
 /* ── APHRS-specific overrides (index only) ─────────────────────── */
 
@@ -362,6 +362,19 @@
 }
 .footer-legal b { color:rgba(255,255,255,.65); }
 .footer-legal .ver { color:rgba(255,255,255,.28); }
+
+/* ── MOBILE FIX: .about-strip (390px overflow) ────────────────────
+   .about-strip padding:32px 36px + .about-left min-width:260px +
+   white-space:nowrap 버튼 → 모바일에서 버튼이 카드 밖으로 삐져나옴 */
+@media(max-width:760px){
+  .about-strip{
+    padding:24px 20px;
+    flex-direction:column;
+    align-items:stretch;
+  }
+  .about-left{ min-width:0; width:100%; }
+  .about-cta-btn{ width:100%; justify-content:center; white-space:normal; text-align:center; }
+}
 </style>
 </head>
 <body>
@@ -630,8 +643,7 @@
           <span class="about-chip">🤝 KHRS 2026 공동개최</span>
         </div>
       </div>
-      <a class="btn btn-outline" href="https://aphrs2026.com" target="_blank" rel="noopener"
-         style="white-space:nowrap">공식 사이트 aphrs2026.com ↗</a>
+      <a class="btn btn-outline about-cta-btn" href="https://aphrs2026.com" target="_blank" rel="noopener">공식 사이트 aphrs2026.com ↗</a>
     </div>
   </div>
 </section>
@@ -703,7 +715,7 @@
       <b>GroundK Co., Ltd</b> · CEO 장동원 · Business Reg. 238-81-00429<br>
       405호, 45 Centum Dong-ro, Haeundae-gu, Busan 48059 · Tel +82-2-863-3540 · ops@groundk.com<br>
       RIDEUS는 GroundK의 Transportation × Travel 플랫폼입니다. 모든 거래·교환·환불·민원은 GroundK가 처리합니다.<br>
-      <span class="ver">© 2026 GroundK · APHRS 2026 참가자 교통 포털 (콘셉트 데모) · build 2026.06.27.4</span>
+      <span class="ver">© 2026 GroundK · APHRS 2026 참가자 교통 포털 (콘셉트 데모) · build 2026.06.27.5</span>
     </div>
   </div>
 </footer>
@@ -731,6 +743,6 @@
   </div>
 </div>
 
-<script src="assets/app.js?v=2026.06.27.4"></script>
+<script src="assets/app.js?v=2026.06.27.5"></script>
 </body>
 </html>
