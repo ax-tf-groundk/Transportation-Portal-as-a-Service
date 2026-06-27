@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Cache-Control" content="no-cache">
+<title>입국·도착 안내 — APHRS 2026 Busan Transportation | GroundK</title>
+<meta name="description" content="APHRS 2026 부산 참가자를 위한 한국 입국 및 BEXCO 이동 안내. 김해공항 직항·인천공항 환승·KTX·버스 등 전체 교통 옵션.">
+<meta name="version" content="2026.06.27.2">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="assets/transport.css?v=2026.06.27.2">
+<style>
+/* ===== ACCORDION ===== */
+.acc-part { margin-bottom: 40px; }
+.acc-part-title { font-size: 20px; font-weight: 800; color: var(--ink,#333); margin-bottom: 20px; padding-bottom: 12px; border-bottom: 2px solid var(--red,#E8003D); }
+.acc-item { border: 1px solid var(--line,#e5e5e5); border-radius: 6px; margin-bottom: 10px; overflow: hidden; }
+.acc-btn { width: 100%; text-align: left; background: #fff; border: none; padding: 18px 22px; font-family: inherit; font-size: 16px; font-weight: 700; color: var(--ink,#333); cursor: pointer; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.acc-btn:hover { background: var(--red-050, #FEE6ED); }
+.acc-btn.open { color: var(--red,#E8003D); background: var(--red-050,#FEE6ED); }
+.acc-chevron { flex-shrink: 0; font-size: 18px; transition: transform .2s; }
+.acc-btn.open .acc-chevron { transform: rotate(180deg); }
+.acc-body { display: none; padding: 20px 24px 24px; border-top: 1px solid var(--line,#e5e5e5); background: #fafafa; font-size: 14px; line-height: 1.8; color: var(--ink,#333); }
+.acc-body.open { display: block; }
+.acc-body table { width: 100%; border-collapse: collapse; margin-top: 12px; font-size: 13.5px; }
+.acc-body th, .acc-body td { text-align: left; padding: 9px 12px; border-bottom: 1px solid var(--line,#e5e5e5); }
+.acc-body thead th { background: var(--navy,#1B2850); color: #fff; font-size: 12px; letter-spacing: .4px; }
+.acc-body .highlight { color: var(--red,#E8003D); font-weight: 700; }
+.acc-body .notice { background: #FEE6ED; border: 1px solid #f6cdd5; border-radius: 4px; padding: 10px 14px; margin-top: 12px; font-size: 13px; }
+.acc-body ul { padding-left: 18px; margin-top: 8px; }
+.acc-body ul li { margin-bottom: 6px; }
+.acc-shuttle-cta { margin-top: 16px; display: inline-flex; align-items: center; gap: 8px; background: var(--red,#E8003D); color: #fff; padding: 10px 20px; border-radius: 4px; font-weight: 700; font-size: 14px; text-decoration: none; }
+.acc-route-badge { display: inline-block; background: var(--navy,#1B2850); color: #fff; font-size: 11px; font-weight: 700; padding: 3px 9px; border-radius: 3px; margin-right: 6px; letter-spacing: .3px; }
+</style>
+</head>
+<body>
+<a class="skip" href="#main">본문 바로가기</a>
+
+<div class="demo-banner">GroundK 콘셉트 데모 — 실제 예약·결제는 처리되지 않습니다.</div>
+
+<header class="site-head">
+  <div class="bar">
+    <a class="brand brand-aphrs" href="index.html">
+      <img src="https://aphrs2026.com/home/2025/aphrs/image/top_logo.png" alt="APHRS 2026 Busan" onerror="this.onerror=null;this.src='assets/img/aphrs-logo.png'">
+      <span class="btag" style="color:var(--red,#E8003D)">교통 포털</span>
+    </a>
+    <nav class="nav">
+      <a href="shuttle-airport-hotel.html">공항 → 호텔</a>
+      <a href="shuttle-hotel-airport.html">호텔 → 공항</a>
+      <a href="shuttle-venue.html">행사장 셔틀</a>
+      <a href="shuttle-chauffeur.html">전용차량</a>
+    </nav>
+    <div class="head-right">
+      <button class="lang" id="langToggle" type="button">🌐 <span class="seg" data-lang="en">EN</span><span class="seg on" data-lang="ko">KO</span></button>
+      <button class="head-link hide-sm" id="lookupBtn" type="button">예약조회</button>
+      <a class="head-link ext hide-sm" href="https://aphrs2026.com" target="_blank" rel="noopener">공식 사이트</a>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+
+<!-- ===== DETAIL HERO ===== -->
+<section class="detail-hero">
+  <img class="bgimg" src="assets/img/gimhae-airport.jpg" alt="김해국제공항">
+  <div class="inner">
+    <nav class="crumb" aria-label="breadcrumb"><a href="index.html">홈</a> › <span>입국·도착 안내</span></nav>
+    <h1>입국·도착 안내</h1>
+    <p class="dsub">한국 도착부터 BEXCO까지 — 항공편·KTX·버스·시내교통 전체 안내</p>
+  </div>
+</section>
+
+<!-- ===== ACCORDION BODY ===== -->
+<section class="section">
+  <div class="wrap">
+
+    <!-- PART 1: 한국 입국 -->
+    <div class="acc-part">
+      <div class="sec-head reveal" style="margin-bottom:24px">
+        <span class="kicker">입국 경로 · Gateway</span>
+        <h2 class="sec-h">Part 1. 한국 입국</h2>
+      </div>
+
+      <!-- 항목 1: 김해공항 직항 -->
+      <div class="acc-item">
+        <button class="acc-btn" type="button" aria-expanded="false">
+          <span>✈️ 김해국제공항 직항 (PUS)</span>
+          <span class="acc-chevron">▾</span>
+        </button>
+        <div class="acc-body">
+          <p>부산 김해국제공항(PUS)은 아시아 주요 도시에서 <strong>직항편</strong>이 운항됩니다. 부산이 최종 목적지라면 환승 없이 바로 입국할 수 있습니다.</p>
+          <table>
+            <thead>
+              <tr><th>지역·국가</th><th>취항 도시</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>🇯🇵 일본</td><td>도쿄(나리타·하네다), 오사카(간사이), 나고야, 삿포로(신치토세), 후쿠오카 등</td></tr>
+              <tr><td>🇨🇳 중국</td><td>베이징, 상하이, 칭다오, 광저우 등</td></tr>
+              <tr><td>🇹🇼 대만</td><td>타이베이(타오위안), 가오슝</td></tr>
+              <tr><td>🇻🇳 베트남</td><td>냐짱(깜란), 다낭, 호치민, 하노이</td></tr>
+              <tr><td>🇸🇬 싱가포르</td><td>창이</td></tr>
+              <tr><td>🇹🇭 태국</td><td>방콕(수완나품)</td></tr>
+              <tr><td>🇵🇭 필리핀</td><td>마닐라, 세부</td></tr>
+            </tbody>
+          </table>
+          <div class="notice">
+            📍 직항 취항 도시 <span class="highlight">26개 도시 / 7개국</span> · 운항사: Air Busan, Jin Air, Jeju Air, Korean Air 등<br>
+            최신 운항 스케줄은 각 항공사 홈페이지 또는 예약 채널에서 확인하세요.
+          </div>
+        </div>
+      </div>
+
+      <!-- 항목 2: 인천공항 국제환승 (대한항공) -->
+      <div class="acc-item">
+        <button class="acc-btn" type="button" aria-expanded="false">
+          <span>🔄 인천공항(ICN) → 부산(PUS) 국제환승 (대한항공)</span>
+          <span class="acc-chevron">▾</span>
+        </button>
+        <div class="acc-body">
+          <p>부산 직항이 없는 지역에서 출발하는 경우, 인천공항(ICN)에서 <strong>대한항공 국내 구간</strong>을 이용해 김해공항(PUS)으로 환승할 수 있습니다.</p>
+          <ul>
+            <li>대한항공 <span class="highlight">하루 5~6편</span> 운항 (ICN → PUS)</li>
+            <li>국제선 여정의 일부로만 예약 가능 (국제선 + 국내 연결편 통합 발권)</li>
+            <li>인천 <b>제2터미널(T2)</b> 환승 후 김해공항에서 입국심사</li>
+          </ul>
+          <table>
+            <thead>
+              <tr><th>편명</th><th>출발 (ICN)</th><th>운항 요일</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><span class="acc-route-badge">KE1401</span></td><td class="highlight">07:45</td><td>매일</td></tr>
+              <tr><td><span class="acc-route-badge">KE1403</span></td><td class="highlight">09:30</td><td>매일</td></tr>
+              <tr><td><span class="acc-route-badge">KE1411</span></td><td class="highlight">16:35</td><td>월·금·토·일</td></tr>
+              <tr><td><span class="acc-route-badge">KE1405</span></td><td class="highlight">18:20</td><td>매일</td></tr>
+              <tr><td><span class="acc-route-badge">KE1407</span></td><td class="highlight">19:35</td><td>매일</td></tr>
+              <tr><td><span class="acc-route-badge">KE1409</span></td><td class="highlight">20:45</td><td>매일</td></tr>
+            </tbody>
+          </table>
+          <div class="notice">※ 상기 시간표는 참고용이며, 실제 스케줄은 대한항공(koreanair.com) 또는 항공권 예약 채널에서 확인하세요.</div>
+        </div>
+      </div>
+
+      <!-- 항목 3: 인천→김포→부산 국내선 환승 -->
+      <div class="acc-item">
+        <button class="acc-btn" type="button" aria-expanded="false">
+          <span>🛫 인천공항 → 김포 → 부산 (국내선 환승)</span>
+          <span class="acc-chevron">▾</span>
+        </button>
+        <div class="acc-body">
+          <p>인천공항(ICN)에서 김포공항(GMP)으로 이동 후, 김포-부산 국내선을 이용하는 경로입니다.</p>
+          <p><strong>① ICN → GMP 이동</strong></p>
+          <table>
+            <thead>
+              <tr><th>교통수단</th><th>소요시간</th><th>요금</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>AREX 공항철도</td><td>약 30분</td><td>KRW 4,150</td></tr>
+              <tr><td>리무진버스</td><td>30~40분</td><td>KRW 16,000~21,100</td></tr>
+              <tr><td>택시</td><td>약 40분</td><td>KRW 43,000~</td></tr>
+            </tbody>
+          </table>
+          <p style="margin-top:16px"><strong>② GMP → PUS 항공편</strong></p>
+          <table>
+            <thead>
+              <tr><th>항공사</th><th>소요시간</th><th>일일 편수</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Air Busan</td><td>약 70분</td><td>하루 10편</td></tr>
+              <tr><td>Korean Air</td><td>약 60분</td><td>하루 8편</td></tr>
+              <tr><td>T'way Air</td><td>약 60분</td><td>하루 3편</td></tr>
+              <tr><td>Jeju Air</td><td>약 60분</td><td>하루 1편</td></tr>
+            </tbody>
+          </table>
+          <div class="notice">※ 공항 간 이동 및 체크인 시간을 감안해 <span class="highlight">최소 3시간 여유</span>를 두고 이동하세요.</div>
+        </div>
+      </div>
+
+      <!-- 항목 4: 인천→서울역→부산역 KTX -->
+      <div class="acc-item">
+        <button class="acc-btn" type="button" aria-expanded="false">
+          <span>🚄 인천공항 → 서울역 → 부산역 (KTX)</span>
+          <span class="acc-chevron">▾</span>
+        </button>
+        <div class="acc-body">
+          <p>인천공항에서 서울역으로 이동 후 KTX를 타고 부산역(KTX)까지 이동하는 경로입니다.</p>
+          <p><strong>① ICN → 서울역 이동</strong></p>
+          <table>
+            <thead>
+              <tr><th>교통수단</th><th>소요시간</th><th>요금</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>AREX 직통열차</td><td>약 43분</td><td>KRW 9,500</td></tr>
+              <tr><td>리무진버스 6001번</td><td>약 60~70분</td><td>KRW 17,000</td></tr>
+              <tr><td>리무진버스 6702번</td><td>약 60~70분</td><td>KRW 18,000</td></tr>
+              <tr><td>택시</td><td>약 70분</td><td>KRW 60,000~</td></tr>
+            </tbody>
+          </table>
+          <p style="margin-top:16px"><strong>② 서울역 → 부산역 (KTX)</strong></p>
+          <table>
+            <thead>
+              <tr><th>구분</th><th>소요시간</th><th>요금(편도)</th><th>예약</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>특실 (First Class)</td><td rowspan="2">약 2시간 30분</td><td class="highlight">KRW 83,700</td><td rowspan="2"><a href="https://www.korail.com" target="_blank" rel="noopener">korail.com</a></td></tr>
+              <tr><td>일반실 (Standard)</td><td class="highlight">KRW 59,800</td></tr>
+            </tbody>
+          </table>
+          <div class="notice">💡 KTX 좌석은 사전 예약이 권장됩니다. 학술대회 기간에는 수요가 높을 수 있습니다. <a href="https://www.korail.com" target="_blank" rel="noopener">korail.com</a>에서 최소 2~4주 전 예약하세요.</div>
+        </div>
+      </div>
+
+      <!-- 항목 5: 인천→해운대 직행버스 -->
+      <div class="acc-item">
+        <button class="acc-btn" type="button" aria-expanded="false">
+          <span>🚌 인천공항 → 해운대 직행버스</span>
+          <span class="acc-chevron">▾</span>
+        </button>
+        <div class="acc-body">
+          <p>별도 환승 없이 인천공항에서 해운대까지 직행으로 이동하는 리무진버스입니다. 짐이 많은 경우 편리합니다.</p>
+          <table>
+            <thead>
+              <tr><th>구분</th><th>내용</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>소요시간</td><td class="highlight">약 5~6시간</td></tr>
+              <tr><td>요금</td><td class="highlight">KRW 53,500</td></tr>
+              <tr><td>T1 운행시간</td><td>06:20 ~ 23:50</td></tr>
+              <tr><td>T2 운행시간</td><td>06:00 ~ 23:30</td></tr>
+            </tbody>
+          </table>
+          <p style="margin-top:16px"><strong>T1 배차 시간표</strong></p>
+          <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:8px">
+            <span style="background:var(--navy,#1B2850);color:#fff;padding:4px 10px;border-radius:3px;font-size:13px;font-weight:700">06:20</span>
+            <span style="background:var(--navy,#1B2850);color:#fff;padding:4px 10px;border-radius:3px;font-size:13px;font-weight:700">07:50</span>
+            <span style="background:var(--navy,#1B2850);color:#fff;padding:4px 10px;border-radius:3px;font-size:13px;font-weight:700">09:00</span>
+            <span style="background:var(--navy,#1B2850);color:#fff;padding:4px 10px;border-radius:3px;font-size:13px;font-weight:700">09:50</span>
+            <span style="background:var(--navy,#1B2850);color:#fff;padding:4px 10px;border-radius:3px;font-size:13px;font-weight:700">10:30</span>
+            <span style="background:var(--navy,#1B2850);color:#fff;padding:4px 10px;border-radius:3px;font-size:13px;font-weight:700">11:10</span>
+            <span style="background:var(--navy,#1B2850);color:#fff;padding:4px 10px;border-radius:3px;font-size:13px;font-weight:700">12:10</span>
+            <span style="background:var(--navy,#1B2850);color:#fff;padding:4px 10px;border-radius:3px;font-size:13px;font-weight:700">13:10</span>
+            <span style="background:var(--navy,#1B2850);color:#fff;padding:4px 10px;border-radius:3px;font-size:13px;font-weight:700">14:00</span>
+            <span style="background:var(--navy,#1B2850);color:#fff;padding:4px 10px;border-radius:3px;font-size:13px;font-weight:700">15:00</span>
+            <span style="background:var(--navy,#1B2850);color:#fff;padding:4px 10px;border-radius:3px;font-size:13px;font-weight:700">16:00</span>
+            <span style="background:var(--navy,#1B2850);color:#fff;padding:4px 10px;border-radius:3px;font-size:13px;font-weight:700">17:00</span>
+            <span style="background:var(--navy,#1B2850);color:#fff;padding:4px 10px;border-radius:3px;font-size:13px;font-weight:700">19:40</span>
+            <span style="background:var(--navy,#1B2850);color:#fff;padding:4px 10px;border-radius:3px;font-size:13px;font-weight:700">21:00</span>
+            <span style="background:var(--navy,#1B2850);color:#fff;padding:4px 10px;border-radius:3px;font-size:13px;font-weight:700">22:20</span>
+            <span style="background:var(--navy,#1B2850);color:#fff;padding:4px 10px;border-radius:3px;font-size:13px;font-weight:700">23:50</span>
+          </div>
+          <div class="notice" style="margin-top:16px">⚠️ 배차 시간은 운수사 사정에 따라 변경될 수 있습니다. 탑승 전 반드시 확인하세요. 해운대 방면 정류장: 해운대해수욕장, 그랜드호텔, 파라다이스호텔 등 경유.</div>
+        </div>
+      </div>
+    </div>
+    <!-- /PART 1 -->
+
+    <!-- PART 2: BEXCO 이동 -->
+    <div class="acc-part">
+      <div class="sec-head reveal" style="margin-bottom:24px">
+        <span class="kicker">행사장 접근 · Venue Access</span>
+        <h2 class="sec-h">Part 2. BEXCO 이동</h2>
+      </div>
+
+      <!-- 항목 1: 김해공항에서 BEXCO -->
+      <div class="acc-item">
+        <button class="acc-btn" type="button" aria-expanded="false">
+          <span>🛬 김해공항에서 BEXCO</span>
+          <span class="acc-chevron">▾</span>
+        </button>
+        <div class="acc-body">
+          <p>김해국제공항(PUS) 도착 후 BEXCO(센텀시티)까지 이동하는 방법입니다.</p>
+          <table>
+            <thead>
+              <tr><th>교통수단</th><th>경로</th><th>소요시간</th><th>요금</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>🚇 지하철</strong></td>
+                <td>경전철 김해공항역 → 사상역 (1호선 환승) → 서면 (2호선 환승) → <span class="highlight">센텀시티역</span></td>
+                <td>약 70분</td>
+                <td class="highlight">KRW 2,300</td>
+              </tr>
+              <tr>
+                <td><strong>🚌 공항리무진</strong></td>
+                <td>해운대·기장 방면 리무진 (BEXCO 인근 경유)</td>
+                <td>약 60분</td>
+                <td>—</td>
+              </tr>
+              <tr>
+                <td><strong>🚕 택시</strong></td>
+                <td>국내선 청사 1층 2번 출구 승차 → BEXCO 직행</td>
+                <td>약 60분</td>
+                <td class="highlight">KRW 40,000~</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="notice">
+            🚌 <strong>APHRS 셔틀(유료)</strong>: 공항 → 해운대 공식호텔 운행. 입국일(10/21~22) 배차.
+          </div>
+          <a class="acc-shuttle-cta" href="shuttle-airport-hotel.html">🚌 APHRS 셔틀 예약하기 →</a>
+        </div>
+      </div>
+
+      <!-- 항목 2: 부산역에서 BEXCO -->
+      <div class="acc-item">
+        <button class="acc-btn" type="button" aria-expanded="false">
+          <span>🚆 부산역(KTX)에서 BEXCO</span>
+          <span class="acc-chevron">▾</span>
+        </button>
+        <div class="acc-body">
+          <p>KTX 부산역 도착 후 BEXCO(센텀시티)까지 이동하는 방법입니다.</p>
+          <table>
+            <thead>
+              <tr><th>교통수단</th><th>경로 / 정보</th><th>소요시간</th><th>요금</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>🚇 지하철</strong></td>
+                <td>부산역 (1호선) → 서면 (2호선 환승) → <span class="highlight">센텀시티역</span></td>
+                <td>약 55분</td>
+                <td class="highlight">KRW 1,800</td>
+              </tr>
+              <tr>
+                <td><strong>🚌 버스 1001번</strong></td>
+                <td>04:30 ~ 22:00 · 10분 간격 운행</td>
+                <td>약 40분</td>
+                <td class="highlight">KRW 2,100</td>
+              </tr>
+              <tr>
+                <td><strong>🚌 버스 1003번</strong></td>
+                <td>04:20 ~ 22:20 · 10분 간격 운행</td>
+                <td>약 40분</td>
+                <td class="highlight">KRW 2,100</td>
+              </tr>
+              <tr>
+                <td><strong>🚕 택시</strong></td>
+                <td>부산역 택시 승차장 → BEXCO 직행</td>
+                <td>약 30분</td>
+                <td class="highlight">KRW 22,000~</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="notice">
+            🚌 <strong>APHRS 셔틀(유료)</strong>: 부산역 → 해운대 공식호텔 운행. 입국일(10/21~22) 배차.
+          </div>
+          <a class="acc-shuttle-cta" href="shuttle-airport-hotel.html">🚌 APHRS 셔틀 예약하기 →</a>
+        </div>
+      </div>
+    </div>
+    <!-- /PART 2 -->
+
+  </div>
+</section>
+
+</main>
+
+<!-- ===== CORPORATE FOOTER ===== -->
+<footer class="corp-foot">
+  <div class="wrap">
+    <div class="top">
+      <a class="brand" href="index.html" aria-label="RIDEUS Events 홈">
+        <span class="logo" aria-hidden="true">R</span>
+        <span class="wm"><b>RIDEUS Events</b><small>GroundK · 참가자 교통 포털 데모</small></span>
+      </a>
+      <nav class="fnav" aria-label="푸터">
+        <a href="shuttle-airport-hotel.html">공항 → 호텔</a>
+        <a href="shuttle-hotel-airport.html">호텔 → 공항</a>
+        <a href="shuttle-venue.html">행사장 셔틀</a>
+        <a href="index.html#support">고객 지원</a>
+      </nav>
+    </div>
+    <div class="legal">
+      <b>GroundK Co., Ltd</b> · 대표 장동원 · 사업자등록번호 238-81-00429<br>
+      부산광역시 해운대구 센텀동로 45, 405호 (우 48059) · Tel +82-2-863-3540 · Fax +82-70-8275-3540 · ops@groundk.com<br>
+      RIDEUS는 GroundK의 Transportation × Travel 플랫폼입니다. 모든 거래·교환·환불·민원은 GroundK가 처리합니다.<br>
+      <span class="ver">© 2026 GroundK · APHRS 2026 참가자 교통 포털 (콘셉트 데모) · build 2026.06.27.2</span>
+    </div>
+  </div>
+</footer>
+
+<div class="mockup-flag" style="z-index:200">컨셉 목업 · 실제 예약 연동 예정</div>
+
+<!-- ===== BOOKING LOOKUP MODAL (UI mock) ===== -->
+<div class="modal-ov" id="lookupModal" role="dialog" aria-modal="true" aria-labelledby="lk-h">
+  <div class="modal">
+    <button class="modal-x" id="lookupClose" type="button" aria-label="닫기">✕</button>
+    <h3 id="lk-h">예약 내역 조회</h3>
+    <p>예약번호와 이메일을 입력하면 데모 예약 내역을 확인합니다.</p>
+    <div class="mf"><label for="lkCode">예약번호</label><input id="lkCode" type="text" placeholder="RE-APHRS-SH-0000"></div>
+    <div class="mf"><label for="lkEmail">이메일</label><input id="lkEmail" type="email" placeholder="you@example.com"></div>
+    <div class="m-actions"><button class="btn btn-red btn-block btn-sm" id="lookupSubmit" type="button">조회하기</button></div>
+    <p class="m-note" id="lkResult">※ 콘셉트 데모입니다. 실제 예약 시스템과 연동되지 않으며, 예시 안내만 표시됩니다.</p>
+  </div>
+</div>
+
+<script src="assets/app.js?v=2026.06.27.2"></script>
+<script>
+/* ===== ACCORDION ===== */
+document.querySelectorAll('.acc-btn').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    var body = this.nextElementSibling;
+    var isOpen = this.classList.contains('open');
+    // 같은 파트 내 모두 닫기
+    var part = this.closest('.acc-part');
+    part.querySelectorAll('.acc-btn').forEach(function(b){ b.classList.remove('open'); b.setAttribute('aria-expanded','false'); });
+    part.querySelectorAll('.acc-body').forEach(function(b){ b.classList.remove('open'); });
+    if (!isOpen) {
+      this.classList.add('open');
+      this.setAttribute('aria-expanded','true');
+      body.classList.add('open');
+    }
+  });
+});
+</script>
+</body>
+</html>

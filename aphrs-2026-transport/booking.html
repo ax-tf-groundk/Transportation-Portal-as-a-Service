@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Book Transportation — APHRS 2026</title>
+  <link rel="stylesheet" href="assets/transport.css?v=2026.06.27.2" />
+  <style>
+    /* ── booking.html scoped styles ──────────────────────────── */
+    .booking-hero {
+      background: var(--navy, #0a2342);
+      padding: 3.5rem 1.5rem 2.5rem;
+      text-align: center;
+      color: #fff;
+    }
+    .booking-hero .svc-badge {
+      display: inline-block;
+      padding: .25rem .85rem;
+      border-radius: 99px;
+      font-size: .78rem;
+      font-weight: 700;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      margin-bottom: .9rem;
+      background: rgba(255,255,255,.18);
+    }
+    .booking-hero h1 {
+      font-size: clamp(1.5rem, 4vw, 2.25rem);
+      margin: 0 0 .4rem;
+    }
+    .booking-hero .svc-color-bar {
+      width: 48px; height: 4px;
+      border-radius: 2px;
+      margin: .6rem auto 0;
+    }
+
+    /* book-widget */
+    .book-widget {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 4px 24px rgba(0,0,0,.10);
+      padding: 2.25rem 2rem;
+      max-width: 620px;
+      margin: 0 auto;
+    }
+    .book-widget h2 {
+      font-size: 1.15rem;
+      margin: 0 0 1.5rem;
+      color: var(--navy, #0a2342);
+    }
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+    @media (max-width: 520px) { .form-row { grid-template-columns: 1fr; } }
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: .35rem;
+      margin-bottom: 1.1rem;
+    }
+    .form-group label {
+      font-size: .82rem;
+      font-weight: 600;
+      color: #444;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+    }
+    .form-control {
+      border: 1.5px solid #d1d5db;
+      border-radius: 7px;
+      padding: .6rem .85rem;
+      font-size: .95rem;
+      color: #1a1a1a;
+      background: #fafafa;
+      transition: border-color .18s;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    .form-control:focus {
+      outline: none;
+      border-color: var(--navy, #0a2342);
+      background: #fff;
+    }
+    .form-submit-row {
+      margin-top: 1.5rem;
+    }
+    .btn-block { width: 100%; }
+
+    /* Voucher */
+    .voucher-panel {
+      display: none;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 4px 24px rgba(0,0,0,.12);
+      padding: 2.25rem 2rem;
+      max-width: 620px;
+      margin: 2rem auto 0;
+      text-align: center;
+    }
+    .voucher-panel.visible { display: block; }
+    .voucher-qr { font-size: 5rem; line-height: 1; margin: .5rem 0 1rem; }
+    .voucher-ref {
+      font-size: 1.35rem;
+      font-weight: 800;
+      letter-spacing: .05em;
+      color: var(--navy, #0a2342);
+      margin-bottom: .3rem;
+    }
+    .voucher-svc { font-size: 1rem; color: #555; margin-bottom: .5rem; }
+    .voucher-date { font-size: .9rem; color: #888; margin-bottom: 1rem; }
+    .voucher-demo-note {
+      background: #fff8e1;
+      border: 1px solid #ffe082;
+      border-radius: 8px;
+      padding: .7rem 1rem;
+      font-size: .82rem;
+      color: #7a5c00;
+      margin-top: 1rem;
+    }
+    .voucher-actions { margin-top: 1.2rem; display: flex; gap: .75rem; justify-content: center; flex-wrap: wrap; }
+
+    /* No-service panel */
+    .no-svc-panel {
+      display: none;
+      text-align: center;
+      padding: 4rem 1.5rem;
+    }
+    .no-svc-panel.visible { display: block; }
+    .no-svc-panel .big-icon { font-size: 3.5rem; margin-bottom: 1rem; }
+    .no-svc-panel h2 { color: var(--navy, #0a2342); margin-bottom: .5rem; }
+    .no-svc-panel p { color: #666; margin-bottom: 1.5rem; }
+
+    /* Misc */
+    .section-booking { padding: 3rem 1.5rem 4rem; }
+    .container-narrow { max-width: 700px; margin: 0 auto; }
+  </style>
+</head>
+<body>
+
+  <!-- DEMO BANNER -->
+  <div class="demo-banner">
+    GroundK concept demo — No actual booking or payment is processed. This is not the official APHRS 2026 website (<b>aphrs2026.com</b> is separate).
+  </div>
+
+  <!-- HEADER -->
+  <header class="site-head">
+    <div class="bar">
+      <a class="brand brand-aphrs" href="index.html" aria-label="APHRS 2026 Transportation Home">
+        <img src="https://aphrs2026.com/home/2025/aphrs/image/top_logo.png"
+             alt="APHRS 2026 Busan"
+             onerror="this.onerror=null;this.src="assets/img/aphrs-logo.png"">
+        <span class="btag" style="color:var(--red)">Transportation</span>
+      </a>
+      <nav class="nav" aria-label="Shuttle routes">
+        <a href="shuttle-airport-hotel.html">Airport &rarr; Hotel</a>
+        <a href="shuttle-hotel-airport.html">Hotel &rarr; Airport</a>
+        <a href="shuttle-venue.html">Venue Shuttle</a>
+        <a href="shuttle-chauffeur.html">Chauffeur</a>
+      </nav>
+      <div class="head-right">
+        <button class="lang" id="langToggle" type="button">&#127760; <span class="seg on" data-lang="en">EN</span><span class="seg" data-lang="ko">KO</span></button>
+        <button class="head-link hide-sm" id="lookupBtn" type="button">My Booking</button>
+        <a class="head-link ext hide-sm" href="https://aphrs2026.com" target="_blank" rel="noopener">Official Site</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ░░ BOOKING HERO (populated by JS) ░░ -->
+  <div class="booking-hero" id="bookingHero">
+    <div class="svc-badge" id="heroBadge"></div>
+    <h1 id="heroTitle">Book Transportation</h1>
+    <div class="svc-color-bar" id="heroBar"></div>
+  </div>
+
+  <!-- ░░ MAIN ░░ -->
+  <main>
+    <section class="section-booking">
+      <div class="container-narrow">
+
+        <!-- ── BOOKING FORM ── -->
+        <div class="book-widget" id="bookWidget">
+          <h2 id="formHeading">Complete Your Booking</h2>
+          <form id="bookingForm" novalidate>
+            <div id="formFields">
+              <!-- Populated by JS -->
+            </div>
+
+            <!-- Email (always present) -->
+            <div class="form-group">
+              <label for="f-email">Your Email *</label>
+              <input type="email" id="f-email" class="form-control" placeholder="your@email.com" required />
+            </div>
+
+            <!-- Name (always present) -->
+            <div class="form-group">
+              <label for="f-name">Full Name *</label>
+              <input type="text" id="f-name" class="form-control" placeholder="As on passport / badge" required />
+            </div>
+
+            <div class="form-submit-row">
+              <button type="submit" class="btn btn-primary btn-block" id="submitBtn">Confirm Booking →</button>
+            </div>
+          </form>
+        </div>
+
+        <!-- ── VOUCHER ── -->
+        <div class="voucher-panel" id="voucherPanel">
+          <div class="voucher-qr">📱</div>
+          <div class="voucher-ref" id="vRef"></div>
+          <div class="voucher-svc" id="vSvc"></div>
+          <div class="voucher-date" id="vDate"></div>
+          <div class="voucher-demo-note">
+            ⚠️ <strong>This is a concept demo.</strong> This voucher is not valid for actual transportation. No real booking has been created.
+          </div>
+          <div class="voucher-actions">
+            <button class="btn btn-outline" onclick="window.print()">🖨️ Print Voucher</button>
+            <a href="index.html" class="btn btn-primary">← Back to Home</a>
+          </div>
+        </div>
+
+        <!-- ── NO SERVICE PANEL ── -->
+        <div class="no-svc-panel" id="noSvcPanel">
+          <div class="big-icon">🚌</div>
+          <h2>No Service Selected</h2>
+          <p>Please choose a transportation service to book. Use the navigation above or return to the main page and select a service.</p>
+          <div style="display:flex; gap:.75rem; justify-content:center; flex-wrap:wrap;">
+            <a href="index.html" class="btn btn-primary">← Back to Home</a>
+            <a href="booking.html?svc=airport"       class="btn btn-outline">Airport → Hotel</a>
+            <a href="booking.html?svc=hotel-airport" class="btn btn-outline">Hotel → Airport</a>
+            <a href="booking.html?svc=venue"         class="btn btn-outline">Venue Shuttle</a>
+            <a href="booking.html?svc=private"       class="btn btn-outline">Chauffeur</a>
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer" style="background:var(--navy,#1A2044);color:rgba(255,255,255,.6)">
+    <div class="footer-inner">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <img src="https://aphrs2026.com/home/2025/aphrs/image/top_logo.png" alt="APHRS 2026 Busan"
+               onerror="this.onerror=null;this.src='assets/img/aphrs-logo.png'" style="height:30px;filter:brightness(0) invert(1);opacity:.8">
+          <div class="wm"><b>RIDEUS Events</b><small>GroundK &middot; Participant Transportation Portal (Demo)</small></div>
+        </div>
+        <nav class="footer-nav" aria-label="Footer">
+          <a href="shuttle-airport-hotel.html">Airport &rarr; Hotel</a>
+          <a href="shuttle-hotel-airport.html">Hotel &rarr; Airport</a>
+          <a href="shuttle-venue.html">Venue Shuttle</a>
+          <a href="shuttle-chauffeur.html">Chauffeur</a>
+          <a href="index.html#support">Support</a>
+          <a href="https://aphrs2026.com" target="_blank" rel="noopener">Official Site &uarr;</a>
+        </nav>
+      </div>
+      <div class="footer-legal">
+        <b>GroundK Co., Ltd</b> &middot; CEO &amp;#51109;&amp;#46041;&amp;#50896; &middot; Business Reg. 238-81-00429<br>
+        405, 45 Centum Dong-ro, Haeundae-gu, Busan 48059 &middot; Tel +82-2-863-3540 &middot; ops@groundk.com<br>
+        RIDEUS is GroundK's Transportation &times; Travel platform. All transactions handled by GroundK.<br>
+        <span class="ver">&copy; 2026 GroundK &middot; APHRS 2026 Participant Transportation Portal (Concept Demo) &middot; build 2026.06.27.2</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- BOOKING LOOKUP MODAL -->
+  <div class="modal-ov" id="lookupModal" role="dialog" aria-modal="true" aria-labelledby="lk-h">
+    <div class="modal">
+      <button class="modal-x" id="lookupClose" type="button" aria-label="Close">&#x2715;</button>
+      <h3 id="lk-h">Booking Lookup</h3>
+      <p>Enter your reservation number and email to check your booking.</p>
+      <div class="mf">
+        <label for="lkCode">Reservation No.</label>
+        <input id="lkCode" type="text" placeholder="RE-APHRS-SH-0000">
+      </div>
+      <div class="mf">
+        <label for="lkEmail">Email</label>
+        <input id="lkEmail" type="email" placeholder="you@example.com">
+      </div>
+      <div class="m-actions">
+        <button class="btn btn-red btn-block btn-sm" id="lookupSubmit" type="button">Search</button>
+      </div>
+      <p class="m-note" id="lkResult">&lowast; Concept demo. Not connected to a real reservation system.</p>
+    </div>
+  </div>
+
+  <!-- ░░ INLINE BOOKING LOGIC ░░ -->
+  <script>
+  (function () {
+    'use strict';
+
+    /* ── Service definitions ──────────────────────────────────── */
+    var SERVICES = {
+      'airport':      { name: 'Airport → Hotel Shuttle', badge: 'Paid',  color: 'var(--red,#c0392b)',   code: 'APT', fields: ['from-airport','to-hotel','date-arrive','pax'] },
+      'hotel-airport':{ name: 'Hotel → Airport Shuttle', badge: 'Paid',  color: 'var(--red,#c0392b)',   code: 'HTA', fields: ['from-hotel','to-airport','date-depart','pax'] },
+      'venue':        { name: 'Venue Shuttle',            badge: 'Free',  color: 'var(--green,#27ae60)', code: 'VEN', fields: ['from-hotel','date-event'] },
+      'private':      { name: 'Private Chauffeur',        badge: 'Paid',  color: 'var(--navy,#0a2342)',  code: 'PVT', fields: ['vehicle','from','to','date','pax','flight'] },
+      'ktx':          { name: 'KTX Information',          badge: '',      color: 'var(--blue,#2980b9)',  code: 'KTX', fields: ['from-city','date','pax'] },
+      'baggage':      { name: 'Baggage Delivery',          badge: '',      color: 'var(--blue,#2980b9)',  code: 'BAG', fields: ['from-airport','to-hotel','date'] },
+      'esim':         { name: 'SIM / eSIM',               badge: '',      color: 'var(--green,#27ae60)', code: 'SIM', fields: ['type','arrive-date'] }
+    };
+
+    /* ── Field definitions ────────────────────────────────────── */
+    var FIELD_DEFS = {
+      'from-airport': {
+        label: 'From (Airport / Station)',
+        type: 'select',
+        options: ['Gimhae Int\'l Airport', 'Busan Station (KTX)']
+      },
+      'to-hotel': {
+        label: 'To (Hotel)',
+        type: 'select',
+        options: ['Signiel Busan', 'Westin Josun Busan', 'Park Hyatt Busan']
+      },
+      'from-hotel': {
+        label: 'From (Hotel)',
+        type: 'select',
+        options: ['Signiel Busan', 'Westin Josun Busan', 'Park Hyatt Busan']
+      },
+      'to-airport': {
+        label: 'To (Airport)',
+        type: 'select',
+        options: ['Gimhae Int\'l Airport']
+      },
+      'date-arrive': {
+        label: 'Arrival Date',
+        type: 'date',
+        min: '2026-10-21',
+        max: '2026-10-22'
+      },
+      'date-depart': {
+        label: 'Departure Date',
+        type: 'date',
+        min: '2026-10-24',
+        max: '2026-10-25'
+      },
+      'date-event': {
+        label: 'Event Date',
+        type: 'date',
+        min: '2026-10-21',
+        max: '2026-10-24'
+      },
+      'pax': {
+        label: 'Number of Passengers',
+        type: 'select',
+        options: ['1','2','3','4','5','6','7','8','9','10']
+      },
+      'vehicle': {
+        label: 'Vehicle Type',
+        type: 'select',
+        options: ['Sedan', 'Van', 'VIP Escort']
+      },
+      'from': {
+        label: 'Pick-up Location',
+        type: 'text',
+        placeholder: 'Enter pick-up address or landmark'
+      },
+      'to': {
+        label: 'Drop-off Location',
+        type: 'text',
+        placeholder: 'Enter destination address or landmark'
+      },
+      'date': {
+        label: 'Date',
+        type: 'date',
+        min: '2026-10-21',
+        max: '2026-10-26'
+      },
+      'flight': {
+        label: 'Flight Number',
+        type: 'text',
+        placeholder: 'e.g. KE123 / OZ456'
+      },
+      'from-city': {
+        label: 'Departing From',
+        type: 'select',
+        options: ['Seoul Station', 'Incheon Airport']
+      },
+      'arrive-date': {
+        label: 'Arrival Date in Busan',
+        type: 'date',
+        min: '2026-10-20',
+        max: '2026-10-22'
+      },
+      'type': {
+        label: 'SIM Type',
+        type: 'select',
+        options: ['Physical SIM', 'eSIM']
+      }
+    };
+
+    /* ── Helpers ──────────────────────────────────────────────── */
+    function qs(id) { return document.getElementById(id); }
+
+    function makePad(n) { return n < 10 ? '0' + n : '' + n; }
+
+    function genRef(code) {
+      var n = Math.floor(1000 + Math.random() * 9000);
+      return 'RE-APHRS-' + code + '-' + n;
+    }
+
+    function buildSelect(id, label, options) {
+      var html = '<div class="form-group"><label for="f-' + id + '">' + label + '</label>';
+      html += '<select id="f-' + id + '" class="form-control" name="' + id + '">';
+      html += '<option value="">— Select —</option>';
+      options.forEach(function(o) {
+        html += '<option value="' + o + '">' + o + '</option>';
+      });
+      html += '</select></div>';
+      return html;
+    }
+
+    function buildDate(id, label, min, max) {
+      return '<div class="form-group"><label for="f-' + id + '">' + label + '</label>' +
+             '<input type="date" id="f-' + id + '" class="form-control" name="' + id + '"' +
+             (min ? ' min="' + min + '"' : '') +
+             (max ? ' max="' + max + '"' : '') + ' /></div>';
+    }
+
+    function buildText(id, label, placeholder) {
+      return '<div class="form-group"><label for="f-' + id + '">' + label + '</label>' +
+             '<input type="text" id="f-' + id + '" class="form-control" name="' + id + '"' +
+             (placeholder ? ' placeholder="' + placeholder + '"' : '') + ' /></div>';
+    }
+
+    function buildField(id) {
+      var def = FIELD_DEFS[id];
+      if (!def) return '<div class="form-group"><label>' + id + '</label><input class="form-control" /></div>';
+      if (def.type === 'select') return buildSelect(id, def.label, def.options);
+      if (def.type === 'date')   return buildDate(id, def.label, def.min, def.max);
+      if (def.type === 'text')   return buildText(id, def.label, def.placeholder || '');
+      return '';
+    }
+
+    /* ── Read URL param ───────────────────────────────────────── */
+    function getParam(name) {
+      var match = new RegExp('[?&]' + name + '=([^&]*)').exec(location.search);
+      return match ? decodeURIComponent(match[1]) : '';
+    }
+
+    /* ── Init ─────────────────────────────────────────────────── */
+    var svcKey = getParam('svc').toLowerCase();
+    var svc    = SERVICES[svcKey];
+
+    var heroTitle   = qs('heroTitle');
+    var heroBadge   = qs('heroBadge');
+    var heroBar     = qs('heroBar');
+    var bookWidget  = qs('bookWidget');
+    var noSvcPanel  = qs('noSvcPanel');
+    var formFields  = qs('formFields');
+    var formHeading = qs('formHeading');
+    var bookingHero = qs('bookingHero');
+
+    if (!svc) {
+      /* Unknown / missing service */
+      bookWidget.style.display  = 'none';
+      noSvcPanel.classList.add('visible');
+      heroTitle.textContent = 'Book Transportation';
+      heroBadge.style.display = 'none';
+    } else {
+      /* Render hero */
+      heroTitle.textContent = svc.name;
+      heroBar.style.background = svc.color;
+      if (svc.badge) {
+        heroBadge.textContent = svc.badge;
+        heroBadge.style.display = '';
+      } else {
+        heroBadge.style.display = 'none';
+      }
+      bookingHero.style.borderBottom = '4px solid ' + svc.color;
+
+      /* Render form heading */
+      formHeading.textContent = 'Book: ' + svc.name;
+
+      /* Render dynamic fields */
+      var html = '';
+      svc.fields.forEach(function(fid) { html += buildField(fid); });
+      formFields.innerHTML = html;
+
+      /* Special info box for KTX */
+      if (svcKey === 'ktx') {
+        var infoEl = document.createElement('div');
+        infoEl.className = 'info-box info-box--blue';
+        infoEl.style.marginBottom = '1.25rem';
+        infoEl.innerHTML = '<span class="info-box-icon">ℹ️</span><div><strong>KTX Booking via KORAIL</strong><p style="margin:.3rem 0 0">This form logs your travel preference. Actual KTX tickets must be purchased at <a href="https://www.letskorail.com" target="_blank" rel="noopener">letskorail.com</a>.</p></div>';
+        formFields.prepend(infoEl);
+      }
+    }
+
+    /* ── Form submit ──────────────────────────────────────────── */
+    var bookingForm = qs('bookingForm');
+    var voucherPanel = qs('voucherPanel');
+
+    if (bookingForm) {
+      bookingForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        var name  = qs('f-name')  ? qs('f-name').value.trim()  : '';
+        var email = qs('f-email') ? qs('f-email').value.trim() : '';
+
+        if (!name || !email) {
+          alert('Please fill in your name and email address.');
+          return;
+        }
+
+        /* Find first date field value */
+        var dateVal = '';
+        if (svc) {
+          svc.fields.forEach(function(fid) {
+            if (!dateVal && FIELD_DEFS[fid] && FIELD_DEFS[fid].type === 'date') {
+              var el = qs('f-' + fid);
+              if (el && el.value) dateVal = el.value;
+            }
+          });
+        }
+
+        var code = svc ? svc.code : 'XXX';
+        var ref  = genRef(code);
+
+        qs('vRef').textContent  = ref;
+        qs('vSvc').textContent  = svc ? svc.name : 'Transportation';
+        qs('vDate').textContent = dateVal
+          ? '📅 ' + dateVal + '  ·  ' + name
+          : '📅 Date TBD  ·  ' + name;
+
+        bookWidget.style.display = 'none';
+        voucherPanel.classList.add('visible');
+        voucherPanel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    }
+
+  }());
+  </script>
+
+  <script src="assets/app.js?v=2026.06.27.2"></script>
+</body>
+</html>
