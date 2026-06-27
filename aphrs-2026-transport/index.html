@@ -6,10 +6,10 @@
 <meta http-equiv="Cache-Control" content="no-cache">
 <title>APHRS 2026 Busan — Transportation | RIDEUS Events · GroundK</title>
 <meta name="description" content="Official transportation portal for APHRS 2026 Busan (19th Asia Pacific Heart Rhythm Society, Oct 21–24, BEXCO). Airport shuttle, venue shuttle, private chauffeur, KTX, baggage & eSIM.">
-<meta name="version" content="2026.06.27.3">
+<meta name="version" content="2026.06.27.4">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="assets/transport.css?v=2026.06.27.3">
+<link rel="stylesheet" href="assets/transport.css?v=2026.06.27.4">
 <style>
 /* ── APHRS-specific overrides (index only) ─────────────────────── */
 
@@ -280,29 +280,16 @@
   background:var(--red); color:#fff; font-size:11px; font-weight:700;
   padding:4px 10px; border-radius:50px; letter-spacing:.3px;
 }
-.acard-table { width:100%; border-collapse:collapse; table-layout:fixed; }
-.acard-table th, .acard-table td {
-  text-align:left; padding:11px 20px; font-size:13.5px;
-  border-bottom:1px solid var(--line-2);
-}
-.acard-table thead th {
-  font-size:11px; font-weight:700; color:var(--muted);
-  letter-spacing:.5px; text-transform:uppercase; background:var(--bg);
-}
-.acard-table tbody tr:last-child td { border-bottom:none; }
-.acard-table .vmode { display:flex; align-items:center; gap:7px; font-weight:700; color:var(--ink); }
-.acard-table .vmode .vi {
-  width:30px; height:30px; border-radius:8px; display:grid;
-  place-items:center; font-size:15px; background:var(--red-050);
-  border:1px solid #f6cdd5; flex-shrink:0;
-}
-.acard-table .vtime { color:var(--muted); white-space:nowrap; }
-.acard-table .vfare { color:var(--red); font-weight:700; text-align:right; white-space:nowrap; }
-@media(max-width:760px){
-  .acard-table th, .acard-table td { padding:9px 8px; font-size:12.5px; }
-  .acard-table .vfare { font-size:12px; }
-  .acard { overflow:visible; }
-}
+.acard-rows { list-style:none; }
+.acard-row { display:flex; align-items:center; gap:10px; padding:10px 18px; border-bottom:1px solid var(--line-2); font-size:13.5px; }
+.acard-row:last-child { border-bottom:none; }
+.acard-row-head { display:flex; align-items:center; padding:8px 18px 6px; border-bottom:1px solid var(--line-2); background:var(--bg); }
+.acard-row-head span { font-size:10.5px; font-weight:700; color:var(--muted); letter-spacing:.5px; text-transform:uppercase; }
+.acard-row-head .arh-fare { margin-left:auto; font-size:10.5px; font-weight:700; color:var(--muted); letter-spacing:.5px; text-transform:uppercase; }
+.ar-ic { width:30px; height:30px; border-radius:8px; display:grid; place-items:center; font-size:15px; background:var(--red-050); border:1px solid #f6cdd5; flex-shrink:0; }
+.ar-name { flex:1; font-weight:700; color:var(--ink); min-width:0; }
+.ar-time { color:var(--muted); font-size:13px; white-space:nowrap; flex-shrink:0; }
+.ar-fare { color:var(--red); font-weight:700; white-space:nowrap; flex-shrink:0; margin-left:auto; font-size:13px; }
 
 /* ── ABOUT STRIP ───────────────────────────────────────────────────── */
 .about-section { padding:48px 0; background:var(--bg); }
@@ -600,27 +587,12 @@
           <span class="acard-code">PUS</span>
           <span class="acard-label">김해국제공항</span>
         </div>
-        <table class="acard-table">
-          <colgroup><col style="width:55%"><col style="width:25%"><col style="width:20%"></colgroup>
-          <thead><tr><th>이동 수단</th><th>소요 시간</th><th class="vfare">예상 요금</th></tr></thead>
-          <tbody>
-            <tr>
-              <td><div class="vmode"><span class="vi">🚌</span>APHRS 셔틀</div></td>
-              <td class="vtime">약 60분</td>
-              <td class="vfare">유료</td>
-            </tr>
-            <tr>
-              <td><div class="vmode"><span class="vi">🚕</span>택시 / 앱</div></td>
-              <td class="vtime">약 40분</td>
-              <td class="vfare">약 ₩35,000</td>
-            </tr>
-            <tr>
-              <td><div class="vmode"><span class="vi">🚇</span>지하철 (2개 노선)</div></td>
-              <td class="vtime">약 60분</td>
-              <td class="vfare">약 ₩2,000</td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="acard-row-head"><span>이동 수단</span><span class="arh-fare">예상 요금</span></div>
+        <ul class="acard-rows">
+          <li class="acard-row"><span class="ar-ic">🚌</span><span class="ar-name">APHRS 셔틀</span><span class="ar-time">약 60분</span><span class="ar-fare">유료</span></li>
+          <li class="acard-row"><span class="ar-ic">🚕</span><span class="ar-name">택시 / 앱</span><span class="ar-time">약 40분</span><span class="ar-fare">약 ₩35,000</span></li>
+          <li class="acard-row"><span class="ar-ic">🚇</span><span class="ar-name">지하철 (2개 노선)</span><span class="ar-time">약 60분</span><span class="ar-fare">약 ₩2,000</span></li>
+        </ul>
       </div>
 
       <!-- 부산역 (KTX) -->
@@ -632,27 +604,12 @@
           <span class="acard-code">KTX</span>
           <span class="acard-label">부산역 (KTX)</span>
         </div>
-        <table class="acard-table">
-          <colgroup><col style="width:55%"><col style="width:25%"><col style="width:20%"></colgroup>
-          <thead><tr><th>이동 수단</th><th>소요 시간</th><th class="vfare">예상 요금</th></tr></thead>
-          <tbody>
-            <tr>
-              <td><div class="vmode"><span class="vi">🚌</span>APHRS 셔틀</div></td>
-              <td class="vtime">약 40분</td>
-              <td class="vfare">유료</td>
-            </tr>
-            <tr>
-              <td><div class="vmode"><span class="vi">🚕</span>택시 / 앱</div></td>
-              <td class="vtime">약 30분</td>
-              <td class="vfare">약 ₩22,000</td>
-            </tr>
-            <tr>
-              <td><div class="vmode"><span class="vi">🚇</span>지하철 (1호선)</div></td>
-              <td class="vtime">약 50분</td>
-              <td class="vfare">약 ₩1,800</td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="acard-row-head"><span>이동 수단</span><span class="arh-fare">예상 요금</span></div>
+        <ul class="acard-rows">
+          <li class="acard-row"><span class="ar-ic">🚌</span><span class="ar-name">APHRS 셔틀</span><span class="ar-time">약 40분</span><span class="ar-fare">유료</span></li>
+          <li class="acard-row"><span class="ar-ic">🚕</span><span class="ar-name">택시 / 앱</span><span class="ar-time">약 30분</span><span class="ar-fare">약 ₩22,000</span></li>
+          <li class="acard-row"><span class="ar-ic">🚇</span><span class="ar-name">지하철 (1호선)</span><span class="ar-time">약 50분</span><span class="ar-fare">약 ₩1,800</span></li>
+        </ul>
       </div>
 
     </div><!-- /access-grid -->
@@ -746,7 +703,7 @@
       <b>GroundK Co., Ltd</b> · CEO 장동원 · Business Reg. 238-81-00429<br>
       405호, 45 Centum Dong-ro, Haeundae-gu, Busan 48059 · Tel +82-2-863-3540 · ops@groundk.com<br>
       RIDEUS는 GroundK의 Transportation × Travel 플랫폼입니다. 모든 거래·교환·환불·민원은 GroundK가 처리합니다.<br>
-      <span class="ver">© 2026 GroundK · APHRS 2026 참가자 교통 포털 (콘셉트 데모) · build 2026.06.27.3</span>
+      <span class="ver">© 2026 GroundK · APHRS 2026 참가자 교통 포털 (콘셉트 데모) · build 2026.06.27.4</span>
     </div>
   </div>
 </footer>
@@ -774,6 +731,6 @@
   </div>
 </div>
 
-<script src="assets/app.js?v=2026.06.27.3"></script>
+<script src="assets/app.js?v=2026.06.27.4"></script>
 </body>
 </html>
