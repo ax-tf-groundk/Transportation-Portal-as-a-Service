@@ -6,10 +6,10 @@
 <meta http-equiv="Cache-Control" content="no-cache">
 <title>APHRS 2026 Busan — Transportation | RIDEUS Events · GroundK</title>
 <meta name="description" content="Official transportation portal for APHRS 2026 Busan (19th Asia Pacific Heart Rhythm Society, Oct 21–24, BEXCO). Airport shuttle, venue shuttle, private chauffeur, KTX, baggage & eSIM.">
-<meta name="version" content="2026.06.27.2">
+<meta name="version" content="2026.06.27.3">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="assets/transport.css?v=2026.06.27.2">
+<link rel="stylesheet" href="assets/transport.css?v=2026.06.27.3">
 <style>
 /* ── APHRS-specific overrides (index only) ─────────────────────── */
 
@@ -232,7 +232,8 @@
 .useful-row {
   display:grid; grid-template-columns:repeat(3,1fr); gap:18px; margin-top:32px;
 }
-@media(max-width:760px){ .useful-row{ grid-template-columns:1fr; } }
+.useful-row--4 { grid-template-columns:repeat(4,1fr); }
+@media(max-width:760px){ .useful-row, .useful-row--4 { grid-template-columns:1fr !important; } }
 .ucard {
   display:flex; align-items:center; gap:18px;
   background:var(--card); border:1px solid var(--line); border-radius:var(--radius);
@@ -279,7 +280,7 @@
   background:var(--red); color:#fff; font-size:11px; font-weight:700;
   padding:4px 10px; border-radius:50px; letter-spacing:.3px;
 }
-.acard-table { width:100%; border-collapse:collapse; }
+.acard-table { width:100%; border-collapse:collapse; table-layout:fixed; }
 .acard-table th, .acard-table td {
   text-align:left; padding:11px 20px; font-size:13.5px;
   border-bottom:1px solid var(--line-2);
@@ -289,7 +290,7 @@
   letter-spacing:.5px; text-transform:uppercase; background:var(--bg);
 }
 .acard-table tbody tr:last-child td { border-bottom:none; }
-.acard-table .vmode { display:flex; align-items:center; gap:9px; font-weight:700; color:var(--ink); white-space:nowrap; flex-wrap:nowrap; }
+.acard-table .vmode { display:flex; align-items:center; gap:7px; font-weight:700; color:var(--ink); }
 .acard-table .vmode .vi {
   width:30px; height:30px; border-radius:8px; display:grid;
   place-items:center; font-size:15px; background:var(--red-050);
@@ -298,7 +299,9 @@
 .acard-table .vtime { color:var(--muted); white-space:nowrap; }
 .acard-table .vfare { color:var(--red); font-weight:700; text-align:right; white-space:nowrap; }
 @media(max-width:760px){
-  .acard-table th, .acard-table td { padding:9px 10px; font-size:13px; }
+  .acard-table th, .acard-table td { padding:9px 8px; font-size:12.5px; }
+  .acard-table .vfare { font-size:12px; }
+  .acard { overflow:visible; }
 }
 
 /* ── ABOUT STRIP ───────────────────────────────────────────────────── */
@@ -541,7 +544,7 @@
       <h2 class="sec-h" id="uf-h">이동을 더 가볍게</h2>
       <p class="sec-sub">셔틀·전용차량과 함께 이용할 수 있는 부가 교통 정보입니다.</p>
     </div>
-    <div class="useful-row" style="grid-template-columns:repeat(4,1fr)">
+    <div class="useful-row useful-row--4">
       <a class="ucard reveal d1" href="info-arrival.html" style="border-top:3px solid var(--red)">
         <div class="ucard-ic" style="background:#fff0f3;border-color:#fcc">✈️</div>
         <div class="ucard-body">
@@ -598,6 +601,7 @@
           <span class="acard-label">김해국제공항</span>
         </div>
         <table class="acard-table">
+          <colgroup><col style="width:55%"><col style="width:25%"><col style="width:20%"></colgroup>
           <thead><tr><th>이동 수단</th><th>소요 시간</th><th class="vfare">예상 요금</th></tr></thead>
           <tbody>
             <tr>
@@ -629,6 +633,7 @@
           <span class="acard-label">부산역 (KTX)</span>
         </div>
         <table class="acard-table">
+          <colgroup><col style="width:55%"><col style="width:25%"><col style="width:20%"></colgroup>
           <thead><tr><th>이동 수단</th><th>소요 시간</th><th class="vfare">예상 요금</th></tr></thead>
           <tbody>
             <tr>
@@ -741,7 +746,7 @@
       <b>GroundK Co., Ltd</b> · CEO 장동원 · Business Reg. 238-81-00429<br>
       405호, 45 Centum Dong-ro, Haeundae-gu, Busan 48059 · Tel +82-2-863-3540 · ops@groundk.com<br>
       RIDEUS는 GroundK의 Transportation × Travel 플랫폼입니다. 모든 거래·교환·환불·민원은 GroundK가 처리합니다.<br>
-      <span class="ver">© 2026 GroundK · APHRS 2026 참가자 교통 포털 (콘셉트 데모) · build 2026.06.27.2</span>
+      <span class="ver">© 2026 GroundK · APHRS 2026 참가자 교통 포털 (콘셉트 데모) · build 2026.06.27.3</span>
     </div>
   </div>
 </footer>
@@ -769,6 +774,6 @@
   </div>
 </div>
 
-<script src="assets/app.js?v=2026.06.27.2"></script>
+<script src="assets/app.js?v=2026.06.27.3"></script>
 </body>
 </html>
