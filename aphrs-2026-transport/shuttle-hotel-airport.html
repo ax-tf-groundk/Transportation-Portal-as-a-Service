@@ -6,10 +6,10 @@
 <meta http-equiv="Cache-Control" content="no-cache">
 <title>Hotel → Airport Departure Shuttle — APHRS 2026</title>
 <meta name="description" content="APHRS 2026 Hotel → Airport departure shuttle (paid). Haeundae official hotels to Gimhae Int'l Airport. Oct 24–25, 2026.">
-<meta name="version" content="2026.06.27.5">
+<meta name="version" content="2026.06.28.1">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="assets/transport.css?v=2026.06.27.5">
+<link rel="stylesheet" href="assets/transport.css?v=2026.06.28.1">
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
@@ -59,36 +59,57 @@
 </section>
 
 <div class="wrap">
-  <!-- booking widget -->
-  <div class="book-widget">
-    <div class="bw-tabs" role="tablist">
-      <button class="on" type="button">One Way · 편도</button>
+  <!-- book panel -->
+  <div class="book-panel">
+    <div class="bpanel-info">
+      <div class="bpanel-row">
+        <span class="bpl">Route</span>
+        <span class="bpv">해운대 공식호텔 (시그니엘 · 웨스틴조선 · 파크하얏트) → 김해국제공항 · 약 60~65분</span>
+      </div>
+      <div class="bpanel-row">
+        <span class="bpl">Departures</span>
+        <div class="bpv bpv-dep">
+          <span class="dt">06:00</span>
+          <span class="dt">07:00</span>
+          <span class="dt">08:00</span>
+          <span class="dt">09:00</span>
+          <span class="dt">10:30</span>
+          <span class="dt">12:00</span>
+        </div>
+      </div>
+      <div class="bpanel-row">
+        <span class="bpl">Fare</span>
+        <div class="bpv bpv-fare">
+          <span class="fare-item">
+            <span class="fare-label">편도</span>
+            <span class="fare-price">₩15,000</span>
+          </span>
+          <span class="bpv-note">· 소아 ₩10,000부터</span>
+        </div>
+      </div>
+      <div class="bpanel-row">
+        <span class="bpl">운영일</span>
+        <span class="bpv">2026.10.24(토) ~ 10.25(일) · 45인승 버스 · 유료 개별 신청</span>
+      </div>
     </div>
-    <div class="bw-fields">
-      <div class="bw-f"><label for="bwFrom">From</label>
-        <select id="bwFrom">
-          <option>Signiel Busan (Haeundae)</option>
-          <option>Westin Josun Busan</option>
-          <option>Park Hyatt Busan</option>
-        </select>
+    <div class="bpanel-cta">
+      <div class="bpc-head">
+        <div class="bpc-icon-wrap">🚌</div>
+        <div>
+          <span class="bpc-sup">Shuttle Booking</span>
+          <span class="bpc-name">RIDEUS 공항 셔틀</span>
+        </div>
       </div>
-      <div class="bw-f"><label for="bwTo">To</label>
-        <select id="bwTo"><option>Gimhae Int'l Airport (PUS)</option></select>
-      </div>
-      <div class="bw-f"><label for="bwDate">Date</label>
-        <input id="bwDate" type="date" value="2026-10-24" min="2026-10-24" max="2026-10-25">
-      </div>
-      <div class="bw-f"><label for="bwPax">Passengers</label>
-        <select id="bwPax">
-          <option>1 pax</option>
-          <option>2 pax</option>
-          <option>3 pax</option>
-          <option>4+ pax</option>
-        </select>
-      </div>
-      <div class="bw-f"><button class="btn btn-red" id="bwSearch" type="button">Search →</button></div>
+      <ul class="bpc-checks">
+        <li>출발 호텔 · 날짜 · 인원 선택</li>
+        <li>좌석 현황 실시간 확인</li>
+        <li>안전 결제 · 즉시 바우처 발급</li>
+      </ul>
+      <a class="btn btn-red bpc-btn" href="booking.html?route=hotel-airport">
+        셔틀 예약하러 가기 ↗
+      </a>
+      <p class="bpc-note">예약·결제는 <b>예약 페이지</b>에서 진행됩니다</p>
     </div>
-    <div class="bw-result" id="bwResult" aria-live="polite"></div>
   </div>
 
   <!-- operation badges -->
@@ -264,7 +285,7 @@
       <b>GroundK Co., Ltd</b> · CEO Jang Dong-won · Business Reg. 238-81-00429<br>
       405, 45 Centum Dong-ro, Haeundae-gu, Busan 48059, Korea · Tel +82-2-863-3540 · Fax +82-70-8275-3540 · ops@groundk.com<br>
       RIDEUS is GroundK's Transportation × Travel platform. All transactions, exchanges, refunds and complaints are handled by GroundK.<br>
-      <span class="ver">© 2026 GroundK · APHRS 2026 Participant Transport Portal (Concept Demo) · ver build 2026.06.27.5</span>
+      <span class="ver">© 2026 GroundK · APHRS 2026 Participant Transport Portal (Concept Demo) · ver build 2026.06.28.1</span>
     </div>
   </div>
 </footer>
@@ -284,7 +305,7 @@
   </div>
 </div>
 
-<script src="assets/app.js?v=2026.06.27.5"></script>
+<script src="assets/app.js?v=2026.06.28.1"></script>
 <script>
 /* booking widget — demo search (no backend) */
 (function(){

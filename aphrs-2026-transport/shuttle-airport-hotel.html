@@ -6,10 +6,10 @@
 <meta http-equiv="Cache-Control" content="no-cache">
 <title>공항 → 호텔 입국 셔틀 — APHRS 2026 Busan Transportation | RIDEUS Events</title>
 <meta name="description" content="APHRS 2026 입국 셔틀 (유료). 김해공항·부산역 → 해운대 공식호텔(시그니엘·웨스틴조선·파크하얏트). 2026.10.21~22 운행. 노선·정류장·시간표·예약.">
-<meta name="version" content="2026.06.27.5">
+<meta name="version" content="2026.06.28.1">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="assets/transport.css?v=2026.06.27.5">
+<link rel="stylesheet" href="assets/transport.css?v=2026.06.28.1">
 </head>
 <body>
 <a class="skip" href="#main">본문 바로가기</a>
@@ -54,23 +54,57 @@
 </section>
 
 <div class="wrap">
-  <!-- booking widget -->
-  <div class="book-widget">
-    <div class="bw-tabs" role="tablist">
-      <button class="on" type="button">편도 · One Way</button>
+  <!-- book panel -->
+  <div class="book-panel">
+    <div class="bpanel-info">
+      <div class="bpanel-row">
+        <span class="bpl">Route</span>
+        <span class="bpv">김해국제공항 · 부산역(KTX) → 해운대 공식호텔 · 약 40~60분</span>
+      </div>
+      <div class="bpanel-row">
+        <span class="bpl">Departures</span>
+        <div class="bpv bpv-dep">
+          <span class="dt">10:00</span>
+          <span class="dt">11:00</span>
+          <span class="dt">12:00</span>
+          <span class="dt">14:00</span>
+          <span class="dt">16:00</span>
+          <span class="dt">18:00</span>
+        </div>
+      </div>
+      <div class="bpanel-row">
+        <span class="bpl">Fare</span>
+        <div class="bpv bpv-fare">
+          <span class="fare-item">
+            <span class="fare-label">편도</span>
+            <span class="fare-price">₩15,000</span>
+          </span>
+          <span class="bpv-note">· 소아 ₩10,000부터</span>
+        </div>
+      </div>
+      <div class="bpanel-row">
+        <span class="bpl">운영일</span>
+        <span class="bpv">2026.10.21(수) ~ 10.22(목) · 45인승 버스 · 유료 개별 신청</span>
+      </div>
     </div>
-    <div class="bw-fields">
-      <div class="bw-f"><label for="bwFrom">출발 (From)</label>
-        <select id="bwFrom"><option>김해국제공항 (국제선 청사)</option><option>부산역 (KTX)</option></select></div>
-      <div class="bw-f"><label for="bwTo">도착 (To)</label>
-        <select id="bwTo"><option>시그니엘 부산 (해운대)</option><option>웨스틴조선 부산</option><option>파크하얏트 부산</option></select></div>
-      <div class="bw-f"><label for="bwDate">이용일 (Date)</label>
-        <input id="bwDate" type="date" value="2026-10-21" min="2026-10-21" max="2026-10-22"></div>
-      <div class="bw-f"><label for="bwPax">인원</label>
-        <select id="bwPax"><option>1명</option><option>2명</option><option>3명</option><option>4명 이상</option></select></div>
-      <div class="bw-f"><button class="btn btn-red" id="bwSearch" type="button">검색 →</button></div>
+    <div class="bpanel-cta">
+      <div class="bpc-head">
+        <div class="bpc-icon-wrap">🚌</div>
+        <div>
+          <span class="bpc-sup">Shuttle Booking</span>
+          <span class="bpc-name">RIDEUS 공항 셔틀</span>
+        </div>
+      </div>
+      <ul class="bpc-checks">
+        <li>출발지 · 날짜 · 인원 선택</li>
+        <li>좌석 현황 실시간 확인</li>
+        <li>안전 결제 · 즉시 바우처 발급</li>
+      </ul>
+      <a class="btn btn-red bpc-btn" href="booking.html?route=airport-hotel">
+        셔틀 예약하러 가기 ↗
+      </a>
+      <p class="bpc-note">예약·결제는 <b>예약 페이지</b>에서 진행됩니다</p>
     </div>
-    <div class="bw-result" id="bwResult" aria-live="polite"></div>
   </div>
 
   <!-- operation badges -->
@@ -209,7 +243,7 @@
       <b>GroundK Co., Ltd</b> · 대표 장동원 · 사업자등록번호 238-81-00429<br>
       부산광역시 해운대구 센텀동로 45, 405호 (우 48059) · Tel +82-2-863-3540 · Fax +82-70-8275-3540 · ops@groundk.com<br>
       RIDEUS는 GroundK의 Transportation × Travel 플랫폼입니다. 모든 거래·교환·환불·민원은 GroundK가 처리합니다.<br>
-      <span class="ver">© 2026 GroundK · APHRS 2026 참가자 교통 포털 (콘셉트 데모) · build 2026.06.27.5</span>
+      <span class="ver">© 2026 GroundK · APHRS 2026 참가자 교통 포털 (콘셉트 데모) · build 2026.06.28.1</span>
     </div>
   </div>
 </footer>
@@ -229,7 +263,7 @@
   </div>
 </div>
 
-<script src="assets/app.js?v=2026.06.27.5"></script>
+<script src="assets/app.js?v=2026.06.28.1"></script>
 <script>
 /* booking widget — demo search (no backend) */
 (function(){
