@@ -49,6 +49,9 @@
   .card.soon{opacity:.62}
   .card.soon::before{background:#cfd3e6}
   .card.soon .kicker,.card.soon .go{color:var(--muted)}
+  .card.card-v2::before{background:#E8003D}
+  .card.card-v2 .go{color:#E8003D}
+  .card.card-v2:hover{box-shadow:0 14px 34px rgba(232,0,61,.15);border-color:#f5c0c9}
 
   /* footer */
   footer{background:var(--gk);color:#c9cbe9;font-size:12.5px}
@@ -81,17 +84,17 @@
     <h2>Projects</h2>
     <div class="grid">
       <a class="card" href="./aphrs-2026-busan/">
-        <div class="kicker">MICE · MEDICAL CONGRESS</div>
-        <h3>APHRS 2026 Busan</h3>
-        <p>19th Asia Pacific Heart Rhythm Society Scientific Session — Travel &amp; Transportation Hub (concept demo).</p>
+        <div class="kicker">MICE · MEDICAL CONGRESS &nbsp;·&nbsp; <span style="opacity:.55">v1</span></div>
+        <h3>APHRS 2026 Busan <span style="font-size:13px;font-weight:500;color:var(--muted)">— Hub v1</span></h3>
+        <p>19th Asia Pacific Heart Rhythm Society Scientific Session — Travel &amp; Transportation Hub (concept demo). 포털 허브 + 행사 랜딩 구성.</p>
         <span class="go">Enter demo →</span>
       </a>
-      <div class="card soon">
-        <div class="kicker">COMING SOON</div>
-        <h3>Next project</h3>
-        <p>Additional event transportation portals will be added here as separate folders.</p>
-        <span class="go">—</span>
-      </div>
+      <a class="card card-v2" href="./aphrs-2026-transport/">
+        <div class="kicker">MICE · MEDICAL CONGRESS &nbsp;·&nbsp; <span style="color:#E8003D">v2</span></div>
+        <h3>APHRS 2026 Busan <span style="font-size:13px;font-weight:500;color:#E8003D">— Transport v2</span></h3>
+        <p>참가자 수송 포털 2세대 — 공항↔호텔 셔틀, 행사장 셔틀, 전용차량, 입국정보, 짐배송, 유심. book-panel 기반 노선별 상세 페이지 구성.</p>
+        <span class="go">Enter demo →</span>
+      </a>
     </div>
   </section>
 
