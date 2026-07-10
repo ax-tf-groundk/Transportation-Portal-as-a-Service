@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Cache-Control" content="no-cache">
+<title>2026 강릉 ITS 세계총회 — 참가자 교통 포털 | RIDEUS Events · GroundK</title>
+<meta name="description" content="2026 강릉 ITS 세계총회(10.19–23, 강릉 올림픽파크) 참가자 교통 포털. 공항 입국·출국 셔틀, 행사장 순환 셔틀, 전용차량, KTX·버스 오시는 길.">
+<meta name="version" content="2026.07.10.5">
+<link rel="stylesheet" href="assets/transport.css?v=2026.07.10.5">
+<link rel="icon" type="image/png" sizes="64x64" href="assets/img/favicon.png?v=2026.07.10.5">
+<link rel="apple-touch-icon" href="assets/img/favicon-180.png">
+<style>
+/* ── ITS landing-specific (공식 그린 #006241 + 틸 #009E95) ── */
+.site-head{background:#fff;border-bottom:2px solid var(--line)}
+.brand-its img{height:42px}
+.brand-its .btag{font-size:11.5px;font-weight:800;color:var(--red);border-left:2px solid var(--red-050);padding-left:13px;letter-spacing:.3px}
+.nav a.active{color:var(--red);background:var(--red-050)}
+
+.hero{position:relative;overflow:hidden;color:#fff;min-height:540px;display:flex;align-items:center}
+@media(max-width:760px){.hero{min-height:460px}}
+/* 행사장 전경 이미지 자리 (공식 사진 교체 예정) + 딥그린 오버레이 */
+.hero-photo{position:absolute;inset:0;z-index:1;background-color:#0a3d2a;
+  background-image:linear-gradient(90deg,rgba(0,24,15,.94) 0%,rgba(0,34,22,.86) 20%,rgba(0,46,30,.6) 45%,rgba(0,60,40,.28) 68%,rgba(0,70,46,.06) 100%),
+    linear-gradient(0deg,rgba(0,24,15,.5),transparent 42%),
+    url("assets/img/gangneung-olympic-park-its-hero-4k.jpg"),
+    repeating-linear-gradient(45deg,#0a3d2a,#0a3d2a 24px,#0e4733 24px,#0e4733 48px);
+  background-size:cover,cover,cover,auto;background-position:center,center,center,center;background-repeat:no-repeat,no-repeat,no-repeat,repeat}
+.hero-photo-tag{position:absolute;right:14px;bottom:12px;font-size:10.5px;font-weight:700;color:rgba(255,255,255,.78);
+  background:rgba(0,0,0,.26);border:1px dashed rgba(255,255,255,.42);border-radius:8px;padding:4px 11px}
+.hero-inner{position:relative;z-index:3;width:100%;max-width:var(--maxw);margin:0 auto;padding:66px 24px 58px}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:9px;font-size:11.5px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;
+  color:#fff;background:rgba(0,158,149,.32);border:1px solid rgba(255,255,255,.30);padding:7px 16px;border-radius:50px;margin-bottom:20px}
+.hero-eyebrow::before{content:"";width:7px;height:7px;border-radius:50%;background:#9BE8D6;box-shadow:0 0 0 0 rgba(155,232,214,.6);animation:pulse 1.7s ease-in-out infinite}
+@keyframes pulse{0%,100%{transform:scale(1);box-shadow:0 0 0 0 rgba(155,232,214,.6)}40%{transform:scale(1.5);box-shadow:0 0 0 9px rgba(155,232,214,0)}}
+.hero-slogan{font-weight:800;letter-spacing:-1.5px;line-height:1.02;text-shadow:0 2px 20px rgba(0,0,0,.4)}
+.hero-slogan .en{display:block;font-size:clamp(34px,5.4vw,62px)}
+.hero-slogan .en b{font-weight:800;color:#8FE9D2}
+.hero-slogan .ko{display:block;font-size:clamp(16px,2.1vw,23px);font-weight:700;color:rgba(255,255,255,.9);letter-spacing:-.5px;margin-top:13px}
+.hero-lead{margin-top:18px;font-size:15.5px;color:rgba(255,255,255,.86);max-width:56ch;line-height:1.65}
+.hero-cta-row{display:flex;flex-wrap:wrap;gap:14px;margin-top:30px}
+/* 글래스모피즘 CTA 카드 */
+.glass-btn{display:inline-flex;align-items:center;gap:13px;background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.34);
+  border-radius:16px;padding:14px 22px;color:#fff;backdrop-filter:blur(9px);-webkit-backdrop-filter:blur(9px);transition:transform .2s,background .2s;box-shadow:0 8px 26px -14px rgba(0,0,0,.5)}
+.glass-btn:hover{background:rgba(255,255,255,.22);transform:translateY(-3px)}
+.glass-btn .gb-ic{font-size:22px;line-height:1}
+.glass-btn .gb-tx b{display:block;font-size:15px;font-weight:800;letter-spacing:-.2px}
+.glass-btn .gb-tx small{display:block;font-size:11.5px;color:rgba(255,255,255,.78);margin-top:2px}
+
+/* support — desks + 24h control room (ITS rounded/circle) */
+.desk-chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:6px}
+.desk-chip{display:inline-flex;align-items:center;gap:8px;background:var(--red-050);border:1px solid #cfe6dd;border-radius:var(--radius-pill);font-size:13px;font-weight:700;color:var(--red-700);padding:9px 17px}
+.desk-chip::before{content:"";width:9px;height:9px;border-radius:50%;background:var(--red);flex-shrink:0}
+.ctrl-badge{display:flex;align-items:center;gap:15px;margin-top:20px;background:linear-gradient(120deg,var(--navy),var(--red));color:#fff;border-radius:var(--radius-lg);padding:18px 24px}
+.ctrl-badge .ctrl-pulse{position:relative;width:14px;height:14px;flex-shrink:0}
+.ctrl-badge .ctrl-pulse span,.ctrl-badge .ctrl-pulse::after{position:absolute;inset:0;border-radius:50%;background:var(--orange)}
+.ctrl-badge .ctrl-pulse::after{content:"";animation:ping 1.8s cubic-bezier(0,0,.2,1) infinite}
+@keyframes ping{0%{transform:scale(1);opacity:.7}80%,100%{transform:scale(2.6);opacity:0}}
+.ctrl-badge b{font-size:16px;font-weight:800;display:block}
+.ctrl-badge small{font-size:12.5px;color:rgba(255,255,255,.75)}
+
+/* shuttle service cards */
+.svc-section{padding:64px 0 52px;background:#fff}
+.svc-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:34px}
+@media(max-width:720px){.svc-grid{grid-template-columns:1fr}}
+.svc-grid .full{grid-column:1/-1}
+.scard{position:relative;overflow:hidden;border-radius:var(--radius-lg);min-height:300px;display:flex;flex-direction:column;
+  box-shadow:var(--shadow);border:1px solid var(--line);background:#fff;transition:transform .28s,box-shadow .28s;color:inherit}
+.scard:hover{transform:translateY(-6px);box-shadow:var(--shadow-h)}
+.scard-bar{font-size:12px;font-weight:800;letter-spacing:.6px;color:#fff;padding:9px 22px;display:flex;align-items:center;gap:8px;flex-shrink:0}
+.scard.paid .scard-bar{background:var(--orange)} .scard.free .scard-bar{background:var(--green)} .scard.dir .scard-bar{background:var(--red)}
+.scard-bar .tag{margin-left:auto;font-size:11px;background:rgba(255,255,255,.22);border-radius:50px;padding:2px 10px}
+.scard-photo{position:relative;flex:1;min-height:210px;display:flex;align-items:flex-end;
+  background:repeating-linear-gradient(45deg,#f2faf7,#f2faf7 12px,#e7f3ee 12px,#e7f3ee 24px)}
+.scard-photo::before{content:"🖼️ 실제 사진 (가로 이미지) 예정";position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  font-size:12px;font-weight:700;color:#6d857b;white-space:nowrap;opacity:.9}
+.scard-phtag{position:absolute;top:12px;left:14px;z-index:2;font-size:10.5px;font-weight:700;color:var(--red);background:rgba(255,255,255,.92);border:1px dashed #b8d4c9;border-radius:8px;padding:3px 9px}
+.scard-info{position:relative;z-index:2;padding:28px 22px 20px;width:100%;background:linear-gradient(transparent,#fff 42%)}
+.scard-dir{font-size:21px;font-weight:800;letter-spacing:-.4px;color:var(--navy);display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.scard-dir .ar{color:var(--orange)}
+.scard-sub{margin-top:6px;font-size:13px;color:var(--muted);line-height:1.5}
+.scard-cta{display:inline-flex;align-items:center;gap:7px;margin-top:13px;font-size:13.5px;font-weight:800;color:#fff;background:var(--red);border-radius:50px;padding:8px 18px;transition:.2s}
+.scard:hover .scard-cta{gap:11px}
+.scard.paid .scard-cta{background:var(--orange)} .scard.free .scard-cta{background:var(--green)}
+.scard.accent .scard-bar,.scard.accent .scard-cta{background:var(--orange)}
+.scard.accent .scard-photo{background:linear-gradient(135deg,var(--orange-050),#d4f2ee)}
+.scard.accent .scard-dir .ar{color:var(--orange)}
+
+/* chauffeur band (전용차량 안내) */
+.chauffeur{padding:58px 0;background:#fff}
+.chauffeur-inner{display:grid;grid-template-columns:1.05fr .95fr;gap:36px;align-items:center;
+  background:linear-gradient(125deg,#00291B,#013D28 55%,#006241);border-radius:var(--radius-lg);padding:44px;color:#fff;box-shadow:var(--shadow-h);position:relative;overflow:hidden}
+.chauffeur-inner::after{content:"";position:absolute;right:-80px;top:-80px;width:280px;height:280px;border-radius:50%;background:radial-gradient(circle,rgba(0,158,149,.35),transparent 70%);pointer-events:none}
+@media(max-width:760px){.chauffeur-inner{grid-template-columns:1fr;gap:24px;padding:30px}}
+.chauffeur-ic{font-size:42px;display:block;margin-bottom:8px}
+.chauffeur h2{font-size:clamp(23px,3vw,31px);font-weight:800;letter-spacing:-.5px;line-height:1.14}
+.chauffeur h2 em{font-style:normal;color:#8FE9D2}
+.chauffeur p{margin-top:14px;font-size:14.5px;color:rgba(255,255,255,.86);line-height:1.65;max-width:46ch}
+.chauffeur .btn{margin-top:22px}
+.ch-feats{display:flex;flex-direction:column;gap:12px;position:relative;z-index:2}
+.ch-feat{display:flex;align-items:center;gap:14px;background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.22);border-radius:14px;padding:15px 18px}
+.ch-feat .ci{width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.15);display:grid;place-items:center;font-size:21px;flex-shrink:0}
+.ch-feat b{display:block;font-size:15px;font-weight:800}
+.ch-feat small{display:block;font-size:12px;color:rgba(255,255,255,.74);margin-top:2px}
+
+/* useful info */
+.useful{padding:60px 0;background:var(--bg-2)}
+.uf-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:30px}
+@media(max-width:760px){.uf-grid{grid-template-columns:1fr}}
+.ucard{display:flex;align-items:center;gap:16px;background:#fff;border:1px solid var(--line);border-radius:var(--radius-lg);padding:20px;box-shadow:var(--shadow);transition:.2s;color:inherit}
+.ucard:hover{transform:translateY(-4px);box-shadow:var(--shadow-h)}
+.ucard-ic{width:54px;height:54px;border-radius:50%;flex-shrink:0;display:grid;place-items:center;font-size:24px;background:var(--red-050);border:1px solid #cfe6dd}
+.ucard-ic.o{background:var(--orange-050);border-color:#bfe9e4}
+.ucard b{font-size:15.5px;color:var(--ink);display:block;font-weight:800}
+.ucard span{font-size:12.5px;color:var(--muted);display:block;margin-top:3px;line-height:1.5}
+.ucard .go{margin-left:auto;color:var(--red);font-size:20px;font-weight:800;opacity:.5}
+.ucard:hover .go{opacity:1}
+
+/* venue access */
+.access{padding:60px 0;background:#fff}
+.access-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:30px}
+@media(max-width:820px){.access-grid{grid-template-columns:1fr}}
+.acard{background:#fff;border:1px solid var(--line);border-radius:var(--radius-lg);overflow:hidden;box-shadow:var(--shadow)}
+.acard-head{background:var(--navy);color:#fff;padding:14px 18px;font-weight:800;font-size:15px;display:flex;align-items:center;gap:9px}
+.acard-head .code{margin-left:auto;font-size:11px;font-weight:700;background:var(--orange);border-radius:50px;padding:3px 10px}
+.acard-row{display:flex;align-items:center;gap:10px;padding:11px 18px;border-bottom:1px solid var(--line-2);font-size:13px}
+.acard-row:last-child{border-bottom:none}
+.acard-row .m{flex:1;font-weight:700;color:var(--ink)} .acard-row .t{color:var(--muted)} .acard-row .f{margin-left:auto;color:var(--red);font-weight:700;font-size:12.5px}
+
+/* about strip */
+.about{padding:46px 0;background:var(--bg-2)}
+.about-strip{display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;
+  background:linear-gradient(135deg,var(--navy),var(--red));border-radius:var(--radius-lg);padding:30px 34px;color:#fff}
+.about-strip h3{font-size:21px;font-weight:800}
+.about-kicker{font-size:11px;font-weight:800;color:rgba(255,255,255,.6);letter-spacing:1.1px;text-transform:uppercase;margin-bottom:8px;display:block}
+.about-chips{display:flex;flex-wrap:wrap;gap:9px;margin-top:14px}
+.about-chip{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);border-radius:50px;font-size:12.5px;font-weight:600;padding:6px 13px}
+
+/* support */
+.support{padding:60px 0;background:#fff;display:block!important;grid-template-columns:none!important}
+.sp-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:30px}
+@media(max-width:720px){.sp-grid{grid-template-columns:1fr}}
+.spcard{background:#fff;border:1px solid var(--line);border-radius:var(--radius-lg);padding:26px;box-shadow:var(--shadow)}
+.spcard h3{font-size:18px;font-weight:800;color:var(--ink)}
+.spcard p{margin-top:8px;font-size:13.5px;color:var(--muted);line-height:1.6}
+.sp-row{display:flex;align-items:center;gap:13px;margin-top:14px}
+.sp-ic{width:46px;height:46px;border-radius:50%;display:grid;place-items:center;font-size:19px;background:var(--red-050);border:1px solid #cfe6dd;flex-shrink:0}
+.sp-row b{font-size:15px;color:var(--ink);display:block;font-weight:800} .sp-row small{font-size:12.5px;color:var(--soft)}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">본문 바로가기</a>
+
+<div class="demo-banner">
+  GroundK 콘셉트 데모 — 실제 예약·배정·결제는 처리되지 않습니다. 2026 강릉 ITS 세계총회 공식 사이트가 아닙니다(<b>2026itsworldcongress.org</b> 별도).
+</div>
+
+<header class="site-head">
+  <div class="bar">
+    <a class="brand brand-its" href="index.html" aria-label="2026 강릉 ITS 세계총회 — 참가자 교통">
+      <img src="assets/img/its-mark.png" alt="2026 강릉 ITS 세계총회">
+      <span class="brand-lockup"><b>GANGNEUNG</b><small>ITS World Congress 2026 · 교통 포털</small></span>
+    </a>
+    <nav class="nav" aria-label="셔틀 노선">
+      <a href="index.html" class="active">홈</a>
+      <a href="shuttle-airport-in.html">공항 → 베뉴</a>
+      <a href="shuttle-airport-out.html">베뉴 → 공항</a>
+      <a href="shuttle-venue.html">행사장 셔틀</a>
+      <a href="shuttle-chauffeur.html">전용 차량</a>
+    </nav>
+    <div class="head-right">
+      <button class="lang" id="langToggle" type="button" aria-label="언어 전환 (데모)">🌐 <span class="seg" data-lang="en">EN</span><span class="seg on" data-lang="ko">KO</span></button>
+      <button class="head-link hide-sm" id="lookupBtn" type="button">예약조회</button>
+      <a class="head-link ext hide-sm" href="https://2026itsworldcongress.org" target="_blank" rel="noopener">공식 사이트</a>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+
+<!-- HERO -->
+<section class="hero" aria-labelledby="hero-h">
+  <div class="hero-photo" aria-hidden="true"></div>
+  <div class="hero-inner">
+    <span class="hero-eyebrow">2026 강릉 ITS 세계총회 · 참가자 수송 안내</span>
+    <h1 id="hero-h" class="hero-slogan">
+      <span class="en" lang="en">Beyond Mobility,<br><b>Connected World</b></span>
+      <span class="ko" lang="ko">이동을 넘어, 연결된 세계</span>
+    </h1>
+    <p class="hero-lead">인천·서울에서 강릉까지, 참가자 여정 전 구간을 하나의 포털에서 안내합니다. 공항 셔틀·행사장 순환·전용차량을 한 곳에서.</p>
+    <div class="hero-cta-row">
+      <a class="glass-btn" href="#services"><span class="gb-ic">🚌</span><span class="gb-tx"><b>셔틀 노선 보기</b><small>공항·행사장 셔틀</small></span></a>
+      <a class="glass-btn" href="info-access.html"><span class="gb-ic">🧭</span><span class="gb-tx"><b>오시는 길</b><small>KTX·버스로 강릉</small></span></a>
+    </div>
+  </div>
+</section>
+
+<!-- SHUTTLE SERVICES -->
+<section class="svc-section" id="services">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="kicker">셔틀 서비스 · Shuttle Service</span>
+      <h2 class="sec-h">ITS 2026 참가자 셔틀</h2>
+      <p class="sec-sub">노선을 선택하면 정류장·시간표·예약이 있는 상세 페이지로 이동합니다. RIDEUS Events · GroundK 운영.</p>
+    </div>
+    <div class="svc-grid">
+      <a class="scard dir reveal d1" href="shuttle-airport-in.html">
+        <div class="scard-bar">🛬 공항 → 베뉴 (입국)<span class="tag">무료 · 사전신청</span></div>
+        <div class="scard-photo"><span class="scard-phtag">🖼️ 실제 사진 예정</span>
+          <div class="scard-info">
+            <div class="scard-dir">인천·김포공항 <span class="ar">→</span> 강릉</div>
+            <p class="scard-sub">공항 웰컴데스크 + 입국 셔틀 · 주요 호텔 → 강릉역 · 10.17~19</p>
+            <span class="scard-cta">노선 보기 →</span>
+          </div>
+        </div>
+      </a>
+      <a class="scard dir reveal d2" href="shuttle-airport-out.html">
+        <div class="scard-bar">🛫 베뉴 → 공항 (출국)<span class="tag">무료 · 희망신청</span></div>
+        <div class="scard-photo"><span class="scard-phtag">🖼️ 실제 사진 예정</span>
+          <div class="scard-info">
+            <div class="scard-dir">컨벤션센터 <span class="ar">→</span> 서울역</div>
+            <p class="scard-sub">폐회식 후 출국 셔틀 · 16:00 / 17:00 / 18:00 · 10.23</p>
+            <span class="scard-cta">노선 보기 →</span>
+          </div>
+        </div>
+      </a>
+      <a class="scard accent full reveal d3" href="shuttle-venue.html">
+        <div class="scard-bar">🚌 행사장 셔틀 — 숙소·시내·내부 순환<span class="tag">무료 · 등록 참가자</span></div>
+        <div class="scard-photo"><span class="scard-phtag">🖼️ 실제 사진 예정</span>
+          <div class="scard-info">
+            <div class="scard-dir">컨벤션센터 <span class="ar">↔</span> 숙소 4권역 · 강릉역·터미널 · 행사장 내부</div>
+            <p class="scard-sub">총회기간(10.19~23) 정기 순환 · 경포/강문/주문진/정동진 · G1 도심 · 내부 4정류소</p>
+            <span class="scard-cta">노선·시간표 보기 →</span>
+          </div>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- CHAUFFEUR -->
+<section class="chauffeur" aria-label="전용차량 서비스">
+  <div class="chauffeur-inner wrap">
+    <div class="ch-left">
+      <span class="chauffeur-ic">🚗</span>
+      <h2>전용 차량으로 <em>더 유연하게</em></h2>
+      <p>공항 영접부터 강릉 시내·행사장까지 도어투도어. 셔틀 시간표에 얽매이지 않는 기사 포함 전용 차량 — 연사·임원 의전과 팀 이동에.</p>
+      <a class="btn btn-white" href="shuttle-chauffeur.html">전용 차량 안내 →</a>
+    </div>
+    <div class="ch-feats">
+      <div class="ch-feat"><span class="ci">👔</span><div><b>VIP 영접·의전</b><small>공항 미팅보드 영접 · 영문 응대 기사</small></div></div>
+      <div class="ch-feat"><span class="ci">🚐</span><div><b>세단 ~ 스프린터</b><small>인원·짐에 맞춘 차종 (1~14인)</small></div></div>
+      <div class="ch-feat"><span class="ci">📍</span><div><b>도어투도어</b><small>공항·강릉 시내·행사장·부대 일정</small></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- USEFUL INFO -->
+<section class="useful">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="kicker">유용한 정보 · Useful Information</span>
+      <h2 class="sec-h">이동을 더 가볍게</h2>
+    </div>
+    <div class="uf-grid">
+      <a class="ucard reveal d1" href="info-access.html"><div class="ucard-ic o">🧭</div><div><b>오시는 길 (대중교통)</b><span>KTX·시외버스로 강릉 오는 법</span></div><span class="go">→</span></a>
+      <a class="ucard reveal d2" href="info-access.html#ktx"><div class="ucard-ic">🚄</div><div><b>KTX 예매</b><span>서울·청량리 → 강릉역 (강릉선)</span></div><span class="go">→</span></a>
+      <a class="ucard reveal d3" href="shuttle-airport-in.html#welcome"><div class="ucard-ic">🛎️</div><div><b>공항 웰컴데스크</b><span>인천 T1·T2 / 김포 · 도착 안내</span></div><span class="go">→</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- VENUE ACCESS -->
+<section class="access" id="access">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="kicker">오시는 길 · How to Get Here</span>
+      <h2 class="sec-h">강릉 올림픽파크까지</h2>
+      <p class="sec-sub">주요 출발지에서 행사장까지 예상 소요 시간입니다. (요금·시각은 예시)</p>
+    </div>
+    <div class="access-grid">
+      <div class="acard reveal d1">
+        <div class="acard-head">인천국제공항<span class="code">ICN</span></div>
+        <div class="acard-row"><span class="m">🚌 공항 입국 셔틀</span><span class="t">약 3h50′</span><span class="f">무료</span></div>
+        <div class="acard-row"><span class="m">🚄 KTX (서울역 경유)</span><span class="t">약 3h30′</span><span class="f">20,300원~</span></div>
+        <div class="acard-row"><span class="m">🚌 직행 시외버스</span><span class="t">약 4시간</span><span class="f">34,100원</span></div>
+      </div>
+      <div class="acard reveal d2">
+        <div class="acard-head">김포국제공항<span class="code">GMP</span></div>
+        <div class="acard-row"><span class="m">🚌 공항 입국 셔틀</span><span class="t">약 3h20′</span><span class="f">무료</span></div>
+        <div class="acard-row"><span class="m">🚄 KTX (서울역 경유)</span><span class="t">약 3시간</span><span class="f">20,300원~</span></div>
+      </div>
+      <div class="acard reveal d3">
+        <div class="acard-head">서울역<span class="code">KTX</span></div>
+        <div class="acard-row"><span class="m">🚄 KTX 직통 (강릉선)</span><span class="t">약 2시간</span><span class="f">20,300원~</span></div>
+        <div class="acard-row"><span class="m">🚐 강릉역 → 행사장</span><span class="t">약 24분</span><span class="f">무료 셔틀</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about">
+  <div class="wrap">
+    <div class="about-strip reveal">
+      <div>
+        <span class="about-kicker">행사 안내 · About the Event</span>
+        <h3>2026 ITS World Congress — 강릉 세계총회</h3>
+        <div class="about-chips">
+          <span class="about-chip">📅 2026년 10월 19–23일</span>
+          <span class="about-chip">🏛 강릉 올림픽파크</span>
+          <span class="about-chip">🌏 90+개국 · 60,000+명</span>
+          <span class="about-chip">🚦 "Beyond Mobility, Connected World"</span>
+        </div>
+      </div>
+      <a class="btn btn-outline" href="https://2026itsworldcongress.org" target="_blank" rel="noopener">공식 사이트 ↗</a>
+    </div>
+  </div>
+</section>
+
+<!-- SUPPORT -->
+<section class="support" id="support">
+  <div class="wrap">
+    <div class="sec-head reveal"><span class="kicker">현장 지원 · On-site Support</span><h2 class="sec-h">도착부터 출국까지 지원</h2>
+      <p class="sec-sub">7개소 안내데스크와 24시간 종합상황실이 참가자 여정 전 구간을 지원합니다.</p></div>
+
+    <div class="desk-chips reveal">
+      <span class="desk-chip">인천공항 T1</span>
+      <span class="desk-chip">인천공항 T2</span>
+      <span class="desk-chip">김포공항</span>
+      <span class="desk-chip">강릉역</span>
+      <span class="desk-chip">강릉버스터미널</span>
+      <span class="desk-chip">컨벤션센터</span>
+      <span class="desk-chip">전시장</span>
+    </div>
+    <div class="ctrl-badge reveal">
+      <span class="ctrl-pulse"><span></span></span>
+      <div><b>24시간 종합상황실</b><small>전 노선 실시간 관제 · 긴급 대응 · 총회기간 상시</small></div>
+    </div>
+
+    <div class="sp-grid" style="margin-top:22px">
+      <div class="spcard reveal d1">
+        <h3>RIDEUS Events 운영팀</h3>
+        <p>셔틀·의전·단체 수송 문의를 도와드립니다. 평일 09:00–18:00 (KST).</p>
+        <div class="sp-row"><div class="sp-ic">✉️</div><div><b>ops@groundk.com</b><small>이메일 문의</small></div></div>
+        <div class="sp-row"><div class="sp-ic">📞</div><div><b>+82-2-863-3540</b><small>평일 09:00–18:00 (KST)</small></div></div>
+      </div>
+      <div class="spcard reveal d2">
+        <h3>수송 안내데스크</h3>
+        <p>공항·역·터미널·행사장 안내데스크에서 셔틀 탑승 위치와 교통 안내를 다국어로 제공합니다.</p>
+        <div class="sp-row"><div class="sp-ic">🛎️</div><div><b>안내데스크 7개소</b><small>총회기간 08:00–22:00 · 해외 참가자 우선 응대</small></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="corp-foot">
+  <div class="wrap">
+    <div class="top">
+      <a class="brand" href="index.html" aria-label="RIDEUS Events 홈"><span class="logo" aria-hidden="true">R</span><span class="wm"><b>RIDEUS Events</b><small>GroundK · 참가자 교통 포털 데모</small></span></a>
+      <nav class="fnav" aria-label="푸터">
+        <a href="shuttle-airport-in.html">공항 → 베뉴</a>
+        <a href="shuttle-airport-out.html">베뉴 → 공항</a>
+        <a href="shuttle-venue.html">행사장 셔틀</a>
+        <a href="shuttle-chauffeur.html">전용 차량</a>
+        <a href="info-access.html">오시는 길</a>
+        <a href="https://2026itsworldcongress.org" target="_blank" rel="noopener">공식 사이트 ↗</a>
+      </nav>
+    </div>
+    <div class="legal">
+      <b>GroundK Co., Ltd</b> · CEO 장동원 · Business Reg. 238-81-00429<br>
+      405호, 45 Centum Dong-ro, Haeundae-gu, Busan 48059 · Tel +82-2-863-3540 · ops@groundk.com<br>
+      RIDEUS는 GroundK의 Transportation × Travel 플랫폼입니다. 모든 거래·환불·민원은 GroundK가 처리합니다.<br>
+      <span class="ver">© 2026 GroundK · 2026 강릉 ITS 세계총회 참가자 교통 포털 (콘셉트 데모) · build 2026.07.10.5</span>
+    </div>
+  </div>
+</footer>
+
+<div class="mockup-flag" style="z-index:200">콘셉트 목업 · 실제 예약 연동 예정</div>
+
+
+<!-- 예약·배정 조회 모달 -->
+<div class="modal-ov" id="lookupModal" role="dialog" aria-modal="true" aria-labelledby="lk-h">
+  <div class="modal">
+    <button class="modal-x" id="lookupClose" type="button" aria-label="닫기">✕</button>
+    <h3 id="lk-h">예약·배정 조회</h3>
+    <p>접수번호(또는 참가등록번호)와 이메일로 신청 내역을 조회합니다.</p>
+    <div class="mf"><label for="lkCode">접수번호 / 등록번호</label><input id="lkCode" type="text" placeholder="ITS-SH-000000 / ITS2026-XXXX"></div>
+    <div class="mf"><label for="lkEmail">이메일</label><input id="lkEmail" type="email" placeholder="you@email.com"></div>
+    <div class="m-actions"><button class="btn btn-red btn-block btn-sm" id="lookupSubmit" type="button">조회하기</button></div>
+    <p class="m-note" id="lkResult">※ 콘셉트 데모입니다. 실제 배정 시스템과 연동되지 않으며 예시 안내만 표시됩니다.</p>
+  </div>
+</div>
+
+<script src="assets/app.js?v=2026.07.10.5"></script>
+</body>
+</html>

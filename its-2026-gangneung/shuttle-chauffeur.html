@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Cache-Control" content="no-cache">
+<title>전용 차량 — 2026 강릉 ITS 세계총회 교통 | RIDEUS Events</title>
+<meta name="version" content="2026.07.10.5">
+<link rel="stylesheet" href="assets/transport.css?v=2026.07.10.5">
+<link rel="icon" type="image/png" sizes="64x64" href="assets/img/favicon.png?v=2026.07.10.5">
+<link rel="apple-touch-icon" href="assets/img/favicon-180.png">
+<style>
+/* Chauffeur page — 차량 선택 카드 (APHRS 구성) */
+.veh-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:28px}
+@media(max-width:720px){.veh-grid{grid-template-columns:1fr}}
+.veh-card{background:#fff;border:1px solid var(--line);border-radius:var(--radius-lg);padding:30px 22px;text-align:center;box-shadow:var(--shadow);transition:box-shadow .2s,transform .2s}
+.veh-card:hover{box-shadow:var(--shadow-h);transform:translateY(-4px)}
+.veh-ic{width:76px;height:76px;border-radius:50%;background:var(--red-050);border:1px solid #cfe6dd;display:grid;place-items:center;font-size:36px;margin:0 auto 14px}
+.veh-name{font-size:20px;font-weight:800;color:var(--navy)}
+.veh-cap{font-size:12.5px;color:var(--orange);font-weight:700;margin-top:3px}
+.veh-desc{font-size:13.5px;color:var(--muted);margin:12px 0 18px;line-height:1.6;min-height:60px}
+.zone-list{list-style:none;padding:0;margin:14px 0 0;display:flex;flex-direction:column;gap:10px}
+.zone-list li{display:flex;align-items:center;gap:11px;font-size:14.5px;color:var(--ink);background:#fff;border:1px solid var(--line);border-radius:12px;padding:13px 16px}
+.zone-list li::before{content:"↔";color:var(--orange);font-weight:800;font-size:17px;flex-shrink:0}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">본문 바로가기</a>
+<div class="demo-banner">GroundK 콘셉트 데모 — 실제 예약·결제는 처리되지 않습니다. 공식 사이트(<b>2026itsworldcongress.org</b>) 별도.</div>
+<header class="site-head"><div class="bar">
+  <a class="brand brand-its" href="index.html"><img src="assets/img/its-mark.png" alt="2026 강릉 ITS 세계총회"><span class="brand-lockup"><b>GANGNEUNG</b><small>ITS World Congress 2026 · 교통 포털</small></span></a>
+  <nav class="nav" aria-label="셔틀 노선">
+    <a href="index.html">홈</a>
+    <a href="shuttle-airport-in.html">공항 → 베뉴</a>
+    <a href="shuttle-airport-out.html">베뉴 → 공항</a>
+    <a href="shuttle-venue.html">행사장 셔틀</a>
+    <a href="shuttle-chauffeur.html" class="active">전용 차량</a>
+  </nav>
+  <div class="head-right">
+    <button class="lang" id="langToggle" type="button">🌐 <span class="seg on" data-lang="ko">KO</span><span class="seg" data-lang="en">EN</span></button>
+    <button class="head-link hide-sm" id="lookupBtn" type="button">예약조회</button>
+    <a class="head-link ext hide-sm" href="https://2026itsworldcongress.org" target="_blank" rel="noopener">공식 사이트</a>
+  </div>
+</div></header>
+
+<main id="main">
+<section class="detail-hero dhero-its">
+  <div class="inner">
+    <nav class="crumb" aria-label="breadcrumb"><a href="index.html">홈</a> › <a href="index.html#services">서비스</a> › <span>전용 차량</span></nav>
+    <h1>전용 차량 <span style="font-size:.55em;font-weight:700;opacity:.85">Private Car · Chauffeur</span></h1>
+    <p class="dsub">기사 포함 도어투도어 차량. <b>인천·김포공항 또는 서울역</b>에서 강릉 어디든 · VIP·연사·대표단 의전.</p>
+  </div>
+</section>
+
+<!-- 차량 선택 -->
+<section class="section" aria-labelledby="veh-h">
+  <div class="wrap">
+    <div class="sec-head reveal"><span class="kicker">차량 선택 · Vehicle Selection</span><h2 class="sec-h" id="veh-h">차량을 선택하세요</h2>
+      <p class="sec-sub">이용 인원과 목적에 맞는 차량을 골라 문의하세요 — 공항 영접부터 VIP 의전까지.</p></div>
+    <div class="veh-grid">
+      <div class="veh-card reveal d1">
+        <div class="veh-ic">🚗</div>
+        <div class="veh-name">세단</div>
+        <div class="veh-cap">최대 3인</div>
+        <p class="veh-desc">공항·역 ↔ 숙소 이동, 시내 포인트투포인트에 적합한 기본 세단.</p>
+        <a class="btn btn-orange" href="booking.html?route=chauffeur">문의하기</a>
+      </div>
+      <div class="veh-card reveal d2">
+        <div class="veh-ic">🚐</div>
+        <div class="veh-name">밴 · SUV</div>
+        <div class="veh-cap">최대 7~9인</div>
+        <p class="veh-desc">대표단·수행팀·짐이 많은 그룹 이동에 적합한 넓은 밴(스타리아)·SUV.</p>
+        <a class="btn btn-orange" href="booking.html?route=chauffeur">문의하기</a>
+      </div>
+      <div class="veh-card reveal d3">
+        <div class="veh-ic">👔</div>
+        <div class="veh-name">VIP 의전</div>
+        <div class="veh-cap">최대 4인</div>
+        <p class="veh-desc">연사·임원·초청 인사를 위한 의전 세단 + 영문 응대 기사·미팅보드 영접.</p>
+        <a class="btn btn-orange" href="booking.html?route=chauffeur">문의하기</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 이용 방법 -->
+<section class="section" style="padding-top:46px" aria-labelledby="how-h">
+  <div class="wrap">
+    <div class="sec-head reveal"><span class="kicker">이용 방법 · How It Works</span><h2 class="sec-h" id="how-h">4단계로 배차</h2></div>
+    <div class="how-steps">
+      <div class="how-step reveal d1"><span class="sn">1</span><b>차량 선택</b><p>세단 · 밴/SUV · VIP 의전</p></div>
+      <div class="how-step reveal d2"><span class="sn">2</span><b>이용 정보 입력</b><p>구간·일자·시간·인원</p></div>
+      <div class="how-step reveal d3"><span class="sn">3</span><b>일정 확인</b><p>경로·요청사항·견적 확인</p></div>
+      <div class="how-step reveal d4"><span class="sn">4</span><b>배정 안내</b><p>기사 연락처·바우처 발급</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 운행 구간 -->
+<section class="section" style="padding-top:46px" aria-labelledby="zone-h">
+  <div class="wrap">
+    <div class="sec-head reveal"><span class="kicker">운행 구간 · Service Zones</span><h2 class="sec-h" id="zone-h">어디든 배차합니다</h2>
+      <p class="sec-sub">강릉 및 수도권 관문 전 구간 도어투도어. 대표 구간:</p></div>
+    <ul class="zone-list reveal">
+      <li>인천·김포국제공항 &nbsp;↔&nbsp; 강릉 주요 숙소 / 컨벤션센터</li>
+      <li>서울역 (KTX) &nbsp;↔&nbsp; 강릉 주요 숙소 / 컨벤션센터</li>
+      <li>강릉 시내 · 오죽헌·경포·안목 등 부대 일정 포인트투포인트</li>
+    </ul>
+  </div>
+</section>
+
+<!-- 안내 -->
+<section class="section" style="padding-top:46px" aria-labelledby="rl-h">
+  <div class="wrap">
+    <div class="sec-head reveal"><span class="kicker">안내 · Information</span><h2 class="sec-h" id="rl-h">이용 안내</h2></div>
+    <div class="rules reveal">
+      <h4>예약 · 요금</h4>
+      <ul>
+        <li><b>사전 예약 필수</b> — 현장 접수는 받지 않습니다. 이용 시간 <b>최소 24시간 전</b> 예약을 권장합니다.</li>
+        <li>요금은 구간·차종·이용 시간 기준으로 <b>문의 시 안내</b>되며, 총회 기간 수요 집중으로 조기 마감될 수 있습니다.</li>
+        <li>영문 응대 가능 기사 배정, 공항 미팅보드 영접, 수하물 지원이 가능합니다.</li>
+        <li>배정 확정 시 기사 연락처가 포함된 바우처(목업)를 발급합니다.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="corp-foot"><div class="wrap">
+  <div class="top">
+    <a class="brand" href="index.html"><span class="logo" aria-hidden="true">R</span><span class="wm"><b>RIDEUS Events</b><small>GroundK · 참가자 교통 포털 데모</small></span></a>
+    <nav class="fnav"><a href="shuttle-airport-in.html">공항 → 베뉴</a><a href="shuttle-airport-out.html">베뉴 → 공항</a><a href="shuttle-venue.html">행사장 셔틀</a><a href="shuttle-chauffeur.html">전용 차량</a><a href="info-access.html">오시는 길</a></nav>
+  </div>
+  <div class="legal"><b>GroundK Co., Ltd</b> · CEO 장동원 · Business Reg. 238-81-00429 · ops@groundk.com<br><span class="ver">© 2026 GroundK · 2026 강릉 ITS 세계총회 교통 포털 (콘셉트 데모) · build 2026.07.10.5</span></div>
+</div></footer>
+<div class="mockup-flag">콘셉트 목업 · 실제 예약 연동 예정</div>
+
+<!-- 예약·배정 조회 모달 -->
+<div class="modal-ov" id="lookupModal" role="dialog" aria-modal="true" aria-labelledby="lk-h">
+  <div class="modal">
+    <button class="modal-x" id="lookupClose" type="button" aria-label="닫기">✕</button>
+    <h3 id="lk-h">예약·배정 조회</h3>
+    <p>접수번호(또는 참가등록번호)와 이메일로 신청 내역을 조회합니다.</p>
+    <div class="mf"><label for="lkCode">접수번호 / 등록번호</label><input id="lkCode" type="text" placeholder="ITS-SH-000000 / ITS2026-XXXX"></div>
+    <div class="mf"><label for="lkEmail">이메일</label><input id="lkEmail" type="email" placeholder="you@email.com"></div>
+    <div class="m-actions"><button class="btn btn-red btn-block btn-sm" id="lookupSubmit" type="button">조회하기</button></div>
+    <p class="m-note" id="lkResult">※ 콘셉트 데모입니다. 실제 배정 시스템과 연동되지 않으며 예시 안내만 표시됩니다.</p>
+  </div>
+</div>
+
+<script src="assets/app.js?v=2026.07.10.5"></script>
+</body>
+</html>
