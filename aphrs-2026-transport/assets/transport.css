@@ -713,8 +713,6 @@ h1,h2,h3,h4{line-height:1.16;letter-spacing:-.4px;text-wrap:balance}
 /* ===== Route Map — horizontal line diagram (APEC/RIDEUS style) ===== */
 .route-map{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:18px 8px 10px;position:relative;overflow:hidden}
 .route-map::before{content:"";position:absolute;inset:0 auto 0 0;width:4px;background:var(--red)}
-.rm-head{display:flex;align-items:center;gap:12px;padding:2px 16px 0}
-.rm-tag{flex:0 0 auto;font-size:12px;font-weight:800;color:#fff;background:var(--navy);border-radius:8px;padding:7px 12px;letter-spacing:.3px}
 .rm-time{margin-left:auto;font-size:13px;font-weight:700;color:var(--red);background:var(--red-050);border:1px solid #f6cdd5;border-radius:50px;padding:6px 13px;white-space:nowrap}
 .rm-live{margin-left:auto;display:inline-flex;align-items:center;gap:8px;font:inherit;font-size:13px;font-weight:700;color:var(--red);background:var(--red-050);border:1px solid #f6cdd5;border-radius:50px;padding:6px 14px;white-space:nowrap;cursor:pointer;transition:background .15s,border-color .15s}
 .rm-live:hover{background:#fde3e9;border-color:#efadbb}
@@ -723,16 +721,32 @@ h1,h2,h3,h4{line-height:1.16;letter-spacing:-.4px;text-wrap:balance}
 .rm-live .live-dot::after{content:"";position:absolute;inset:-4px;border-radius:50%;border:2px solid var(--red);opacity:.5;animation:rmPulse 1.6s ease-out infinite}
 @keyframes rmPulse{0%{transform:scale(.4);opacity:.7}70%{transform:scale(1);opacity:0}100%{opacity:0}}
 @media (prefers-reduced-motion:reduce){.rm-live .live-dot::after{animation:none;opacity:.35}}
-.rm-track{overflow-x:auto;-webkit-overflow-scrolling:touch;padding:66px 16px 14px}
-.rm-line{display:flex;align-items:center;min-width:max-content;list-style:none;margin:0;padding:0}
-.rm-stop{position:relative;flex:1 0 112px;display:flex;justify-content:center;align-items:center;height:36px}
+.rm-track{padding:132px 10px 14px}
+.rm-line{display:grid;align-items:center;list-style:none;margin:0;padding:0}
+.rm-stop{position:relative;display:flex;justify-content:center;align-items:center;height:36px}
 .rm-stop:not(:first-child)::before{content:"";position:absolute;z-index:0;top:50%;left:-50%;right:50%;height:3px;background:var(--red);transform:translateY(-50%)}
 .rm-stop.rm-airport::before{background:transparent;border-top:3px dashed var(--red);height:0}
 .rm-dot{position:relative;z-index:1;width:18px;height:18px;border-radius:50%;background:#fff;border:3px solid var(--red);box-sizing:border-box}
 .rm-stop.rm-airport .rm-dot{width:36px;height:36px;display:grid;place-items:center;background:var(--red);color:#fff;font-size:16px;border-color:var(--red);box-shadow:0 6px 16px -6px rgba(232,0,61,.7)}
-.rm-label{position:absolute;left:50%;bottom:calc(100% + 4px);transform-origin:left bottom;transform:rotate(-42deg);white-space:nowrap;font-size:12.5px;font-weight:700;color:var(--ink);line-height:1}
+.rm-label{position:absolute;left:50%;bottom:calc(100% + 6px);transform-origin:left bottom;transform:rotate(-58deg);
+  width:120px;font-size:12px;font-weight:700;color:var(--ink);line-height:1.3;
+  word-break:keep-all;overflow-wrap:break-word;
+  display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
 .rm-stop.rm-airport .rm-label{color:var(--red)}
-@media(max-width:620px){.rm-track{padding-top:60px}.rm-stop{flex-basis:96px}.rm-label{font-size:11.5px}}
+
+/* 모바일: 회전 라벨 대신 세로 타임라인 — 정류장이 많아도 가로 스크롤 없이 항상 폭에 맞음 */
+@media(max-width:620px){
+  .rm-track{padding:14px 16px}
+  .rm-line{display:flex;flex-direction:column;align-items:stretch;gap:20px;position:relative}
+  .rm-line::before{content:"";position:absolute;top:2px;bottom:2px;left:8px;width:3px;background:var(--red);z-index:0}
+  .rm-stop{height:auto;justify-content:flex-start;gap:14px}
+  .rm-stop:not(:first-child)::before,
+  .rm-stop.rm-airport::before{content:none}
+  .rm-dot{order:-1;flex:0 0 auto}
+  .rm-stop.rm-airport .rm-dot{width:18px;height:18px;font-size:11px}
+  .rm-label{position:static;transform:none;width:auto;bottom:auto;left:auto;
+    display:block;-webkit-line-clamp:unset;overflow:visible;font-size:13.5px;line-height:1.35}
+}
 
 /* destination hotel cards */
 .dest-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
