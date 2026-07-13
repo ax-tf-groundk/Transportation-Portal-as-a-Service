@@ -5,16 +5,26 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="Cache-Control" content="no-cache">
 <title>행사장 셔틀 — 2026 강릉 ITS 세계총회 교통 | RIDEUS Events</title>
-<meta name="version" content="2026.07.10.10">
-<link rel="stylesheet" href="assets/transport.css?v=2026.07.10.10">
-<link rel="icon" type="image/png" sizes="64x64" href="assets/img/favicon.png?v=2026.07.10.10">
+<meta name="version" content="2026.07.13.2">
+<link rel="stylesheet" href="assets/transport.css?v=2026.07.13.2">
+<link rel="stylesheet" href="https://unpkg.com/maplibre-gl@5.24.0/dist/maplibre-gl.css"/>
+<link rel="icon" type="image/png" sizes="64x64" href="assets/img/favicon.png?v=2026.07.13.2">
 <link rel="apple-touch-icon" href="assets/img/favicon-180.png">
+<style>
+/* 행사장 내부 순환 실지도 (OpenFreeMap · MapLibre GL) */
+.op-map{height:430px;border-radius:14px;overflow:hidden;border:1px solid var(--line);margin-top:14px}
+@media(max-width:760px){.op-map{height:350px}}
+.op-pin{display:flex;flex-direction:column;align-items:center}
+.op-pin .op-dot{width:26px;height:26px;border-radius:50%;background:var(--red);border:2.5px solid #fff;box-shadow:0 2px 7px rgba(0,0,0,.42);color:#fff;font-weight:800;font-size:12.5px;display:flex;align-items:center;justify-content:center;line-height:1}
+.op-pin .op-lbl{margin-top:4px;font-size:11px;font-weight:800;color:var(--red-700);white-space:nowrap;background:rgba(255,255,255,.92);padding:1px 7px;border-radius:6px;box-shadow:0 1px 3px rgba(0,0,0,.22)}
+.op-map-note{font-size:12px;color:var(--muted);margin-top:9px}
+</style>
 </head>
 <body>
 <a class="skip" href="#main">본문 바로가기</a>
 <div class="demo-banner">GroundK 콘셉트 데모 — 실제 예약·배정은 처리되지 않습니다. 공식 사이트(<b>2026itsworldcongress.org</b>) 별도.</div>
 <header class="site-head"><div class="bar">
-  <a class="brand brand-its" href="index.html"><img src="assets/img/its-mark.png" alt="2026 강릉 ITS 세계총회"><span class="brand-lockup"><b>GANGNEUNG</b><small>ITS World Congress 2026 · 교통 포털</small></span></a>
+  <a class="brand brand-its" href="index.html"><img src="assets/img/its-mark.png" alt="2026 강릉 ITS 세계총회"><span class="brand-lockup"><b>GANGNEUNG</b><small>ITS World Congress 2026 · <span class="ko-only">교통 포털</span><span class="en-only">Transport Portal</span></small></span></a>
   <nav class="nav" aria-label="교통">
     <a href="shuttle-airport-in.html"><span class="ko-only">공항 → 강릉</span><span class="en-only">To Gangneung</span></a>
     <span class="nav-dd">
@@ -62,7 +72,7 @@
 <div class="wrap">
   <!-- ===== 숙소 순환 (G2~G5) ===== -->
   <section class="subtab" id="tab-hotel">
-    <div class="sec-head reveal"><span class="kicker">숙소 순환 · Hotel Loop</span><h2 class="sec-h"><span class="ko-only">숙소 ↔ 강릉올림픽파크</span><span class="en-only">Hotels ↔ Gangneung Olympic Park</span></h2>
+    <div class="sec-head reveal"><span class="kicker"><span class="ko-only">숙소 순환</span><span class="en-only">Hotel Loop</span></span><h2 class="sec-h"><span class="ko-only">숙소 ↔ 강릉올림픽파크</span><span class="en-only">Hotels ↔ Gangneung Olympic Park</span></h2>
       <p class="sec-sub"><span class="ko-only">숙소 ↔ 강릉올림픽파크 왕복 순환</span><span class="en-only">Round-trip loop between hotels and Gangneung Olympic Park</span></p></div>
 
     <div class="rroute" data-config='{"code":"G2","title":"강릉올림픽파크 ~ 씨마크호텔 순환","meta":["소요 14′","배차 15~60′"],"stops":["강릉올림픽파크","강릉오발","라카이샌드파인리조트","스카이베이호텔 경포","씨마크호텔"],"segs":[2,8,2,2],"loop":true,"first":"07:30","last":"19:30","headway":30,"headwayLabel":"15~60분"}'></div>
@@ -78,12 +88,12 @@
 
   <!-- ===== 역·터미널 순환 (G1) ===== -->
   <section class="subtab" id="tab-station" hidden>
-    <div class="sec-head reveal"><span class="kicker">역·터미널 순환 · Station Loop</span><h2 class="sec-h"><span class="ko-only">강릉역·터미널 ↔ 행사장</span><span class="en-only">Gangneung Station &amp; Terminal ↔ Venue</span></h2>
+    <div class="sec-head reveal"><span class="kicker"><span class="ko-only">역·터미널 순환</span><span class="en-only">Station Loop</span></span><h2 class="sec-h"><span class="ko-only">강릉역·터미널 ↔ 행사장</span><span class="en-only">Gangneung Station &amp; Terminal ↔ Venue</span></h2>
       <p class="sec-sub"><span class="ko-only">강릉역·터미널 ↔ 강릉올림픽파크 순환</span><span class="en-only">Loop between Gangneung Station / Bus Terminal and Gangneung Olympic Park</span></p></div>
 
     <div class="rroute" data-config='{"code":"G1","title":"강릉올림픽파크 ~ 강릉버스터미널 순환","meta":["소요 24′","배차 15~60′"],"stops":["강릉올림픽파크","강릉오발","강릉종합운동장","강릉역(KTX)","월화거리","강릉버스터미널"],"segs":[2,2,5,5,10],"loop":true,"first":"07:30","last":"19:30","headway":30,"headwayLabel":"15~60분"}'></div>
 
-    <div class="sec-head reveal" style="margin-top:28px"><span class="kicker">탑승 위치 · Boarding Photos</span><h2 class="sec-h" style="font-size:19px"><span class="ko-only">역·터미널 승차장</span><span class="en-only">Station &amp; Terminal boarding points</span></h2></div>
+    <div class="sec-head reveal" style="margin-top:28px"><span class="kicker"><span class="ko-only">탑승 위치</span><span class="en-only">Boarding Photos</span></span><h2 class="sec-h" style="font-size:19px"><span class="ko-only">역·터미널 승차장</span><span class="en-only">Station &amp; Terminal boarding points</span></h2></div>
     <div class="photo-cards">
       <figure class="photo-card2 reveal d1">
         <figcaption class="pc-head"><span class="pc-no">1</span><span class="ko-only">강릉역 앞 버스 탑승장</span><span class="en-only">Bus boarding point in front of Gangneung Station</span></figcaption>
@@ -100,26 +110,21 @@
 
   <!-- ===== 행사장 내부 순환 (OP) ===== -->
   <section class="subtab" id="tab-internal" hidden>
-    <div class="sec-head reveal"><span class="kicker">행사장 내부 순환 · On-site Loop</span><h2 class="sec-h"><span class="ko-only">올림픽파크 내부 순환</span><span class="en-only">Olympic Park on-site loop</span></h2>
+    <div class="sec-head reveal"><span class="kicker"><span class="ko-only">행사장 내부 순환</span><span class="en-only">On-site Loop</span></span><h2 class="sec-h"><span class="ko-only">올림픽파크 내부 순환</span><span class="en-only">Olympic Park on-site loop</span></h2>
       <p class="sec-sub"><span class="ko-only">올림픽파크 내부 순환</span><span class="en-only">On-site loop within the Olympic Park</span></p></div>
 
     <div class="rroute" data-config='{"code":"OP","title":"강릉올림픽파크 순환","meta":["소요 18′","배차 20′"],"stops":["강릉올림픽파크","강릉오발","강릉종합운동장","강릉아이스아레나","강릉올림픽파크"],"segs":[2,2,2,2],"loop":false,"numbered":true,"first":"09:00","last":"18:20","headway":20,"headwayLabel":"20분"}'></div>
 
-    <div class="sec-head reveal" style="margin-top:28px"><span class="kicker">노선도 · Route Map</span><h2 class="sec-h" style="font-size:19px"><span class="ko-only">내부 순환 노선도</span><span class="en-only">On-site loop route map</span></h2></div>
-    <div class="photo-cards">
-      <figure class="photo-card2 reveal d1">
-        <figcaption class="pc-head"><span class="pc-no">3</span><span class="ko-only">행사장 내부 순환셔틀 노선도</span><span class="en-only">On-site loop shuttle route map</span></figcaption>
-        <img src="assets/img/internal-loop-map.jpg" alt="올림픽파크 내부 순환셔틀 노선도 — 1.회의장 2.전시장 3.올림픽파크 후문 4.아레나 앞 버스정류장">
-        <div class="pc-cap"><span class="ko-only">① 회의장 · ② 전시장 · ③ 올림픽파크 후문 · ④ 아레나 앞 버스정류장 순환</span><span class="en-only">Loop: ① Convention Hall · ② Exhibition Hall · ③ Olympic Park rear gate · ④ Bus stop in front of the Arena</span></div>
-      </figure>
-    </div>
+    <div class="sec-head reveal" style="margin-top:28px"><span class="kicker"><span class="ko-only">노선도 · 실지도</span><span class="en-only">Route Map</span></span><h2 class="sec-h" style="font-size:19px"><span class="ko-only">내부 순환 노선도</span><span class="en-only">On-site loop route map</span></h2></div>
+    <div id="opMap" class="op-map reveal" role="img" aria-label="강릉올림픽파크 내부 순환 셔틀 정류장 지도"></div>
+    <p class="op-map-note"><span class="ko-only">① 강릉올림픽파크 · ② 강릉오발 · ③ 강릉종합운동장 · ④ 강릉아이스아레나 순환. ※ 핀 위치는 데모용 근사치입니다.</span><span class="en-only">Loop: ① Olympic Park · ② Gangneung Oval · ③ Gangneung Stadium · ④ Ice Arena. ※ Pin locations are approximate for this demo.</span></p>
   </section>
 </div>
 
 <!-- RULES -->
 <section class="section" aria-labelledby="rl-h">
   <div class="wrap">
-    <div class="sec-head reveal"><span class="kicker">안내 · Information</span><h2 class="sec-h" id="rl-h"><span class="ko-only">이용 안내</span><span class="en-only">Good to know</span></h2></div>
+    <div class="sec-head reveal"><span class="kicker"><span class="ko-only">안내</span><span class="en-only">Information</span></span><h2 class="sec-h" id="rl-h"><span class="ko-only">이용 안내</span><span class="en-only">Good to know</span></h2></div>
     <div class="rules reveal"><ul>
       <li><span class="ko-only">행사장 셔틀은 <b>등록 참가자 · 신청 불필요</b>입니다. 지정 정류장에서 자유롭게 탑승하세요.</span><span class="en-only">The venue shuttle is for <b>registered participants — no booking required</b>. Just board at any designated stop.</span></li>
       <li><span class="ko-only">운영 기간은 총회 기간(2026.10.19~23)이며, 프로그램 일정에 맞춰 시간대별로 조정될 수 있습니다.</span><span class="en-only">Service runs during the congress (Oct 19–23, 2026) and may be adjusted by time of day to match the program schedule.</span></li>
@@ -134,7 +139,7 @@
     <a class="brand" href="index.html"><span class="logo" aria-hidden="true">R</span><span class="wm"><b>RIDEUS Events</b><small>GroundK · 참가자 교통 포털 데모</small></span></a>
     <nav class="fnav"><a href="shuttle-airport-in.html">공항 → 강릉</a><a href="shuttle-venue.html">행사장 셔틀</a><a href="shuttle-airport-out.html">강릉 → 서울역</a><a href="shuttle-chauffeur.html">전용 차량</a><a href="info-access.html">여행 정보</a></nav>
   </div>
-  <div class="legal"><b>GroundK Co., Ltd</b> · CEO 장동원 · Business Reg. 238-81-00429 · ops@groundk.com<br><span class="ver">© 2026 GroundK · 2026 강릉 ITS 세계총회 교통 포털 (콘셉트 데모) · build 2026.07.10.10</span></div>
+  <div class="legal"><b>GroundK Co., Ltd</b> · CEO 장동원 · Business Reg. 238-81-00429 · ops@groundk.com<br><span class="ver">© 2026 GroundK · 2026 강릉 ITS 세계총회 교통 포털 (콘셉트 데모) · build 2026.07.13.2</span></div>
 </div></footer>
 <div class="mockup-flag">콘셉트 목업 · 실제 예약 연동 예정</div>
 
@@ -151,7 +156,7 @@
   </div>
 </div>
 
-<script src="assets/app.js?v=2026.07.10.10"></script>
+<script src="assets/app.js?v=2026.07.13.2"></script>
 <script>
 (function(){
   var tabs=document.querySelectorAll('.subnav a[data-tab]');
@@ -161,11 +166,57 @@
     tabs.forEach(function(x){x.classList.toggle('active',x.dataset.tab===key)});
     Object.keys(panes).forEach(function(k){if(panes[k])panes[k].hidden=(k!==key)});
     if(window.__rerenderSnakes)window.__rerenderSnakes();
+    if(key==='internal'&&window.__initOpMap)window.__initOpMap();
   }
   tabs.forEach(function(t){t.addEventListener('click',function(e){e.preventDefault();show(t.dataset.tab);});});
   function fromHash(){var h=(location.hash||'').replace('#','');if(panes[h])show(h);}
   window.addEventListener('hashchange',fromHash);
   fromHash();
+})();
+</script>
+<script src="https://unpkg.com/maplibre-gl@5.24.0/dist/maplibre-gl.js"></script>
+<script>
+(function(){
+  var STOPS=[
+    {n:1,ko:'강릉올림픽파크',en:'Olympic Park',lat:37.7565,lng:128.9106},
+    {n:2,ko:'강릉오발',en:'Gangneung Oval',lat:37.7601,lng:128.9139},
+    {n:3,ko:'강릉종합운동장',en:'Gangneung Stadium',lat:37.7548,lng:128.9083},
+    {n:4,ko:'강릉아이스아레나',en:'Ice Arena',lat:37.7627,lng:128.9067}
+  ];
+  var inited=false, map=null, markers=[];
+  function isEn(){return document.documentElement.getAttribute('data-lang')==='en';}
+  function makeEl(s){
+    var pin=document.createElement('div'); pin.className='op-pin';
+    var dot=document.createElement('span'); dot.className='op-dot'; dot.textContent=s.n;
+    var lbl=document.createElement('span'); lbl.className='op-lbl'; lbl.textContent=isEn()?s.en:s.ko;
+    pin.appendChild(dot); pin.appendChild(lbl); return pin;
+  }
+  async function build(){
+    var el=document.getElementById('opMap');
+    if(!el||typeof maplibregl==='undefined')return;
+    var style='https://tiles.openfreemap.org/styles/bright';
+    try{ var r=await fetch(style); var j=await r.json(); j.layers=j.layers.filter(function(l){return l['source-layer']!=='poi';}); style=j; }catch(e){}
+    map=new maplibregl.Map({container:'opMap',style:style,center:[128.9101,37.7585],zoom:14.2,attributionControl:{compact:false,customAttribution:'<a href="https://openfreemap.org" target="_blank" rel="noopener">OpenFreeMap</a> © <a href="https://openmaptiles.org/" target="_blank" rel="noopener">OpenMapTiles</a> Data from <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a>'}});
+    map.addControl(new maplibregl.NavigationControl({showCompass:false}),'top-left');
+    var bounds=new maplibregl.LngLatBounds();
+    STOPS.forEach(function(s){
+      var m=new maplibregl.Marker({element:makeEl(s),anchor:'bottom'}).setLngLat([s.lng,s.lat]).addTo(map);
+      m._data=s; markers.push(m); bounds.extend([s.lng,s.lat]);
+    });
+    map.fitBounds(bounds,{padding:70,duration:0,maxZoom:15});
+    map.on('load',function(){
+      var coords=STOPS.map(function(s){return [s.lng,s.lat];}); coords.push([STOPS[0].lng,STOPS[0].lat]);
+      map.addSource('op-loop',{type:'geojson',data:{type:'Feature',geometry:{type:'LineString',coordinates:coords}}});
+      map.addLayer({id:'op-loop-l',type:'line',source:'op-loop',paint:{'line-color':'#006241','line-width':4,'line-opacity':.85,'line-dasharray':[2,1.4]}},
+        map.getStyle().layers.find(function(l){return l.type==='symbol';}) ? map.getStyle().layers.find(function(l){return l.type==='symbol';}).id : undefined);
+    });
+    new MutationObserver(function(){
+      markers.forEach(function(m){var l=m.getElement().querySelector('.op-lbl'); if(l)l.textContent=isEn()?m._data.en:m._data.ko;});
+    }).observe(document.documentElement,{attributes:true,attributeFilter:['data-lang']});
+  }
+  window.__initOpMap=function(){ if(inited){ if(map)setTimeout(function(){map.resize();},30); return;} inited=true; build(); };
+  var ip=document.getElementById('tab-internal');
+  if(ip&&!ip.hidden)window.__initOpMap();
 })();
 </script>
 </body>

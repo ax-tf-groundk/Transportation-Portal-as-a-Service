@@ -6,7 +6,7 @@
 (function () {
   'use strict';
 
-  var SITE_VERSION = '2026.07.13.1';
+  var SITE_VERSION = '2026.07.13.2';
   try { console.log('%cRIDEUS Events · ITS 2026 Gangneung · build ' + SITE_VERSION, 'color:#006241;font-weight:700'); } catch (e) {}
 
   var prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -86,6 +86,45 @@
     if (nm.length > 8){ var m = Math.ceil(nm.length / 2); return [nm.slice(0, m), nm.slice(m)]; }
     return [nm];
   }
+  // 거점 이름·노선 제목 영문 대응표 (노선도/시간표 언어 토글용)
+  var STOP_EN = {
+    '강릉올림픽파크': 'Gangneung Olympic Park',
+    '강릉오발': 'Gangneung Oval',
+    '라카이샌드파인리조트': 'Lakai Sandpine Resort',
+    '스카이베이호텔 경포': 'Skybay Hotel Gyeongpo',
+    '씨마크호텔': 'Seamarq Hotel',
+    '세인트존스호텔': "St. John's Hotel",
+    '신라모노그램강릉': 'Shilla Monogram Gangneung',
+    '컨피넨스 오션스위트': 'Ocean Suite Hotel',
+    'SL호텔 강릉': 'SL Hotel Gangneung',
+    '강릉씨티호텔': 'Gangneung City Hotel',
+    '썬크루즈 호텔·리조트': 'Sun Cruise Hotel & Resort',
+    '호텔탑스텐': 'Hotel Tops10',
+    '강릉종합운동장': 'Gangneung Stadium',
+    '강릉역(KTX)': 'Gangneung Stn (KTX)',
+    '월화거리': 'Wolhwa Street',
+    '강릉버스터미널': 'Gangneung Bus Terminal',
+    '강릉아이스아레나': 'Gangneung Ice Arena',
+    '인천공항 제2터미널': 'Incheon Airport T2',
+    '인천공항 제1터미널': 'Incheon Airport T1',
+    '문막휴게소(강릉방향)': 'Munmak Rest Area',
+    '김포국제공항 국제선청사': "Gimpo Airport Int'l Terminal",
+    '서울역(KTX·공항철도)': 'Seoul Stn (KTX·AREX)'
+  };
+  var TITLE_EN = {
+    '강릉올림픽파크 ~ 씨마크호텔 순환': 'Olympic Park ~ Seamarq Hotel Loop',
+    '강릉올림픽파크 ~ 신라모노그램강릉 순환': 'Olympic Park ~ Shilla Monogram Loop',
+    '강릉올림픽파크 ~ SL호텔 강릉 순환': 'Olympic Park ~ SL Hotel Loop',
+    '강릉올림픽파크 ~ 호텔탑스텐 순환': 'Olympic Park ~ Hotel Tops10 Loop',
+    '강릉올림픽파크 ~ 강릉버스터미널 순환': 'Olympic Park ~ Bus Terminal Loop',
+    '강릉올림픽파크 순환': 'Olympic Park On-site Loop',
+    '인천국제공항 → 강릉': 'Incheon Airport → Gangneung',
+    '김포국제공항 → 강릉': 'Gimpo Airport → Gangneung',
+    '강릉올림픽파크 → 서울역': 'Olympic Park → Seoul Station'
+  };
+  function curLang(){ return document.documentElement.getAttribute('data-lang') === 'en' ? 'en' : 'ko'; }
+  function stopLabel(nm){ return (curLang() === 'en' && STOP_EN[nm]) ? STOP_EN[nm] : nm; }
+  function stopBi(nm){ return '<span class="ko-only">' + nm + '</span><span class="en-only">' + (STOP_EN[nm] || nm) + '</span>'; }
   // 정류장 공용 아이콘(SVG) — 공항/역(기차)/휴게소/호텔/터미널. 그 외(베뉴 등)는 점.
   var LM_ICONS = {
     plane: { fill: 'M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z' },
@@ -135,21 +174,30 @@
     svg.setAttribute('width', '100%');
     svg.setAttribute('height', H);
     svg.setAttribute('class', 'lm-svg');
-    var d = 'M ' + pts[0].x + ' ' + pts[0].y;
-    for (var p = 1; p < pts.length; p++) d += ' L ' + pts[p].x + ' ' + pts[p].y;
-    var path = document.createElementNS(SVGNS, 'path');
-    path.setAttribute('d', d); path.setAttribute('class', 'lm-line');
-    svg.appendChild(path);
+    // 정류장 마커 종류 선판정 (선 끊김 계산용)
+    pts.forEach(function(pt){ pt.mk = numbered ? 'num' : (iconType(pt.s.nm) ? 'icon' : 'dot'); });
+    function gapR(pt){ return pt.mk === 'icon' ? 14 : (pt.mk === 'num' ? R : 0); }
+    // 연결선 — 아이콘/번호 정류장 자리에서는 선을 끊어 겹침 방지 (구간별 선분)
+    for (var p = 0; p < pts.length - 1; p++){
+      var a = pts[p], b = pts[p + 1];
+      var dx = b.x - a.x, dy = b.y - a.y, len = Math.sqrt(dx * dx + dy * dy) || 1;
+      var ux = dx / len, uy = dy / len, ga = gapR(a), gb = gapR(b);
+      var seg = document.createElementNS(SVGNS, 'line');
+      seg.setAttribute('x1', a.x + ux * ga); seg.setAttribute('y1', a.y + uy * ga);
+      seg.setAttribute('x2', b.x - ux * gb); seg.setAttribute('y2', b.y - uy * gb);
+      seg.setAttribute('class', 'lm-line');
+      svg.appendChild(seg);
+    }
     pts.forEach(function(pt, idx){
       var hub = pt.s.end;
-      var lines = splitName(pt.s.nm);
+      var lines = splitName(stopLabel(pt.s.nm));
       var t = document.createElementNS(SVGNS, 'text');
-      // 우측 끝 정류장(U자 커넥터가 아래로 내려가는 곳)은 라벨을 좌상향으로 눕혀 선·글씨 겹침 방지
-      var rightEdge = (cols > 1 && pt.col === cols - 1 && rows > 1);
-      var ax = pt.x + (rightEdge ? -3 : 0), ay = pt.y - (R + 7);
+      // 모든 라벨 우상향 대각선 통일. ㄱ자 꺾임 아래(우측 끝, 첫 행 제외) 라벨만 세로선과 겹치지 않게 우측으로 이동.
+      var bendShift = (cols > 1 && pt.col === cols - 1 && pt.row > 0);
+      var ax = pt.x + (bendShift ? 18 : 0), ay = pt.y - (R + 7);
       t.setAttribute('x', ax); t.setAttribute('y', ay);
-      t.setAttribute('transform', 'rotate(' + (rightEdge ? 52 : -52) + ' ' + ax + ' ' + ay + ')');
-      t.setAttribute('text-anchor', rightEdge ? 'end' : 'start');
+      t.setAttribute('transform', 'rotate(-52 ' + ax + ' ' + ay + ')');
+      t.setAttribute('text-anchor', 'start');
       t.setAttribute('class', hub ? 'lm-label lm-label-hub' : 'lm-label');
       lines.forEach(function(ln, li){
         var ts = document.createElementNS(SVGNS, 'tspan');
@@ -200,14 +248,17 @@
     // 거점(출발·반환점·도착) 강조 — 순환은 출발지/반환점/복귀
     var apex = out.length - 1, lastIdx = full.length - 1;
     function hubType(idx){
-      if (idx === 0) return { cls: 'tt-hub', tag: '출발' };
-      if (cfg.loop && idx === apex) return { cls: 'tt-hub tt-turn', tag: '반환점' };
-      if (idx === lastIdx) return { cls: 'tt-hub', tag: cfg.loop ? '복귀' : '도착' };
+      if (idx === 0) return { cls: 'tt-hub', ko: '출발', en: 'Start' };
+      if (cfg.loop && idx === apex) return { cls: 'tt-hub tt-turn', ko: '반환점', en: 'Turn' };
+      if (idx === lastIdx) return { cls: 'tt-hub', ko: cfg.loop ? '복귀' : '도착', en: cfg.loop ? 'Return' : 'End' };
       return null;
     }
-    var thead = '<tr><th class="tt-n">회차</th>' + full.map(function(nm, idx){
+    function biTag(h){ return h ? '<small><span class="ko-only">' + h.ko + '</span><span class="en-only">' + h.en + '</span></small>' : ''; }
+    var hwLabel = cfg.headwayLabel || (hw + '분');
+    var hwEn = hwLabel.replace('분', ' min');
+    var thead = '<tr><th class="tt-n"><span class="ko-only">회차</span><span class="en-only">Run</span></th>' + full.map(function(nm, idx){
       var h = hubType(idx);
-      return '<th' + (h ? ' class="' + h.cls + '"' : '') + '>' + nm + (h ? '<small>' + h.tag + '</small>' : '') + '</th>';
+      return '<th' + (h ? ' class="' + h.cls + '"' : '') + '>' + stopBi(nm) + biTag(h) + '</th>';
     }).join('') + '</tr>';
     var rows = starts.map(function(T, r){
       return '<tr><td class="tt-n">' + (r + 1) + '</td>' + off.map(function(o, idx){
@@ -216,10 +267,12 @@
       }).join('') + '</tr>';
     }).join('');
 
-    return '<details class="tt"><summary><span class="tt-sum-t">📋 전체 시간표 보기</span>' +
-      '<span class="tt-sum-m">첫차 ' + cfg.first + ' ~ 막차 ' + cfg.last + ' · ' + starts.length + '회 · 배차 ' + (cfg.headwayLabel || (hw + '분')) + '</span></summary>' +
+    return '<details class="tt"><summary><span class="tt-sum-t"><span class="ko-only">📋 전체 시간표 보기</span><span class="en-only">📋 View full timetable</span></span>' +
+      '<span class="tt-sum-m"><span class="ko-only">첫차 ' + cfg.first + ' ~ 막차 ' + cfg.last + ' · ' + starts.length + '회 · 배차 ' + hwLabel + '</span>' +
+      '<span class="en-only">First ' + cfg.first + ' ~ last ' + cfg.last + ' · ' + starts.length + ' runs · every ' + hwEn + '</span></span></summary>' +
       '<div class="tt-scroll"><table class="tt-table"><thead>' + thead + '</thead><tbody>' + rows + '</tbody></table></div>' +
-      '<p class="tt-note">※ 출발 위치(강조 열) 기준 각 정류장 출발 시각. 배차는 ' + (cfg.headwayLabel || '15~60분') + ' 범위이며, 위 표는 ' + hw + '분 간격 예시입니다. 확정 시간표는 조직위 안내에 따릅니다.</p>' +
+      '<p class="tt-note"><span class="ko-only">※ 출발 위치(강조 열) 기준 각 정류장 출발 시각. 배차는 ' + hwLabel + ' 범위이며, 위 표는 ' + hw + '분 간격 예시입니다. 확정 시간표는 조직위 안내에 따릅니다.</span>' +
+      '<span class="en-only">※ Departure time at each stop based on the highlighted origin column. Headways range ' + hwEn + '; the table shows ' + hw + '-min intervals as an example. The final timetable follows the organizing committee.</span></p>' +
       '</details>';
   }
 
@@ -228,11 +281,11 @@
     try { cfg = JSON.parse(el.getAttribute('data-config')); } catch (e) { return; }
     var stops = cfg.stops.map(function(nm, i){ return { nm: nm, end: (i === 0 || i === cfg.stops.length - 1) }; });
     var head = '<div class="rd-head"><span class="rd-code' + (cfg.o ? ' o' : '') + '">' + cfg.code + '</span>' +
-      '<span class="rd-name">' + cfg.title + '</span>' +
-      '<a href="https://rideus.net/its2026/shuttlebus/map" target="_blank" rel="noopener" class="rd-live">📍 실시간 위치 확인 ↗</a></div>';
+      '<span class="rd-name"><span class="ko-only">' + cfg.title + '</span><span class="en-only">' + (TITLE_EN[cfg.title] || cfg.title) + '</span></span>' +
+      '<a href="https://rideus.net/its2026/shuttlebus/map" target="_blank" rel="noopener" class="rd-live"><span class="ko-only">📍 실시간 위치 확인 ↗</span><span class="en-only">📍 Live location ↗</span></a></div>';
     var snakeId = 'snk-' + (cfg.code || Math.floor(el.offsetTop));
     el.innerHTML = head + '<div class="snk" data-snake="1"></div>' +
-      (cfg.loop ? '<p class="rd-loop">↻ 왕복 순환 — 종점에서 동일 경로로 회차</p>' : '') +
+      (cfg.loop ? '<p class="rd-loop"><span class="ko-only">↻ 왕복 순환 — 종점에서 동일 경로로 회차</span><span class="en-only">↻ Round-trip loop — returns via the same route from the terminus</span></p>' : '') +
       (cfg.timetable === false ? '' : (cfg.first ? buildTimetable(cfg) : ''));
     el._snakeStops = stops;
     el._numbered = !!cfg.numbered;

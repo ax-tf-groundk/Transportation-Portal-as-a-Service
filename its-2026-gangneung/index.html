@@ -6,9 +6,9 @@
 <meta http-equiv="Cache-Control" content="no-cache">
 <title>2026 강릉 ITS 세계총회 — 참가자 교통 포털 | RIDEUS Events · GroundK</title>
 <meta name="description" content="2026 강릉 ITS 세계총회(10.19–23, 강릉 올림픽파크) 참가자 교통 포털. 공항 입국·출국 셔틀, 행사장 순환 셔틀, 전용차량, KTX·버스 여행 정보.">
-<meta name="version" content="2026.07.10.10">
-<link rel="stylesheet" href="assets/transport.css?v=2026.07.10.10">
-<link rel="icon" type="image/png" sizes="64x64" href="assets/img/favicon.png?v=2026.07.10.10">
+<meta name="version" content="2026.07.13.2">
+<link rel="stylesheet" href="assets/transport.css?v=2026.07.13.2">
+<link rel="icon" type="image/png" sizes="64x64" href="assets/img/favicon.png?v=2026.07.13.2">
 <link rel="apple-touch-icon" href="assets/img/favicon-180.png">
 <style>
 /* ── ITS landing-specific (공식 그린 #006241 + 틸 #009E95) ── */
@@ -31,10 +31,13 @@
   color:#fff;background:rgba(0,158,149,.32);border:1px solid rgba(255,255,255,.30);padding:7px 16px;border-radius:50px;margin-bottom:20px}
 .hero-eyebrow::before{content:"";width:7px;height:7px;border-radius:50%;background:#9BE8D6;box-shadow:0 0 0 0 rgba(155,232,214,.6);animation:pulse 1.7s ease-in-out infinite}
 @keyframes pulse{0%,100%{transform:scale(1);box-shadow:0 0 0 0 rgba(155,232,214,.6)}40%{transform:scale(1.5);box-shadow:0 0 0 9px rgba(155,232,214,0)}}
-.hero-slogan{font-weight:800;letter-spacing:-1.5px;line-height:1.02;text-shadow:0 2px 20px rgba(0,0,0,.4)}
-.hero-slogan .en{display:block;font-size:clamp(34px,5.4vw,62px)}
-.hero-slogan .en b{font-weight:800;color:#8FE9D2}
-.hero-slogan .ko{display:block;font-size:clamp(16px,2.1vw,23px);font-weight:700;color:rgba(255,255,255,.9);letter-spacing:-.5px;margin-top:13px}
+.hero-slogan{font-weight:800;letter-spacing:-1.5px;line-height:1.05;text-shadow:0 2px 20px rgba(0,0,0,.4)}
+/* 언어별 단독 노출 — 한글 페이지는 한글만, 영문 페이지는 영문만 */
+.hero-slogan .en{display:none;font-size:clamp(34px,5.4vw,62px)}
+.hero-slogan .ko{display:block;font-size:clamp(30px,4.8vw,54px)}
+.hero-slogan .en b,.hero-slogan .ko b{font-weight:800;color:#8FE9D2}
+html[data-lang="en"] .hero-slogan .ko{display:none}
+html[data-lang="en"] .hero-slogan .en{display:block}
 .hero-lead{margin-top:18px;font-size:15.5px;color:rgba(255,255,255,.86);max-width:56ch;line-height:1.65}
 .hero-cta-row{display:flex;flex-wrap:wrap;gap:14px;margin-top:30px}
 /* 글래스모피즘 CTA 카드 */
@@ -202,10 +205,9 @@
 <section class="hero" aria-labelledby="hero-h">
   <div class="hero-photo" aria-hidden="true"></div>
   <div class="hero-inner">
-    <span class="hero-eyebrow"><span class="ko-only">2026 강릉 ITS 세계총회 · 참가자 수송 안내</span><span class="en-only">2026 Gangneung ITS World Congress · Participant Transportation</span></span>
     <h1 id="hero-h" class="hero-slogan">
       <span class="en" lang="en">Beyond Mobility,<br><b>Connected World</b></span>
-      <span class="ko" lang="ko">이동을 넘어, 연결된 세계</span>
+      <span class="ko" lang="ko">이동을 넘어,<br><b>연결된 세계</b></span>
     </h1>
     <p class="hero-lead"><span class="ko-only">인천·서울에서 강릉까지, 참가자 여정 전 구간을 하나의 포털에서 안내합니다. 공항 셔틀·행사장 순환·전용차량을 한 곳에서.</span><span class="en-only">From Incheon and Seoul to Gangneung, your entire participant journey in one portal — airport shuttles, venue loops, and private cars all in one place.</span></p>
     <div class="hero-cta-row">
@@ -219,7 +221,7 @@
 <section class="svc-section" id="services">
   <div class="wrap">
     <div class="sec-head reveal">
-      <span class="kicker">셔틀 서비스 · Shuttle Service</span>
+      <span class="kicker"><span class="ko-only">셔틀 서비스</span><span class="en-only">Shuttle Service</span></span>
       <h2 class="sec-h"><span class="ko-only">ITS 2026 참가자 셔틀</span><span class="en-only">ITS 2026 Participant Shuttles</span></h2>
       <p class="sec-sub"><span class="ko-only">노선을 선택하면 정류장·시간표·예약이 있는 상세 페이지로 이동합니다. RIDEUS Events · GroundK 운영.</span><span class="en-only">Select a route to open its detail page with stops, timetables, and booking. Operated by RIDEUS Events · GroundK.</span></p>
     </div>
@@ -235,7 +237,7 @@
         </div>
       </a>
       <a class="scard dir reveal d2" href="shuttle-airport-out.html">
-        <div class="scard-bar">🛫 <span class="ko-only">강릉 → 서울역 (출국)</span><span class="en-only">Gangneung to Seoul Station (Departure)</span><span class="tag"><span class="ko-only">희망신청</span><span class="en-only">On Request</span></span></div>
+        <div class="scard-bar">🛫 <span class="ko-only">강릉 → 서울역 (출국)</span><span class="en-only">Gangneung to Seoul Station (Departure)</span><span class="tag"><span class="ko-only">사전신청</span><span class="en-only">Advance Request</span></span></div>
         <div class="scard-photo has-photo"><img class="scard-img" src="assets/img/seoul-station-shuttle.jpg" alt="서울역">
           <div class="scard-info">
             <div class="scard-dir"><span class="ko-only">컨벤션센터</span><span class="en-only">Convention Center</span> <span class="ar">→</span> <span class="ko-only">서울역</span><span class="en-only">Seoul Station</span></div>
@@ -279,7 +281,7 @@
 <section class="useful">
   <div class="wrap">
     <div class="sec-head reveal">
-      <span class="kicker">유용한 정보 · Useful Information</span>
+      <span class="kicker"><span class="ko-only">유용한 정보</span><span class="en-only">Useful Information</span></span>
       <h2 class="sec-h"><span class="ko-only">이동을 더 가볍게</span><span class="en-only">Travel Made Lighter</span></h2>
     </div>
     <div class="uf-grid">
@@ -312,7 +314,7 @@
 <!-- SUPPORT -->
 <section class="support" id="support">
   <div class="wrap">
-    <div class="sec-head reveal"><span class="kicker">현장 지원 · On-site Support</span><h2 class="sec-h"><span class="ko-only">도착부터 출국까지 지원</span><span class="en-only">Support from Arrival to Departure</span></h2>
+    <div class="sec-head reveal"><span class="kicker"><span class="ko-only">현장 지원</span><span class="en-only">On-site Support</span></span><h2 class="sec-h"><span class="ko-only">도착부터 출국까지 지원</span><span class="en-only">Support from Arrival to Departure</span></h2>
       <p class="sec-sub"><span class="ko-only">7개소 안내데스크와 24시간 종합상황실이 참가자 여정 전 구간을 지원합니다.</span><span class="en-only">Seven help desks and a 24-hour control room support participants across the entire journey.</span></p></div>
 
     <div class="desk-chips reveal">
@@ -364,7 +366,7 @@
       <b>GroundK Co., Ltd</b> · CEO 장동원 · Business Reg. 238-81-00429<br>
       405호, 45 Centum Dong-ro, Haeundae-gu, Busan 48059 · Tel +82-2-863-3540 · ops@groundk.com<br>
       RIDEUS는 GroundK의 Transportation × Travel 플랫폼입니다. 모든 거래·환불·민원은 GroundK가 처리합니다.<br>
-      <span class="ver">© 2026 GroundK · 2026 강릉 ITS 세계총회 참가자 교통 포털 (콘셉트 데모) · build 2026.07.10.10</span>
+      <span class="ver">© 2026 GroundK · 2026 강릉 ITS 세계총회 참가자 교통 포털 (콘셉트 데모) · build 2026.07.13.2</span>
     </div>
   </div>
 </footer>
@@ -385,6 +387,6 @@
   </div>
 </div>
 
-<script src="assets/app.js?v=2026.07.10.10"></script>
+<script src="assets/app.js?v=2026.07.13.2"></script>
 </body>
 </html>
