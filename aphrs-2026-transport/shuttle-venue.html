@@ -59,6 +59,38 @@
   .hmap-popup-name{font-size:15.5px;font-weight:700;color:var(--ink);white-space:nowrap}
   .hotel-map .maplibregl-popup-content{border-radius:8px;box-shadow:0 10px 26px rgba(0,0,0,.22);padding:10px 13px}
   .hotel-map .maplibregl-popup-tip{filter:drop-shadow(0 2px 3px rgba(0,0,0,.12))}
+
+  /* ===== Venue Shuttle — 노선×날짜 탭 + U자형 노선도 (2026-07-13) ===== */
+  .vtabs{display:flex;border-radius:var(--radius-sm);overflow:hidden;border:1px solid var(--line);margin-top:16px}
+  .vtab{flex:1;padding:13px 16px;background:#fff;border:none;font:inherit;font-size:14.5px;font-weight:700;color:var(--muted);cursor:pointer;transition:background .15s,color .15s}
+  .vtab:not(:last-child){border-right:1px solid var(--line)}
+  .vtab[aria-selected="true"]{color:var(--red);background:var(--red-050)}
+  .vtab:hover:not([aria-selected="true"]){color:var(--ink)}
+  .vtabs.vtabs-date{margin-top:10px}
+  .vtabs.vtabs-date .vtab{font-size:13px;padding:10px 12px}
+
+  /* U자형 노선도 — 위=가는 편, 아래=오는 편, 오른쪽을 border-radius 곡선으로 연결 */
+  .uroute{position:relative;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px 64px 22px 24px;margin-top:18px}
+  .uroute-arm{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+  .uroute-arm:not(:last-child){margin-bottom:16px}
+  .uroute-arm .ar-lbl{flex:0 0 auto;font-size:12px;font-weight:800;color:#fff;background:var(--navy);border-radius:8px;padding:7px 12px;letter-spacing:.3px}
+  .uroute-back .ar-lbl{background:var(--red)}
+  .uroute-path{font-size:15px;font-weight:700;color:var(--ink)}
+  .uroute-path .ar{color:var(--red);font-weight:700;margin:0 5px}
+  .uroute-curve{content:"";position:absolute;top:22px;bottom:22px;right:24px;width:26px;border:3px solid var(--red);border-left:none;border-radius:0 22px 22px 0}
+  @media(max-width:620px){
+    .uroute{padding:18px 40px 18px 18px}
+    .uroute-curve{right:14px;width:16px;border-width:2.5px}
+    .uroute-path{font-size:13.5px}
+  }
+
+  /* 노선(vr)×날짜(vd) 토글 — 두 조건 AND 결합, 둘 다 맞을 때만 표시 */
+  html:not([data-vr="a"]) .vr-a{display:none}
+  html:not([data-vr="b"]) .vr-b{display:none}
+  html:not([data-vd="1021"]) .vd-1021{display:none}
+  html:not([data-vd="1022"]) .vd-1022{display:none}
+  html:not([data-vd="1023"]) .vd-1023{display:none}
+  html:not([data-vd="1024"]) .vd-1024{display:none}
 </style>
 </head>
 <body>
