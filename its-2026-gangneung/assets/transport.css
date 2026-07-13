@@ -904,7 +904,7 @@ h1,h2,h3,h4{line-height:1.16;letter-spacing:-.4px;text-wrap:balance}
 .subnav a:hover:not(.active){color:var(--red)}
 @media(max-width:560px){.subnav a{font-size:12.5px;padding:11px 6px}}
 /* 노선도 — 실시간 위치 확인 버튼 */
-.rd-live{margin-left:auto;display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:800;color:var(--orange);background:var(--orange-050);border:1px solid #bfe9e4;border-radius:var(--radius-pill);padding:6px 13px;cursor:pointer;font-family:inherit;white-space:nowrap;transition:.15s}
+.rd-live{margin-left:auto;display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:800;color:var(--orange);background:var(--orange-050);border:1px solid #bfe9e4;border-radius:var(--radius-pill);padding:6px 13px;cursor:pointer;font-family:inherit;white-space:nowrap;text-decoration:none;transition:.15s}
 .rd-live:hover{background:var(--orange);color:#fff;border-color:var(--orange)}
 
 /* shared header brand + active nav (ITS) */
@@ -949,9 +949,11 @@ h1,h2,h3,h4{line-height:1.16;letter-spacing:-.4px;text-wrap:balance}
 .lm-svg{display:block;overflow:visible;width:100%}
 .lm-line{fill:none;stroke:var(--red);stroke-width:5;stroke-linejoin:round;stroke-linecap:round;opacity:.92}
 .lm-dot{fill:#fff;stroke:var(--red);stroke-width:2.4}
-.lm-dot.lm-hub{stroke-width:3.4}
-.lm-dot.lm-num{fill:var(--red)}
-.lm-glyph{font-size:15px}
+.lm-dot.lm-hub{fill:var(--red)}
+.lm-dot.lm-num{fill:var(--red);stroke:var(--red)}
+.lm-mask{fill:#fff;stroke:none}
+.lm-ic-fill{fill:var(--red)}
+.lm-ic-stroke{fill:none;stroke:var(--red);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .lm-num-t{fill:#fff;font-weight:800;font-size:14px;font-family:"Montserrat","Pretendard",sans-serif}
 .lm-label{font-family:"Montserrat","Pretendard",sans-serif;font-size:11px;font-weight:600;fill:var(--ink)}
 .lm-label-hub{font-weight:800;fill:var(--red-700)}

@@ -86,16 +86,33 @@
     if (nm.length > 8){ var m = Math.ceil(nm.length / 2); return [nm.slice(0, m), nm.slice(m)]; }
     return [nm];
   }
-  // 정류장 특징 아이콘 (공항=비행기 · 휴게소 · 호텔 · 경기장 · 역 · 터미널)
-  function stopIcon(nm){
-    if (/공항|청사/.test(nm)) return '✈️';
-    if (/휴게소/.test(nm)) return '☕';
-    if (/역|KTX/.test(nm)) return '🚉';
-    if (/버스터미널|터미널/.test(nm)) return '🚌';
-    if (/호텔|리조트|샌드파인|스카이베이|씨마크|세인트존스|모노그램|탑스텐|오션스위트|SL|씨티|썬크루즈/.test(nm)) return '🏨';
-    if (/올림픽파크|컨벤션|오발|종합운동장|아이스아레나|아레나/.test(nm)) return '🏟️';
-    if (/월화거리/.test(nm)) return '🏙️';
-    return '📍';
+  // 정류장 공용 아이콘(SVG) — 공항/역(기차)/휴게소/호텔/터미널. 그 외(베뉴 등)는 점.
+  var LM_ICONS = {
+    plane: { fill: 'M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z' },
+    train: { stroke: 'M8 3.1V7a4 4 0 0 0 8 0V3.1M9 15l-1-1M15 15l1-1M9 19c-2.8 0-5-2.2-5-5v-4a8 8 0 0 1 16 0v4c0 2.8-2.2 5-5 5ZM8 19l-2 3M16 19l2 3' },
+    rest: { stroke: 'M3 2v7c0 1.1.9 2 2 2a2 2 0 0 0 2-2V2M7 2v20M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3ZM21 15v7' },
+    hotel: { stroke: 'M2 4v16M2 8h18a2 2 0 0 1 2 2v10M2 17h20M6 8v9' },
+    bus: { stroke: 'M8 6v6M15 6v6M2 12h19.6M18 18h3s.5-1.7.8-2.8c.1-.4.2-.8.2-1.2 0-.4-.1-.8-.2-1.2l-1.4-5C20.1 6.8 19.1 6 18 6H4a2 2 0 0 0-2 2v10h3M8 18h5', extra: '<circle cx="7" cy="18" r="1.6"/><circle cx="16" cy="18" r="1.6"/>' }
+  };
+  function iconType(nm){
+    if (/역|KTX/.test(nm)) return 'train';
+    if (/공항|청사/.test(nm)) return 'plane';
+    if (/휴게소/.test(nm)) return 'rest';
+    if (/터미널/.test(nm)) return 'bus';
+    if (/호텔|리조트|샌드파인|스카이베이|씨마크|세인트존스|모노그램|탑스텐|오션스위트|SL|씨티|썬크루즈/.test(nm)) return 'hotel';
+    return null;
+  }
+  function drawIcon(svg, type, cx, cy){
+    var D = 22, s = D / 24;
+    var mask = document.createElementNS(SVGNS, 'circle');
+    mask.setAttribute('cx', cx); mask.setAttribute('cy', cy); mask.setAttribute('r', 12); mask.setAttribute('class', 'lm-mask');
+    svg.appendChild(mask);
+    var g = document.createElementNS(SVGNS, 'g');
+    g.setAttribute('transform', 'translate(' + (cx - D / 2) + ' ' + (cy - D / 2) + ') scale(' + s + ')');
+    var ic = LM_ICONS[type];
+    if (ic.fill) g.innerHTML = '<path d="' + ic.fill + '" class="lm-ic-fill"/>';
+    else g.innerHTML = '<path d="' + ic.stroke + '" class="lm-ic-stroke"/>' + (ic.extra || '');
+    svg.appendChild(g);
   }
   // 지하철 노선도 스타일: 하나의 연결선 + 아이콘/번호 정류장 + 대각선 라벨, 뱀(⊐)형 굽이
   function buildSnake(container, stops, numbered){
@@ -142,21 +159,26 @@
         t.appendChild(ts);
       });
       svg.appendChild(t);
-      var c = document.createElementNS(SVGNS, 'circle');
-      c.setAttribute('cx', pt.x); c.setAttribute('cy', pt.y); c.setAttribute('r', R);
-      c.setAttribute('class', 'lm-dot' + (numbered ? ' lm-num' : '') + (hub ? ' lm-hub' : ''));
-      svg.appendChild(c);
-      var g = document.createElementNS(SVGNS, 'text');
-      g.setAttribute('x', pt.x); g.setAttribute('y', pt.y + 0.5);
-      g.setAttribute('text-anchor', 'middle'); g.setAttribute('dominant-baseline', 'central');
-      if (numbered){
-        g.setAttribute('class', 'lm-num-t');
-        g.textContent = (idx === n - 1 && pt.s.nm === stops[0].nm) ? '1' : String(idx + 1);
+      var type = numbered ? null : iconType(pt.s.nm);
+      if (numbered) {
+        var c = document.createElementNS(SVGNS, 'circle');
+        c.setAttribute('cx', pt.x); c.setAttribute('cy', pt.y); c.setAttribute('r', R);
+        c.setAttribute('class', 'lm-dot lm-num');
+        svg.appendChild(c);
+        var nt = document.createElementNS(SVGNS, 'text');
+        nt.setAttribute('x', pt.x); nt.setAttribute('y', pt.y + 0.5);
+        nt.setAttribute('text-anchor', 'middle'); nt.setAttribute('dominant-baseline', 'central');
+        nt.setAttribute('class', 'lm-num-t');
+        nt.textContent = (idx === n - 1 && pt.s.nm === stops[0].nm) ? '1' : String(idx + 1);
+        svg.appendChild(nt);
+      } else if (type) {
+        drawIcon(svg, type, pt.x, pt.y);
       } else {
-        g.setAttribute('class', 'lm-glyph');
-        g.textContent = stopIcon(pt.s.nm);
+        var dd = document.createElementNS(SVGNS, 'circle');
+        dd.setAttribute('cx', pt.x); dd.setAttribute('cy', pt.y); dd.setAttribute('r', hub ? 7 : 5.5);
+        dd.setAttribute('class', hub ? 'lm-dot lm-hub' : 'lm-dot');
+        svg.appendChild(dd);
       }
-      svg.appendChild(g);
     });
     container.innerHTML = '';
     container.appendChild(svg);
@@ -207,7 +229,7 @@
     var stops = cfg.stops.map(function(nm, i){ return { nm: nm, end: (i === 0 || i === cfg.stops.length - 1) }; });
     var head = '<div class="rd-head"><span class="rd-code' + (cfg.o ? ' o' : '') + '">' + cfg.code + '</span>' +
       '<span class="rd-name">' + cfg.title + '</span>' +
-      '<button type="button" class="rd-live" data-live="1">📍 실시간 위치 확인</button></div>';
+      '<a href="https://rideus.net/its2026/shuttlebus/map" target="_blank" rel="noopener" class="rd-live">📍 실시간 위치 확인 ↗</a></div>';
     var snakeId = 'snk-' + (cfg.code || Math.floor(el.offsetTop));
     el.innerHTML = head + '<div class="snk" data-snake="1"></div>' +
       (cfg.loop ? '<p class="rd-loop">↻ 왕복 순환 — 종점에서 동일 경로로 회차</p>' : '') +
@@ -229,14 +251,6 @@
     });
   }
   window.__rerenderSnakes = rerenderSnakes;
-  // 실시간 위치 확인 (데모 — 실제 트래킹 미제공)
-  document.addEventListener('click', function(e){
-    var b = e.target.closest ? e.target.closest('.rd-live') : null;
-    if (!b || b.getAttribute('data-busy')) return;
-    var old = b.textContent; b.setAttribute('data-busy', '1');
-    b.textContent = '📍 준비 중입니다 (데모)';
-    setTimeout(function(){ b.textContent = old; b.removeAttribute('data-busy'); }, 1800);
-  });
   var _rt;
   window.addEventListener('resize', function(){ clearTimeout(_rt); _rt = setTimeout(rerenderSnakes, 180); });
 
