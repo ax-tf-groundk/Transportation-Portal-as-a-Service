@@ -6,7 +6,7 @@
 (function () {
   'use strict';
 
-  var SITE_VERSION = '2026.07.13.2';
+  var SITE_VERSION = '2026.07.13.3';
   try { console.log('%cRIDEUS Events · ITS 2026 Gangneung · build ' + SITE_VERSION, 'color:#006241;font-weight:700'); } catch (e) {}
 
   var prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -280,9 +280,15 @@
     var cfg;
     try { cfg = JSON.parse(el.getAttribute('data-config')); } catch (e) { return; }
     var stops = cfg.stops.map(function(nm, i){ return { nm: nm, end: (i === 0 || i === cfg.stops.length - 1) }; });
+    // 실시간 위치 확인 링크 — cfg.live(노선별 지도 ID)면 개별 URL, 미지정 시 공용, false면 버튼 없음
+    var liveHtml = '';
+    if (cfg.live !== false) {
+      var liveUrl = cfg.live ? ('https://rideus.net/its2026/shuttlebus/' + cfg.live + '/map') : 'https://rideus.net/its2026/shuttlebus/map';
+      liveHtml = '<a href="' + liveUrl + '" target="_blank" rel="noopener" class="rd-live"><span class="ko-only">📍 실시간 위치 확인 ↗</span><span class="en-only">📍 Live location ↗</span></a>';
+    }
     var head = '<div class="rd-head"><span class="rd-code' + (cfg.o ? ' o' : '') + '">' + cfg.code + '</span>' +
       '<span class="rd-name"><span class="ko-only">' + cfg.title + '</span><span class="en-only">' + (TITLE_EN[cfg.title] || cfg.title) + '</span></span>' +
-      '<a href="https://rideus.net/its2026/shuttlebus/map" target="_blank" rel="noopener" class="rd-live"><span class="ko-only">📍 실시간 위치 확인 ↗</span><span class="en-only">📍 Live location ↗</span></a></div>';
+      liveHtml + '</div>';
     var snakeId = 'snk-' + (cfg.code || Math.floor(el.offsetTop));
     el.innerHTML = head + '<div class="snk" data-snake="1"></div>' +
       (cfg.loop ? '<p class="rd-loop"><span class="ko-only">↻ 왕복 순환 — 종점에서 동일 경로로 회차</span><span class="en-only">↻ Round-trip loop — returns via the same route from the terminus</span></p>' : '') +

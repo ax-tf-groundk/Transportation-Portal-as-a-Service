@@ -5,10 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="Cache-Control" content="no-cache">
 <title>행사장 셔틀 — 2026 강릉 ITS 세계총회 교통 | RIDEUS Events</title>
-<meta name="version" content="2026.07.13.2">
-<link rel="stylesheet" href="assets/transport.css?v=2026.07.13.2">
+<meta name="version" content="2026.07.13.3">
+<link rel="stylesheet" href="assets/transport.css?v=2026.07.13.3">
 <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@5.24.0/dist/maplibre-gl.css"/>
-<link rel="icon" type="image/png" sizes="64x64" href="assets/img/favicon.png?v=2026.07.13.2">
+<link rel="icon" type="image/png" sizes="64x64" href="assets/img/favicon.png?v=2026.07.13.3">
 <link rel="apple-touch-icon" href="assets/img/favicon-180.png">
 <style>
 /* 행사장 내부 순환 실지도 (OpenFreeMap · MapLibre GL) */
@@ -30,8 +30,8 @@
     <span class="nav-dd">
       <a href="shuttle-venue.html" class="active"><span class="ko-only">행사장 셔틀</span><span class="en-only">Venue Shuttle</span></a>
       <div class="dd-menu">
-        <a href="shuttle-venue.html#hotel"><span class="ko-only">숙소 순환</span><span class="en-only">Hotel Loop</span></a>
         <a href="shuttle-venue.html#station"><span class="ko-only">역·터미널 순환</span><span class="en-only">Station Loop</span></a>
+        <a href="shuttle-venue.html#hotel"><span class="ko-only">숙소 순환</span><span class="en-only">Hotel Loop</span></a>
         <a href="shuttle-venue.html#internal"><span class="ko-only">행사장 내부 순환</span><span class="en-only">On-site Loop</span></a>
       </div>
     </span>
@@ -63,35 +63,35 @@
 
 <div class="wrap subnav-wrap">
   <nav class="subnav" aria-label="행사장 셔틀 종류">
-    <a href="#" class="active" data-tab="hotel"><span class="ko-only">숙소 순환 셔틀</span><span class="en-only">Hotel Loop</span></a>
-    <a href="#" data-tab="station"><span class="ko-only">역·터미널 순환</span><span class="en-only">Station Loop</span></a>
+    <a href="#" class="active" data-tab="station"><span class="ko-only">역·터미널 순환</span><span class="en-only">Station Loop</span></a>
+    <a href="#" data-tab="hotel"><span class="ko-only">숙소 순환 셔틀</span><span class="en-only">Hotel Loop</span></a>
     <a href="#" data-tab="internal"><span class="ko-only">행사장 내부 순환</span><span class="en-only">On-site Loop</span></a>
   </nav>
 </div>
 
 <div class="wrap">
   <!-- ===== 숙소 순환 (G2~G5) ===== -->
-  <section class="subtab" id="tab-hotel">
+  <section class="subtab" id="tab-hotel" hidden>
     <div class="sec-head reveal"><span class="kicker"><span class="ko-only">숙소 순환</span><span class="en-only">Hotel Loop</span></span><h2 class="sec-h"><span class="ko-only">숙소 ↔ 강릉올림픽파크</span><span class="en-only">Hotels ↔ Gangneung Olympic Park</span></h2>
       <p class="sec-sub"><span class="ko-only">숙소 ↔ 강릉올림픽파크 왕복 순환</span><span class="en-only">Round-trip loop between hotels and Gangneung Olympic Park</span></p></div>
 
-    <div class="rroute" data-config='{"code":"G2","title":"강릉올림픽파크 ~ 씨마크호텔 순환","meta":["소요 14′","배차 15~60′"],"stops":["강릉올림픽파크","강릉오발","라카이샌드파인리조트","스카이베이호텔 경포","씨마크호텔"],"segs":[2,8,2,2],"loop":true,"first":"07:30","last":"19:30","headway":30,"headwayLabel":"15~60분"}'></div>
+    <div class="rroute" data-config='{"code":"G2","live":"1344","title":"강릉올림픽파크 ~ 씨마크호텔 순환","meta":["소요 14′","배차 15~60′"],"stops":["강릉올림픽파크","강릉오발","라카이샌드파인리조트","스카이베이호텔 경포","씨마크호텔"],"segs":[2,8,2,2],"loop":true,"first":"07:30","last":"19:30","headway":30,"headwayLabel":"15~60분"}'></div>
 
-    <div class="rroute" data-config='{"code":"G3","o":true,"title":"강릉올림픽파크 ~ 신라모노그램강릉 순환","meta":["소요 12′","배차 15~60′"],"stops":["강릉올림픽파크","강릉오발","세인트존스호텔","신라모노그램강릉"],"segs":[2,8,2],"loop":true,"first":"07:30","last":"19:30","headway":30,"headwayLabel":"15~60분"}'></div>
+    <div class="rroute" data-config='{"code":"G3","live":"1345","o":true,"title":"강릉올림픽파크 ~ 신라모노그램강릉 순환","meta":["소요 12′","배차 15~60′"],"stops":["강릉올림픽파크","강릉오발","세인트존스호텔","신라모노그램강릉"],"segs":[2,8,2],"loop":true,"first":"07:30","last":"19:30","headway":30,"headwayLabel":"15~60분"}'></div>
 
-    <div class="rroute" data-config='{"code":"G4","title":"강릉올림픽파크 ~ SL호텔 강릉 순환","meta":["소요 30′","배차 15~60′"],"stops":["강릉올림픽파크","강릉오발","컨피넨스 오션스위트","SL호텔 강릉"],"segs":[2,15,13],"loop":true,"first":"07:30","last":"19:30","headway":30,"headwayLabel":"15~60분"}'></div>
+    <div class="rroute" data-config='{"code":"G4","live":false,"title":"강릉올림픽파크 ~ SL호텔 강릉 순환","meta":["소요 30′","배차 15~60′"],"stops":["강릉올림픽파크","강릉오발","컨피넨스 오션스위트","SL호텔 강릉"],"segs":[2,15,13],"loop":true,"first":"07:30","last":"19:30","headway":30,"headwayLabel":"15~60분"}'></div>
 
-    <div class="rroute" data-config='{"code":"G5","o":true,"title":"강릉올림픽파크 ~ 호텔탑스텐 순환","meta":["소요 50′","배차 15~60′"],"stops":["강릉올림픽파크","강릉오발","강릉씨티호텔","썬크루즈 호텔·리조트","호텔탑스텐"],"segs":[2,8,29,11],"loop":true,"first":"07:30","last":"19:30","headway":30,"headwayLabel":"15~60분"}'></div>
+    <div class="rroute" data-config='{"code":"G5","live":false,"o":true,"title":"강릉올림픽파크 ~ 호텔탑스텐 순환","meta":["소요 50′","배차 15~60′"],"stops":["강릉올림픽파크","강릉오발","강릉씨티호텔","썬크루즈 호텔·리조트","호텔탑스텐"],"segs":[2,8,29,11],"loop":true,"first":"07:30","last":"19:30","headway":30,"headwayLabel":"15~60분"}'></div>
 
     <p class="sec-sub" style="margin-top:10px"><span class="ko-only">※ 정류장·소요는 수송계획(안) 기준이며 확정 전 변경될 수 있습니다.</span><span class="en-only">※ Stops and travel times are based on the draft transport plan and may change before they are finalized.</span></p>
   </section>
 
   <!-- ===== 역·터미널 순환 (G1) ===== -->
-  <section class="subtab" id="tab-station" hidden>
+  <section class="subtab" id="tab-station">
     <div class="sec-head reveal"><span class="kicker"><span class="ko-only">역·터미널 순환</span><span class="en-only">Station Loop</span></span><h2 class="sec-h"><span class="ko-only">강릉역·터미널 ↔ 행사장</span><span class="en-only">Gangneung Station &amp; Terminal ↔ Venue</span></h2>
       <p class="sec-sub"><span class="ko-only">강릉역·터미널 ↔ 강릉올림픽파크 순환</span><span class="en-only">Loop between Gangneung Station / Bus Terminal and Gangneung Olympic Park</span></p></div>
 
-    <div class="rroute" data-config='{"code":"G1","title":"강릉올림픽파크 ~ 강릉버스터미널 순환","meta":["소요 24′","배차 15~60′"],"stops":["강릉올림픽파크","강릉오발","강릉종합운동장","강릉역(KTX)","월화거리","강릉버스터미널"],"segs":[2,2,5,5,10],"loop":true,"first":"07:30","last":"19:30","headway":30,"headwayLabel":"15~60분"}'></div>
+    <div class="rroute" data-config='{"code":"G1","live":"1346","title":"강릉올림픽파크 ~ 강릉버스터미널 순환","meta":["소요 24′","배차 15~60′"],"stops":["강릉올림픽파크","강릉오발","강릉종합운동장","강릉역(KTX)","월화거리","강릉버스터미널"],"segs":[2,2,5,5,10],"loop":true,"first":"07:30","last":"19:30","headway":30,"headwayLabel":"15~60분"}'></div>
 
     <div class="sec-head reveal" style="margin-top:28px"><span class="kicker"><span class="ko-only">탑승 위치</span><span class="en-only">Boarding Photos</span></span><h2 class="sec-h" style="font-size:19px"><span class="ko-only">역·터미널 승차장</span><span class="en-only">Station &amp; Terminal boarding points</span></h2></div>
     <div class="photo-cards">
@@ -113,7 +113,7 @@
     <div class="sec-head reveal"><span class="kicker"><span class="ko-only">행사장 내부 순환</span><span class="en-only">On-site Loop</span></span><h2 class="sec-h"><span class="ko-only">올림픽파크 내부 순환</span><span class="en-only">Olympic Park on-site loop</span></h2>
       <p class="sec-sub"><span class="ko-only">올림픽파크 내부 순환</span><span class="en-only">On-site loop within the Olympic Park</span></p></div>
 
-    <div class="rroute" data-config='{"code":"OP","title":"강릉올림픽파크 순환","meta":["소요 18′","배차 20′"],"stops":["강릉올림픽파크","강릉오발","강릉종합운동장","강릉아이스아레나","강릉올림픽파크"],"segs":[2,2,2,2],"loop":false,"numbered":true,"first":"09:00","last":"18:20","headway":20,"headwayLabel":"20분"}'></div>
+    <div class="rroute" data-config='{"code":"OP","live":"1347","title":"강릉올림픽파크 순환","meta":["소요 18′","배차 20′"],"stops":["강릉올림픽파크","강릉오발","강릉종합운동장","강릉아이스아레나","강릉올림픽파크"],"segs":[2,2,2,2],"loop":false,"numbered":true,"first":"09:00","last":"18:20","headway":20,"headwayLabel":"20분"}'></div>
 
     <div class="sec-head reveal" style="margin-top:28px"><span class="kicker"><span class="ko-only">노선도 · 실지도</span><span class="en-only">Route Map</span></span><h2 class="sec-h" style="font-size:19px"><span class="ko-only">내부 순환 노선도</span><span class="en-only">On-site loop route map</span></h2></div>
     <div id="opMap" class="op-map reveal" role="img" aria-label="강릉올림픽파크 내부 순환 셔틀 정류장 지도"></div>
@@ -139,7 +139,7 @@
     <a class="brand" href="index.html"><span class="logo" aria-hidden="true">R</span><span class="wm"><b>RIDEUS Events</b><small>GroundK · 참가자 교통 포털 데모</small></span></a>
     <nav class="fnav"><a href="shuttle-airport-in.html">공항 → 강릉</a><a href="shuttle-venue.html">행사장 셔틀</a><a href="shuttle-airport-out.html">강릉 → 서울역</a><a href="shuttle-chauffeur.html">전용 차량</a><a href="info-access.html">여행 정보</a></nav>
   </div>
-  <div class="legal"><b>GroundK Co., Ltd</b> · CEO 장동원 · Business Reg. 238-81-00429 · ops@groundk.com<br><span class="ver">© 2026 GroundK · 2026 강릉 ITS 세계총회 교통 포털 (콘셉트 데모) · build 2026.07.13.2</span></div>
+  <div class="legal"><b>GroundK Co., Ltd</b> · CEO 장동원 · Business Reg. 238-81-00429 · ops@groundk.com<br><span class="ver">© 2026 GroundK · 2026 강릉 ITS 세계총회 교통 포털 (콘셉트 데모) · build 2026.07.13.3</span></div>
 </div></footer>
 <div class="mockup-flag">콘셉트 목업 · 실제 예약 연동 예정</div>
 
@@ -156,7 +156,7 @@
   </div>
 </div>
 
-<script src="assets/app.js?v=2026.07.13.2"></script>
+<script src="assets/app.js?v=2026.07.13.3"></script>
 <script>
 (function(){
   var tabs=document.querySelectorAll('.subnav a[data-tab]');
