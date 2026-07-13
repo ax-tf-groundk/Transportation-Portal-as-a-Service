@@ -174,9 +174,9 @@
     var cfg;
     try { cfg = JSON.parse(el.getAttribute('data-config')); } catch (e) { return; }
     var stops = cfg.stops.map(function(nm, i){ return { nm: nm, end: (i === 0 || i === cfg.stops.length - 1) }; });
-    var meta = (cfg.meta || []).map(function(m){ return '<span>' + m + '</span>'; }).join('');
     var head = '<div class="rd-head"><span class="rd-code' + (cfg.o ? ' o' : '') + '">' + cfg.code + '</span>' +
-      '<span class="rd-name">' + cfg.title + '</span>' + (meta ? '<span class="rd-meta">' + meta + '</span>' : '') + '</div>';
+      '<span class="rd-name">' + cfg.title + '</span>' +
+      '<button type="button" class="rd-live" data-live="1">📍 실시간 위치 확인</button></div>';
     var snakeId = 'snk-' + (cfg.code || Math.floor(el.offsetTop));
     el.innerHTML = head + '<div class="snk" data-snake="1"></div>' +
       (cfg.loop ? '<p class="rd-loop">↻ 왕복 순환 — 종점에서 동일 경로로 회차</p>' : '') +
@@ -197,6 +197,14 @@
     });
   }
   window.__rerenderSnakes = rerenderSnakes;
+  // 실시간 위치 확인 (데모 — 실제 트래킹 미제공)
+  document.addEventListener('click', function(e){
+    var b = e.target.closest ? e.target.closest('.rd-live') : null;
+    if (!b || b.getAttribute('data-busy')) return;
+    var old = b.textContent; b.setAttribute('data-busy', '1');
+    b.textContent = '📍 준비 중입니다 (데모)';
+    setTimeout(function(){ b.textContent = old; b.removeAttribute('data-busy'); }, 1800);
+  });
   var _rt;
   window.addEventListener('resize', function(){ clearTimeout(_rt); _rt = setTimeout(rerenderSnakes, 180); });
 
