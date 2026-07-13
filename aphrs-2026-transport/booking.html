@@ -1,10 +1,11 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Book Transportation — APHRS 2026</title>
-  <link rel="stylesheet" href="assets/transport.css?v=2026.06.27.5" />
+  <meta name="version" content="2026.07.13.1" />
+  <link rel="stylesheet" href="assets/transport.css?v=2026.07.13.1" />
   <style>
     /* ── booking.html scoped styles ──────────────────────────── */
     .booking-hero {
@@ -135,34 +136,66 @@
     /* Misc */
     .section-booking { padding: 3rem 1.5rem 4rem; }
     .container-narrow { max-width: 700px; margin: 0 auto; }
+
+    /* Footer — index.html과 동일 마크업·스타일 (booking은 인라인 스타일 독립 유지) */
+    .footer {
+      background:var(--navy); color:rgba(255,255,255,.6); font-size:13px; padding:42px 0 50px;
+      border-top:3px solid var(--red);
+    }
+    .footer-inner { max-width:var(--maxw); margin:0 auto; padding:0 24px; }
+    .footer-top {
+      display:flex; justify-content:space-between; align-items:flex-start;
+      gap:24px; flex-wrap:wrap; padding-bottom:22px;
+      border-bottom:1px solid rgba(255,255,255,.1);
+    }
+    .footer-brand { display:flex; align-items:center; gap:11px; }
+    .footer-brand img { height:30px; filter:brightness(0) invert(1); opacity:.8; }
+    .footer-brand .wm { line-height:1.2; }
+    .footer-brand .wm b { font-size:15px; font-weight:700; color:#fff; display:block; }
+    .footer-brand .wm small { font-size:11px; color:rgba(255,255,255,.5); letter-spacing:.3px; }
+    .footer-nav { display:flex; gap:20px; flex-wrap:wrap; align-items:center; }
+    .footer-nav a { color:rgba(255,255,255,.55); transition:.15s; font-size:13px; font-weight:500; }
+    .footer-nav a:hover { color:#fff; }
+    .footer-legal { padding-top:20px; font-size:12px; color:rgba(255,255,255,.4); line-height:1.9; }
+    .footer-legal b { color:rgba(255,255,255,.65); }
+    .footer-legal .ver { color:rgba(255,255,255,.28); }
   </style>
 </head>
 <body>
 
   <!-- DEMO BANNER -->
   <div class="demo-banner">
-    GroundK concept demo — No actual booking or payment is processed. This is not the official APHRS 2026 website (<b>aphrs2026.com</b> is separate).
+    <span class="ko-only">GroundK 콘셉트 데모 — 실제 예약·결제는 처리되지 않습니다. APHRS 2026 공식 사이트가 아닙니다(<b>aphrs2026.com</b> 별도).</span>
+    <span class="en-only">GroundK Concept Demo — No actual bookings or payments processed. This is not the official APHRS 2026 website (<b>aphrs2026.com</b>).</span>
   </div>
 
   <!-- HEADER -->
   <header class="site-head">
     <div class="bar">
       <a class="brand brand-aphrs" href="index.html" aria-label="APHRS 2026 Transportation Home">
-        <img src="https://aphrs2026.com/home/2025/aphrs/image/top_logo.png"
+        <img src="assets/img/brand/color/abbr_horz_1.png"
              alt="APHRS 2026 Busan"
-             onerror="this.onerror=null;this.src="assets/img/aphrs-logo.png"">
-        <span class="btag" style="color:var(--red)">Transportation</span>
+             onerror="this.onerror=null;this.src='assets/img/brand/color/abbr_horz_1.png'">
+        <span class="btag" style="color:var(--red)"><span class="ko-only">교통 포털</span><span class="en-only">Transport<br>Portal</span></span>
       </a>
       <nav class="nav" aria-label="Shuttle routes">
-        <a href="shuttle-airport-hotel.html">Airport &rarr; Hotel</a>
-        <a href="shuttle-hotel-airport.html">Hotel &rarr; Airport</a>
-        <a href="shuttle-venue.html">Venue Shuttle</a>
-        <a href="shuttle-chauffeur.html">Chauffeur</a>
+        <a href="airport-transfer.html"><span class="ko-only">공항 ↔ 호텔</span><span class="en-only">Airport &harr; Hotel</span></a>
+        <a href="shuttle-venue.html"><span class="ko-only">행사장 셔틀</span><span class="en-only">Venue Shuttle</span></a>
+        <a href="shuttle-chauffeur.html"><span class="ko-only">전용차량</span><span class="en-only">Chauffeur</span></a>
+        <div class="nav-dd">
+          <a class="nav-dd-btn" href="travel.html" aria-haspopup="true"><span class="ko-only">여행 정보</span><span class="en-only">Travel Info</span><span class="dd-caret" aria-hidden="true">▾</span></a>
+          <div class="nav-dd-menu" role="menu">
+            <a href="travel.html#arrival" role="menuitem"><span class="ko-only">입국 안내</span><span class="en-only">Arrival Guide</span></a>
+            <a href="travel.html#ktx" role="menuitem"><span class="ko-only">KTX 예매</span><span class="en-only">KTX Booking</span></a>
+            <a href="travel.html#baggage" role="menuitem"><span class="ko-only">짐 배송</span><span class="en-only">Baggage Delivery</span></a>
+            <!-- 유심/eSIM 임시 숨김 <a href="travel.html#esim" role="menuitem"><span class="ko-only">유심 / eSIM</span><span class="en-only">SIM / eSIM</span></a> -->
+          </div>
+        </div>
       </nav>
       <div class="head-right">
-        <button class="lang" id="langToggle" type="button">&#127760; <span class="seg on" data-lang="en">EN</span><span class="seg" data-lang="ko">KO</span></button>
-        <button class="head-link hide-sm" id="lookupBtn" type="button">My Booking</button>
-        <a class="head-link ext hide-sm" href="https://aphrs2026.com" target="_blank" rel="noopener">Official Site</a>
+        <button class="lang" id="langToggle" type="button"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg> <span class="seg on" data-lang="en">EN</span><span class="seg" data-lang="ko">KO</span></button>
+        <button class="head-link hide-sm" id="lookupBtn" type="button"><span class="ko-only">예약조회</span><span class="en-only">My Booking</span></button>
+        <a class="head-link ext hide-sm" href="https://aphrs2026.com" target="_blank" rel="noopener"><span class="ko-only">공식 사이트</span><span class="en-only">Official Site</span></a>
       </div>
     </div>
   </header>
@@ -170,7 +203,7 @@
   <!-- ░░ BOOKING HERO (populated by JS) ░░ -->
   <div class="booking-hero" id="bookingHero">
     <div class="svc-badge" id="heroBadge"></div>
-    <h1 id="heroTitle">Book Transportation</h1>
+    <h1 id="heroTitle"><span class="ko-only">교통 예약</span><span class="en-only">Book Transportation</span></h1>
     <div class="svc-color-bar" id="heroBar"></div>
   </div>
 
@@ -181,7 +214,7 @@
 
         <!-- ── BOOKING FORM ── -->
         <div class="book-widget" id="bookWidget">
-          <h2 id="formHeading">Complete Your Booking</h2>
+          <h2 id="formHeading"><span class="ko-only">예약 완료</span><span class="en-only">Complete Your Booking</span></h2>
           <form id="bookingForm" novalidate>
             <div id="formFields">
               <!-- Populated by JS -->
@@ -189,48 +222,53 @@
 
             <!-- Email (always present) -->
             <div class="form-group">
-              <label for="f-email">Your Email *</label>
+              <label for="f-email"><span class="ko-only">이메일 주소</span><span class="en-only">Email Address</span> *</label>
               <input type="email" id="f-email" class="form-control" placeholder="your@email.com" required />
             </div>
 
             <!-- Name (always present) -->
             <div class="form-group">
-              <label for="f-name">Full Name *</label>
+              <label for="f-name"><span class="ko-only">성명</span><span class="en-only">Full Name</span> *</label>
               <input type="text" id="f-name" class="form-control" placeholder="As on passport / badge" required />
             </div>
 
             <div class="form-submit-row">
-              <button type="submit" class="btn btn-primary btn-block" id="submitBtn">Confirm Booking →</button>
+              <button type="submit" class="btn btn-primary btn-block" id="submitBtn">
+                <span class="ko-only">예약 확인 →</span><span class="en-only">Confirm Booking →</span>
+              </button>
             </div>
           </form>
         </div>
 
         <!-- ── VOUCHER ── -->
         <div class="voucher-panel" id="voucherPanel">
-          <div class="voucher-qr">📱</div>
+          <div class="voucher-qr"><svg class="ico ico-lg" viewBox="0 0 24 24" aria-hidden="true"><rect width="14" height="20" x="5" y="2" rx="2" ry="2"/><path d="M12 18h.01"/></svg></div>
           <div class="voucher-ref" id="vRef"></div>
           <div class="voucher-svc" id="vSvc"></div>
           <div class="voucher-date" id="vDate"></div>
           <div class="voucher-demo-note">
-            ⚠️ <strong>This is a concept demo.</strong> This voucher is not valid for actual transportation. No real booking has been created.
+            <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg> <strong><span class="ko-only">콘셉트 데모입니다.</span><span class="en-only">This is a concept demo.</span></strong>
+            <span class="ko-only">이 바우처는 실제 교통 서비스에 유효하지 않습니다. 실제 예약이 생성되지 않았습니다.</span>
+            <span class="en-only">This voucher is not valid for actual transportation. No real booking has been created.</span>
           </div>
           <div class="voucher-actions">
-            <button class="btn btn-outline" onclick="window.print()">🖨️ Print Voucher</button>
-            <a href="index.html" class="btn btn-primary">← Back to Home</a>
+            <button class="btn btn-outline" onclick="window.print()"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><path d="M6 9V3a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v6"/><rect x="6" y="14" width="12" height="8" rx="1"/></svg> <span class="ko-only">바우처 인쇄</span><span class="en-only">Print Voucher</span></button>
+            <a href="index.html" class="btn btn-primary">← <span class="ko-only">홈으로</span><span class="en-only">Back to Home</span></a>
           </div>
         </div>
 
         <!-- ── NO SERVICE PANEL ── -->
         <div class="no-svc-panel" id="noSvcPanel">
-          <div class="big-icon">🚌</div>
-          <h2>No Service Selected</h2>
-          <p>Please choose a transportation service to book. Use the navigation above or return to the main page and select a service.</p>
+          <div class="big-icon"><svg class="ico ico-lg" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 6v6"/><path d="M15 6v6"/><path d="M2 12h19.6"/><path d="M18 18h3s.5-1.7.8-2.8c.1-.4.2-.8.2-1.2 0-.4-.1-.8-.2-1.2l-1.4-5C20.1 6.8 19.1 6 18 6H4a2 2 0 0 0-2 2v10h3"/><circle cx="7" cy="18" r="2"/><path d="M9 18h5"/><circle cx="16" cy="18" r="2"/></svg></div>
+          <h2><span class="ko-only">서비스가 선택되지 않았습니다</span><span class="en-only">No Service Selected</span></h2>
+          <p class="ko-block">교통 서비스를 선택해 예약해 주세요. 위의 내비게이션을 이용하거나 메인 페이지로 돌아가 서비스를 선택하세요.</p>
+          <p class="en-block">Please choose a transportation service to book. Use the navigation above or return to the main page and select a service.</p>
           <div style="display:flex; gap:.75rem; justify-content:center; flex-wrap:wrap;">
-            <a href="index.html" class="btn btn-primary">← Back to Home</a>
-            <a href="booking.html?svc=airport"       class="btn btn-outline">Airport → Hotel</a>
-            <a href="booking.html?svc=hotel-airport" class="btn btn-outline">Hotel → Airport</a>
-            <a href="booking.html?svc=venue"         class="btn btn-outline">Venue Shuttle</a>
-            <a href="booking.html?svc=private"       class="btn btn-outline">Chauffeur</a>
+            <a href="index.html" class="btn btn-primary">← <span class="ko-only">홈으로</span><span class="en-only">Back to Home</span></a>
+            <a href="booking.html?svc=airport"       class="btn btn-outline"><span class="ko-only">공항 → 호텔</span><span class="en-only">Airport → Hotel</span></a>
+            <a href="booking.html?svc=hotel-airport" class="btn btn-outline"><span class="ko-only">호텔 → 공항</span><span class="en-only">Hotel → Airport</span></a>
+            <a href="booking.html?svc=venue"         class="btn btn-outline"><span class="ko-only">행사장 셔틀</span><span class="en-only">Venue Shuttle</span></a>
+            <a href="booking.html?svc=private"       class="btn btn-outline"><span class="ko-only">전용차량</span><span class="en-only">Chauffeur</span></a>
           </div>
         </div>
 
@@ -243,24 +281,35 @@
     <div class="footer-inner">
       <div class="footer-top">
         <div class="footer-brand">
-          <img src="https://aphrs2026.com/home/2025/aphrs/image/top_logo.png" alt="APHRS 2026 Busan"
-               onerror="this.onerror=null;this.src='assets/img/aphrs-logo.png'" style="height:30px;filter:brightness(0) invert(1);opacity:.8">
-          <div class="wm"><b>RIDEUS Events</b><small>GroundK &middot; Participant Transportation Portal (Demo)</small></div>
+          <img src="assets/img/brand/color/abbr_horz_1.png" alt="APHRS 2026 Busan"
+               onerror="this.onerror=null;this.src='assets/img/brand/color/abbr_horz_1.png'" style="height:30px;filter:brightness(0) invert(1);opacity:.8">
+          <div class="wm">
+            <b>RIDEUS Events</b>
+            <small>
+              <span class="ko-only">GroundK &middot; 참가자 교통 포털 데모</span>
+              <span class="en-only">GroundK &middot; Participant Transport Portal Demo</span>
+            </small>
+          </div>
         </div>
         <nav class="footer-nav" aria-label="Footer">
-          <a href="shuttle-airport-hotel.html">Airport &rarr; Hotel</a>
-          <a href="shuttle-hotel-airport.html">Hotel &rarr; Airport</a>
-          <a href="shuttle-venue.html">Venue Shuttle</a>
-          <a href="shuttle-chauffeur.html">Chauffeur</a>
-          <a href="index.html#support">Support</a>
-          <a href="https://aphrs2026.com" target="_blank" rel="noopener">Official Site &uarr;</a>
+          <a href="airport-transfer.html"><span class="ko-only">공항 ↔ 호텔</span><span class="en-only">Airport &harr; Hotel</span></a>
+          <a href="shuttle-venue.html"><span class="ko-only">행사장 셔틀</span><span class="en-only">Venue Shuttle</span></a>
+          <a href="shuttle-chauffeur.html"><span class="ko-only">전용차량</span><span class="en-only">Chauffeur</span></a>
+          <a href="index.html#support"><span class="ko-only">고객 지원</span><span class="en-only">Support</span></a>
+          <a href="https://aphrs2026.com" target="_blank" rel="noopener"><span class="ko-only">공식 사이트 ↑</span><span class="en-only">Official Site &uarr;</span></a>
         </nav>
       </div>
       <div class="footer-legal">
-        <b>GroundK Co., Ltd</b> &middot; CEO &amp;#51109;&amp;#46041;&amp;#50896; &middot; Business Reg. 238-81-00429<br>
+        <b>GroundK Co., Ltd</b> &middot; CEO 장동원 &middot; Business Reg. 238-81-00429<br>
         405, 45 Centum Dong-ro, Haeundae-gu, Busan 48059 &middot; Tel +82-2-863-3540 &middot; ops@groundk.com<br>
-        RIDEUS is GroundK's Transportation &times; Travel platform. All transactions handled by GroundK.<br>
-        <span class="ver">&copy; 2026 GroundK &middot; APHRS 2026 Participant Transportation Portal (Concept Demo) &middot; build 2026.06.27.5</span>
+        <span class="ko-only">RIDEUS는 GroundK의 Transportation &times; Travel 플랫폼입니다. 모든 거래·교환·환불·민원은 GroundK가 처리합니다.</span>
+        <span class="en-only">RIDEUS is GroundK's Transportation &times; Travel platform. All transactions, exchanges, refunds &amp; inquiries are handled by GroundK.</span>
+        <br>
+        <span class="ver">&copy; 2026 GroundK &middot;
+          <span class="ko-only">APHRS 2026 참가자 교통 포털 (콘셉트 데모)</span>
+          <span class="en-only">APHRS 2026 Participant Transportation Portal (Concept Demo)</span>
+          &middot; build 2026.07.13.1
+        </span>
       </div>
     </div>
   </footer>
@@ -269,20 +318,21 @@
   <div class="modal-ov" id="lookupModal" role="dialog" aria-modal="true" aria-labelledby="lk-h">
     <div class="modal">
       <button class="modal-x" id="lookupClose" type="button" aria-label="Close">&#x2715;</button>
-      <h3 id="lk-h">Booking Lookup</h3>
-      <p>Enter your reservation number and email to check your booking.</p>
+      <h3 id="lk-h"><span class="ko-only">예약조회</span><span class="en-only">Booking Lookup</span></h3>
+      <p class="ko-block">예약 번호와 이메일을 입력하여 예약을 확인하세요.</p>
+      <p class="en-block">Enter your reservation number and email to check your booking.</p>
       <div class="mf">
-        <label for="lkCode">Reservation No.</label>
+        <label for="lkCode"><span class="ko-only">예약 번호</span><span class="en-only">Reservation No.</span></label>
         <input id="lkCode" type="text" placeholder="RE-APHRS-SH-0000">
       </div>
       <div class="mf">
-        <label for="lkEmail">Email</label>
+        <label for="lkEmail"><span class="ko-only">이메일</span><span class="en-only">Email</span></label>
         <input id="lkEmail" type="email" placeholder="you@example.com">
       </div>
       <div class="m-actions">
-        <button class="btn btn-red btn-block btn-sm" id="lookupSubmit" type="button">Search</button>
+        <button class="btn btn-red btn-block btn-sm" id="lookupSubmit" type="button"><span class="ko-only">검색</span><span class="en-only">Search</span></button>
       </div>
-      <p class="m-note" id="lkResult">&lowast; Concept demo. Not connected to a real reservation system.</p>
+      <p class="m-note" id="lkResult">&lowast; <span class="ko-only">콘셉트 목업 · 실제 예약 연동 예정</span><span class="en-only">Concept Mockup · Booking integration planned</span></p>
     </div>
   </div>
 
@@ -291,101 +341,132 @@
   (function () {
     'use strict';
 
+    /* ── Lang helper ──────────────────────────────────────────── */
+    function getLang() {
+      return document.documentElement.dataset.uiLang || 'ko';
+    }
+    function t(ko, en) {
+      return getLang() === 'en' ? en : ko;
+    }
+
     /* ── Service definitions ──────────────────────────────────── */
     var SERVICES = {
-      'airport':      { name: 'Airport → Hotel Shuttle', badge: 'Paid',  color: 'var(--red,#c0392b)',   code: 'APT', fields: ['from-airport','to-hotel','date-arrive','pax'] },
-      'hotel-airport':{ name: 'Hotel → Airport Shuttle', badge: 'Paid',  color: 'var(--red,#c0392b)',   code: 'HTA', fields: ['from-hotel','to-airport','date-depart','pax'] },
-      'venue':        { name: 'Venue Shuttle',            badge: 'Free',  color: 'var(--green,#27ae60)', code: 'VEN', fields: ['from-hotel','date-event'] },
-      'private':      { name: 'Private Chauffeur',        badge: 'Paid',  color: 'var(--navy,#0a2342)',  code: 'PVT', fields: ['vehicle','from','to','date','pax','flight'] },
-      'ktx':          { name: 'KTX Information',          badge: '',      color: 'var(--blue,#2980b9)',  code: 'KTX', fields: ['from-city','date','pax'] },
-      'baggage':      { name: 'Baggage Delivery',          badge: '',      color: 'var(--blue,#2980b9)',  code: 'BAG', fields: ['from-airport','to-hotel','date'] },
-      'esim':         { name: 'SIM / eSIM',               badge: '',      color: 'var(--green,#27ae60)', code: 'SIM', fields: ['type','arrive-date'] }
+      'airport':      { nameKo: '공항 → 호텔 셔틀', nameEn: 'Airport → Hotel Shuttle', badge: 'Paid',  color: 'var(--red,#c0392b)',   code: 'APT', fields: ['from-airport','to-hotel','date-arrive','pax'] },
+      'hotel-airport':{ nameKo: '호텔 → 공항 셔틀', nameEn: 'Hotel → Airport Shuttle', badge: 'Paid',  color: 'var(--red,#c0392b)',   code: 'HTA', fields: ['from-hotel','to-airport','date-depart','pax'] },
+      'venue':        { nameKo: '행사장 셔틀',       nameEn: 'Venue Shuttle',           badge: 'Free',  color: 'var(--green,#27ae60)', code: 'VEN', fields: ['from-hotel','date-event'] },
+      'private':      { nameKo: '전용차량',          nameEn: 'Private Chauffeur',       badge: 'Paid',  color: 'var(--navy,#0a2342)',  code: 'PVT', fields: ['vehicle','from','to','date','pax','flight'] },
+      'ktx':          { nameKo: 'KTX 안내',          nameEn: 'KTX Information',         badge: '',      color: 'var(--blue,#2980b9)',  code: 'KTX', fields: ['from-city','date','pax'] },
+      'baggage':      { nameKo: '수하물 배송',        nameEn: 'Baggage Delivery',        badge: '',      color: 'var(--blue,#2980b9)',  code: 'BAG', fields: ['from-airport','to-hotel','date'] },
+      'esim':         { nameKo: 'SIM / eSIM',        nameEn: 'SIM / eSIM',              badge: '',      color: 'var(--green,#27ae60)', code: 'SIM', fields: ['type','arrive-date'] }
     };
+
+    function svcName(svc) {
+      return getLang() === 'en' ? svc.nameEn : svc.nameKo;
+    }
 
     /* ── Field definitions ────────────────────────────────────── */
     var FIELD_DEFS = {
       'from-airport': {
-        label: 'From (Airport / Station)',
+        labelKo: '출발지 (공항 / 역)',
+        labelEn: 'From (Airport / Station)',
         type: 'select',
         options: ['Gimhae Int\'l Airport', 'Busan Station (KTX)']
       },
       'to-hotel': {
-        label: 'To (Hotel)',
+        labelKo: '도착지 (호텔)',
+        labelEn: 'To (Hotel)',
         type: 'select',
-        options: ['Signiel Busan', 'Westin Josun Busan', 'Park Hyatt Busan']
+        options: ['Park Hyatt Busan', 'Westin Josun Busan', 'Grand Josun Haeundae', 'Paradise Hotel Busan', 'Signiel Busan']
       },
       'from-hotel': {
-        label: 'From (Hotel)',
+        labelKo: '출발지 (호텔)',
+        labelEn: 'From (Hotel)',
         type: 'select',
-        options: ['Signiel Busan', 'Westin Josun Busan', 'Park Hyatt Busan']
+        options: ['Paradise Hotel Busan', 'Signiel Busan', 'Westin Josun Busan', 'Park Hyatt Busan']
       },
       'to-airport': {
-        label: 'To (Airport)',
+        labelKo: '도착지 (공항)',
+        labelEn: 'To (Airport)',
         type: 'select',
         options: ['Gimhae Int\'l Airport']
       },
       'date-arrive': {
-        label: 'Arrival Date',
+        labelKo: '탑승일 (도착)',
+        labelEn: 'Arrival Date',
         type: 'date',
         min: '2026-10-21',
         max: '2026-10-22'
       },
       'date-depart': {
-        label: 'Departure Date',
+        labelKo: '탑승일 (출발)',
+        labelEn: 'Departure Date',
         type: 'date',
         min: '2026-10-24',
         max: '2026-10-25'
       },
       'date-event': {
-        label: 'Event Date',
+        labelKo: '탑승일 (행사)',
+        labelEn: 'Event Date',
         type: 'date',
         min: '2026-10-21',
         max: '2026-10-24'
       },
       'pax': {
-        label: 'Number of Passengers',
+        labelKo: '승객 수',
+        labelEn: 'Number of Passengers',
         type: 'select',
         options: ['1','2','3','4','5','6','7','8','9','10']
       },
       'vehicle': {
-        label: 'Vehicle Type',
+        labelKo: '차량 종류',
+        labelEn: 'Vehicle Type',
         type: 'select',
         options: ['Sedan', 'Van', 'VIP Escort']
       },
       'from': {
-        label: 'Pick-up Location',
+        labelKo: '탑승 위치',
+        labelEn: 'Pick-up Location',
         type: 'text',
-        placeholder: 'Enter pick-up address or landmark'
+        placeholderKo: '탑승 주소 또는 랜드마크 입력',
+        placeholderEn: 'Enter pick-up address or landmark'
       },
       'to': {
-        label: 'Drop-off Location',
+        labelKo: '목적지',
+        labelEn: 'Drop-off Location',
         type: 'text',
-        placeholder: 'Enter destination address or landmark'
+        placeholderKo: '목적지 주소 또는 랜드마크 입력',
+        placeholderEn: 'Enter destination address or landmark'
       },
       'date': {
-        label: 'Date',
+        labelKo: '탑승일',
+        labelEn: 'Date',
         type: 'date',
         min: '2026-10-21',
         max: '2026-10-26'
       },
       'flight': {
-        label: 'Flight Number',
+        labelKo: '항공편명',
+        labelEn: 'Flight Number',
         type: 'text',
-        placeholder: 'e.g. KE123 / OZ456'
+        placeholderKo: '예: KE123 / OZ456',
+        placeholderEn: 'e.g. KE123 / OZ456'
       },
       'from-city': {
-        label: 'Departing From',
+        labelKo: '출발 도시',
+        labelEn: 'Departing From',
         type: 'select',
         options: ['Seoul Station', 'Incheon Airport']
       },
       'arrive-date': {
-        label: 'Arrival Date in Busan',
+        labelKo: '부산 도착일',
+        labelEn: 'Arrival Date in Busan',
         type: 'date',
         min: '2026-10-20',
         max: '2026-10-22'
       },
       'type': {
-        label: 'SIM Type',
+        labelKo: 'SIM 종류',
+        labelEn: 'SIM Type',
         type: 'select',
         options: ['Physical SIM', 'eSIM']
       }
@@ -393,8 +474,6 @@
 
     /* ── Helpers ──────────────────────────────────────────────── */
     function qs(id) { return document.getElementById(id); }
-
-    function makePad(n) { return n < 10 ? '0' + n : '' + n; }
 
     function genRef(code) {
       var n = Math.floor(1000 + Math.random() * 9000);
@@ -404,7 +483,7 @@
     function buildSelect(id, label, options) {
       var html = '<div class="form-group"><label for="f-' + id + '">' + label + '</label>';
       html += '<select id="f-' + id + '" class="form-control" name="' + id + '">';
-      html += '<option value="">— Select —</option>';
+      html += '<option value="">— ' + t('선택', 'Select') + ' —</option>';
       options.forEach(function(o) {
         html += '<option value="' + o + '">' + o + '</option>';
       });
@@ -428,9 +507,15 @@
     function buildField(id) {
       var def = FIELD_DEFS[id];
       if (!def) return '<div class="form-group"><label>' + id + '</label><input class="form-control" /></div>';
-      if (def.type === 'select') return buildSelect(id, def.label, def.options);
-      if (def.type === 'date')   return buildDate(id, def.label, def.min, def.max);
-      if (def.type === 'text')   return buildText(id, def.label, def.placeholder || '');
+      var label = getLang() === 'en' ? def.labelEn : def.labelKo;
+      if (def.type === 'select') return buildSelect(id, label, def.options);
+      if (def.type === 'date')   return buildDate(id, label, def.min, def.max);
+      if (def.type === 'text') {
+        var ph = getLang() === 'en'
+          ? (def.placeholderEn || '')
+          : (def.placeholderKo || '');
+        return buildText(id, label, ph);
+      }
       return '';
     }
 
@@ -440,41 +525,10 @@
       return match ? decodeURIComponent(match[1]) : '';
     }
 
-    /* ── Init ─────────────────────────────────────────────────── */
-    var svcKey = getParam('svc').toLowerCase();
-    var svc    = SERVICES[svcKey];
-
-    var heroTitle   = qs('heroTitle');
-    var heroBadge   = qs('heroBadge');
-    var heroBar     = qs('heroBar');
-    var bookWidget  = qs('bookWidget');
-    var noSvcPanel  = qs('noSvcPanel');
-    var formFields  = qs('formFields');
-    var formHeading = qs('formHeading');
-    var bookingHero = qs('bookingHero');
-
-    if (!svc) {
-      /* Unknown / missing service */
-      bookWidget.style.display  = 'none';
-      noSvcPanel.classList.add('visible');
-      heroTitle.textContent = 'Book Transportation';
-      heroBadge.style.display = 'none';
-    } else {
-      /* Render hero */
-      heroTitle.textContent = svc.name;
-      heroBar.style.background = svc.color;
-      if (svc.badge) {
-        heroBadge.textContent = svc.badge;
-        heroBadge.style.display = '';
-      } else {
-        heroBadge.style.display = 'none';
-      }
-      bookingHero.style.borderBottom = '4px solid ' + svc.color;
-
-      /* Render form heading */
-      formHeading.textContent = 'Book: ' + svc.name;
-
-      /* Render dynamic fields */
+    /* ── Render dynamic fields ────────────────────────────────── */
+    function renderFields(svc) {
+      if (!svc) return;
+      var formFields = qs('formFields');
       var html = '';
       svc.fields.forEach(function(fid) { html += buildField(fid); });
       formFields.innerHTML = html;
@@ -484,13 +538,78 @@
         var infoEl = document.createElement('div');
         infoEl.className = 'info-box info-box--blue';
         infoEl.style.marginBottom = '1.25rem';
-        infoEl.innerHTML = '<span class="info-box-icon">ℹ️</span><div><strong>KTX Booking via KORAIL</strong><p style="margin:.3rem 0 0">This form logs your travel preference. Actual KTX tickets must be purchased at <a href="https://www.letskorail.com" target="_blank" rel="noopener">letskorail.com</a>.</p></div>';
+        infoEl.innerHTML = '<span class="info-box-icon"><svg class="ico ico-lg" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg></span><div><strong>' +
+          t('KORAIL을 통한 KTX 예약', 'KTX Booking via KORAIL') +
+          '</strong><p style="margin:.3rem 0 0">' +
+          t(
+            '이 양식은 여행 선호도를 기록합니다. 실제 KTX 티켓은 <a href="https://www.letskorail.com" target="_blank" rel="noopener">letskorail.com</a>에서 구매해야 합니다.',
+            'This form logs your travel preference. Actual KTX tickets must be purchased at <a href="https://www.letskorail.com" target="_blank" rel="noopener">letskorail.com</a>.'
+          ) +
+          '</p></div>';
         formFields.prepend(infoEl);
       }
     }
 
+    /* ── Render hero & form heading ───────────────────────────── */
+    function renderHero(svc) {
+      var heroTitle   = qs('heroTitle');
+      var heroBadge   = qs('heroBadge');
+      var heroBar     = qs('heroBar');
+      var formHeading = qs('formHeading');
+      var bookingHero = qs('bookingHero');
+
+      if (!svc) {
+        heroTitle.innerHTML = '<span class="ko-only">교통 예약</span><span class="en-only">Book Transportation</span>';
+        if (heroBadge) heroBadge.style.display = 'none';
+        return;
+      }
+
+      heroTitle.textContent = svcName(svc);
+      heroBar.style.background = svc.color;
+      if (svc.badge) {
+        heroBadge.textContent = svc.badge;
+        heroBadge.style.display = '';
+      } else {
+        heroBadge.style.display = 'none';
+      }
+      bookingHero.style.borderBottom = '4px solid ' + svc.color;
+      formHeading.textContent = t('예약: ', 'Book: ') + svcName(svc);
+    }
+
+    /* ── Init ─────────────────────────────────────────────────── */
+    var svcKey = getParam('svc').toLowerCase();
+    var svc    = SERVICES[svcKey];
+
+    var bookWidget  = qs('bookWidget');
+    var noSvcPanel  = qs('noSvcPanel');
+
+    if (!svc) {
+      /* Unknown / missing service */
+      bookWidget.style.display = 'none';
+      noSvcPanel.classList.add('visible');
+      renderHero(null);
+    } else {
+      renderHero(svc);
+      renderFields(svc);
+    }
+
+    /* ── Re-render on lang toggle ─────────────────────────────── */
+    var observer = new MutationObserver(function(mutations) {
+      mutations.forEach(function(m) {
+        if (m.attributeName === 'data-ui-lang') {
+          if (svc) {
+            renderHero(svc);
+            renderFields(svc);
+          } else {
+            renderHero(null);
+          }
+        }
+      });
+    });
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-ui-lang'] });
+
     /* ── Form submit ──────────────────────────────────────────── */
-    var bookingForm = qs('bookingForm');
+    var bookingForm  = qs('bookingForm');
     var voucherPanel = qs('voucherPanel');
 
     if (bookingForm) {
@@ -501,7 +620,7 @@
         var email = qs('f-email') ? qs('f-email').value.trim() : '';
 
         if (!name || !email) {
-          alert('Please fill in your name and email address.');
+          alert(t('성명과 이메일 주소를 입력해 주세요.', 'Please fill in your name and email address.'));
           return;
         }
 
@@ -520,10 +639,10 @@
         var ref  = genRef(code);
 
         qs('vRef').textContent  = ref;
-        qs('vSvc').textContent  = svc ? svc.name : 'Transportation';
+        qs('vSvc').textContent  = svc ? svcName(svc) : t('교통', 'Transportation');
         qs('vDate').textContent = dateVal
           ? '📅 ' + dateVal + '  ·  ' + name
-          : '📅 Date TBD  ·  ' + name;
+          : '📅 ' + t('날짜 미정', 'Date TBD') + '  ·  ' + name;
 
         bookWidget.style.display = 'none';
         voucherPanel.classList.add('visible');
@@ -534,6 +653,6 @@
   }());
   </script>
 
-  <script src="assets/app.js?v=2026.06.27.5"></script>
+  <script src="assets/app.js?v=2026.07.13.1"></script>
 </body>
 </html>

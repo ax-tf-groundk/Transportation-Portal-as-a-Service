@@ -1,15 +1,13 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="Cache-Control" content="no-cache">
 <title>APHRS 2026 Busan — Transportation | RIDEUS Events · GroundK</title>
-<meta name="description" content="Official transportation portal for APHRS 2026 Busan (19th Asia Pacific Heart Rhythm Society, Oct 21–24, BEXCO). Airport shuttle, venue shuttle, private chauffeur, KTX, baggage & eSIM.">
-<meta name="version" content="2026.06.27.5">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="assets/transport.css?v=2026.06.27.5">
+<meta name="description" content="Official transportation portal for APHRS 2026 Busan (19th Asia Pacific Heart Rhythm Society, Oct 21–24, BEXCO). Airport shuttle, venue shuttle, private chauffeur, KTX & baggage.">
+<meta name="version" content="2026.07.13.1">
+<link rel="stylesheet" href="assets/transport.css?v=2026.07.13.1">
 <style>
 /* ── APHRS-specific overrides (index only) ─────────────────────── */
 
@@ -22,7 +20,7 @@
 .brand-aphrs .btag {
   font-size:11.5px; font-weight:700; color:var(--red);
   border-left:2px solid var(--red-050); padding-left:13px;
-  letter-spacing:.3px;
+  letter-spacing:.3px; line-height:1.15;
 }
 
 /* NAV active state */
@@ -378,37 +376,65 @@
 </style>
 </head>
 <body>
-<a class="skip" href="#main">본문 바로가기</a>
+<a class="skip" href="#main"><span class="ko-only">본문 바로가기</span><span class="en-only">Skip to main content</span></a>
 
 <!-- ── DEMO BANNER ─────────────────────────────────────────────────── -->
 <div class="demo-banner">
-  GroundK 콘셉트 데모 — 실제 예약·결제는 처리되지 않습니다. APHRS 2026 공식 사이트가 아닙니다(<b>aphrs2026.com</b> 별도).
+  <span class="ko-only">GroundK 콘셉트 데모 — 실제 예약·결제는 처리되지 않습니다. APHRS 2026 공식 사이트가 아닙니다(<b>aphrs2026.com</b> 별도).</span>
+  <span class="en-only">GroundK Concept Demo — No actual bookings or payments processed. This is not the official APHRS 2026 website (<b>aphrs2026.com</b>).</span>
 </div>
 
 <!-- ── HEADER ──────────────────────────────────────────────────────── -->
 <header class="site-head">
   <div class="bar">
     <a class="brand brand-aphrs" href="index.html" aria-label="APHRS 2026 부산 — 참가자 교통">
-      <img src="https://aphrs2026.com/home/2025/aphrs/image/top_logo.png"
+      <img src="assets/img/brand/color/abbr_horz_1.png"
            alt="APHRS 2026 Busan"
-           onerror="this.onerror=null;this.src='assets/img/aphrs-logo.png'">
-      <span class="btag">교통 포털</span>
+           onerror="this.onerror=null;this.src='assets/img/brand/color/abbr_horz_1.png'">
+      <span class="btag"><span class="ko-only">교통 포털</span><span class="en-only">Transport<br>Portal</span></span>
     </a>
     <nav class="nav" aria-label="셔틀 노선">
-      <a href="shuttle-airport-hotel.html">공항 → 호텔</a>
-      <a href="shuttle-hotel-airport.html">호텔 → 공항</a>
-      <a href="shuttle-venue.html">행사장 셔틀</a>
-      <a href="shuttle-chauffeur.html">전용차량</a>
+      <a href="airport-transfer.html"><span class="ko-only">공항 ↔ 호텔</span><span class="en-only">Airport ↔ Hotel</span></a>
+      <a href="shuttle-venue.html"><span class="ko-only">행사장 셔틀</span><span class="en-only">Venue Shuttle</span></a>
+      <a href="shuttle-chauffeur.html"><span class="ko-only">전용차량</span><span class="en-only">Chauffeur</span></a>
+      <div class="nav-dd">
+        <a class="nav-dd-btn" href="travel.html" aria-haspopup="true"><span class="ko-only">여행 정보</span><span class="en-only">Travel Info</span><span class="dd-caret" aria-hidden="true">▾</span></a>
+        <div class="nav-dd-menu" role="menu">
+          <a href="travel.html#arrival" role="menuitem"><span class="ko-only">입국 안내</span><span class="en-only">Arrival Guide</span></a>
+          <a href="travel.html#ktx" role="menuitem"><span class="ko-only">KTX 예매</span><span class="en-only">KTX Booking</span></a>
+          <a href="travel.html#baggage" role="menuitem"><span class="ko-only">짐 배송</span><span class="en-only">Baggage Delivery</span></a>
+          <!-- 유심/eSIM 임시 숨김 <a href="travel.html#esim" role="menuitem"><span class="ko-only">유심 / eSIM</span><span class="en-only">SIM / eSIM</span></a> -->
+        </div>
+      </div>
     </nav>
     <div class="head-right">
       <button class="lang" id="langToggle" type="button" aria-label="언어 전환 (데모)">
-        🌐 <span class="seg" data-lang="en">EN</span><span class="seg on" data-lang="ko">KO</span>
+        <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg> <span class="seg" data-lang="en">EN</span><span class="seg on" data-lang="ko">KO</span>
       </button>
-      <button class="head-link hide-sm" id="lookupBtn" type="button">예약조회</button>
-      <a class="head-link ext hide-sm" href="https://aphrs2026.com" target="_blank" rel="noopener">공식 사이트</a>
+      <button class="head-link hide-sm" id="lookupBtn" type="button"><span class="ko-only">예약조회</span><span class="en-only">My Booking</span></button>
+      <a class="head-link ext hide-sm" href="https://aphrs2026.com" target="_blank" rel="noopener"><span class="ko-only">공식 사이트</span><span class="en-only">Official Site</span></a>
     </div>
+    <button class="nav-toggle" id="navToggle" type="button" aria-label="메뉴 열기" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
   </div>
 </header>
+
+<nav class="mobile-nav" id="mobileNav" aria-label="모바일 메뉴">
+  <a href="airport-transfer.html"><span class="ko-only">공항 ↔ 호텔</span><span class="en-only">Airport ↔ Hotel</span></a>
+  <a href="shuttle-venue.html"><span class="ko-only">행사장 셔틀</span><span class="en-only">Venue Shuttle</span></a>
+  <a href="shuttle-chauffeur.html"><span class="ko-only">전용차량</span><span class="en-only">Chauffeur</span></a>
+  <div class="mn-divider"></div>
+  <span class="mn-sub"><span class="ko-only">여행 정보</span><span class="en-only">Travel Info</span></span>
+  <a class="mn-child" href="travel.html#arrival"><span class="ko-only">입국 안내</span><span class="en-only">Arrival Guide</span></a>
+  <a class="mn-child" href="travel.html#ktx"><span class="ko-only">KTX 예매</span><span class="en-only">KTX Booking</span></a>
+  <a class="mn-child" href="travel.html#baggage"><span class="ko-only">짐 배송</span><span class="en-only">Baggage Delivery</span></a>
+  <!-- 유심/eSIM 임시 숨김 <a class="mn-child" href="travel.html#esim"><span class="ko-only">유심 / eSIM</span><span class="en-only">SIM / eSIM</span></a> -->
+  <div class="mn-divider"></div>
+  <a class="mn-ext" href="https://aphrs2026.com" target="_blank" rel="noopener"><span class="ko-only">공식 사이트 aphrs2026.com ↗</span><span class="en-only">Official Site aphrs2026.com ↗</span></a>
+  <div class="mn-divider"></div>
+  <button class="lang" type="button" aria-label="언어 전환 (데모)"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg> <span class="seg on" data-lang="ko">KO</span><span class="seg" data-lang="en">EN</span></button>
+</nav>
 
 <main id="main">
 
@@ -421,24 +447,27 @@
   <div class="hero-ov"></div>
 
   <div class="hero-inner">
-    <span class="hero-eyebrow">APHRS 2026 · 부산 BEXCO · 10월 21–24일</span>
-    <h1 id="hero-h">APHRS 2026<br><em>참가자 교통 포털</em></h1>
+    <span class="hero-eyebrow"><span class="ko-only">APHRS 2026 · 부산 BEXCO · 10월 21–24일</span><span class="en-only">APHRS 2026 · Busan BEXCO · Oct 21–24</span></span>
+    <h1 id="hero-h">APHRS 2026<br><em><span class="ko-only">참가자 교통 포털</span><span class="en-only">Participant Transport Portal</span></em></h1>
     <p class="hero-tagline">
       "Feel the Rhythm, Feel the Future"
-      <span class="official">· APHRS 2026 공식 슬로건</span>
+      <span class="official">· <span class="ko-only">APHRS 2026 공식 슬로건</span><span class="en-only">APHRS 2026 Official Slogan</span></span>
     </p>
-    <p class="hero-lead">
+    <p class="hero-lead ko-block">
       <b>APHRS 2026 참가자</b>를 위한 전용 셔틀 및 지상 교통 서비스.
       김해공항·부산역 ↔ 공식 호텔 ↔ BEXCO — 간편하게 예약하세요.
     </p>
+    <p class="hero-lead en-block">
+      Dedicated shuttle and ground transport for <b>APHRS 2026 participants</b>.
+      Gimhae Airport · Busan Station ↔ Official Hotels ↔ BEXCO — book with ease.
+    </p>
     <div class="hero-cta-row">
-      <a class="btn btn-red" href="#shuttle">🚌 셔틀 노선 보기</a>
-      <a class="btn btn-white" href="#access">오시는 길</a>
+      <a class="btn btn-red" href="#shuttle"><span class="ko-only"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 6v6"/><path d="M15 6v6"/><path d="M2 12h19.6"/><path d="M18 18h3s.5-1.7.8-2.8c.1-.4.2-.8.2-1.2 0-.4-.1-.8-.2-1.2l-1.4-5C20.1 6.8 19.1 6 18 6H4a2 2 0 0 0-2 2v10h3"/><circle cx="7" cy="18" r="2"/><path d="M9 18h5"/><circle cx="16" cy="18" r="2"/></svg> 셔틀 노선 보기</span><span class="en-only"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 6v6"/><path d="M15 6v6"/><path d="M2 12h19.6"/><path d="M18 18h3s.5-1.7.8-2.8c.1-.4.2-.8.2-1.2 0-.4-.1-.8-.2-1.2l-1.4-5C20.1 6.8 19.1 6 18 6H4a2 2 0 0 0-2 2v10h3"/><circle cx="7" cy="18" r="2"/><path d="M9 18h5"/><circle cx="16" cy="18" r="2"/></svg> View Shuttle Routes</span></a>
+      <a class="btn btn-white" href="#access"><span class="ko-only">오시는 길</span><span class="en-only">Venue Access</span></a>
     </div>
     <div class="hero-meta">
-      <span class="hero-chip"><span class="dot"></span>셔틀 3개 노선</span>
-      <span class="hero-chip"><span class="dot"></span>외국인 참가자 약 3,000명+</span>
-      <span class="hero-chip"><span class="dot"></span>2026년 10월 21–24일</span>
+      <span class="hero-chip"><span class="dot"></span><span class="ko-only">셔틀 3개 노선</span><span class="en-only">3 Shuttle Routes</span></span>
+      <span class="hero-chip"><span class="dot"></span><span class="ko-only">외국인 참가자 약 3,000명+</span><span class="en-only">~3,000+ Int'l Participants</span></span>
     </div>
   </div>
 
@@ -450,18 +479,18 @@
 <section class="shuttle-section" id="shuttle" aria-labelledby="sh-h">
   <div class="wrap">
     <div class="sec-head reveal">
-      <span class="kicker">셔틀 서비스 · Shuttle Service</span>
-      <h2 class="sec-h" id="sh-h">APHRS 2026 참가자 전용 셔틀</h2>
-      <p class="sec-sub">노선을 선택하면 정류장·시간표·예약이 있는 상세 페이지로 이동합니다. 모든 셔틀은 RIDEUS Events · GroundK가 운영합니다.</p>
+      <h2 class="sec-h" id="sh-h"><span class="ko-only">APHRS 2026 참가자 전용 셔틀</span><span class="en-only">APHRS 2026 Participant Shuttle Services</span></h2>
+      <p class="sec-sub ko-block">노선을 선택하면 정류장·시간표·예약이 있는 상세 페이지로 이동합니다. 모든 셔틀은 RIDEUS Events · GroundK가 운영합니다.</p>
+      <p class="sec-sub en-block">Select a route to view stops, schedules, and bookings. All shuttles are operated by RIDEUS Events · GroundK.</p>
     </div>
 
     <div class="shuttle-grid-3">
 
       <!-- Airport → Hotel (PAID) -->
-      <a class="scard paid reveal d1" href="shuttle-airport-hotel.html" aria-label="공항에서 호텔로 가는 셔틀">
+      <a class="scard paid reveal d1" href="airport-transfer.html?dir=inbound" aria-label="공항에서 호텔로 가는 셔틀">
         <div class="scard-bar">
-          ✈️ 공항 → 호텔
-          <span class="fare-tag">유료 · 개별 신청</span>
+          <svg class="ico ico-lg" viewBox="0 0 24 24" aria-hidden="true"><path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"/></svg> <span class="ko-only">공항 → 호텔</span><span class="en-only">Airport → Hotel</span>
+          <span class="fare-tag"><span class="ko-only">유료 · 개별 신청</span><span class="en-only">Paid · Book Now</span></span>
         </div>
         <div class="scard-photo">
           <img src="https://transport.apec2025.kr/shared/images/zones/bg-visual-gimhae-airport.jpg"
@@ -469,30 +498,35 @@
                onerror="this.onerror=null;this.src='assets/img/gimhae-airport.jpg'">
           <div class="scard-info">
             <div class="scard-dir">
-              김해공항 <span class="ar">→</span> 해운대 공식호텔
+              <span class="ko-only">김해공항 <span class="ar">→</span> 해운대 공식호텔</span>
+              <span class="en-only">Gimhae Airport <span class="ar">→</span> Haeundae Official Hotels</span>
             </div>
-            <p class="scard-sub">김해국제공항(국제선) → 시그니엘·웨스틴조선·파크하얏트 부산<br>10/21~22 (입국일) 운행</p>
-            <span class="scard-cta">지금 예약 →</span>
+            <p class="scard-sub ko-block">김해국제공항(국제선) → 해운대 공식호텔 5곳<br>10/21~22 (입국일) 운행</p>
+            <p class="scard-sub en-block">Gimhae Int'l Airport (International Terminal) → 5 official Haeundae hotels<br>Oct 21–22 (arrival days)</p>
+            <span class="scard-cta"><span class="ko-only">지금 예약 →</span><span class="en-only">Book Now →</span></span>
           </div>
         </div>
       </a>
 
       <!-- Hotel → Airport (PAID) -->
-      <a class="scard paid reveal d2" href="shuttle-hotel-airport.html" aria-label="호텔에서 공항으로 가는 셔틀">
+      <a class="scard paid reveal d2" href="airport-transfer.html?dir=outbound" aria-label="호텔에서 공항으로 가는 셔틀">
         <div class="scard-bar">
-          🏨 호텔 → 공항
-          <span class="fare-tag">유료 · 개별 신청</span>
+          <svg class="ico ico-lg" viewBox="0 0 24 24" aria-hidden="true"><path d="M10 12h4"/><path d="M10 8h4"/><path d="M14 21v-3a2 2 0 0 0-4 0v3"/><path d="M6 10H4a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-2"/><path d="M6 21V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v16"/></svg> <span class="ko-only">호텔 → 공항</span><span class="en-only">Hotel → Airport</span>
+          <span class="fare-tag"><span class="ko-only">유료 · 개별 신청</span><span class="en-only">Paid · Book Now</span></span>
         </div>
         <div class="scard-photo">
           <img src="https://transport.apec2025.kr/shared/images/stations/img-location-signiel.jpg"
                alt="Signiel Busan, Haeundae"
+               style="transform:rotate(1.8deg) scale(1.07);transform-origin:center center;"
                onerror="this.onerror=null;this.src='assets/img/hotel-signiel.jpg'">
           <div class="scard-info">
             <div class="scard-dir">
-              해운대 공식호텔 <span class="ar">→</span> 김해공항
+              <span class="ko-only">해운대 공식호텔 <span class="ar">→</span> 김해공항</span>
+              <span class="en-only">Haeundae Official Hotels <span class="ar">→</span> Gimhae Airport</span>
             </div>
-            <p class="scard-sub">시그니엘·웨스틴조선·파크하얏트 부산 → 김해국제공항<br>10/24~25 (출국일) 운행</p>
-            <span class="scard-cta">지금 예약 →</span>
+            <p class="scard-sub ko-block">해운대 공식호텔 5곳 → 김해국제공항<br>10/24~25 (출국일) 운행</p>
+            <p class="scard-sub en-block">5 official Haeundae hotels → Gimhae Int'l Airport<br>Oct 24–25 (departure days)</p>
+            <span class="scard-cta"><span class="ko-only">지금 예약 →</span><span class="en-only">Book Now →</span></span>
           </div>
         </div>
       </a>
@@ -500,8 +534,8 @@
       <!-- Venue Shuttle (FREE) full width -->
       <a class="scard free card-full reveal d3" href="shuttle-venue.html" aria-label="행사장 셔틀 — 호텔↔BEXCO">
         <div class="scard-bar">
-          🚌 행사장 셔틀 — 호텔 ↔ BEXCO
-          <span class="fare-tag">무료 · 등록 참가자</span>
+          <svg class="ico ico-lg" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 6v6"/><path d="M15 6v6"/><path d="M2 12h19.6"/><path d="M18 18h3s.5-1.7.8-2.8c.1-.4.2-.8.2-1.2 0-.4-.1-.8-.2-1.2l-1.4-5C20.1 6.8 19.1 6 18 6H4a2 2 0 0 0-2 2v10h3"/><circle cx="7" cy="18" r="2"/><path d="M9 18h5"/><circle cx="16" cy="18" r="2"/></svg> <span class="ko-only">행사장 셔틀 — 호텔 ↔ BEXCO</span><span class="en-only">Venue Shuttle — Hotels ↔ BEXCO</span>
+          <span class="fare-tag"><span class="ko-only">무료 · 등록 참가자</span><span class="en-only">Free · Registered Participants</span></span>
         </div>
         <div class="scard-photo">
           <img src="https://transport.apec2025.kr/shared/images/zones/bg-visual-venue-busan.jpg"
@@ -509,10 +543,12 @@
                onerror="this.onerror=null;this.src='assets/img/bexco.jpg'">
           <div class="scard-info">
             <div class="scard-dir">
-              공식 호텔 <span class="ar">↔</span> BEXCO (행사장)
+              <span class="ko-only">공식 호텔 <span class="ar">↔</span> BEXCO (행사장)</span>
+              <span class="en-only">Official Hotels <span class="ar">↔</span> BEXCO (Venue)</span>
             </div>
-            <p class="scard-sub">정기 순환 · 시그니엘·웨스틴조선·파크하얏트 ↔ BEXCO · 등록 참가자 무료 · 10/21~24</p>
-            <span class="scard-cta">시간표 보기 →</span>
+            <p class="scard-sub ko-block">정기 순환 · 공식호텔 5곳 ↔ BEXCO · 등록 참가자 무료 · 10/21~24</p>
+            <p class="scard-sub en-block">Regular circuit · 5 official hotels ↔ BEXCO · Free for registered participants · Oct 21–24</p>
+            <span class="scard-cta"><span class="ko-only">시간표 보기 →</span><span class="en-only">View Schedule →</span></span>
           </div>
         </div>
       </a>
@@ -525,58 +561,14 @@
 <section class="chauffeur" aria-label="전용차량 서비스">
   <div class="chauffeur-inner wrap">
     <div>
-      <span class="chauffeur-ic">🚗</span>
+      <span class="chauffeur-ic"><svg class="ico ico-lg" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2"/><circle cx="7" cy="17" r="2"/><path d="M9 17h6"/><circle cx="17" cy="17" r="2"/></svg></span>
       <h2>Get a private chauffeur<br><em>just for you</em></h2>
-      <p>김해공항·부산역에서 목적지까지 도어 투 도어. 세단·밴·의전 차량. 연자·임원 의전 및 팀 단위 이동에 — 셔틀보다 유연하게.</p>
-      <a class="btn btn-white" href="shuttle-chauffeur.html">자세히 보기 →</a>
+      <p class="ko-block">김해공항·부산역에서 목적지까지 도어 투 도어. 세단·밴·의전 차량. 연자·임원 의전 및 팀 단위 이동에 — 셔틀보다 유연하게.</p>
+      <p class="en-block">Door-to-door from Gimhae Airport or Busan Station. Sedans, vans &amp; VIP vehicles. For speakers, executives &amp; group transfers — more flexible than a shuttle.</p>
+      <a class="btn btn-white" href="shuttle-chauffeur.html"><span class="ko-only">자세히 보기 →</span><span class="en-only">Learn More →</span></a>
     </div>
     <div class="chauffeur-photo">
       <img src="assets/img/chauffeur-g90-hotel-night.webp" alt="Private Chauffeur — G90 hotel drop-off, RIDEUS Events">
-    </div>
-  </div>
-</section>
-
-<!-- ── USEFUL INFORMATION ─────────────────────────────────────────── -->
-<section class="useful-section" id="useful" aria-labelledby="uf-h">
-  <div class="wrap">
-    <div class="sec-head reveal">
-      <span class="kicker">유용한 정보 · Useful Information</span>
-      <h2 class="sec-h" id="uf-h">이동을 더 가볍게</h2>
-      <p class="sec-sub">셔틀·전용차량과 함께 이용할 수 있는 부가 교통 정보입니다.</p>
-    </div>
-    <div class="useful-row useful-row--4">
-      <a class="ucard reveal d1" href="info-arrival.html" style="border-top:3px solid var(--red)">
-        <div class="ucard-ic" style="background:#fff0f3;border-color:#fcc">✈️</div>
-        <div class="ucard-body">
-          <b>입국·도착 안내</b>
-          <span>항공·KTX·버스로 부산 오는 법</span>
-        </div>
-        <span class="ucard-go">→</span>
-      </a>
-      <a class="ucard ktx reveal d2" href="info-ktx.html">
-        <div class="ucard-ic">🚄</div>
-        <div class="ucard-body">
-          <b>KTX 예매</b>
-          <span>서울-부산 KTX 연계 예약·발권 안내</span>
-        </div>
-        <span class="ucard-go">→</span>
-      </a>
-      <a class="ucard bag reveal d3" href="info-baggage.html">
-        <div class="ucard-ic">🧳</div>
-        <div class="ucard-body">
-          <b>짐 배송</b>
-          <span>공항 ↔ 공식 호텔 수하물 운송</span>
-        </div>
-        <span class="ucard-go">→</span>
-      </a>
-      <a class="ucard sim reveal d4" href="info-esim.html">
-        <div class="ucard-ic">📶</div>
-        <div class="ucard-body">
-          <b>유심 / eSIM</b>
-          <span>입국 즉시 통신 개통</span>
-        </div>
-        <span class="ucard-go">→</span>
-      </a>
     </div>
   </div>
 </section>
@@ -585,9 +577,9 @@
 <section class="access-section" id="access" aria-labelledby="ac-h">
   <div class="wrap">
     <div class="sec-head reveal">
-      <span class="kicker">오시는 길 · How to Get Here</span>
-      <h2 class="sec-h" id="ac-h">부산 BEXCO까지 오시는 길</h2>
-      <p class="sec-sub">주요 출발지에서 행사장까지 예상 소요 시간과 요금입니다.</p>
+      <h2 class="sec-h" id="ac-h"><span class="ko-only">부산 BEXCO까지 오시는 길</span><span class="en-only">Getting to Busan BEXCO</span></h2>
+      <p class="sec-sub ko-block">주요 출발지에서 행사장까지 예상 소요 시간과 요금입니다.</p>
+      <p class="sec-sub en-block">Estimated travel times and fares from major departure points to the venue.</p>
     </div>
     <div class="access-grid">
 
@@ -598,13 +590,13 @@
                alt="김해국제공항"
                onerror="this.onerror=null;this.src='assets/img/gimhae-airport.jpg'">
           <span class="acard-code">PUS</span>
-          <span class="acard-label">김해국제공항</span>
+          <span class="acard-label"><span class="ko-only">김해국제공항</span><span class="en-only">Gimhae Int'l Airport</span></span>
         </div>
-        <div class="acard-row-head"><span>이동 수단</span><span class="arh-fare">예상 요금</span></div>
+        <div class="acard-row-head"><span><span class="ko-only">이동 수단</span><span class="en-only">Transport</span></span><span class="arh-fare"><span class="ko-only">예상 요금</span><span class="en-only">Est. Fare</span></span></div>
         <ul class="acard-rows">
-          <li class="acard-row"><span class="ar-ic">🚌</span><span class="ar-name">APHRS 셔틀</span><span class="ar-time">약 60분</span><span class="ar-fare">유료</span></li>
-          <li class="acard-row"><span class="ar-ic">🚕</span><span class="ar-name">택시 / 앱</span><span class="ar-time">약 40분</span><span class="ar-fare">약 ₩35,000</span></li>
-          <li class="acard-row"><span class="ar-ic">🚇</span><span class="ar-name">지하철 (2개 노선)</span><span class="ar-time">약 60분</span><span class="ar-fare">약 ₩2,000</span></li>
+          <li class="acard-row"><span class="ar-ic"><svg class="ico ico-lg" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 6v6"/><path d="M15 6v6"/><path d="M2 12h19.6"/><path d="M18 18h3s.5-1.7.8-2.8c.1-.4.2-.8.2-1.2 0-.4-.1-.8-.2-1.2l-1.4-5C20.1 6.8 19.1 6 18 6H4a2 2 0 0 0-2 2v10h3"/><circle cx="7" cy="18" r="2"/><path d="M9 18h5"/><circle cx="16" cy="18" r="2"/></svg></span><span class="ar-name">APHRS Shuttle</span><span class="ar-time"><span class="ko-only">약 60분</span><span class="en-only">~60 min</span></span><span class="ar-fare"><span class="ko-only">유료</span><span class="en-only">Paid</span></span></li>
+          <li class="acard-row"><span class="ar-ic"><svg class="ico ico-lg" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2"/><circle cx="7" cy="17" r="2"/><path d="M9 17h6"/><circle cx="17" cy="17" r="2"/></svg></span><span class="ar-name"><span class="ko-only">택시 / 앱</span><span class="en-only">Taxi / App</span></span><span class="ar-time"><span class="ko-only">약 40분</span><span class="en-only">~40 min</span></span><span class="ar-fare">≈ ₩35,000</span></li>
+          <li class="acard-row"><span class="ar-ic"><svg class="ico ico-lg" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3.1V7a4 4 0 0 0 8 0V3.1"/><path d="m9 15-1-1"/><path d="m15 15 1-1"/><path d="M9 19c-2.8 0-5-2.2-5-5v-4a8 8 0 0 1 16 0v4c0 2.8-2.2 5-5 5Z"/><path d="m8 19-2 3"/><path d="m16 19 2 3"/></svg></span><span class="ar-name"><span class="ko-only">지하철 (2개 노선)</span><span class="en-only">Subway (2 lines)</span></span><span class="ar-time"><span class="ko-only">약 60분</span><span class="en-only">~60 min</span></span><span class="ar-fare">≈ ₩2,000</span></li>
         </ul>
       </div>
 
@@ -615,13 +607,13 @@
                alt="부산역 (KTX)"
                onerror="this.onerror=null;this.src='assets/img/bexco.jpg'">
           <span class="acard-code">KTX</span>
-          <span class="acard-label">부산역 (KTX)</span>
+          <span class="acard-label"><span class="ko-only">부산역 (KTX)</span><span class="en-only">Busan Station (KTX)</span></span>
         </div>
-        <div class="acard-row-head"><span>이동 수단</span><span class="arh-fare">예상 요금</span></div>
+        <div class="acard-row-head"><span><span class="ko-only">이동 수단</span><span class="en-only">Transport</span></span><span class="arh-fare"><span class="ko-only">예상 요금</span><span class="en-only">Est. Fare</span></span></div>
         <ul class="acard-rows">
-          <li class="acard-row"><span class="ar-ic">🚌</span><span class="ar-name">APHRS 셔틀</span><span class="ar-time">약 40분</span><span class="ar-fare">유료</span></li>
-          <li class="acard-row"><span class="ar-ic">🚕</span><span class="ar-name">택시 / 앱</span><span class="ar-time">약 30분</span><span class="ar-fare">약 ₩22,000</span></li>
-          <li class="acard-row"><span class="ar-ic">🚇</span><span class="ar-name">지하철 (1호선)</span><span class="ar-time">약 50분</span><span class="ar-fare">약 ₩1,800</span></li>
+          <li class="acard-row"><span class="ar-ic"><svg class="ico ico-lg" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 6v6"/><path d="M15 6v6"/><path d="M2 12h19.6"/><path d="M18 18h3s.5-1.7.8-2.8c.1-.4.2-.8.2-1.2 0-.4-.1-.8-.2-1.2l-1.4-5C20.1 6.8 19.1 6 18 6H4a2 2 0 0 0-2 2v10h3"/><circle cx="7" cy="18" r="2"/><path d="M9 18h5"/><circle cx="16" cy="18" r="2"/></svg></span><span class="ar-name">APHRS Shuttle</span><span class="ar-time"><span class="ko-only">약 40분</span><span class="en-only">~40 min</span></span><span class="ar-fare"><span class="ko-only">유료</span><span class="en-only">Paid</span></span></li>
+          <li class="acard-row"><span class="ar-ic"><svg class="ico ico-lg" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2"/><circle cx="7" cy="17" r="2"/><path d="M9 17h6"/><circle cx="17" cy="17" r="2"/></svg></span><span class="ar-name"><span class="ko-only">택시 / 앱</span><span class="en-only">Taxi / App</span></span><span class="ar-time"><span class="ko-only">약 30분</span><span class="en-only">~30 min</span></span><span class="ar-fare">≈ ₩22,000</span></li>
+          <li class="acard-row"><span class="ar-ic"><svg class="ico ico-lg" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3.1V7a4 4 0 0 0 8 0V3.1"/><path d="m9 15-1-1"/><path d="m15 15 1-1"/><path d="M9 19c-2.8 0-5-2.2-5-5v-4a8 8 0 0 1 16 0v4c0 2.8-2.2 5-5 5Z"/><path d="m8 19-2 3"/><path d="m16 19 2 3"/></svg></span><span class="ar-name"><span class="ko-only">지하철 (1호선)</span><span class="en-only">Subway (Line 1)</span></span><span class="ar-time"><span class="ko-only">약 50분</span><span class="en-only">~50 min</span></span><span class="ar-fare">≈ ₩1,800</span></li>
         </ul>
       </div>
 
@@ -629,58 +621,40 @@
   </div>
 </section>
 
-<!-- ── ABOUT APHRS 2026 ────────────────────────────────────────────── -->
-<section class="about-section" aria-label="APHRS 2026 행사 정보">
-  <div class="wrap">
-    <div class="about-strip reveal">
-      <div class="about-left">
-        <span class="about-kicker">행사 안내 · About the Event</span>
-        <h3>APHRS 2026 — 19th Asia Pacific Heart Rhythm Society Scientific Session</h3>
-        <div class="about-chips">
-          <span class="about-chip">📅 2026년 10월 21–24일</span>
-          <span class="about-chip">🏛 BEXCO, Busan</span>
-          <span class="about-chip">🌏 외국인 약 3,000명</span>
-          <span class="about-chip">🤝 KHRS 2026 공동개최</span>
-        </div>
-      </div>
-      <a class="btn btn-outline about-cta-btn" href="https://aphrs2026.com" target="_blank" rel="noopener">공식 사이트 aphrs2026.com ↗</a>
-    </div>
-  </div>
-</section>
-
 <!-- ── SUPPORT ────────────────────────────────────────────────────── -->
 <section class="support-section" id="support" aria-labelledby="sp-h">
   <div class="wrap">
     <div class="sec-head reveal">
-      <span class="kicker">고객 지원 · Support</span>
-      <h2 class="sec-h" id="sp-h">이동 관련 문의가 있으신가요?</h2>
+      <h2 class="sec-h" id="sp-h"><span class="ko-only">이동 관련 문의가 있으신가요?</span><span class="en-only">Need help with your transport?</span></h2>
     </div>
     <div class="support-grid">
       <div class="spcard reveal d1">
-        <h3>RIDEUS Events 운영팀</h3>
-        <p>셔틀 예약·의전·단체 수송 문의를 도와드립니다. 평일 09:00–18:00 (KST) 운영.</p>
+        <h3><span class="ko-only">RIDEUS Events 운영팀</span><span class="en-only">RIDEUS Events Team</span></h3>
+        <p class="ko-block">셔틀 예약·의전·단체 수송 문의를 도와드립니다. 평일 09:00–18:00 (KST) 운영.</p>
+        <p class="en-block">Here for shuttle bookings, chauffeur services &amp; group transport inquiries. Mon–Fri 09:00–18:00 KST.</p>
         <div class="sp-rows">
           <div class="sp-row">
-            <div class="sp-ic">✉️</div>
-            <div><b>ops@groundk.com</b><small>이메일 문의</small></div>
+            <div class="sp-ic"><svg class="ico ico-lg" viewBox="0 0 24 24" aria-hidden="true"><path d="m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7"/><rect x="2" y="4" width="20" height="16" rx="2"/></svg></div>
+            <div><b>ops@groundk.com</b><small><span class="ko-only">이메일 문의</span><span class="en-only">Email inquiry</span></small></div>
           </div>
           <div class="sp-row">
-            <div class="sp-ic">📞</div>
-            <div><b>+82-2-863-3540</b><small>평일 09:00–18:00 (KST)</small></div>
+            <div class="sp-ic"><svg class="ico ico-lg" viewBox="0 0 24 24" aria-hidden="true"><path d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384"/></svg></div>
+            <div><b>+82-2-863-3540</b><small><span class="ko-only">평일 09:00–18:00 (KST)</span><span class="en-only">Mon–Fri 09:00–18:00 KST</span></small></div>
           </div>
         </div>
       </div>
       <div class="spcard reveal d2">
-        <h3>예약 내역 확인</h3>
-        <p>예약번호와 이메일로 데모 예약 내역을 조회할 수 있습니다. (콘셉트 데모)</p>
+        <h3><span class="ko-only">예약 내역 확인</span><span class="en-only">Check Your Booking</span></h3>
+        <p class="ko-block">예약번호와 이메일로 데모 예약 내역을 조회할 수 있습니다. (콘셉트 데모)</p>
+        <p class="en-block">Look up your demo booking with your reservation number and email. (Concept demo)</p>
         <div class="sp-rows">
           <div class="sp-row">
-            <div class="sp-ic">🔎</div>
-            <div><b>예약조회</b><small>예약번호 + 이메일</small></div>
+            <div class="sp-ic"><svg class="ico ico-lg" viewBox="0 0 24 24" aria-hidden="true"><path d="m21 21-4.34-4.34"/><circle cx="11" cy="11" r="8"/></svg></div>
+            <div><b><span class="ko-only">예약조회</span><span class="en-only">Booking Lookup</span></b><small><span class="ko-only">예약번호 + 이메일</span><span class="en-only">Booking No. + Email</span></small></div>
           </div>
         </div>
         <button class="btn btn-navy btn-sm" id="lookupBtn2" type="button" style="margin-top:18px">
-          예약조회 열기 →
+          <span class="ko-only">예약조회 열기 →</span><span class="en-only">Open Lookup →</span>
         </button>
       </div>
     </div>
@@ -694,55 +668,83 @@
   <div class="footer-inner">
     <div class="footer-top">
       <div class="footer-brand">
-        <img src="https://aphrs2026.com/home/2025/aphrs/image/top_logo.png"
+        <img src="assets/img/brand/color/abbr_horz_1.png"
              alt="APHRS 2026 Busan"
-             onerror="this.onerror=null;this.src='assets/img/aphrs-logo.png'">
+             onerror="this.onerror=null;this.src='assets/img/brand/color/abbr_horz_1.png'">
         <div class="wm">
           <b>RIDEUS Events</b>
-          <small>GroundK · 참가자 교통 포털 데모</small>
+          <small><span class="ko-only">GroundK · 참가자 교통 포털 데모</span><span class="en-only">GroundK · Participant Transport Portal Demo</span></small>
         </div>
       </div>
       <nav class="footer-nav" aria-label="Footer">
-        <a href="shuttle-airport-hotel.html">공항 → 호텔</a>
-        <a href="shuttle-hotel-airport.html">호텔 → 공항</a>
-        <a href="shuttle-venue.html">행사장 셔틀</a>
-        <a href="shuttle-chauffeur.html">전용차량</a>
-        <a href="#support">고객 지원</a>
-        <a href="https://aphrs2026.com" target="_blank" rel="noopener">공식 사이트 ↗</a>
+        <a href="airport-transfer.html"><span class="ko-only">공항 ↔ 호텔</span><span class="en-only">Airport ↔ Hotel</span></a>
+        <a href="shuttle-venue.html"><span class="ko-only">행사장 셔틀</span><span class="en-only">Venue Shuttle</span></a>
+        <a href="shuttle-chauffeur.html"><span class="ko-only">전용차량</span><span class="en-only">Chauffeur</span></a>
+        <a href="#support"><span class="ko-only">고객 지원</span><span class="en-only">Support</span></a>
+        <a href="https://aphrs2026.com" target="_blank" rel="noopener">Official Site ↗</a>
       </nav>
     </div>
     <div class="footer-legal">
       <b>GroundK Co., Ltd</b> · CEO 장동원 · Business Reg. 238-81-00429<br>
       405호, 45 Centum Dong-ro, Haeundae-gu, Busan 48059 · Tel +82-2-863-3540 · ops@groundk.com<br>
-      RIDEUS는 GroundK의 Transportation × Travel 플랫폼입니다. 모든 거래·교환·환불·민원은 GroundK가 처리합니다.<br>
-      <span class="ver">© 2026 GroundK · APHRS 2026 참가자 교통 포털 (콘셉트 데모) · build 2026.06.27.5</span>
+      <span class="ko-only">RIDEUS는 GroundK의 Transportation × Travel 플랫폼입니다. 모든 거래·교환·환불·민원은 GroundK가 처리합니다.</span>
+      <span class="en-only">RIDEUS is GroundK's Transportation × Travel platform. All transactions, exchanges, refunds &amp; inquiries are handled by GroundK.</span><br>
+      <span class="ver">© 2026 GroundK · <span class="ko-only">APHRS 2026 참가자 교통 포털 (콘셉트 데모)</span><span class="en-only">APHRS 2026 Participant Transport Portal (Concept Demo)</span> · build 2026.07.13.1</span>
     </div>
   </div>
 </footer>
 
-<div class="mockup-flag" style="z-index:200">콘셉트 목업 · 실제 예약 연동 예정</div>
+<div class="mockup-flag" style="z-index:200"><span class="ko-only">콘셉트 목업<span class="mf-ext"> · 실제 예약 연동 예정</span></span><span class="en-only">Concept Mockup<span class="mf-ext"> · Booking integration planned</span></span></div>
 
 <!-- ── BOOKING LOOKUP MODAL ─────────────────────────────────────── -->
 <div class="modal-ov" id="lookupModal" role="dialog" aria-modal="true" aria-labelledby="lk-h">
   <div class="modal">
     <button class="modal-x" id="lookupClose" type="button" aria-label="닫기">✕</button>
-    <h3 id="lk-h">예약 내역 조회</h3>
-    <p>예약번호와 이메일을 입력하면 데모 예약 내역을 확인합니다.</p>
+    <h3 id="lk-h"><span class="ko-only">예약 내역 조회</span><span class="en-only">Booking Lookup</span></h3>
+    <p class="ko-block">예약번호와 이메일을 입력하면 데모 예약 내역을 확인합니다.</p>
+    <p class="en-block">Enter your reservation number and email to view your demo booking.</p>
     <div class="mf">
-      <label for="lkCode">예약번호</label>
+      <label for="lkCode"><span class="ko-only">예약번호</span><span class="en-only">Booking No.</span></label>
       <input id="lkCode" type="text" placeholder="RE-APHRS-SH-0000">
     </div>
     <div class="mf">
-      <label for="lkEmail">이메일</label>
+      <label for="lkEmail"><span class="ko-only">이메일</span><span class="en-only">Email</span></label>
       <input id="lkEmail" type="email" placeholder="you@example.com">
     </div>
     <div class="m-actions">
-      <button class="btn btn-red btn-block btn-sm" id="lookupSubmit" type="button">조회하기</button>
+      <button class="btn btn-red btn-block btn-sm" id="lookupSubmit" type="button"><span class="ko-only">조회하기</span><span class="en-only">Search</span></button>
     </div>
-    <p class="m-note" id="lkResult">※ 콘셉트 데모입니다. 실제 예약 시스템과 연동되지 않으며, 예시 안내만 표시됩니다.</p>
+    <p class="m-note" id="lkResult"><span class="ko-only">※ 콘셉트 데모입니다. 실제 예약 시스템과 연동되지 않으며, 예시 안내만 표시됩니다.</span><span class="en-only">※ Concept demo. Not connected to an actual booking system — example results only.</span></p>
   </div>
 </div>
 
-<script src="assets/app.js?v=2026.06.27.5"></script>
+<script src="assets/app.js?v=2026.07.13.1"></script>
+
+<script>
+(function(){
+  var toggle = document.getElementById('navToggle');
+  var nav    = document.getElementById('mobileNav');
+  if(!toggle || !nav) return;
+  toggle.addEventListener('click', function(){
+    var open = nav.classList.toggle('open');
+    toggle.classList.toggle('open', open);
+    toggle.setAttribute('aria-expanded', open);
+    document.body.style.overflow = open ? 'hidden' : '';
+    if(open){
+      var head = document.querySelector('.site-head');
+      if(head) nav.style.top = head.getBoundingClientRect().bottom + 'px';
+    }
+  });
+  // ESC 닫기
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape' && nav.classList.contains('open')){
+      nav.classList.remove('open');
+      toggle.classList.remove('open');
+      toggle.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+    }
+  });
+})();
+</script>
 </body>
 </html>
