@@ -104,9 +104,6 @@
   }
   function drawIcon(svg, type, cx, cy){
     var D = 22, s = D / 24;
-    var mask = document.createElementNS(SVGNS, 'circle');
-    mask.setAttribute('cx', cx); mask.setAttribute('cy', cy); mask.setAttribute('r', 12); mask.setAttribute('class', 'lm-mask');
-    svg.appendChild(mask);
     var g = document.createElementNS(SVGNS, 'g');
     g.setAttribute('transform', 'translate(' + (cx - D / 2) + ' ' + (cy - D / 2) + ') scale(' + s + ')');
     var ic = LM_ICONS[type];
@@ -130,7 +127,7 @@
     for (var k = 0; k < n; k++){
       var r = Math.floor(k / cols), i = k - r * cols;
       var col = (r % 2 === 0) ? i : (cols - 1 - i);
-      pts.push({ x: PADX + col * stepX, y: TOP + r * RG, s: stops[k] });
+      pts.push({ x: PADX + col * stepX, y: TOP + r * RG, s: stops[k], col: col, row: r });
     }
     var H = TOP + (rows - 1) * RG + BOT;
     var svg = document.createElementNS(SVGNS, 'svg');
@@ -147,9 +144,12 @@
       var hub = pt.s.end;
       var lines = splitName(pt.s.nm);
       var t = document.createElementNS(SVGNS, 'text');
-      var ax = pt.x, ay = pt.y - (R + 7);
+      // 우측 끝 정류장(U자 커넥터가 아래로 내려가는 곳)은 라벨을 좌상향으로 눕혀 선·글씨 겹침 방지
+      var rightEdge = (cols > 1 && pt.col === cols - 1 && rows > 1);
+      var ax = pt.x + (rightEdge ? -3 : 0), ay = pt.y - (R + 7);
       t.setAttribute('x', ax); t.setAttribute('y', ay);
-      t.setAttribute('transform', 'rotate(-52 ' + ax + ' ' + ay + ')');
+      t.setAttribute('transform', 'rotate(' + (rightEdge ? 52 : -52) + ' ' + ax + ' ' + ay + ')');
+      t.setAttribute('text-anchor', rightEdge ? 'end' : 'start');
       t.setAttribute('class', hub ? 'lm-label lm-label-hub' : 'lm-label');
       lines.forEach(function(ln, li){
         var ts = document.createElementNS(SVGNS, 'tspan');
@@ -254,10 +254,33 @@
   var _rt;
   window.addEventListener('resize', function(){ clearTimeout(_rt); _rt = setTimeout(rerenderSnakes, 180); });
 
+  /* ---- 사진/도면 슬라이더 (넘기기 버튼, 자동 슬라이드 없음) ---- */
+  function initSliders(){
+    document.querySelectorAll('[data-slider]').forEach(function(card){
+      var slides = card.querySelector('.pc-slides');
+      if (!slides || slides.children.length < 2) return;
+      var n = slides.children.length, idx = 0;
+      var dots = card.querySelectorAll('.pc-dots span');
+      var badge = card.querySelector('.pc-badge');
+      var labels = (card.getAttribute('data-labels') || '📷,🗺️').split(',');
+      function go(i){
+        idx = (i + n) % n;
+        slides.style.transform = 'translateX(' + (-idx * 100) + '%)';
+        dots.forEach(function(d, di){ d.classList.toggle('on', di === idx); });
+        if (badge) badge.textContent = labels[idx] || '';
+      }
+      var prev = card.querySelector('.pc-nav.prev'), next = card.querySelector('.pc-nav.next');
+      if (prev) prev.addEventListener('click', function(){ go(idx - 1); });
+      if (next) next.addEventListener('click', function(){ go(idx + 1); });
+      go(0);
+    });
+  }
+
   document.addEventListener('DOMContentLoaded', function () {
     initReveal();
     initLang();
     initLookup();
     initRoutes();
+    initSliders();
   });
 })();
