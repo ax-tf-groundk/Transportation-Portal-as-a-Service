@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" data-vr="a" data-vd="1021">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -181,6 +181,20 @@
       </h2>
       <p class="sec-sub ko-block">전체 학회 기간 동안 5개 공식호텔과 BEXCO를 2개 노선으로 나누어 운행합니다. 무료, 예약 불필요.</p>
       <p class="sec-sub en-block">Two routes connect all 5 official hotels to BEXCO throughout the conference. Free, no reservation needed.</p>
+    </div>
+    <div class="vtabs" role="tablist" aria-label="노선 선택">
+      <button class="vtab" type="button" role="tab" data-vr-btn="a" aria-selected="true">
+        <span class="ko-only">A 노선 (시그니엘 · 파라다이스)</span><span class="en-only">Route A (Signiel · Paradise)</span>
+      </button>
+      <button class="vtab" type="button" role="tab" data-vr-btn="b" aria-selected="false" tabindex="-1">
+        <span class="ko-only">B 노선 (웨스틴조선 · 파크하얏트)</span><span class="en-only">Route B (Westin Josun · Park Hyatt)</span>
+      </button>
+    </div>
+    <div class="vtabs vtabs-date" role="tablist" aria-label="날짜 선택">
+      <button class="vtab" type="button" role="tab" data-vd-btn="1021" aria-selected="true">10/21 (수)</button>
+      <button class="vtab" type="button" role="tab" data-vd-btn="1022" aria-selected="false" tabindex="-1">10/22 (목)</button>
+      <button class="vtab" type="button" role="tab" data-vd-btn="1023" aria-selected="false" tabindex="-1">10/23 (금)</button>
+      <button class="vtab" type="button" role="tab" data-vd-btn="1024" aria-selected="false" tabindex="-1">10/24 (토)</button>
     </div>
     <div class="route-rows">
       <div class="rt-card reveal d1">
@@ -583,6 +597,53 @@
       document.body.style.overflow = '';
     }
   });
+})();
+</script>
+<script>
+/* Venue Shuttle — 노선(vr) × 날짜(vd) 상태 관리 */
+(function(){
+  var root = document.documentElement;
+  var vrBtns = Array.prototype.slice.call(document.querySelectorAll('[data-vr-btn]'));
+  var vdBtns = Array.prototype.slice.call(document.querySelectorAll('[data-vd-btn]'));
+
+  function applyGroup(btns, attr){
+    var current = root.getAttribute(attr);
+    btns.forEach(function(b){
+      var key = b.getAttribute('data-vr-btn') || b.getAttribute('data-vd-btn');
+      var on = key === current;
+      b.setAttribute('aria-selected', String(on));
+      b.setAttribute('tabindex', on ? '0' : '-1');
+    });
+  }
+
+  vrBtns.forEach(function(b, i){
+    b.addEventListener('click', function(){
+      root.setAttribute('data-vr', b.getAttribute('data-vr-btn'));
+      applyGroup(vrBtns, 'data-vr');
+    });
+    b.addEventListener('keydown', function(e){
+      var d = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
+      if (!d) return;
+      var n = vrBtns[(i + d + vrBtns.length) % vrBtns.length];
+      n.focus(); n.click();
+    });
+  });
+
+  vdBtns.forEach(function(b, i){
+    b.addEventListener('click', function(){
+      root.setAttribute('data-vd', b.getAttribute('data-vd-btn'));
+      applyGroup(vdBtns, 'data-vd');
+    });
+    b.addEventListener('keydown', function(e){
+      var d = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
+      if (!d) return;
+      var n = vdBtns[(i + d + vdBtns.length) % vdBtns.length];
+      n.focus(); n.click();
+    });
+  });
+
+  applyGroup(vrBtns, 'data-vr');
+  applyGroup(vdBtns, 'data-vd');
 })();
 </script>
 <script src="https://unpkg.com/maplibre-gl@5.24.0/dist/maplibre-gl.js"></script>
