@@ -948,8 +948,11 @@ h1,h2,h3,h4{line-height:1.16;letter-spacing:-.4px;text-wrap:balance}
 .snk{margin-top:6px;overflow:visible}
 .lm-svg{display:block;overflow:visible;width:100%}
 .lm-line{fill:none;stroke:var(--red);stroke-width:5;stroke-linejoin:round;stroke-linecap:round;opacity:.92}
-.lm-dot{fill:#fff;stroke:var(--red);stroke-width:3.4}
-.lm-dot.lm-hub{fill:var(--red);stroke:var(--red)}
+.lm-dot{fill:#fff;stroke:var(--red);stroke-width:2.4}
+.lm-dot.lm-hub{stroke-width:3.4}
+.lm-dot.lm-num{fill:var(--red)}
+.lm-glyph{font-size:15px}
+.lm-num-t{fill:#fff;font-weight:800;font-size:14px;font-family:"Montserrat","Pretendard",sans-serif}
 .lm-label{font-family:"Montserrat","Pretendard",sans-serif;font-size:11px;font-weight:600;fill:var(--ink)}
 .lm-label-hub{font-weight:800;fill:var(--red-700)}
 .rd-loop{font-size:12px;color:var(--orange-600);font-weight:700;margin-top:14px}
@@ -977,3 +980,25 @@ h1,h2,h3,h4{line-height:1.16;letter-spacing:-.4px;text-wrap:balance}
 .tt-table tbody tr:last-child td{border-bottom:0}
 .tt-note{font-size:11px;color:var(--muted);padding:10px 16px;line-height:1.5;background:#fff}
 @media(max-width:560px){.lm-label{font-size:10px}.rroute{padding:18px 14px}}
+
+/* ══════════ 이중언어(KO/EN) + 네비 드롭다운 ══════════ */
+.en-only{display:none}
+.en-block{display:none}
+html[data-lang="en"] .ko-only{display:none}
+html[data-lang="en"] .en-only{display:inline}
+html[data-lang="en"] .ko-block{display:none}
+html[data-lang="en"] .en-block{display:block}
+/* 네비 한 줄 유지 */
+.nav{flex-wrap:nowrap}
+.nav a{white-space:nowrap}
+/* 네비 드롭다운 (호버) */
+.nav .nav-dd{position:relative;display:inline-flex;align-items:center}
+.nav .dd-menu{position:absolute;top:calc(100% + 6px);left:50%;transform:translateX(-50%) translateY(6px);min-width:190px;
+  background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:0 16px 38px -12px rgba(0,40,26,.28);padding:7px;
+  opacity:0;visibility:hidden;transition:opacity .16s,transform .16s;z-index:60}
+.nav .nav-dd:hover .dd-menu,.nav .nav-dd:focus-within .dd-menu{opacity:1;visibility:visible;transform:translateX(-50%) translateY(0)}
+.nav .nav-dd::after{content:"";position:absolute;top:100%;left:0;right:0;height:8px}
+.dd-menu a{display:block;padding:10px 15px;border-radius:9px;font-size:13.5px;font-weight:600;color:var(--ink);white-space:nowrap}
+.dd-menu a small{display:block;font-size:11px;color:var(--muted);font-weight:500;margin-top:1px}
+.dd-menu a:hover{background:var(--red-050);color:var(--red)}
+@media(max-width:900px){.nav .dd-menu{display:none}}

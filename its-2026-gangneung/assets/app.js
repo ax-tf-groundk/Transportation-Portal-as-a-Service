@@ -18,15 +18,24 @@
   }
 
   /* ---- language toggle (UI only — labels switch, no real translation in demo) ---- */
+  function setLang(lang) {
+    document.documentElement.setAttribute('data-lang', lang);
+    document.documentElement.setAttribute('data-ui-lang', lang);
+    document.documentElement.setAttribute('lang', lang);
+    var toggle = document.getElementById('langToggle');
+    if (toggle) toggle.querySelectorAll('.seg').forEach(function (s) { s.classList.toggle('on', s.dataset.lang === lang); });
+    try { localStorage.setItem('itsLang', lang); } catch (e) {}
+  }
   function initLang() {
+    var saved = 'ko';
+    try { saved = localStorage.getItem('itsLang') || 'ko'; } catch (e) {}
+    setLang(saved);
     var toggle = document.getElementById('langToggle');
     if (!toggle) return;
-    var segs = toggle.querySelectorAll('.seg');
     toggle.addEventListener('click', function () {
-      var active = toggle.querySelector('.seg.on');
-      var next = active && active.dataset.lang === 'ko' ? 'en' : 'ko';
-      Array.prototype.forEach.call(segs, function (s) { s.classList.toggle('on', s.dataset.lang === next); });
-      document.documentElement.setAttribute('data-ui-lang', next);
+      var cur = document.documentElement.getAttribute('data-lang') === 'en' ? 'en' : 'ko';
+      setLang(cur === 'ko' ? 'en' : 'ko');
+      if (window.__rerenderSnakes) window.__rerenderSnakes();
     });
   }
 
@@ -77,13 +86,25 @@
     if (nm.length > 8){ var m = Math.ceil(nm.length / 2); return [nm.slice(0, m), nm.slice(m)]; }
     return [nm];
   }
-  // 지하철 노선도 스타일: 하나의 연결선 + 원(정류장) + 대각선 라벨, 뱀(⊐)형 굽이
-  function buildSnake(container, stops){
+  // 정류장 특징 아이콘 (공항=비행기 · 휴게소 · 호텔 · 경기장 · 역 · 터미널)
+  function stopIcon(nm){
+    if (/공항|청사/.test(nm)) return '✈️';
+    if (/휴게소/.test(nm)) return '☕';
+    if (/역|KTX/.test(nm)) return '🚉';
+    if (/버스터미널|터미널/.test(nm)) return '🚌';
+    if (/호텔|리조트|샌드파인|스카이베이|씨마크|세인트존스|모노그램|탑스텐|오션스위트|SL|씨티|썬크루즈/.test(nm)) return '🏨';
+    if (/올림픽파크|컨벤션|오발|종합운동장|아이스아레나|아레나/.test(nm)) return '🏟️';
+    if (/월화거리/.test(nm)) return '🏙️';
+    return '📍';
+  }
+  // 지하철 노선도 스타일: 하나의 연결선 + 아이콘/번호 정류장 + 대각선 라벨, 뱀(⊐)형 굽이
+  function buildSnake(container, stops, numbered){
     var W = container.clientWidth || container.offsetWidth || 900;
     if (W < 60) W = 900;
-    var PADX = W < 520 ? 40 : 58, TOP = 84, RG = 106, BOT = 26;
+    var R = 13;
+    var PADX = W < 520 ? 42 : 60, TOP = 94, RG = 116, BOT = 30;
     var n = stops.length;
-    var minSp = W < 520 ? 92 : 126;
+    var minSp = W < 520 ? 104 : 150;
     var cols = Math.max(2, Math.min(n, Math.floor((W - 2 * PADX) / minSp) + 1));
     if (n < cols) cols = n;
     var rows = Math.ceil(n / cols);
@@ -105,11 +126,11 @@
     var path = document.createElementNS(SVGNS, 'path');
     path.setAttribute('d', d); path.setAttribute('class', 'lm-line');
     svg.appendChild(path);
-    pts.forEach(function(pt){
+    pts.forEach(function(pt, idx){
       var hub = pt.s.end;
       var lines = splitName(pt.s.nm);
       var t = document.createElementNS(SVGNS, 'text');
-      var ax = pt.x, ay = pt.y - 14;
+      var ax = pt.x, ay = pt.y - (R + 7);
       t.setAttribute('x', ax); t.setAttribute('y', ay);
       t.setAttribute('transform', 'rotate(-52 ' + ax + ' ' + ay + ')');
       t.setAttribute('class', hub ? 'lm-label lm-label-hub' : 'lm-label');
@@ -122,10 +143,20 @@
       });
       svg.appendChild(t);
       var c = document.createElementNS(SVGNS, 'circle');
-      c.setAttribute('cx', pt.x); c.setAttribute('cy', pt.y);
-      c.setAttribute('r', hub ? 8 : 6);
-      c.setAttribute('class', hub ? 'lm-dot lm-hub' : 'lm-dot');
+      c.setAttribute('cx', pt.x); c.setAttribute('cy', pt.y); c.setAttribute('r', R);
+      c.setAttribute('class', 'lm-dot' + (numbered ? ' lm-num' : '') + (hub ? ' lm-hub' : ''));
       svg.appendChild(c);
+      var g = document.createElementNS(SVGNS, 'text');
+      g.setAttribute('x', pt.x); g.setAttribute('y', pt.y + 0.5);
+      g.setAttribute('text-anchor', 'middle'); g.setAttribute('dominant-baseline', 'central');
+      if (numbered){
+        g.setAttribute('class', 'lm-num-t');
+        g.textContent = (idx === n - 1 && pt.s.nm === stops[0].nm) ? '1' : String(idx + 1);
+      } else {
+        g.setAttribute('class', 'lm-glyph');
+        g.textContent = stopIcon(pt.s.nm);
+      }
+      svg.appendChild(g);
     });
     container.innerHTML = '';
     container.appendChild(svg);
@@ -182,7 +213,8 @@
       (cfg.loop ? '<p class="rd-loop">↻ 왕복 순환 — 종점에서 동일 경로로 회차</p>' : '') +
       (cfg.timetable === false ? '' : (cfg.first ? buildTimetable(cfg) : ''));
     el._snakeStops = stops;
-    buildSnake(el.querySelector('.snk'), stops);
+    el._numbered = !!cfg.numbered;
+    buildSnake(el.querySelector('.snk'), stops, cfg.numbered);
   }
 
   var _routeEls = [];
@@ -193,7 +225,7 @@
   function rerenderSnakes(){
     _routeEls.forEach(function(el){
       var c = el.querySelector('.snk');
-      if (c && el._snakeStops && el.offsetParent !== null) buildSnake(c, el._snakeStops);
+      if (c && el._snakeStops && el.offsetParent !== null) buildSnake(c, el._snakeStops, el._numbered);
     });
   }
   window.__rerenderSnakes = rerenderSnakes;

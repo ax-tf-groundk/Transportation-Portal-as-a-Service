@@ -6,9 +6,9 @@
 <meta http-equiv="Cache-Control" content="no-cache">
 <title>여행 정보 — 2026 강릉 ITS 세계총회 교통 | RIDEUS Events</title>
 <meta name="description" content="2026 강릉 ITS 세계총회 참가자 여행 정보 — 입국 안내, 공항→강릉 교통편(버스·KTX), 짐 배송. 인천·김포공항에서 강릉까지 오는 모든 방법.">
-<meta name="version" content="2026.07.10.7">
-<link rel="stylesheet" href="assets/transport.css?v=2026.07.10.7">
-<link rel="icon" type="image/png" sizes="64x64" href="assets/img/favicon.png?v=2026.07.10.7">
+<meta name="version" content="2026.07.10.8">
+<link rel="stylesheet" href="assets/transport.css?v=2026.07.10.8">
+<link rel="icon" type="image/png" sizes="64x64" href="assets/img/favicon.png?v=2026.07.10.8">
 <link rel="apple-touch-icon" href="assets/img/favicon-180.png">
 <style>
 /* sticky tab bar */
@@ -20,8 +20,8 @@
 .tv-tab.active{color:var(--red);border-bottom-color:var(--red)}
 @media(max-width:760px){.tabbar-inner{padding:0 16px}.tv-tab{padding:14px 13px;font-size:13.5px}}
 /* sections */
-.tv-section{padding:52px 0;border-top:1px solid var(--line-2)}
-.tv-section[hidden]{display:none}
+.tv-section{padding:52px 0;border-top:1px solid var(--line-2);scroll-margin-top:80px}
+.tv-section:first-of-type{border-top:none}
 .tv-group{margin-top:34px}
 .tv-group:first-of-type{margin-top:22px}
 .tv-subh{font-size:18px;font-weight:800;color:var(--ink);letter-spacing:-.3px;margin-bottom:14px}
@@ -105,16 +105,30 @@
 <header class="site-head"><div class="bar">
   <a class="brand brand-its" href="index.html"><img src="assets/img/its-mark.png" alt="2026 강릉 ITS 세계총회"><span class="brand-lockup"><b>GANGNEUNG</b><small>ITS World Congress 2026 · 교통 포털</small></span></a>
   <nav class="nav" aria-label="교통">
-    <a href="shuttle-airport-in.html">공항 → 강릉</a>
-    <a href="shuttle-venue.html">행사장 셔틀</a>
-    <a href="shuttle-airport-out.html">강릉 → 서울역</a>
-    <a href="shuttle-chauffeur.html">전용 차량</a>
-    <a href="info-access.html" class="active">여행 정보</a>
+    <a href="shuttle-airport-in.html"><span class="ko-only">공항 → 강릉</span><span class="en-only">To Gangneung</span></a>
+    <span class="nav-dd">
+      <a href="shuttle-venue.html"><span class="ko-only">행사장 셔틀</span><span class="en-only">Venue Shuttle</span></a>
+      <div class="dd-menu">
+        <a href="shuttle-venue.html#hotel"><span class="ko-only">숙소 순환</span><span class="en-only">Hotel Loop</span></a>
+        <a href="shuttle-venue.html#station"><span class="ko-only">역·터미널 순환</span><span class="en-only">Station Loop</span></a>
+        <a href="shuttle-venue.html#internal"><span class="ko-only">행사장 내부 순환</span><span class="en-only">On-site Loop</span></a>
+      </div>
+    </span>
+    <a href="shuttle-airport-out.html"><span class="ko-only">강릉 → 서울역</span><span class="en-only">To Seoul</span></a>
+    <a href="shuttle-chauffeur.html"><span class="ko-only">전용 차량</span><span class="en-only">Private Car</span></a>
+    <span class="nav-dd">
+      <a href="info-access.html" class="active"><span class="ko-only">여행 정보</span><span class="en-only">Travel Info</span></a>
+      <div class="dd-menu">
+        <a href="info-access.html#arrival"><span class="ko-only">입국 안내</span><span class="en-only">Arrival</span></a>
+        <a href="info-access.html#access"><span class="ko-only">공항 → 강릉</span><span class="en-only">To Gangneung</span></a>
+        <a href="info-access.html#baggage"><span class="ko-only">짐 배송</span><span class="en-only">Baggage</span></a>
+      </div>
+    </span>
   </nav>
   <div class="head-right">
     <button class="lang" id="langToggle" type="button">🌐 <span class="seg on" data-lang="ko">KO</span><span class="seg" data-lang="en">EN</span></button>
-    <button class="head-link hide-sm" id="lookupBtn" type="button">예약조회</button>
-    <a class="head-link ext hide-sm" href="https://2026itsworldcongress.org" target="_blank" rel="noopener">공식 사이트</a>
+    <button class="head-link hide-sm" id="lookupBtn" type="button"><span class="ko-only">예약조회</span><span class="en-only">Booking</span></button>
+    <a class="head-link ext hide-sm" href="https://2026itsworldcongress.org" target="_blank" rel="noopener"><span class="ko-only">공식 사이트</span><span class="en-only">Official Site</span></a>
   </div>
 </div></header>
 
@@ -127,14 +141,8 @@
 </section>
 
 <!-- TAB BAR -->
-<div class="tabbar"><div class="tabbar-inner" role="tablist">
-  <button class="tv-tab active" data-tab="arrival" role="tab">🛬 입국 안내</button>
-  <button class="tv-tab" data-tab="access" role="tab">🚌 공항 → 강릉</button>
-  <button class="tv-tab" data-tab="baggage" role="tab">🧳 짐 배송</button>
-</div></div>
-
 <!-- ============ 1. 입국 안내 ============ -->
-<section class="tv-section" id="tab-arrival" aria-label="입국 안내">
+<section class="tv-section" id="arrival" aria-label="입국 안내">
   <div class="wrap">
     <div class="sec-head reveal"><span class="kicker">입국 안내 · Arrival</span><h2 class="sec-h">한국 도착 · 강릉까지</h2>
       <p class="sec-sub">도착 공항 · 강릉 이동 개요</p></div>
@@ -182,7 +190,7 @@
 </section>
 
 <!-- ============ 2. 공항 → 강릉 ============ -->
-<section class="tv-section" id="tab-access" aria-label="공항 → 강릉" hidden>
+<section class="tv-section" id="access" aria-label="공항 → 강릉">
   <div class="wrap">
     <div class="sec-head reveal"><span class="kicker">공항 → 강릉 · Getting to Gangneung</span><h2 class="sec-h">공항에서 강릉까지</h2>
       <p class="sec-sub">인천·김포공항 · 버스·KTX 상세 경로</p></div>
@@ -342,7 +350,7 @@
 </section>
 
 <!-- ============ 3. 짐 배송 ============ -->
-<section class="tv-section" id="tab-baggage" aria-label="짐 배송" hidden>
+<section class="tv-section" id="baggage" aria-label="짐 배송">
   <div class="wrap">
     <div class="sec-head reveal"><span class="kicker">짐 배송 · Baggage</span><h2 class="sec-h">공항 ↔ 호텔 짐 배송</h2>
       <p class="sec-sub">무거운 짐 없이 가볍게 이동</p></div>
@@ -405,7 +413,7 @@
     <a class="brand" href="index.html"><span class="logo" aria-hidden="true">R</span><span class="wm"><b>RIDEUS Events</b><small>GroundK · 참가자 교통 포털 데모</small></span></a>
     <nav class="fnav"><a href="shuttle-airport-in.html">공항 → 강릉</a><a href="shuttle-venue.html">행사장 셔틀</a><a href="shuttle-airport-out.html">강릉 → 서울역</a><a href="shuttle-chauffeur.html">전용 차량</a><a href="info-access.html">여행 정보</a></nav>
   </div>
-  <div class="legal"><b>GroundK Co., Ltd</b> · CEO 장동원 · Business Reg. 238-81-00429 · ops@groundk.com<br><span class="ver">© 2026 GroundK · 2026 강릉 ITS 세계총회 교통 포털 (콘셉트 데모) · build 2026.07.10.7</span></div>
+  <div class="legal"><b>GroundK Co., Ltd</b> · CEO 장동원 · Business Reg. 238-81-00429 · ops@groundk.com<br><span class="ver">© 2026 GroundK · 2026 강릉 ITS 세계총회 교통 포털 (콘셉트 데모) · build 2026.07.10.8</span></div>
 </div></footer>
 <div class="mockup-flag">콘셉트 목업 · 실제 예약 연동 예정</div>
 
@@ -422,18 +430,10 @@
   </div>
 </div>
 
-<script src="assets/app.js?v=2026.07.10.7"></script>
+<script src="assets/app.js?v=2026.07.10.8"></script>
 <script>
 (function(){
-  // tabs
-  var tabs=document.querySelectorAll('.tv-tab');
-  var panes={arrival:document.getElementById('tab-arrival'),access:document.getElementById('tab-access'),baggage:document.getElementById('tab-baggage')};
-  tabs.forEach(function(t){t.addEventListener('click',function(){
-    tabs.forEach(function(x){x.classList.remove('active')});t.classList.add('active');
-    Object.keys(panes).forEach(function(k){if(panes[k])panes[k].hidden=(k!==t.dataset.tab)});
-    window.scrollTo({top:0,behavior:'smooth'});
-  })});
-  // accordion
+  // accordion (one-page scroll, no tabs)
   document.querySelectorAll('.acc-btn').forEach(function(b){b.addEventListener('click',function(){
     var body=b.nextElementSibling; var open=b.classList.contains('open');
     b.classList.toggle('open',!open); if(body)body.classList.toggle('open',!open);
