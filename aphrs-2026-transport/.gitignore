@@ -1,0 +1,12 @@
+
+# local working backup (not for repo)
+_logo_backup_html/
+
+# internal QA / bug-report screenshots (not for public deploy)
+screenshots/
+
+# internal working docs — specs & plans (not for public deploy)
+docs/
+
+# brainstorming visual-companion mockups (local session artifacts)
+.superpowers/

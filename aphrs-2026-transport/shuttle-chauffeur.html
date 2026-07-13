@@ -1,139 +1,183 @@
-<!DOCTYPE html>
-<html lang="en">
+﻿<!DOCTYPE html>
+<html lang="ko">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="Cache-Control" content="no-cache">
-<title>Private Chauffeur Service — APHRS 2026</title>
-<meta name="description" content="APHRS 2026 private chauffeur service. Door-to-door sedan, van, or VIP escort. Gimhae Airport or Busan Station to any destination in Busan.">
-<meta name="version" content="2026.06.27.5">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="assets/transport.css?v=2026.06.27.5">
+<title>전용차량 서비스 — APHRS 2026 부산 교통 | RIDEUS Events</title>
+<meta name="description" content="APHRS 2026 전용차량 서비스. 세단·밴·VIP 에스코트. 김해공항·부산역에서 부산 내 목적지까지 도어투도어.">
+<meta name="version" content="2026.07.13.1">
+<link rel="stylesheet" href="assets/transport.css?v=2026.07.13.1">
 <style>
 /* Chauffeur page additions — minimal inline supplementary styles */
 .svc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:2rem}
-@media(max-width:720px){.svc-grid{grid-template-columns:1fr}}
-.svc-card{background:#fff;border:1.5px solid var(--bd,#e5e7eb);border-radius:12px;padding:2rem 1.5rem;text-align:center;transition:box-shadow .2s,transform .2s}
+.svc-card{background:#fff;border:1.5px solid var(--bd,#e5e7eb);border-radius:12px;padding:1rem 1.25rem;text-align:center;transition:box-shadow .2s,transform .2s}
 .svc-card:hover{box-shadow:0 8px 32px rgba(0,0,0,.1);transform:translateY(-3px)}
 .svc-ic{font-size:3rem;display:block;margin-bottom:.75rem}
 .svc-name{font-size:1.25rem;font-weight:700;margin-bottom:.25rem}
 .svc-cap{font-size:.82rem;color:var(--soft,#6b7280);margin-bottom:.5rem}
 .svc-desc{font-size:.9rem;color:var(--fg,#374151);margin-bottom:1.25rem;line-height:1.5}
+@media(max-width:720px){
+  .svc-grid{grid-template-columns:1fr;gap:.75rem}
+  .svc-card{padding:.625rem .875rem;border-radius:10px}
+  .svc-ic{font-size:2rem;margin-bottom:.4rem}
+  .svc-name{font-size:1.05rem}
+  .svc-desc{margin-bottom:.75rem;font-size:.85rem}
+}
 .zone-list{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:.6rem}
 .zone-list li{display:flex;align-items:center;gap:.6rem;font-size:.95rem}
 .zone-list li::before{content:"↔";color:var(--accent,#b91c1c);font-weight:700;flex-shrink:0}
 </style>
 </head>
 <body>
-<a class="skip" href="#main">Skip to content</a>
+<a class="skip" href="#main"><span class="ko-only">본문 바로가기</span><span class="en-only">Skip to main content</span></a>
 
 <div class="demo-banner">
-  GroundK Concept Demo — No actual booking or payment is processed. This is not the official APHRS 2026 website (<b>aphrs2026.com</b> is separate).
+  <span class="ko-only">GroundK 콘셉트 데모 — 실제 예약·결제는 처리되지 않습니다. APHRS 2026 공식 사이트가 아닙니다(<b>aphrs2026.com</b> 별도).</span>
+  <span class="en-only">GroundK Concept Demo — No actual bookings or payments processed. This is not the official APHRS 2026 website (<b>aphrs2026.com</b>).</span>
 </div>
 
 <header class="site-head">
   <div class="bar">
-    <a class="brand brand-aphrs" href="index.html" aria-label="APHRS 2026 Busan — Participant Transportation">
-      <img src="https://aphrs2026.com/home/2025/aphrs/image/top_logo.png" alt="APHRS 2026 Busan"
-           onerror="this.onerror=null;this.src='assets/img/aphrs-logo.png'">
-      <span class="btag">Transportation</span>
+    <a class="brand brand-aphrs" href="index.html" aria-label="APHRS 2026 Busan — Participant Transport">
+      <img src="assets/img/brand/color/abbr_horz_1.png" alt="APHRS 2026 Busan"
+           onerror="this.onerror=null;this.src='assets/img/brand/color/abbr_horz_1.png'">
+      <span class="btag"><span class="ko-only">교통 포털</span><span class="en-only">Transport<br>Portal</span></span>
     </a>
-    <nav class="nav" aria-label="Shuttle routes">
-      <a href="shuttle-airport-hotel.html">Airport → Hotel</a>
-      <a href="shuttle-hotel-airport.html">Hotel → Airport</a>
-      <a href="shuttle-venue.html">Venue Shuttle</a>
-      <a href="shuttle-chauffeur.html" class="active">Chauffeur</a>
+    <nav class="nav" aria-label="Navigation">
+      <a href="airport-transfer.html"><span class="ko-only">공항 ↔ 호텔</span><span class="en-only">Airport ↔ Hotel</span></a>
+      <a href="shuttle-venue.html"><span class="ko-only">행사장 셔틀</span><span class="en-only">Venue Shuttle</span></a>
+      <a href="shuttle-chauffeur.html" class="active"><span class="ko-only">전용차량</span><span class="en-only">Chauffeur</span></a>
+      <div class="nav-dd">
+        <a class="nav-dd-btn" href="travel.html" aria-haspopup="true"><span class="ko-only">여행 정보</span><span class="en-only">Travel Info</span><span class="dd-caret" aria-hidden="true">▾</span></a>
+        <div class="nav-dd-menu" role="menu">
+          <a href="travel.html#arrival" role="menuitem"><span class="ko-only">입국 안내</span><span class="en-only">Arrival Guide</span></a>
+          <a href="travel.html#ktx" role="menuitem"><span class="ko-only">KTX 예매</span><span class="en-only">KTX Booking</span></a>
+          <a href="travel.html#baggage" role="menuitem"><span class="ko-only">짐 배송</span><span class="en-only">Baggage Delivery</span></a>
+          <!-- 유심/eSIM 임시 숨김 <a href="travel.html#esim" role="menuitem"><span class="ko-only">유심 / eSIM</span><span class="en-only">SIM / eSIM</span></a> -->
+        </div>
+      </div>
     </nav>
     <div class="head-right">
-      <button class="lang" id="langToggle" type="button" aria-label="Switch language (demo)">
-        🌐 <span class="seg on" data-lang="en">EN</span><span class="seg" data-lang="ko">KO</span>
+      <button class="lang" id="langToggle" type="button" aria-label="언어 전환 (데모)">
+        <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg> <span class="seg on" data-lang="ko">KO</span><span class="seg" data-lang="en">EN</span>
       </button>
-      <button class="head-link hide-sm" id="lookupBtn" type="button">My Booking</button>
-      <a class="head-link ext hide-sm" href="https://aphrs2026.com" target="_blank" rel="noopener">Official Site</a>
+      <button class="head-link hide-sm" id="lookupBtn" type="button"><span class="ko-only">예약조회</span><span class="en-only">My Booking</span></button>
+      <a class="head-link ext hide-sm" href="https://aphrs2026.com" target="_blank" rel="noopener"><span class="ko-only">공식 사이트</span><span class="en-only">Official Site</span></a>
     </div>
+    <button class="nav-toggle" id="navToggle" type="button" aria-label="메뉴 열기" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
   </div>
 </header>
+
+<nav class="mobile-nav" id="mobileNav" aria-label="Mobile Menu">
+  <a href="airport-transfer.html"><span class="ko-only">공항 ↔ 호텔</span><span class="en-only">Airport ↔ Hotel</span></a>
+  <a href="shuttle-venue.html"><span class="ko-only">행사장 셔틀</span><span class="en-only">Venue Shuttle</span></a>
+  <a href="shuttle-chauffeur.html" class="active"><span class="ko-only">전용차량</span><span class="en-only">Chauffeur</span></a>
+  <div class="mn-divider"></div>
+  <span class="mn-sub"><span class="ko-only">여행 정보</span><span class="en-only">Travel Info</span></span>
+  <a class="mn-child" href="travel.html#arrival"><span class="ko-only">입국 안내</span><span class="en-only">Arrival Guide</span></a>
+  <a class="mn-child" href="travel.html#ktx"><span class="ko-only">KTX 예매</span><span class="en-only">KTX Booking</span></a>
+  <a class="mn-child" href="travel.html#baggage"><span class="ko-only">짐 배송</span><span class="en-only">Baggage Delivery</span></a>
+  <!-- 유심/eSIM 임시 숨김 <a class="mn-child" href="travel.html#esim"><span class="ko-only">유심 / eSIM</span><span class="en-only">SIM / eSIM</span></a> -->
+  <div class="mn-divider"></div>
+  <a class="mn-ext" href="https://aphrs2026.com" target="_blank" rel="noopener"><span class="ko-only">공식 사이트 aphrs2026.com ↗</span><span class="en-only">Official Site aphrs2026.com ↗</span></a>
+  <div class="mn-divider"></div>
+  <button class="lang" type="button" aria-label="언어 전환 (데모)"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg> <span class="seg on" data-lang="ko">KO</span><span class="seg" data-lang="en">EN</span></button>
+</nav>
 
 <main id="main">
 
 <!-- ===== DETAIL HERO ===== -->
 <section class="detail-hero">
   <img class="bgimg"
-       src="assets/img/ev-aphrs.webp"
+       src="assets/img/chauffeur-g90-hotel-night.webp"
        alt="Private Chauffeur Vehicle"
        onerror="this.onerror=null;this.src='assets/img/card-bus.jpg'">
   <div class="inner">
     <nav class="crumb" aria-label="breadcrumb">
-      <a href="index.html">Home</a> › <a href="index.html#shuttle">Services</a> › <span>Chauffeur</span>
+      <a href="index.html">Home</a> › <a href="index.html#shuttle">Services</a> › <span><span class="ko-only">전용차량</span><span class="en-only">Chauffeur</span></span>
     </nav>
-    <h1>Private Chauffeur <span style="font-size:.55em;font-weight:700;opacity:.85">Service</span></h1>
-    <p class="dsub">Door-to-door sedan, van, or VIP. <b>Gimhae Airport or Busan Station</b> to any destination.</p>
+    <h1>
+      <span class="ko-only">전용차량 <span style="font-size:.55em;font-weight:700;opacity:.85">서비스</span></span>
+      <span class="en-only">Private Chauffeur Service</span>
+    </h1>
+    <p class="dsub ko-block">세단·밴·VIP 에스코트. <b>김해공항 또는 부산역</b>에서 부산 내 원하는 목적지까지.</p>
+    <p class="dsub en-block">Sedan · Van · VIP Escort. Door-to-door from <b>Gimhae Int'l Airport or Busan Station</b> to any destination in Busan.</p>
   </div>
 </section>
 
 <div class="wrap">
   <div class="op-badges">
-    <span class="op-badge"><span class="ob-k">Coverage</span> Gimhae Airport · Busan Station · Hotels · BEXCO</span>
-    <span class="op-badge"><span class="ob-k">Booking</span> Advance reservation required</span>
-    <span class="op-badge paid">PAID · On-demand</span>
+    <span class="op-badge"><span class="ob-k"><span class="ko-only">운행구간</span><span class="en-only">Service Zones</span></span> <span class="ko-only">김해공항 · 부산역 · 공식호텔 · BEXCO</span><span class="en-only">Gimhae Airport · Busan Station · Official Hotels · BEXCO</span></span>
+    <span class="op-badge"><span class="ob-k"><span class="ko-only">예약</span><span class="en-only">Booking</span></span> <span class="ko-only">사전 예약 필수</span><span class="en-only">Pre-booking required</span></span>
+    <span class="op-badge paid"><span class="ko-only">유료 · 온디맨드</span><span class="en-only">Paid · On-demand</span></span>
   </div>
 </div>
 
-<!-- ===== VEHICLE SELECTION ===== -->
-<section class="section" aria-labelledby="svc-h">
+<!-- ===== BOOKING WIDGET ===== -->
+<section class="section" id="book" aria-labelledby="book-h">
   <div class="wrap">
     <div class="sec-head reveal">
-      <span class="kicker">Vehicle Selection · 차량 선택</span>
-      <h2 class="sec-h" id="svc-h">Choose Your Vehicle</h2>
-      <p class="sec-sub">Select the right vehicle for your group size and occasion — from airport transfers to VIP escorted arrivals.</p>
+      <h2 class="sec-h" id="book-h"><span class="ko-only">전용차량 예약</span><span class="en-only">Book a Chauffeur</span></h2>
+      <p class="sec-sub ko-block">일정과 인원에 맞는 차량을 선택해 바로 예약하세요.</p>
+      <p class="sec-sub en-block">Select a vehicle that fits your schedule and group size, then book instantly.</p>
+    </div>
+    <div class="chauffeur-widget-wrap reveal">
+      <div class="ko-block">
+        <t-booking-widget
+          api-key="pk_test_DWOuhH7hx2njOk2UFvSfP9BA"
+          preset="wp_2wes4edk"
+        ></t-booking-widget>
+      </div>
+      <div class="en-block">
+        <t-booking-widget
+          api-key="pk_test_DWOuhH7hx2njOk2UFvSfP9BA"
+          preset="wp_vjivac82"
+        ></t-booking-widget>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== VEHICLE SELECTION ===== -->
+<section class="section" style="padding-top:0" aria-labelledby="svc-h">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <h2 class="sec-h" id="svc-h"><span class="ko-only">차량 안내</span><span class="en-only">Vehicles</span></h2>
+      <p class="sec-sub ko-block">제공 차종 안내입니다.</p>
+      <p class="sec-sub en-block">Available vehicle types.</p>
     </div>
     <div class="svc-grid">
 
       <!-- Sedan -->
       <div class="svc-card reveal d1">
-        <span class="svc-ic">🚗</span>
-        <div class="svc-name">Sedan</div>
-        <div class="svc-cap">Up to 3 passengers</div>
-        <p class="svc-desc">Standard sedan for airport/station to hotel transfers and general point-to-point rides.</p>
-        <a class="btn btn-red" href="booking.html?svc=private&amp;type=sedan">Book Now</a>
+        <img src="assets/img/fleet_g90.webp" alt="Genesis G90" onerror="this.onerror=null;this.style.display='none'">
+        <div class="svc-badge">FIRST CLASS SEDAN</div>
+        <div class="svc-name">Genesis G90</div>
+        <div class="svc-cap"><span class="ko-only">최대 3인 · 캐리어 3개</span><span class="en-only">Up to 3 pax · 3 bags</span></div>
       </div>
 
-      <!-- Van/MPV -->
+      <!-- Van -->
       <div class="svc-card reveal d2">
-        <span class="svc-ic">🚐</span>
-        <div class="svc-name">Van / MPV</div>
-        <div class="svc-cap">Up to 7 passengers</div>
-        <p class="svc-desc">Spacious van for group transfers — ideal for delegations or families travelling together.</p>
-        <a class="btn btn-red" href="booking.html?svc=private&amp;type=van">Book Now</a>
+        <img src="assets/img/fleet_staria.webp" alt="Staria HiLimo" onerror="this.onerror=null;this.style.display='none'">
+        <div class="svc-badge">PREMIUM VAN</div>
+        <div class="svc-name">Staria HiLimo</div>
+        <div class="svc-cap"><span class="ko-only">최대 7인 · 캐리어 6개</span><span class="en-only">Up to 7 pax · 6 bags</span></div>
       </div>
 
-      <!-- VIP Escort -->
+      <!-- Group -->
       <div class="svc-card reveal d3">
-        <span class="svc-ic">👔</span>
-        <div class="svc-name">VIP Escort</div>
-        <div class="svc-cap">Up to 4 passengers</div>
-        <p class="svc-desc">Luxury sedan with professional escort — for speakers, faculty, and executive delegates.</p>
-        <a class="btn btn-red" href="booking.html?svc=private&amp;type=vip">Book Now</a>
+        <img src="assets/img/fleet_solati.webp" alt="Hyundai Solati" onerror="this.onerror=null;this.style.display='none'">
+        <div class="svc-badge">GROUP COACH</div>
+        <div class="svc-name">Hyundai Solati</div>
+        <div class="svc-cap"><span class="ko-only">8~13인 · 수하물 자유</span><span class="en-only">8–13 pax · luggage included</span></div>
       </div>
 
     </div>
-  </div>
-</section>
-
-<!-- ===== HOW IT WORKS ===== -->
-<section class="section" style="padding-top:0" aria-labelledby="how-h">
-  <div class="wrap">
-    <div class="sec-head reveal">
-      <span class="kicker">How It Works · 이용 방법</span>
-      <h2 class="sec-h" id="how-h">4 Steps to Your Ride</h2>
-    </div>
-    <div class="how-steps">
-      <div class="how-step reveal d1"><span class="sn">1</span><b>Select Vehicle</b><p>Sedan, Van/MPV, or VIP Escort</p></div>
-      <div class="how-step reveal d2"><span class="sn">2</span><b>Enter Pickup Details</b><p>Pickup point, destination, date &amp; time</p></div>
-      <div class="how-step reveal d3"><span class="sn">3</span><b>Confirm Schedule</b><p>Review itinerary and passenger count</p></div>
-      <div class="how-step reveal d4"><span class="sn">4</span><b>Receive Voucher</b><p>Get your e-voucher and driver contact</p></div>
-    </div>
+    <p class="svc-note reveal ko-block">* 요금은 출발지·거리·일정에 따라 산정되며, 상단 예약 위젯에서 확인할 수 있습니다.</p>
+    <p class="svc-note reveal en-block">* Fares depend on origin, distance and schedule — check exact rates in the booking widget above.</p>
   </div>
 </section>
 
@@ -141,14 +185,14 @@
 <section class="section" style="padding-top:0" aria-labelledby="zone-h">
   <div class="wrap">
     <div class="sec-head reveal">
-      <span class="kicker">Service Zones · 운행 구간</span>
-      <h2 class="sec-h" id="zone-h">Where We Operate</h2>
-      <p class="sec-sub">Point-to-point transfers anywhere within Busan. Common routes include:</p>
+      <h2 class="sec-h" id="zone-h"><span class="ko-only">운행 구간</span><span class="en-only">Service Zones</span></h2>
+      <p class="sec-sub ko-block">부산 시내 어디든 포인트투포인트 이동이 가능합니다. 주요 운행 구간:</p>
+      <p class="sec-sub en-block">Point-to-point transfers anywhere in Busan. Key routes:</p>
     </div>
     <ul class="zone-list reveal">
-      <li>Gimhae Int'l Airport (PUS) &nbsp;↔&nbsp; Official Hotels / BEXCO</li>
-      <li>Busan Station (KTX) &nbsp;↔&nbsp; Official Hotels / BEXCO</li>
-      <li>Point-to-point anywhere within Busan metropolitan area</li>
+      <li><span class="ko-only">김해국제공항 (PUS) &nbsp;↔&nbsp; 공식호텔 / BEXCO</span><span class="en-only">Gimhae Int'l Airport (PUS) &nbsp;↔&nbsp; Official Hotels / BEXCO</span></li>
+      <li><span class="ko-only">부산역 (KTX) &nbsp;↔&nbsp; 공식호텔 / BEXCO</span><span class="en-only">Busan Station (KTX) &nbsp;↔&nbsp; Official Hotels / BEXCO</span></li>
+      <li><span class="ko-only">부산 시내 임의 구간 포인트투포인트</span><span class="en-only">Any point-to-point route within Busan</span></li>
     </ul>
   </div>
 </section>
@@ -156,16 +200,15 @@
 <!-- ===== RULES ===== -->
 <section class="section" style="padding-top:0" aria-labelledby="rl-h">
   <div class="wrap">
-    <div class="sec-head reveal"><span class="kicker">Information · 이용 안내</span><h2 class="sec-h" id="rl-h">Usage Guidelines</h2></div>
+    <div class="sec-head reveal"><h2 class="sec-h" id="rl-h"><span class="ko-only">이용 안내</span><span class="en-only">How It Works</span></h2></div>
     <div class="rules reveal">
-      <h4>Booking &amp; Pricing</h4>
+      <h4><span class="ko-only">예약</span><span class="en-only">Booking</span></h4>
       <ul>
-        <li><b>Advance booking is required</b> — walk-in reservations are not accepted.</li>
-        <li>Please book at least <b>24 hours in advance</b> of your required pickup time.</li>
-        <li>Fares are <b>TBD</b> and will be confirmed at the time of booking. Payment details will be provided upon reservation.</li>
-        <li>Cancellations must be made at least 12 hours before the scheduled pickup. Late cancellations may incur a fee.</li>
-        <li>Your driver's contact details will be included in the e-voucher sent upon confirmation.</li>
-        <li>Meet-and-greet service is available at Gimhae Airport international arrivals upon request.</li>
+        <li><span class="ko-only"><b>사전 예약이 필수</b>입니다 — 당일 현장 예약은 불가합니다.</span><span class="en-only"><b>Advance booking is required</b> — same-day walk-up bookings are not accepted.</span></li>
+        <li><span class="ko-only">픽업 시간 기준 최소 <b>24시간 전</b>에 예약해 주세요.</span><span class="en-only">Please book at least <b>24 hours</b> before your pick-up time.</span></li>
+        <li><span class="ko-only">취소는 픽업 12시간 전까지 가능합니다. 늦은 취소는 취소 수수료가 발생할 수 있습니다.</span><span class="en-only">Cancellations are accepted up to 12 hours before pick-up. Late cancellations may incur a fee.</span></li>
+        <li><span class="ko-only">예약 확정 시 발송되는 e-바우처에 드라이버 연락처가 포함됩니다.</span><span class="en-only">The e-voucher sent upon booking confirmation includes the driver's contact details.</span></li>
+        <li><span class="ko-only">요청 시 김해공항 국제선 도착층에서 미트앤그리트 서비스를 제공합니다.</span><span class="en-only">Meet &amp; greet service at Gimhae Airport International Arrivals is available upon request.</span></li>
       </ul>
     </div>
   </div>
@@ -177,44 +220,75 @@
 <footer class="corp-foot">
   <div class="wrap">
     <div class="top">
-      <a class="brand" href="index.html" aria-label="APHRS 2026 Transportation Home">
-        <img src="https://aphrs2026.com/home/2025/aphrs/image/top_logo.png"
+      <a class="brand" href="index.html" aria-label="APHRS 2026 Transport Portal Home">
+        <img src="assets/img/brand/color/abbr_horz_1.png"
              alt="APHRS 2026"
              style="height:32px;object-fit:contain"
-             onerror="this.onerror=null;this.src='assets/img/aphrs-logo.png'">
-        <span class="wm"><b>APHRS 2026 Transportation</b><small>GroundK · Participant Transport Portal Demo</small></span>
+             onerror="this.onerror=null;this.src='assets/img/brand/color/abbr_horz_1.png'">
+        <span class="wm"><b>APHRS 2026 Transportation</b><small><span class="ko-only">GroundK · 참가자 교통 포털 데모</span><span class="en-only">GroundK · Participant Transport Portal Demo</span></small></span>
       </a>
-      <nav class="fnav" aria-label="Footer navigation">
-        <a href="shuttle-airport-hotel.html">Airport → Hotel</a>
-        <a href="shuttle-hotel-airport.html">Hotel → Airport</a>
-        <a href="shuttle-venue.html">Venue Shuttle</a>
-        <a href="index.html#support">Support</a>
+      <nav class="fnav" aria-label="Footer">
+        <a href="airport-transfer.html"><span class="ko-only">공항 ↔ 호텔</span><span class="en-only">Airport ↔ Hotel</span></a>
+        <a href="shuttle-venue.html"><span class="ko-only">행사장 셔틀</span><span class="en-only">Venue Shuttle</span></a>
+        <a href="index.html#support"><span class="ko-only">고객 지원</span><span class="en-only">Support</span></a>
       </nav>
     </div>
     <div class="legal">
-      <b>GroundK Co., Ltd</b> · CEO Jang Dong-won · Business Reg. 238-81-00429<br>
-      405, 45 Centum Dong-ro, Haeundae-gu, Busan 48059, Korea · Tel +82-2-863-3540 · Fax +82-70-8275-3540 · ops@groundk.com<br>
-      RIDEUS is GroundK's Transportation × Travel platform. All transactions, exchanges, refunds and complaints are handled by GroundK.<br>
-      <span class="ver">© 2026 GroundK · APHRS 2026 Participant Transport Portal (Concept Demo) · ver build 2026.06.27.5</span>
+      <b>GroundK Co., Ltd</b> · 대표 장동원 · 사업자등록번호 238-81-00429<br>
+      부산광역시 해운대구 센텀동로 45, 405호 (우 48059) · Tel +82-2-863-3540 · Fax +82-70-8275-3540 · ops@groundk.com<br>
+      <span class="ko-only">RIDEUS는 GroundK의 Transportation × Travel 플랫폼입니다. 모든 거래·교환·환불·민원은 GroundK가 처리합니다.</span><span class="en-only">RIDEUS is GroundK's Transportation × Travel platform. All transactions, exchanges, refunds &amp; inquiries are handled by GroundK.</span><br>
+      <span class="ver">© 2026 GroundK · <span class="ko-only">APHRS 2026 참가자 교통 포털 (콘셉트 데모)</span><span class="en-only">APHRS 2026 Participant Transport Portal (Concept Demo)</span> · build 2026.07.13.1</span>
     </div>
   </div>
 </footer>
 
-<div class="mockup-flag">Concept Mockup · Actual booking integration pending</div>
+<div class="mockup-flag"><span class="ko-only">컨셉 목업<span class="mf-ext"> · 실제 예약 연동 예정</span></span><span class="en-only">Concept Mockup<span class="mf-ext"> · Booking integration planned</span></span></div>
 
 <!-- ===== BOOKING LOOKUP MODAL ===== -->
 <div class="modal-ov" id="lookupModal" role="dialog" aria-modal="true" aria-labelledby="lk-h">
   <div class="modal">
     <button class="modal-x" id="lookupClose" type="button" aria-label="Close">✕</button>
-    <h3 id="lk-h">My Booking Lookup</h3>
-    <p>Enter your booking reference and email to retrieve your demo booking.</p>
-    <div class="mf"><label for="lkCode">Booking Reference</label><input id="lkCode" type="text" placeholder="RE-APHRS-SH-0000"></div>
-    <div class="mf"><label for="lkEmail">Email</label><input id="lkEmail" type="email" placeholder="you@example.com"></div>
-    <div class="m-actions"><button class="btn btn-red btn-block btn-sm" id="lookupSubmit" type="button">Look Up</button></div>
-    <p class="m-note" id="lkResult">※ This is a concept demo. Not connected to a real booking system — sample data only.</p>
+    <h3 id="lk-h"><span class="ko-only">예약 내역 조회</span><span class="en-only">Booking Lookup</span></h3>
+    <p class="ko-block">예약번호와 이메일을 입력하면 데모 예약 내역을 확인합니다.</p>
+    <p class="en-block">Enter your booking number and email to view your demo booking.</p>
+    <div class="mf"><label for="lkCode"><span class="ko-only">예약번호</span><span class="en-only">Booking No.</span></label><input id="lkCode" type="text" placeholder="RE-APHRS-SH-0000"></div>
+    <div class="mf"><label for="lkEmail"><span class="ko-only">이메일</span><span class="en-only">Email</span></label><input id="lkEmail" type="email" placeholder="you@example.com"></div>
+    <div class="m-actions"><button class="btn btn-red btn-block btn-sm" id="lookupSubmit" type="button"><span class="ko-only">조회하기</span><span class="en-only">Search</span></button></div>
+    <p class="m-note" id="lkResult"><span class="ko-only">※ 콘셉트 데모입니다. 실제 예약 시스템과 연동되지 않으며, 예시 안내만 표시됩니다.</span><span class="en-only">※ This is a concept demo. Not connected to a real booking system — sample information only.</span></p>
   </div>
 </div>
 
-<script src="assets/app.js?v=2026.06.27.5"></script>
+<script src="assets/app.js?v=2026.07.13.1"></script>
+<script src="https://connect.triseup.com/widget.js"></script>
+<script src="https://connect.triseup.com/booking-button.js"
+  data-api-key="pk_test_DWOuhH7hx2njOk2UFvSfP9BA"
+  data-preset="wp_2wes4edk"></script>
+
+<script>
+(function(){
+  var toggle = document.getElementById('navToggle');
+  var nav    = document.getElementById('mobileNav');
+  if(!toggle || !nav) return;
+  toggle.addEventListener('click', function(){
+    var open = nav.classList.toggle('open');
+    toggle.classList.toggle('open', open);
+    toggle.setAttribute('aria-expanded', open);
+    document.body.style.overflow = open ? 'hidden' : '';
+    if(open){
+      var head = document.querySelector('.site-head');
+      if(head) nav.style.top = head.getBoundingClientRect().bottom + 'px';
+    }
+  });
+  // ESC 닫기
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape' && nav.classList.contains('open')){
+      nav.classList.remove('open');
+      toggle.classList.remove('open');
+      toggle.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+    }
+  });
+})();
+</script>
 </body>
 </html>

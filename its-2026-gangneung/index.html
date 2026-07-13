@@ -12,8 +12,6 @@
 <link rel="apple-touch-icon" href="assets/img/favicon-180.png">
 <style>
 /* ── ITS landing-specific (공식 그린 #006241 + 틸 #009E95) ── */
-.site-head{background:#fff;border-bottom:2px solid var(--line)}
-.brand-its img{height:42px}
 .brand-its .btag{font-size:11.5px;font-weight:800;color:var(--red);border-left:2px solid var(--red-050);padding-left:13px;letter-spacing:.3px}
 .nav a.active{color:var(--red);background:var(--red-050)}
 
@@ -85,6 +83,14 @@
 .scard.accent .scard-bar,.scard.accent .scard-cta{background:var(--orange)}
 .scard.accent .scard-photo{background:linear-gradient(135deg,var(--orange-050),#d4f2ee)}
 .scard.accent .scard-dir .ar{color:var(--orange)}
+.scard-photo.has-photo::before{content:none}
+.scard-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0}
+.scard-photo.has-photo::after{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:linear-gradient(0deg,rgba(0,20,13,.88) 0,rgba(0,20,13,.82) 120px,rgba(0,32,21,.42) 200px,rgba(0,32,21,0) 290px)}
+.scard-photo.has-photo .scard-info{position:relative;z-index:2;background:none}
+.scard-photo.has-photo .scard-dir{color:#fff;text-shadow:0 1px 10px rgba(0,0,0,.35)}
+.scard-photo.has-photo .scard-dir .ar{color:#8FE9D2}
+.scard-photo.has-photo .scard-sub{color:rgba(255,255,255,.88)}
 
 /* chauffeur band (전용차량 안내) */
 .chauffeur{padding:58px 0;background:#fff}
@@ -226,7 +232,7 @@
       </a>
       <a class="scard accent full reveal d3" href="shuttle-venue.html">
         <div class="scard-bar">🚌 행사장 셔틀 — 숙소·시내·내부 순환<span class="tag">무료 · 등록 참가자</span></div>
-        <div class="scard-photo"><span class="scard-phtag">🖼️ 실제 사진 예정</span>
+        <div class="scard-photo has-photo"><img class="scard-img" src="assets/img/gangneung-convention-center.jpg" alt="강릉 컨벤션센터">
           <div class="scard-info">
             <div class="scard-dir">컨벤션센터 <span class="ar">↔</span> 숙소 4권역 · 강릉역·터미널 · 행사장 내부</div>
             <p class="scard-sub">총회기간(10.19~23) 정기 순환 · 경포/강문/주문진/정동진 · G1 도심 · 내부 4정류소</p>
