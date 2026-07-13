@@ -1,197 +1,99 @@
-﻿<!DOCTYPE html>
+# 행사장 셔틀 노선×날짜 탭 + U자형 노선도 Implementation Plan
+
+> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
+
+**Goal:** `shuttle-venue.html`의 "운행 노선"·"운행 시간표"·"Faculty Dinner 셔틀" 3개 정적 섹션을, 노선(A/B)×날짜(10/21~24) 탭으로 U자형 노선도와 실제 시간표가 함께 전환되는 통합 섹션으로 교체한다.
+
+**Architecture:** 빌드 없는 정적 사이트 — 2노선×4날짜 = 8개 콘텐츠 블록을 전부 정적 HTML로 미리 렌더링하고, `<html data-vr="a|b" data-vd="1021|1022|1023|1024">` 두 속성 + CSS `display:none` 토글로 보이기/숨기기 (빌드 시스템·JS 데이터 객체 없음, `airport-transfer.html`의 `data-mode` 관용구와 동일).
+
+**Tech Stack:** 순수 HTML + CSS + 바닐라 JS. 테스트 프레임워크 없음(이 프로젝트는 `python -m http.server`로 띄운 뒤 브라우저 스크린샷 육안 검수가 "테스트"에 해당 — 아래 각 태스크의 "검증" 단계가 이를 대신한다).
+
+## Global Constraints
+
+- 빌드·테스트·린트 명령 없음 — 파일을 직접 저장하면 그게 배포물이다 (`aphrs-2026-transport/CLAUDE.md`).
+- 버전 문자열은 `YYYY.MM.DD.N` 형식으로 `<meta name="version">`, `?v=` 쿼리스트링, `SITE_VERSION`(`assets/app.js` line 9) 4곳을 항상 동시에 올린다. 오늘 마지막 확정 버전은 `2026.07.13.3` — 이 작업이 끝나면 `2026.07.13.4`로 일괄 치환한다(`bump-version.sh 2026.07.13.4` 스크립트가 이 환경에서 대화식 프롬프트 때문에 실패했었음 — `for` 루프로 직접 `sed -i 's/2026\.07\.13\.3/2026.07.13.4/g'` 치환할 것).
+- **한쪽 면 컬러 보더 악센트 금지** — 카드 좌측 스트라이프 패턴(`design-principles.md §3`) 절대 넣지 않는다. `airport-transfer.html`이 이미 `.rt-card::before,.route-map::before{content:none}`로 이 패턴을 제거했었다 — 새 `.uroute` 컴포넌트도 처음부터 이 패턴 없이 설계한다.
+- **노선 2(파라다이스·시그니엘) 정류장 순서 정정** — 현재 라이브 사이트는 "파라다이스 → 시그니엘 → BEXCO" 순이지만, 공식 PPTX(`APHRS2026_행사장셔틀_노선및시간표_정리.md` §1-2)는 "시그니엘 → 파라다이스 → BEXCO" 순이다. 이번 작업에서 실제 순서로 정정한다(호텔 자체나 소요시간 수치는 변경 없음, 순서만 수정).
+- 실제 시간표 데이터 정본: `D:\Works\Active\APHRS2026\APHRS2026_행사장셔틀_노선및시간표_정리.md` §4. 아래 각 태스크의 HTML은 이 문서의 표를 그대로 옮긴 것 — 반올림·추정 금지.
+
+---
+
+### Task 1: CSS 기반 — 탭 컴포넌트 + U자형 노선도 + 8블록 토글 규칙
+
+**Files:**
+- Modify: `aphrs-2026-transport/shuttle-venue.html` (`<head>`의 인라인 `<style>` 블록, 현재 12~62번째 줄)
+
+**Interfaces:**
+- Produces: `.vtabs`/`.vtab`(노선·날짜 공용 탭 버튼 — `airport-transfer.html`의 `.limo-tabs`/`.limo-tab`를 그대로 복제해 이름 유지하되 이 페이지 전용으로 둠), `.uroute`/`.uroute-arm`/`.uroute-out`/`.uroute-back`/`.ar-lbl`/`.uroute-curve`(U자형 다이어그램), `vr-a`/`vr-b`/`vd-1021`/`vd-1022`/`vd-1023`/`vd-1024`(콘텐츠 블록 토글용 클래스)
+
+- [ ] **Step 1: 기존 스타일 블록 끝(`</style>` 직전)에 아래 CSS를 추가한다**
+
+```css
+/* ===== Venue Shuttle — 노선×날짜 탭 + U자형 노선도 (2026-07-13) ===== */
+.vtabs{display:flex;border-radius:var(--radius-sm);overflow:hidden;border:1px solid var(--line);margin-top:16px}
+.vtab{flex:1;padding:13px 16px;background:#fff;border:none;font:inherit;font-size:14.5px;font-weight:700;color:var(--muted);cursor:pointer;transition:background .15s,color .15s}
+.vtab:not(:last-child){border-right:1px solid var(--line)}
+.vtab[aria-selected="true"]{color:var(--red);background:var(--red-050)}
+.vtab:hover:not([aria-selected="true"]){color:var(--ink)}
+.vtabs.vtabs-date{margin-top:10px}
+.vtabs.vtabs-date .vtab{font-size:13px;padding:10px 12px}
+
+/* U자형 노선도 — 위=가는 편, 아래=오는 편, 오른쪽을 border-radius 곡선으로 연결 */
+.uroute{position:relative;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px 64px 22px 24px;margin-top:18px}
+.uroute-arm{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.uroute-arm:not(:last-child){margin-bottom:16px}
+.uroute-arm .ar-lbl{flex:0 0 auto;font-size:12px;font-weight:800;color:#fff;background:var(--navy);border-radius:8px;padding:7px 12px;letter-spacing:.3px}
+.uroute-back .ar-lbl{background:var(--red)}
+.uroute-path{font-size:15px;font-weight:700;color:var(--ink)}
+.uroute-path .ar{color:var(--red);font-weight:700;margin:0 5px}
+.uroute-curve{content:"";position:absolute;top:22px;bottom:22px;right:24px;width:26px;border:3px solid var(--red);border-left:none;border-radius:0 22px 22px 0}
+@media(max-width:620px){
+  .uroute{padding:18px 40px 18px 18px}
+  .uroute-curve{right:14px;width:16px;border-width:2.5px}
+  .uroute-path{font-size:13.5px}
+}
+
+/* 노선(vr)×날짜(vd) 토글 — 두 조건 AND 결합, 둘 다 맞을 때만 표시 */
+html:not([data-vr="a"]) .vr-a{display:none}
+html:not([data-vr="b"]) .vr-b{display:none}
+html:not([data-vd="1021"]) .vd-1021{display:none}
+html:not([data-vd="1022"]) .vd-1022{display:none}
+html:not([data-vd="1023"]) .vd-1023{display:none}
+html:not([data-vd="1024"]) .vd-1024{display:none}
+```
+
+- [ ] **Step 2: 저장 후 육안 검증 — 아직 이 클래스를 쓰는 HTML이 없으므로 브라우저에서 확인할 대상 없음. 다음 Task에서 마크업을 추가한 뒤 함께 검증한다. 이 Step은 문법 오류 여부만 확인.**
+
+Run: `python -m http.server 8241`(리포 루트가 아니라 `aphrs-2026-transport/` 폴더 안에서 실행) 후 `http://localhost:8241/shuttle-venue.html`을 열어 콘솔에 CSS 파싱 에러가 없는지 DevTools Console로 확인.
+Expected: 에러 없음, 페이지가 기존과 동일하게 보임(아직 새 마크업을 안 넣었으므로 시각적 변화 없어야 정상).
+
+---
+
+### Task 2: `<html>` 상태 속성 + 탭 UI 마크업 + JS 전환 로직
+
+**Files:**
+- Modify: `aphrs-2026-transport/shuttle-venue.html`
+  - `<html lang="ko">` 태그 (2번째 줄)
+  - "ROUTES" 섹션(현재 142~191번째 줄, `<section class="section" aria-labelledby="rt-h">` 전체) 중 헤딩 아래 탭 UI를 새로 삽입
+  - 페이지 하단 `<script>` 블록(파일 끝, 모바일 nav 토글 스크립트 근처)
+
+**Interfaces:**
+- Consumes: Task 1에서 정의한 `.vtabs`/`.vtab`/`vr-a`/`vr-b`/`vd-1021~1024` 클래스
+- Produces: 클릭 시 `document.documentElement`의 `data-vr`/`data-vd` 속성을 변경하는 JS(이후 Task에서 만드는 8개 콘텐츠 블록이 이 속성값을 구독)
+
+- [ ] **Step 1: `<html>` 태그에 기본 상태 속성 추가**
+
+`aphrs-2026-transport/shuttle-venue.html` 2번째 줄을 다음으로 교체:
+
+```html
 <html lang="ko" data-vr="a" data-vd="1021">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta http-equiv="Cache-Control" content="no-cache">
-<title>행사장 셔틀 — 호텔↔BEXCO — APHRS 2026 부산 교통 | RIDEUS Events</title>
-<meta name="description" content="APHRS 2026 등록 참가자 무료 행사장 셔틀. 공식호텔↔BEXCO, 2026.10.21~24 운행. 노선·시간표·정류장 안내.">
-<meta name="version" content="2026.07.13.4">
-<link rel="stylesheet" href="assets/transport.css?v=2026.07.13.4">
-<link rel="stylesheet" href="https://unpkg.com/maplibre-gl@5.24.0/dist/maplibre-gl.css"/>
-<style>
-  /* Venue schedule — 3개 노선 표를 데스크탑에서 3열로 배치 */
-  .sched-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;align-items:start;margin-bottom:14px;border-top:1px solid var(--line);padding-top:26px}
-  .sched-grid.sched-grid-2col{grid-template-columns:1fr 1fr}
-  .sched-grid h3{margin-top:0;color:var(--navy)!important;text-align:center}
-  .sched-grid .sched-table{margin-bottom:0;border:1px solid var(--line);border-radius:var(--radius-sm);overflow:hidden}
-  .sched-grid .sched-table table{width:100%}
-  .sched-grid .sched-table th,.sched-grid .sched-table td{padding:11px 14px}
-  .sched-grid .sched-table tbody tr:last-child td{border-bottom:none}
-  @media(max-width:920px){.sched-grid{grid-template-columns:1fr}.sched-grid.sched-grid-2col{grid-template-columns:1fr}}
-  /* STOPS 카드 — 호텔명 한·영 병기, 현재 토글 언어가 primary(16px)·다른 언어는 서브(12.5px). order로 primary를 항상 위로 */
-  .dest-name{display:flex;flex-direction:column;line-height:1.25;margin-bottom:2px}
-  .dest-name .nm-ko,.dest-name .nm-en{margin:0}
-  .dest-name .nm-ko{font-size:16px;color:var(--ink);font-weight:700}
-  .dest-name .nm-en{font-size:12.5px;color:var(--muted);font-weight:500}
-  html[data-ui-lang="en"] .dest-name .nm-ko{order:2;font-size:12.5px;color:var(--muted);font-weight:500}
-  html[data-ui-lang="en"] .dest-name .nm-en{order:1;font-size:16px;color:var(--ink);font-weight:700}
-  /* 설명 — 토글된 한 언어만 */
-  .dest-body .en-only{display:none}
-  html[data-ui-lang="en"] .dest-body .ko-only{display:none!important}
-  html[data-ui-lang="en"] .dest-body .en-only{display:block!important}
-  /* 호텔 지도 */
-  .hotel-map{height:460px;border-radius:var(--radius);overflow:hidden;border:1px solid var(--line);margin-top:20px}
-  @media(max-width:760px){.hotel-map{height:360px}}
-  .hotel-list-grid{display:grid;grid-template-columns:1fr 2fr;gap:44px;margin-top:30px}
-  @media(max-width:760px){.hotel-list-grid{grid-template-columns:1fr;gap:28px}}
-  .hlist-h{display:flex;align-items:center;gap:8px;font-size:16px;font-weight:800;letter-spacing:.2px;text-transform:uppercase;color:var(--navy);margin:0 0 16px;padding-bottom:11px;border-bottom:1px solid var(--line)}
-  .hlist-h::before{content:"";flex:none;width:7px;height:7px;border-radius:50%;background:var(--navy)}
-  .hlist-h--vip{color:var(--red)}
-  .hlist-h--vip::before{background:var(--red)}
-  .hlist{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:13px}
-  .hlist li{font-size:14px;color:var(--ink);display:flex;align-items:center;gap:10px;line-height:1.3}
-  .hlist-badge{flex:none;display:flex;align-items:center;justify-content:center;text-align:center;width:20px;height:20px;border-radius:50%;color:#fff;font-weight:800;font-size:10px}
-  .hlist-badge--vip{background:var(--red)}
-  .hlist-badge--gen{background:var(--navy);font-size:9.5px}
-  /* 지도 마커 (MapLibre GL 커스텀 DOM 마커) — 배지형: VIP=알파벳, 일반=숫자, 리스트와 매칭 */
-  .hmap-pin{display:flex;flex-direction:column;align-items:center}
-  .hmap-pin--vip,.hmap-pin--gen{cursor:pointer}
-  .hmap-pin .hmap-dot{display:flex;align-items:center;justify-content:center;text-align:center;border-radius:50%;background:var(--navy);border:2px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,.35);color:#fff;font-weight:800;line-height:1}
-  .hmap-pin--vip .hmap-dot{width:25px;height:25px;background:var(--red);border-width:2.5px;box-shadow:0 2px 7px rgba(0,0,0,.42);font-size:12px}
-  .hmap-pin--gen .hmap-dot{width:24px;height:24px;font-size:9.5px}
-  .hmap-pin--bexco{position:relative;width:32px;height:32px}
-  .hmap-pin--bexco .hmap-dot--diamond{width:32px;height:32px;border-radius:7px;transform:rotate(45deg);background:var(--amber);border-width:3px;box-shadow:0 3px 11px rgba(0,0,0,.45)}
-  .hmap-pin .hmap-label{margin-top:4px;font-size:9px;font-weight:600;color:var(--muted);white-space:nowrap;text-shadow:0 1px 2px #fff,0 -1px 2px #fff,1px 0 2px #fff,-1px 0 2px #fff}
-  .hmap-pin--bexco .hmap-label{position:absolute;top:100%;left:50%;transform:translateX(-50%);margin-top:4px;font-size:13px;font-weight:800;color:var(--navy)}
-  /* 호텔 마커 선택 말풍선 */
-  .hmap-popup{display:flex;align-items:center;gap:8px}
-  .hmap-popup .hlist-badge{font-size:10.5px}
-  .hmap-popup-name{font-size:15.5px;font-weight:700;color:var(--ink);white-space:nowrap}
-  .hotel-map .maplibregl-popup-content{border-radius:8px;box-shadow:0 10px 26px rgba(0,0,0,.22);padding:10px 13px}
-  .hotel-map .maplibregl-popup-tip{filter:drop-shadow(0 2px 3px rgba(0,0,0,.12))}
+```
 
-  /* ===== Venue Shuttle — 노선×날짜 탭 + U자형 노선도 (2026-07-13) ===== */
-  .vtabs{display:flex;border-radius:var(--radius-sm);overflow:hidden;border:1px solid var(--line);margin-top:16px}
-  .vtab{flex:1;padding:13px 16px;background:#fff;border:none;font:inherit;font-size:14.5px;font-weight:700;color:var(--muted);cursor:pointer;transition:background .15s,color .15s}
-  .vtab:not(:last-child){border-right:1px solid var(--line)}
-  .vtab[aria-selected="true"]{color:var(--red);background:var(--red-050)}
-  .vtab:hover:not([aria-selected="true"]){color:var(--ink)}
-  .vtabs.vtabs-date{margin-top:10px}
-  .vtabs.vtabs-date .vtab{font-size:13px;padding:10px 12px}
+- [ ] **Step 2: "ROUTES" 섹션의 `sec-head` 바로 아래에 탭 UI 삽입**
 
-  /* U자형 노선도 — 위=가는 편, 아래=오는 편, 오른쪽을 border-radius 곡선으로 연결 */
-  .uroute{position:relative;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px 64px 22px 24px;margin-top:18px}
-  .uroute-arm{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
-  .uroute-arm:not(:last-child){margin-bottom:16px}
-  .uroute-arm .ar-lbl{flex:0 0 auto;font-size:12px;font-weight:800;color:#fff;background:var(--navy);border-radius:8px;padding:7px 12px;letter-spacing:.3px}
-  .uroute-back .ar-lbl{background:var(--red)}
-  .uroute-path{font-size:15px;font-weight:700;color:var(--ink)}
-  .uroute-path .ar{color:var(--red);font-weight:700;margin:0 5px}
-  .uroute-curve{content:"";position:absolute;top:22px;bottom:22px;right:24px;width:26px;border:3px solid var(--red);border-left:none;border-radius:0 22px 22px 0}
-  @media(max-width:620px){
-    .uroute{padding:18px 40px 18px 18px}
-    .uroute-curve{right:14px;width:16px;border-width:2.5px}
-    .uroute-path{font-size:13.5px}
-  }
+현재 143~152번째 줄(`<section class="section" aria-labelledby="rt-h">` ~ `</div>`의 `sec-head` 부분)의 `</div>` 바로 뒤에 아래 마크업을 추가한다:
 
-  /* 노선(vr)×날짜(vd) 토글 — 두 조건 AND 결합, 둘 다 맞을 때만 표시 */
-  html:not([data-vr="a"]) .vr-a{display:none}
-  html:not([data-vr="b"]) .vr-b{display:none}
-  html:not([data-vd="1021"]) .vd-1021{display:none}
-  html:not([data-vd="1022"]) .vd-1022{display:none}
-  html:not([data-vd="1023"]) .vd-1023{display:none}
-  html:not([data-vd="1024"]) .vd-1024{display:none}
-  /* .sched-note는 vr/vd 게이팅 클래스와 ko-block/en-block이 같은 엘리먼트에 공존 —
-     transport.css의 html[data-ui-lang="en"] .en-block{display:block!important} 가
-     영어 모드에서 위 vr/vd 숨김을 덮어써 8개 노트가 동시에 노출되는 문제가 있어 별도 강제 */
-  html:not([data-vr="a"]) .sched-note.vr-a{display:none!important}
-  html:not([data-vr="b"]) .sched-note.vr-b{display:none!important}
-  html:not([data-vd="1021"]) .sched-note.vd-1021{display:none!important}
-  html:not([data-vd="1022"]) .sched-note.vd-1022{display:none!important}
-  html:not([data-vd="1023"]) .sched-note.vd-1023{display:none!important}
-  html:not([data-vd="1024"]) .sched-note.vd-1024{display:none!important}
-</style>
-</head>
-<body>
-<a class="skip" href="#main"><span class="ko-only">본문 바로가기</span><span class="en-only">Skip to main content</span></a>
-
-<div class="demo-banner">
-  <span class="ko-only">GroundK 콘셉트 데모 — 실제 예약·결제는 처리되지 않습니다. APHRS 2026 공식 사이트가 아닙니다(<b>aphrs2026.com</b> 별도).</span>
-  <span class="en-only">GroundK Concept Demo — No actual bookings or payments processed. This is not the official APHRS 2026 website (<b>aphrs2026.com</b>).</span>
-</div>
-
-<header class="site-head">
-  <div class="bar">
-    <a class="brand brand-aphrs" href="index.html" aria-label="APHRS 2026 부산 — 참가자 교통">
-      <img src="assets/img/brand/color/abbr_horz_1.png" alt="APHRS 2026 Busan"
-           onerror="this.onerror=null;this.src='assets/img/brand/color/abbr_horz_1.png'">
-      <span class="btag"><span class="ko-only">교통 포털</span><span class="en-only">Transport<br>Portal</span></span>
-    </a>
-    <nav class="nav" aria-label="셔틀 노선">
-      <a href="airport-transfer.html"><span class="ko-only">공항 ↔ 호텔</span><span class="en-only">Airport ↔ Hotel</span></a>
-      <a href="shuttle-venue.html" class="active"><span class="ko-only">행사장 셔틀</span><span class="en-only">Venue Shuttle</span></a>
-      <a href="shuttle-chauffeur.html"><span class="ko-only">전용차량</span><span class="en-only">Chauffeur</span></a>
-      <div class="nav-dd">
-        <a class="nav-dd-btn" href="travel.html" aria-haspopup="true"><span class="ko-only">여행 정보</span><span class="en-only">Travel Info</span><span class="dd-caret" aria-hidden="true">▾</span></a>
-        <div class="nav-dd-menu" role="menu">
-          <a href="travel.html#arrival" role="menuitem"><span class="ko-only">입국 안내</span><span class="en-only">Arrival Guide</span></a>
-          <a href="travel.html#ktx" role="menuitem"><span class="ko-only">KTX 예매</span><span class="en-only">KTX Booking</span></a>
-          <a href="travel.html#baggage" role="menuitem"><span class="ko-only">짐 배송</span><span class="en-only">Baggage Delivery</span></a>
-          <!-- 유심/eSIM 임시 숨김 <a href="travel.html#esim" role="menuitem"><span class="ko-only">유심 / eSIM</span><span class="en-only">SIM / eSIM</span></a> -->
-        </div>
-      </div>
-    </nav>
-    <div class="head-right">
-      <button class="lang" id="langToggle" type="button" aria-label="언어 전환 (데모)">
-        <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg> <span class="seg on" data-lang="ko">KO</span><span class="seg" data-lang="en">EN</span>
-      </button>
-      <button class="head-link hide-sm" id="lookupBtn" type="button"><span class="ko-only">예약조회</span><span class="en-only">My Booking</span></button>
-      <a class="head-link ext hide-sm" href="https://aphrs2026.com" target="_blank" rel="noopener"><span class="ko-only">공식 사이트</span><span class="en-only">Official Site</span></a>
-    </div>
-    <button class="nav-toggle" id="navToggle" type="button" aria-label="메뉴 열기" aria-expanded="false">
-      <span></span><span></span><span></span>
-    </button>
-  </div>
-</header>
-
-<nav class="mobile-nav" id="mobileNav" aria-label="모바일 메뉴">
-  <a href="airport-transfer.html"><span class="ko-only">공항 ↔ 호텔</span><span class="en-only">Airport ↔ Hotel</span></a>
-  <a href="shuttle-venue.html" class="active"><span class="ko-only">행사장 셔틀</span><span class="en-only">Venue Shuttle</span></a>
-  <a href="shuttle-chauffeur.html"><span class="ko-only">전용차량</span><span class="en-only">Chauffeur</span></a>
-  <div class="mn-divider"></div>
-  <span class="mn-sub"><span class="ko-only">여행 정보</span><span class="en-only">Travel Info</span></span>
-  <a class="mn-child" href="travel.html#arrival"><span class="ko-only">입국 안내</span><span class="en-only">Arrival Guide</span></a>
-  <a class="mn-child" href="travel.html#ktx"><span class="ko-only">KTX 예매</span><span class="en-only">KTX Booking</span></a>
-  <a class="mn-child" href="travel.html#baggage"><span class="ko-only">짐 배송</span><span class="en-only">Baggage Delivery</span></a>
-  <!-- 유심/eSIM 임시 숨김 <a class="mn-child" href="travel.html#esim"><span class="ko-only">유심 / eSIM</span><span class="en-only">SIM / eSIM</span></a> -->
-  <div class="mn-divider"></div>
-  <a class="mn-ext" href="https://aphrs2026.com" target="_blank" rel="noopener"><span class="ko-only">공식 사이트 aphrs2026.com ↗</span><span class="en-only">Official Site aphrs2026.com ↗</span></a>
-  <div class="mn-divider"></div>
-  <button class="lang" type="button" aria-label="언어 전환 (데모)"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg> <span class="seg on" data-lang="ko">KO</span><span class="seg" data-lang="en">EN</span></button>
-</nav>
-
-<main id="main">
-
-<!-- ===== DETAIL HERO ===== -->
-<section class="detail-hero">
-  <img class="bgimg"
-       src="https://transport.apec2025.kr/shared/images/zones/bg-visual-venue-busan.jpg"
-       alt="BEXCO Convention Center Busan"
-       onerror="this.onerror=null;this.src='assets/img/bexco.jpg'">
-  <div class="inner">
-    <nav class="crumb" aria-label="breadcrumb">
-      <a href="index.html">Home</a> › <a href="index.html#shuttle">Shuttles</a> › <span><span class="ko-only">행사장 셔틀</span><span class="en-only">Venue Shuttle</span></span>
-    </nav>
-    <h1>Venue Shuttle <span style="font-size:.55em;font-weight:700;opacity:.85">Hotel ↔ BEXCO</span></h1>
-    <p class="dsub ko-block">등록 참가자 무료 셔틀. <b>공식호텔 ↔ BEXCO</b>, 10/21~24 운행.</p>
-    <p class="dsub en-block">Free shuttle for registered attendees. <b>Official hotels ↔ BEXCO</b>. Oct 21–24.</p>
-  </div>
-</section>
-
-<div class="wrap">
-
-<!-- ===== ROUTES ===== -->
-<section class="section" aria-labelledby="rt-h">
-  <div class="wrap">
-    <div class="sec-head reveal">
-      <h2 class="sec-h" id="rt-h">
-        <span class="ko-only">운행 노선</span>
-        <span class="en-only">Shuttle Routes</span>
-      </h2>
-      <p class="sec-sub ko-block">전체 학회 기간 동안 5개 공식호텔과 BEXCO를 2개 노선으로 나누어 운행합니다. 무료, 예약 불필요.</p>
-      <p class="sec-sub en-block">Two routes connect all 5 official hotels to BEXCO throughout the conference. Free, no reservation needed.</p>
-    </div>
+```html
     <div class="vtabs" role="tablist" aria-label="노선 선택">
       <button class="vtab" type="button" role="tab" data-vr-btn="a" aria-selected="true">
         <span class="ko-only">A 노선 (시그니엘 · 파라다이스)</span><span class="en-only">Route A (Signiel · Paradise)</span>
@@ -206,6 +108,87 @@
       <button class="vtab" type="button" role="tab" data-vd-btn="1023" aria-selected="false" tabindex="-1">10/23 (금)</button>
       <button class="vtab" type="button" role="tab" data-vd-btn="1024" aria-selected="false" tabindex="-1">10/24 (토)</button>
     </div>
+```
+
+- [ ] **Step 3: 파일 끝(`</body>` 직전, 모바일 nav 토글 `<script>` 다음)에 탭 전환 스크립트 추가**
+
+```html
+<script>
+/* Venue Shuttle — 노선(vr) × 날짜(vd) 상태 관리 */
+(function(){
+  var root = document.documentElement;
+  var vrBtns = Array.prototype.slice.call(document.querySelectorAll('[data-vr-btn]'));
+  var vdBtns = Array.prototype.slice.call(document.querySelectorAll('[data-vd-btn]'));
+
+  function applyGroup(btns, attr){
+    var current = root.getAttribute(attr);
+    btns.forEach(function(b){
+      var key = b.getAttribute('data-vr-btn') || b.getAttribute('data-vd-btn');
+      var on = key === current;
+      b.setAttribute('aria-selected', String(on));
+      b.setAttribute('tabindex', on ? '0' : '-1');
+    });
+  }
+
+  vrBtns.forEach(function(b, i){
+    b.addEventListener('click', function(){
+      root.setAttribute('data-vr', b.getAttribute('data-vr-btn'));
+      applyGroup(vrBtns, 'data-vr');
+    });
+    b.addEventListener('keydown', function(e){
+      var d = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
+      if (!d) return;
+      var n = vrBtns[(i + d + vrBtns.length) % vrBtns.length];
+      n.focus(); n.click();
+    });
+  });
+
+  vdBtns.forEach(function(b, i){
+    b.addEventListener('click', function(){
+      root.setAttribute('data-vd', b.getAttribute('data-vd-btn'));
+      applyGroup(vdBtns, 'data-vd');
+    });
+    b.addEventListener('keydown', function(e){
+      var d = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
+      if (!d) return;
+      var n = vdBtns[(i + d + vdBtns.length) % vdBtns.length];
+      n.focus(); n.click();
+    });
+  });
+
+  applyGroup(vrBtns, 'data-vr');
+  applyGroup(vdBtns, 'data-vd');
+})();
+</script>
+```
+
+- [ ] **Step 4: 검증 — 탭 클릭 시 `<html>` 속성이 바뀌는지 DevTools로 확인**
+
+Run: 브라우저에서 `shuttle-venue.html` 열고 DevTools Console에서:
+```js
+document.querySelector('[data-vr-btn="b"]').click();
+document.documentElement.getAttribute('data-vr')
+```
+Expected: `"b"` 출력. `aria-selected`가 B 탭에는 `"true"`, A 탭에는 `"false"`로 바뀌어 있어야 함(Elements 패널로 확인).
+
+---
+
+### Task 3: 노선 A(시그니엘·파라다이스) 4개 날짜 블록 — U자형 노선도 + 실제 시간표
+
+**Files:**
+- Modify: `aphrs-2026-transport/shuttle-venue.html` — 기존 "ROUTES" 섹션의 `.route-rows`(153~180번째 줄)와 "SCHEDULE" 섹션의 `.sched-grid`(205~299번째 줄)를 **전부 삭제**하고, Task 2에서 넣은 탭 UI 바로 아래에 이 Task와 Task 4에서 만드는 8개 블록을 넣는다.
+
+**Interfaces:**
+- Consumes: Task 1의 `.uroute` 계열 클래스, `vr-a`/`vd-1021~1024`
+- Produces: 노선 A 4개 블록(`.uroute.vr-a.vd-1021` 등) — Task 5의 Faculty Dinner 블록이 `vd-1023`을 공유하므로 마크업 순서상 이 블록들 바로 뒤에 온다.
+
+- [ ] **Step 1: 기존 `.route-rows`(153~180번째 줄)와 그 뒤 경고박스(181~189번째 줄)를 삭제하고, Task 2 탭 UI 바로 아래에 노선 A 4블록을 추가**
+
+`아래는 삭제`: `<div class="route-rows"> ... </div>` 전체 (A노선/B노선/귀환 카드 3개) — `warn-box`(그랜드조선 안내)는 유지하되 탭 블록들 전부 뒤, `</section>` 직전으로 이동.
+
+`아래를 탭 UI 다음에 추가` (10/21):
+
+```html
     <div class="uroute vr-a vd-1021">
       <div class="uroute-arm uroute-out">
         <span class="ar-lbl ko-only">가는 편</span><span class="ar-lbl en-only">Outbound</span>
@@ -219,9 +202,9 @@
       </div>
       <div class="uroute-curve" aria-hidden="true"></div>
     </div>
-    <p class="sched-note reveal ko-block vr-a vd-1021" style="margin-top:14px">10/21(수) 운영시간: 프로그램 08:00-17:15 · 집중 운행 07:00-10:00(20분 간격) · 일반 운행 08:30-17:00(1시간 간격) · 집중 운행 17:30-18:20(20분 간격)</p>
-    <p class="sched-note reveal en-block vr-a vd-1021" style="margin-top:14px">Oct 21 (Wed) hours: Program 08:00-17:15 · Peak 07:00-10:00 (every 20 min) · Regular 08:30-17:00 (hourly) · Peak 17:30-18:20 (every 20 min)</p>
-    <div class="sched-grid reveal vr-a vd-1021 sched-grid-2col">
+    <p class="sched-note reveal ko-block" style="margin-top:14px">10/21(수) 운영시간: 프로그램 08:00-17:15 · 집중 운행 07:00-10:00(20분 간격) · 일반 운행 08:30-17:00(1시간 간격) · 집중 운행 17:30-18:20(20분 간격)</p>
+    <p class="sched-note reveal en-block" style="margin-top:14px">Oct 21 (Wed) hours: Program 08:00-17:15 · Peak 07:00-10:00 (every 20 min) · Regular 08:30-17:00 (hourly) · Peak 17:30-18:20 (every 20 min)</p>
+    <div class="sched-grid reveal" style="grid-template-columns:1fr 1fr">
       <div class="sched-col">
         <h3 style="font-size:1rem;font-weight:700;margin:0 0 10px;color:var(--red)"><span class="ko-only">시그니엘 → BEXCO</span><span class="en-only">Signiel → BEXCO</span></h3>
         <div class="sched-table"><table>
@@ -270,6 +253,11 @@
         </table></div>
       </div>
     </div>
+```
+
+- [ ] **Step 2: 같은 방식으로 10/22 블록 추가 (`vd-1022`, 리셉션 운행 포함)**
+
+```html
     <div class="uroute vr-a vd-1022">
       <div class="uroute-arm uroute-out">
         <span class="ar-lbl ko-only">가는 편</span><span class="ar-lbl en-only">Outbound</span>
@@ -283,9 +271,9 @@
       </div>
       <div class="uroute-curve" aria-hidden="true"></div>
     </div>
-    <p class="sched-note reveal ko-block vr-a vd-1022" style="margin-top:14px">10/22(목) 운영시간: 프로그램 08:30-18:00(1그룹 종료 16:30) · 집중 운행 07:20-08:00(10분 간격) · 일반 운행 09:00-17:00(1시간 간격) · 집중 운행 17:00-18:30, 19:40-19:50(10분 간격)</p>
-    <p class="sched-note reveal en-block vr-a vd-1022" style="margin-top:14px">Oct 22 (Thu) hours: Program 08:30-18:00 (Group 1 ends 16:30) · Peak 07:20-08:00 (every 10 min) · Regular 09:00-17:00 (hourly) · Peak 17:00-18:30, 19:40-19:50 (every 10 min)</p>
-    <div class="sched-grid reveal vr-a vd-1022 sched-grid-2col">
+    <p class="sched-note reveal ko-block" style="margin-top:14px">10/22(목) 운영시간: 프로그램 08:30-18:00(1그룹 종료 16:30) · 집중 운행 07:20-08:00(10분 간격) · 일반 운행 09:00-17:00(1시간 간격) · 집중 운행 17:00-18:30, 19:40-19:50(10분 간격)</p>
+    <p class="sched-note reveal en-block" style="margin-top:14px">Oct 22 (Thu) hours: Program 08:30-18:00 (Group 1 ends 16:30) · Peak 07:20-08:00 (every 10 min) · Regular 09:00-17:00 (hourly) · Peak 17:00-18:30, 19:40-19:50 (every 10 min)</p>
+    <div class="sched-grid reveal" style="grid-template-columns:1fr 1fr">
       <div class="sched-col">
         <h3 style="font-size:1rem;font-weight:700;margin:0 0 10px;color:var(--red)"><span class="ko-only">시그니엘 → BEXCO</span><span class="en-only">Signiel → BEXCO</span></h3>
         <div class="sched-table"><table>
@@ -336,6 +324,11 @@
         </table></div>
       </div>
     </div>
+```
+
+- [ ] **Step 3: 10/23 블록 추가 (`vd-1023`, "17시 이후 시그니엘 연장" 안내 포함 — 단, 노선 A 자체가 시그니엘 도착이 이미 종점이므로 이 안내문은 노선 B에만 해당함에 유의)**
+
+```html
     <div class="uroute vr-a vd-1023">
       <div class="uroute-arm uroute-out">
         <span class="ar-lbl ko-only">가는 편</span><span class="ar-lbl en-only">Outbound</span>
@@ -349,9 +342,9 @@
       </div>
       <div class="uroute-curve" aria-hidden="true"></div>
     </div>
-    <p class="sched-note reveal ko-block vr-a vd-1023" style="margin-top:14px">10/23(금) 운영시간: 프로그램 08:30-16:50 · 집중 운행 07:20-08:00(10분 간격) · 일반 운행 09:00-17:00(1시간 간격) · 집중 운행 17:00-17:30(10분 간격) / 18:00 디너 만찬(시그니엘)</p>
-    <p class="sched-note reveal en-block vr-a vd-1023" style="margin-top:14px">Oct 23 (Fri) hours: Program 08:30-16:50 · Peak 07:20-08:00 (every 10 min) · Regular 09:00-17:00 (hourly) · Peak 17:00-17:30 (every 10 min) / 18:00 Faculty Dinner (Signiel)</p>
-    <div class="sched-grid reveal vr-a vd-1023 sched-grid-2col">
+    <p class="sched-note reveal ko-block" style="margin-top:14px">10/23(금) 운영시간: 프로그램 08:30-16:50 · 집중 운행 07:20-08:00(10분 간격) · 일반 운행 09:00-17:00(1시간 간격) · 집중 운행 17:00-17:30(10분 간격) / 18:00 디너 만찬(시그니엘)</p>
+    <p class="sched-note reveal en-block" style="margin-top:14px">Oct 23 (Fri) hours: Program 08:30-16:50 · Peak 07:20-08:00 (every 10 min) · Regular 09:00-17:00 (hourly) · Peak 17:00-17:30 (every 10 min) / 18:00 Faculty Dinner (Signiel)</p>
+    <div class="sched-grid reveal" style="grid-template-columns:1fr 1fr">
       <div class="sched-col">
         <h3 style="font-size:1rem;font-weight:700;margin:0 0 10px;color:var(--red)"><span class="ko-only">시그니엘 → BEXCO</span><span class="en-only">Signiel → BEXCO</span></h3>
         <div class="sched-table"><table>
@@ -397,6 +390,11 @@
         </table></div>
       </div>
     </div>
+```
+
+- [ ] **Step 4: 10/24 블록 추가 (`vd-1024`, 폐회일 단축 운영)**
+
+```html
     <div class="uroute vr-a vd-1024">
       <div class="uroute-arm uroute-out">
         <span class="ar-lbl ko-only">가는 편</span><span class="ar-lbl en-only">Outbound</span>
@@ -410,9 +408,9 @@
       </div>
       <div class="uroute-curve" aria-hidden="true"></div>
     </div>
-    <p class="sched-note reveal ko-block vr-a vd-1024" style="margin-top:14px">10/24(토) 운영시간(폐회일): 프로그램 08:30-16:00(15:15 세션 종료) · 집중 운행 07:20-08:00(10분 간격) · 일반 운행 09:00-14:30(1시간 간격) · 집중 운행 15:20-16:00(10분 간격)</p>
-    <p class="sched-note reveal en-block vr-a vd-1024" style="margin-top:14px">Oct 24 (Sat, closing day) hours: Program 08:30-16:00 (sessions end 15:15) · Peak 07:20-08:00 (every 10 min) · Regular 09:00-14:30 (hourly) · Peak 15:20-16:00 (every 10 min)</p>
-    <div class="sched-grid reveal vr-a vd-1024 sched-grid-2col">
+    <p class="sched-note reveal ko-block" style="margin-top:14px">10/24(토) 운영시간(폐회일): 프로그램 08:30-16:00(15:15 세션 종료) · 집중 운행 07:20-08:00(10분 간격) · 일반 운행 09:00-14:30(1시간 간격) · 집중 운행 15:20-16:00(10분 간격)</p>
+    <p class="sched-note reveal en-block" style="margin-top:14px">Oct 24 (Sat, closing day) hours: Program 08:30-16:00 (sessions end 15:15) · Peak 07:20-08:00 (every 10 min) · Regular 09:00-14:30 (hourly) · Peak 15:20-16:00 (every 10 min)</p>
+    <div class="sched-grid reveal" style="grid-template-columns:1fr 1fr">
       <div class="sched-col">
         <h3 style="font-size:1rem;font-weight:700;margin:0 0 10px;color:var(--red)"><span class="ko-only">시그니엘 → BEXCO</span><span class="en-only">Signiel → BEXCO</span></h3>
         <div class="sched-table"><table>
@@ -455,6 +453,27 @@
         </table></div>
       </div>
     </div>
+```
+
+- [ ] **Step 5: 검증 — 노선 A 4개 날짜 블록이 데이터 하나만 남기고 나머지는 숨겨지는지 확인**
+
+Run: 브라우저에서 `shuttle-venue.html` 새로고침(`Ctrl+Shift+R`) 후 A 탭이 선택된 상태로 10/21~24 날짜 탭을 하나씩 클릭.
+Expected: 매번 U자형 다이어그램은 동일(시그니엘→파라다이스→BEXCO)하고, 아래 시간표 숫자만 날짜별로 바뀐다. 다른 3개 날짜의 시간표는 화면에 없어야 함(DevTools Elements에서 `display:none` 확인 가능).
+
+---
+
+### Task 4: 노선 B(웨스틴조선·파크하얏트) 4개 날짜 블록
+
+**Files:**
+- Modify: `aphrs-2026-transport/shuttle-venue.html` (Task 3에서 만든 노선 A 4블록 바로 뒤에 이어서 추가)
+
+**Interfaces:**
+- Consumes: Task 1의 `.uroute` 계열 클래스, `vr-b`/`vd-1021~1024`
+- Produces: 노선 B 4개 블록(`.uroute.vr-b.vd-1021` 등)
+
+- [ ] **Step 1: 10/21 블록**
+
+```html
     <div class="uroute vr-b vd-1021">
       <div class="uroute-arm uroute-out">
         <span class="ar-lbl ko-only">가는 편</span><span class="ar-lbl en-only">Outbound</span>
@@ -468,9 +487,9 @@
       </div>
       <div class="uroute-curve" aria-hidden="true"></div>
     </div>
-    <p class="sched-note reveal ko-block vr-b vd-1021" style="margin-top:14px">10/21(수) 운영시간: 프로그램 08:00-17:15 · 집중 운행 07:00-10:00(20분 간격) · 일반 운행 08:30-17:00(1시간 간격) · 집중 운행 17:30-18:20(20분 간격)</p>
-    <p class="sched-note reveal en-block vr-b vd-1021" style="margin-top:14px">Oct 21 (Wed) hours: Program 08:00-17:15 · Peak 07:00-10:00 (every 20 min) · Regular 08:30-17:00 (hourly) · Peak 17:30-18:20 (every 20 min)</p>
-    <div class="sched-grid reveal vr-b vd-1021 sched-grid-2col">
+    <p class="sched-note reveal ko-block" style="margin-top:14px">10/21(수) 운영시간: 프로그램 08:00-17:15 · 집중 운행 07:00-10:00(20분 간격) · 일반 운행 08:30-17:00(1시간 간격) · 집중 운행 17:30-18:20(20분 간격)</p>
+    <p class="sched-note reveal en-block" style="margin-top:14px">Oct 21 (Wed) hours: Program 08:00-17:15 · Peak 07:00-10:00 (every 20 min) · Regular 08:30-17:00 (hourly) · Peak 17:30-18:20 (every 20 min)</p>
+    <div class="sched-grid reveal" style="grid-template-columns:1fr 1fr">
       <div class="sched-col">
         <h3 style="font-size:1rem;font-weight:700;margin:0 0 10px;color:var(--red)"><span class="ko-only">웨스틴조선 → BEXCO</span><span class="en-only">Westin Josun → BEXCO</span></h3>
         <div class="sched-table"><table>
@@ -519,6 +538,11 @@
         </table></div>
       </div>
     </div>
+```
+
+- [ ] **Step 2: 10/22 블록 (리셉션 운행 포함)**
+
+```html
     <div class="uroute vr-b vd-1022">
       <div class="uroute-arm uroute-out">
         <span class="ar-lbl ko-only">가는 편</span><span class="ar-lbl en-only">Outbound</span>
@@ -532,9 +556,9 @@
       </div>
       <div class="uroute-curve" aria-hidden="true"></div>
     </div>
-    <p class="sched-note reveal ko-block vr-b vd-1022" style="margin-top:14px">10/22(목) 운영시간: 프로그램 08:30-18:00(1그룹 종료 16:30) · 집중 운행 07:20-08:00(10분 간격) · 일반 운행 09:00-17:00(1시간 간격) · 집중 운행 17:00-18:30, 19:40-19:50(10분 간격)</p>
-    <p class="sched-note reveal en-block vr-b vd-1022" style="margin-top:14px">Oct 22 (Thu) hours: Program 08:30-18:00 (Group 1 ends 16:30) · Peak 07:20-08:00 (every 10 min) · Regular 09:00-17:00 (hourly) · Peak 17:00-18:30, 19:40-19:50 (every 10 min)</p>
-    <div class="sched-grid reveal vr-b vd-1022 sched-grid-2col">
+    <p class="sched-note reveal ko-block" style="margin-top:14px">10/22(목) 운영시간: 프로그램 08:30-18:00(1그룹 종료 16:30) · 집중 운행 07:20-08:00(10분 간격) · 일반 운행 09:00-17:00(1시간 간격) · 집중 운행 17:00-18:30, 19:40-19:50(10분 간격)</p>
+    <p class="sched-note reveal en-block" style="margin-top:14px">Oct 22 (Thu) hours: Program 08:30-18:00 (Group 1 ends 16:30) · Peak 07:20-08:00 (every 10 min) · Regular 09:00-17:00 (hourly) · Peak 17:00-18:30, 19:40-19:50 (every 10 min)</p>
+    <div class="sched-grid reveal" style="grid-template-columns:1fr 1fr">
       <div class="sched-col">
         <h3 style="font-size:1rem;font-weight:700;margin:0 0 10px;color:var(--red)"><span class="ko-only">웨스틴조선 → BEXCO</span><span class="en-only">Westin Josun → BEXCO</span></h3>
         <div class="sched-table"><table>
@@ -585,6 +609,11 @@
         </table></div>
       </div>
     </div>
+```
+
+- [ ] **Step 3: 10/23 블록 (17시 이후 시그니엘까지 연장 — 노선 B는 실제로 이 안내가 해당됨)**
+
+```html
     <div class="uroute vr-b vd-1023">
       <div class="uroute-arm uroute-out">
         <span class="ar-lbl ko-only">가는 편</span><span class="ar-lbl en-only">Outbound</span>
@@ -598,9 +627,9 @@
       </div>
       <div class="uroute-curve" aria-hidden="true"></div>
     </div>
-    <p class="sched-note reveal ko-block vr-b vd-1023" style="margin-top:14px">10/23(금) 운영시간: 프로그램 08:30-16:50 · 집중 운행 07:20-08:00(10분 간격) · 일반 운행 09:00-17:00(1시간 간격) · 집중 운행 17:00-17:30(10분 간격) / 18:00 디너 만찬(시그니엘) — 17시 이후 오는 편은 시그니엘(만찬장)까지 연장 운행합니다.</p>
-    <p class="sched-note reveal en-block vr-b vd-1023" style="margin-top:14px">Oct 23 (Fri) hours: Program 08:30-16:50 · Peak 07:20-08:00 (every 10 min) · Regular 09:00-17:00 (hourly) · Peak 17:00-17:30 (every 10 min) / 18:00 Faculty Dinner (Signiel) — after 17:00, return trips extend to Signiel (dinner venue).</p>
-    <div class="sched-grid reveal vr-b vd-1023 sched-grid-2col">
+    <p class="sched-note reveal ko-block" style="margin-top:14px">10/23(금) 운영시간: 프로그램 08:30-16:50 · 집중 운행 07:20-08:00(10분 간격) · 일반 운행 09:00-17:00(1시간 간격) · 집중 운행 17:00-17:30(10분 간격) / 18:00 디너 만찬(시그니엘) — 17시 이후 오는 편은 시그니엘(만찬장)까지 연장 운행합니다.</p>
+    <p class="sched-note reveal en-block" style="margin-top:14px">Oct 23 (Fri) hours: Program 08:30-16:50 · Peak 07:20-08:00 (every 10 min) · Regular 09:00-17:00 (hourly) · Peak 17:00-17:30 (every 10 min) / 18:00 Faculty Dinner (Signiel) — after 17:00, return trips extend to Signiel (dinner venue).</p>
+    <div class="sched-grid reveal" style="grid-template-columns:1fr 1fr">
       <div class="sched-col">
         <h3 style="font-size:1rem;font-weight:700;margin:0 0 10px;color:var(--red)"><span class="ko-only">웨스틴조선 → BEXCO</span><span class="en-only">Westin Josun → BEXCO</span></h3>
         <div class="sched-table"><table>
@@ -646,6 +675,11 @@
         </table></div>
       </div>
     </div>
+```
+
+- [ ] **Step 4: 10/24 블록 (폐회일 단축 운영)**
+
+```html
     <div class="uroute vr-b vd-1024">
       <div class="uroute-arm uroute-out">
         <span class="ar-lbl ko-only">가는 편</span><span class="ar-lbl en-only">Outbound</span>
@@ -659,9 +693,9 @@
       </div>
       <div class="uroute-curve" aria-hidden="true"></div>
     </div>
-    <p class="sched-note reveal ko-block vr-b vd-1024" style="margin-top:14px">10/24(토) 운영시간(폐회일): 프로그램 08:30-16:00(15:15 세션 종료) · 집중 운행 07:20-08:00(10분 간격) · 일반 운행 09:00-14:30(1시간 간격) · 집중 운행 15:20-16:00(10분 간격)</p>
-    <p class="sched-note reveal en-block vr-b vd-1024" style="margin-top:14px">Oct 24 (Sat, closing day) hours: Program 08:30-16:00 (sessions end 15:15) · Peak 07:20-08:00 (every 10 min) · Regular 09:00-14:30 (hourly) · Peak 15:20-16:00 (every 10 min)</p>
-    <div class="sched-grid reveal vr-b vd-1024 sched-grid-2col">
+    <p class="sched-note reveal ko-block" style="margin-top:14px">10/24(토) 운영시간(폐회일): 프로그램 08:30-16:00(15:15 세션 종료) · 집중 운행 07:20-08:00(10분 간격) · 일반 운행 09:00-14:30(1시간 간격) · 집중 운행 15:20-16:00(10분 간격)</p>
+    <p class="sched-note reveal en-block" style="margin-top:14px">Oct 24 (Sat, closing day) hours: Program 08:30-16:00 (sessions end 15:15) · Peak 07:20-08:00 (every 10 min) · Regular 09:00-14:30 (hourly) · Peak 15:20-16:00 (every 10 min)</p>
+    <div class="sched-grid reveal" style="grid-template-columns:1fr 1fr">
       <div class="sched-col">
         <h3 style="font-size:1rem;font-weight:700;margin:0 0 10px;color:var(--red)"><span class="ko-only">웨스틴조선 → BEXCO</span><span class="en-only">Westin Josun → BEXCO</span></h3>
         <div class="sched-table"><table>
@@ -704,6 +738,29 @@
         </table></div>
       </div>
     </div>
+```
+
+- [ ] **Step 5: 검증 — 노선 B 4블록도 노선 A와 동일하게 날짜별 전환되는지 확인, 그리고 A↔B 노선 탭 전환도 함께 확인**
+
+Run: 브라우저에서 B 탭 클릭 후 10/21~24 날짜 탭 순회. 그다음 A 탭으로 돌아가 날짜가 유지되는지(예: 10/23을 보다가 A→B 전환해도 10/23 유지) 확인.
+Expected: 노선 전환 시 날짜 선택 상태는 유지된 채 노선 데이터만 바뀐다(두 상태 축이 서로 독립적).
+
+---
+
+### Task 5: Faculty Dinner 셔틀 블록 (10/23 전용, 노선 무관 공통 노출) + 그랜드조선 안내 재배치
+
+**Files:**
+- Modify: `aphrs-2026-transport/shuttle-venue.html`
+  - Task 4 마지막 블록 바로 뒤에 Faculty Dinner 블록 추가
+  - 기존 "FACULTY DINNER SHUTTLE" 독립 섹션(현재 309~344번째 줄) **전체 삭제**
+  - 그랜드조선 해운대 안내 `warn-box`를 8블록+FD블록 전부 다음, `</section>` 직전으로 재배치
+
+**Interfaces:**
+- Consumes: `vd-1023` 클래스(노선 클래스 없음 — 노선 선택과 무관하게 노출)
+
+- [ ] **Step 1: Faculty Dinner 블록 추가 (Task 4 Step 4 다음)**
+
+```html
     <div class="warn-box reveal vd-1023" style="margin-top:24px">
       <div class="wb-icon"><svg class="ico ico-lg" viewBox="0 0 24 24" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg></div>
       <div class="wb-body">
@@ -733,7 +790,12 @@
         </table></div>
       </div>
     </div>
-    <div class="warn-box reveal" style="margin-top:18px">
+```
+
+- [ ] **Step 2: 그랜드조선 해운대 안내(`warn-box`, 파라다이스 정류장 이용 안내)를 Faculty Dinner 블록 바로 다음, `</div></section>` 직전에 추가 — 노선·날짜 무관 상시 노출(클래스 없음)**
+
+```html
+    <div class="warn-box reveal" style="margin-top:24px">
       <div class="wb-icon"><svg class="ico ico-lg" viewBox="0 0 24 24" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg></div>
       <div class="wb-body">
         <h4 class="ko-block">그랜드조선 해운대 투숙객 안내</h4>
@@ -742,415 +804,81 @@
         <p class="en-block">Guests at Grand Josun Haeundae: please board the event shuttle at the <b>Paradise Hotel</b> stop (~5 min walk from Grand Josun).</p>
       </div>
     </div>
-  </div>
-</section>
+```
 
-<!-- ===== STOPS ===== -->
-<section class="section" style="padding-top:0" aria-labelledby="stop-h">
-  <div class="wrap">
-    <div class="sec-head reveal">
-      <h2 class="sec-h" id="stop-h">
-        <span class="ko-only">셔틀 정류장</span>
-        <span class="en-only">Shuttle Stops</span>
-      </h2>
-      <p class="sec-sub ko-block">5개 공식호텔과 BEXCO가 정류장입니다. 호텔 또는 BEXCO에서 탑승하세요.</p>
-      <p class="sec-sub en-block">All 5 official hotels and BEXCO are shuttle stops. Board at your hotel or at BEXCO.</p>
-    </div>
-    <div class="dest-grid">
-      <div class="dest-card reveal d1">
-        <div class="dest-thumb">
-          <img src="assets/img/bexco.jpg" alt="BEXCO"
-               onerror="this.onerror=null;this.src='https://transport.apec2025.kr/shared/images/zones/bg-visual-venue-busan.jpg'">
-        </div>
-        <div class="dest-body"><b>BEXCO</b><span class="ko-only">센텀시티 · 메인 학회장</span><span class="en-only">Centum City · Main venue</span></div>
-      </div>
-      <div class="dest-card reveal d2">
-        <div class="dest-thumb">
-          <img src="assets/img/hotel-paradise.jpg" alt="Paradise Hotel Busan"
-               onerror="this.onerror=null;this.src='https://transport.apec2025.kr/shared/images/stations/img-location-paradise-hotel.jpg'">
-        </div>
-        <div class="dest-body">
-          <b class="dest-name"><span class="nm-ko">파라다이스 호텔 부산</span><span class="nm-en">Paradise Hotel Busan</span></b>
-          <span class="ko-only">해운대 비치 · A 노선 첫 정거장</span>
-          <span class="en-only">Haeundae Beach · Route A first stop</span>
-        </div>
-      </div>
-      <div class="dest-card reveal d3">
-        <div class="dest-thumb">
-          <img src="assets/img/hotel-signiel.jpg" alt="Signiel Busan"
-               onerror="this.onerror=null;this.src='https://transport.apec2025.kr/shared/images/stations/img-location-signiel.jpg'">
-        </div>
-        <div class="dest-body">
-          <b class="dest-name"><span class="nm-ko">시그니엘 부산</span><span class="nm-en">Signiel Busan</span></b>
-          <span class="ko-only">엘시티 · A 노선 두 번째 정거장</span>
-          <span class="en-only">LCT · Route A second stop</span>
-        </div>
-      </div>
-      <div class="dest-card reveal d4">
-        <div class="dest-thumb">
-          <img src="assets/img/hotel-westin-josun.jpg" alt="Westin Josun Busan">
-        </div>
-        <div class="dest-body">
-          <b class="dest-name"><span class="nm-ko">웨스틴조선 부산</span><span class="nm-en">Westin Josun Busan</span></b>
-          <span class="ko-only">동백섬 · B 노선 첫 정거장</span>
-          <span class="en-only">Dongbaek Island · Route B first stop</span>
-        </div>
-      </div>
-      <div class="dest-card reveal d5">
-        <div class="dest-thumb">
-          <img src="assets/img/hotel-parkhyatt.jpg" alt="Park Hyatt Busan"
-               onerror="this.onerror=null;this.src='https://transport.apec2025.kr/shared/images/stations/img-location-park-hyatt.jpg'">
-        </div>
-        <div class="dest-body">
-          <b class="dest-name"><span class="nm-ko">파크하얏트 부산</span><span class="nm-en">Park Hyatt Busan</span></b>
-          <span class="ko-only">마린시티 · B 노선 두 번째 정거장</span>
-          <span class="en-only">Marine City · Route B second stop</span>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+- [ ] **Step 3: 기존 "FACULTY DINNER SHUTTLE" 독립 섹션 전체 삭제**
 
-<!-- ===== HOTEL MAP ===== -->
-<section class="section" style="padding-top:0" aria-labelledby="hm-h">
-  <div class="wrap">
-    <div class="sec-head reveal">
-      <h2 class="sec-h" id="hm-h">
-        <span class="ko-only">공식 호텔 안내</span>
-        <span class="en-only">Official Hotels</span>
-      </h2>
-      <p class="sec-sub ko-block">주요인사 5곳, 일반참가자 11곳 — BEXCO 기준 위치입니다.</p>
-      <p class="sec-sub en-block">5 VIP hotels, 11 general-participant hotels — relative to BEXCO.</p>
-    </div>
-    <div id="hotelMap" class="hotel-map reveal" role="img" aria-label="공식 호텔 위치 지도"></div>
+`<!-- ===== FACULTY DINNER SHUTTLE (10/23 only) ===== -->`부터 그 섹션의 `</section>`까지(현재 파일 기준 309~344번째 줄) 전부 삭제한다. 삭제 전 정확한 줄 번호는 Task 1~4 편집 후 달라지므로, 편집 시점에 `그 <!-- ===== FACULTY DINNER SHUTTLE` 주석부터 다음에 오는 첫 `</section>`까지`를 통째로 지운다.
 
-    <div class="hotel-list-grid reveal">
-      <div class="hotel-list-col">
-        <h3 class="hlist-h hlist-h--vip"><span class="ko-only">주요인사 호텔</span><span class="en-only">VIP &amp; Organizing Committee</span></h3>
-        <ul class="hlist">
-          <li><span class="hlist-badge hlist-badge--vip">A</span><span class="ko-only">파크하얏트 부산</span><span class="en-only">Park Hyatt Busan</span></li>
-          <li><span class="hlist-badge hlist-badge--vip">B</span><span class="ko-only">웨스틴조선 부산</span><span class="en-only">Westin Josun Busan</span></li>
-          <li><span class="hlist-badge hlist-badge--vip">C</span><span class="ko-only">그랜드조선 해운대</span><span class="en-only">Grand Josun Haeundae</span></li>
-          <li><span class="hlist-badge hlist-badge--vip">D</span><span class="ko-only">파라다이스 호텔 부산</span><span class="en-only">Paradise Hotel Busan</span></li>
-          <li><span class="hlist-badge hlist-badge--vip">E</span><span class="ko-only">시그니엘 부산</span><span class="en-only">Signiel Busan</span></li>
-        </ul>
-      </div>
-      <div class="hotel-list-col">
-        <h3 class="hlist-h"><span class="ko-only">일반참가자 호텔</span><span class="en-only">General Participant Hotels</span></h3>
-        <ul class="hlist">
-          <li><span class="hlist-badge hlist-badge--gen">1</span><span class="ko-only">L7 해운대 바이 롯데</span><span class="en-only">L7 Haeundae by LOTTE</span></li>
-          <li><span class="hlist-badge hlist-badge--gen">2</span><span class="ko-only">트래블로지 스위트 부산 센텀</span><span class="en-only">Travelodge Suites Busan Centum</span></li>
-          <li><span class="hlist-badge hlist-badge--gen">3</span><span class="ko-only">라마다 앙코르 바이 윈덤 부산 해운대</span><span class="en-only">Ramada Encore by Wyndham Busan Haeundae</span></li>
-          <li><span class="hlist-badge hlist-badge--gen">4</span><span class="ko-only">펠릭스 바이 STX</span><span class="en-only">Felix by STX Hotel &amp; Suite</span></li>
-          <li><span class="hlist-badge hlist-badge--gen">5</span><span class="ko-only">라비드 아틀란 호텔</span><span class="en-only">Lavi De Atlan Hotel</span></li>
-          <li><span class="hlist-badge hlist-badge--gen">6</span><span class="ko-only">해운대 센트럴호텔</span><span class="en-only">Haeundae Central Hotel</span></li>
-          <li><span class="hlist-badge hlist-badge--gen">7</span><span class="ko-only">플레아드블랑 호텔 앤 레지던스</span><span class="en-only">Plea De Blanc Hotel &amp; Residence</span></li>
-          <li><span class="hlist-badge hlist-badge--gen">8</span><span class="ko-only">부산 영무파라드 호텔 해운대비치</span><span class="en-only">Busan Yeongmu Parade Hotel Haeundae Beach</span></li>
-          <li><span class="hlist-badge hlist-badge--gen">9</span><span class="ko-only">블루스토리 호텔</span><span class="en-only">Blue Story Hotel</span></li>
-          <li><span class="hlist-badge hlist-badge--gen">10</span><span class="ko-only">코오롱 씨클라우드 호텔</span><span class="en-only">Kolon Seacloud Hotel</span></li>
-          <li><span class="hlist-badge hlist-badge--gen">11</span><span class="ko-only">해운대 마리안느 호텔</span><span class="en-only">Haeundae Marianne Hotel</span></li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</section>
+- [ ] **Step 4: "SCHEDULE" 섹션 헤딩(`#sc-h`, "운행 시간표 (10/21~24)")도 이제 무의미하므로 정리 — 이 섹션 전체를 삭제한다 (내용은 이미 Task 3·4에서 ROUTES 섹션 안으로 흡수됨)**
 
-<!-- ===== RULES ===== -->
-<section class="section" style="padding-top:0" aria-labelledby="rl-h">
-  <div class="wrap">
-    <div class="sec-head reveal"><h2 class="sec-h" id="rl-h"><span class="ko-only">이용 안내</span><span class="en-only">Information</span></h2></div>
-    <div class="rules reveal">
-      <h4 class="ko-block">탑승 자격 · 이용 안내</h4>
-      <h4 class="en-block">Eligibility &amp; Guidelines</h4>
-      <ul class="ko-block">
-        <li><b>APHRS 2026 등록 참가자</b>에게 무료로 제공됩니다. 등록 배지를 지참해 주세요.</li>
-        <li>선착순 탑승입니다. 별도 예약은 필요하지 않습니다.</li>
-        <li>출발 <b>10분 전</b>까지 정류장에 도착해 주세요.</li>
-        <li>피크 시간대에는 만석일 수 있습니다. 만석 시 <b>다음 운행 편</b>을 이용해 주세요.</li>
-        <li>실시간 추적은 제공되지 않습니다. 지정 정류장에서 대기해 주세요.</li>
-        <li>시간표는 변경될 수 있습니다. 현장 안내판을 확인해 주세요.</li>
-      </ul>
-      <ul class="en-block">
-        <li>Free for <b>APHRS 2026 registered attendees</b>. Please wear your conference badge.</li>
-        <li>First-come, first-served. No reservation required.</li>
-        <li>Please arrive at the stop <b>10 minutes before departure</b>.</li>
-        <li>Shuttles may be full during peak hours. Please wait for the next service.</li>
-        <li>Real-time tracking is not available. Please wait at your designated stop.</li>
-        <li>Schedule is subject to change. Check on-site boards for updates.</li>
-      </ul>
-    </div>
-  </div>
-</section>
+`<!-- ===== SCHEDULE ===== -->`부터 그 섹션의 `</section>`까지 통째로 삭제(원본 193~307번째 줄 범위, Task 1~4 편집으로 줄 번호는 이동해 있을 것).
 
-</main>
+- [ ] **Step 5: 검증 — 전체 페이지 구조 확인**
 
-<!-- ===== CORPORATE FOOTER ===== -->
-<footer class="corp-foot">
-  <div class="wrap">
-    <div class="top">
-      <a class="brand" href="index.html" aria-label="APHRS 2026 교통 포털 홈">
-        <img src="assets/img/brand/color/abbr_horz_1.png"
-             alt="APHRS 2026"
-             style="height:32px;object-fit:contain"
-             onerror="this.onerror=null;this.src='assets/img/brand/color/abbr_horz_1.png'">
-        <span class="wm"><b>APHRS 2026 Transportation</b><small><span class="ko-only">GroundK · 참가자 교통 포털 데모</span><span class="en-only">GroundK · Participant Transport Portal Demo</span></small></span>
-      </a>
-      <nav class="fnav" aria-label="푸터">
-        <a href="airport-transfer.html"><span class="ko-only">공항 ↔ 호텔</span><span class="en-only">Airport ↔ Hotel</span></a>
-        <a href="shuttle-venue.html"><span class="ko-only">행사장 셔틀</span><span class="en-only">Venue Shuttle</span></a>
-        <a href="index.html#support"><span class="ko-only">고객 지원</span><span class="en-only">Support</span></a>
-      </nav>
-    </div>
-    <div class="legal">
-      <b>GroundK Co., Ltd</b> · 대표 장동원 · 사업자등록번호 238-81-00429<br>
-      부산광역시 해운대구 센텀동로 45, 405호 (우 48059) · Tel +82-2-863-3540 · Fax +82-70-8275-3540 · ops@groundk.com<br>
-      <span class="ko-only">RIDEUS는 GroundK의 Transportation × Travel 플랫폼입니다. 모든 거래·교환·환불·민원은 GroundK가 처리합니다.</span><span class="en-only">RIDEUS is GroundK's Transportation × Travel platform. All transactions, exchanges, refunds &amp; inquiries are handled by GroundK.</span><br>
-      <span class="ver">© 2026 GroundK · <span class="ko-only">APHRS 2026 참가자 교통 포털 (콘셉트 데모)</span><span class="en-only">APHRS 2026 Participant Transport Portal (Concept Demo)</span> · build 2026.07.13.4</span>
-    </div>
-  </div>
-</footer>
+Run: `python -m http.server 8241`(aphrs-2026-transport 폴더 안) → `http://localhost:8241/shuttle-venue.html` 새로고침.
+Expected:
+1. "운행 노선" 섹션 하나만 남고(구 "운행 시간표"/"Faculty Dinner 셔틀" 별도 섹션 없음) 그 안에 탭 UI + U자형 다이어그램 + 시간표 + (10/23일 때만) Faculty Dinner + 그랜드조선 안내가 순서대로 보인다.
+2. A/B 노선 아무거나 선택한 채 10/23 날짜를 클릭하면 Faculty Dinner 블록이 나타나고, 10/21·22·24로 바꾸면 사라진다.
+3. 브라우저 콘솔에 JS 에러 없음.
 
-<div class="mockup-flag"><span class="ko-only">컨셉 목업<span class="mf-ext"> · 실제 예약 연동 예정</span></span><span class="en-only">Concept Mockup<span class="mf-ext"> · Booking integration planned</span></span></div>
+---
 
-<!-- ===== BOOKING LOOKUP MODAL ===== -->
-<div class="modal-ov" id="lookupModal" role="dialog" aria-modal="true" aria-labelledby="lk-h">
-  <div class="modal">
-    <button class="modal-x" id="lookupClose" type="button" aria-label="닫기">✕</button>
-    <h3 id="lk-h"><span class="ko-only">예약 내역 조회</span><span class="en-only">Booking Lookup</span></h3>
-    <p class="ko-block">예약번호와 이메일을 입력하면 데모 예약 내역을 확인합니다.</p>
-    <p class="en-block">Enter your booking number and email to view your demo booking details.</p>
-    <div class="mf"><label for="lkCode"><span class="ko-only">예약번호</span><span class="en-only">Booking No.</span></label><input id="lkCode" type="text" placeholder="RE-APHRS-SH-0000"></div>
-    <div class="mf"><label for="lkEmail"><span class="ko-only">이메일</span><span class="en-only">Email</span></label><input id="lkEmail" type="email" placeholder="you@example.com"></div>
-    <div class="m-actions"><button class="btn btn-red btn-block btn-sm" id="lookupSubmit" type="button"><span class="ko-only">조회하기</span><span class="en-only">Search</span></button></div>
-    <p class="m-note ko-block" id="lkResult">※ 콘셉트 데모입니다. 실제 예약 시스템과 연동되지 않으며, 예시 안내만 표시됩니다.</p>
-    <p class="m-note en-block">※ This is a concept demo. Not connected to an actual booking system. Sample information only.</p>
-  </div>
-</div>
+### Task 6: 버전 범프 + 반응형(모바일) 검증 + 커밋
 
-<script src="assets/app.js?v=2026.07.13.4"></script>
+**Files:**
+- Modify: 아래 7개 파일의 `?v=`, `<meta name="version">`, `SITE_VERSION` 전부
+  - `aphrs-2026-transport/airport-transfer.html`
+  - `aphrs-2026-transport/assets/app.js`
+  - `aphrs-2026-transport/booking.html`
+  - `aphrs-2026-transport/index.html`
+  - `aphrs-2026-transport/shuttle-chauffeur.html`
+  - `aphrs-2026-transport/shuttle-venue.html`
+  - `aphrs-2026-transport/travel.html`
 
-<script>
-(function(){
-  var toggle = document.getElementById('navToggle');
-  var nav    = document.getElementById('mobileNav');
-  if(!toggle || !nav) return;
-  toggle.addEventListener('click', function(){
-    var open = nav.classList.toggle('open');
-    toggle.classList.toggle('open', open);
-    toggle.setAttribute('aria-expanded', open);
-    document.body.style.overflow = open ? 'hidden' : '';
-    if(open){
-      var head = document.querySelector('.site-head');
-      if(head) nav.style.top = head.getBoundingClientRect().bottom + 'px';
-    }
-  });
-  // ESC 닫기
-  document.addEventListener('keydown', function(e){
-    if(e.key === 'Escape' && nav.classList.contains('open')){
-      nav.classList.remove('open');
-      toggle.classList.remove('open');
-      toggle.setAttribute('aria-expanded', 'false');
-      document.body.style.overflow = '';
-    }
-  });
-})();
-</script>
-<script>
-/* Venue Shuttle — 노선(vr) × 날짜(vd) 상태 관리 */
-(function(){
-  var root = document.documentElement;
-  var vrBtns = Array.prototype.slice.call(document.querySelectorAll('[data-vr-btn]'));
-  var vdBtns = Array.prototype.slice.call(document.querySelectorAll('[data-vd-btn]'));
+- [ ] **Step 1: 버전 문자열 일괄 치환**
 
-  function applyGroup(btns, attr){
-    var current = root.getAttribute(attr);
-    btns.forEach(function(b){
-      var key = b.getAttribute('data-vr-btn') || b.getAttribute('data-vd-btn');
-      var on = key === current;
-      b.setAttribute('aria-selected', String(on));
-      b.setAttribute('tabindex', on ? '0' : '-1');
-    });
-  }
+Run (aphrs-2026-transport 폴더 안에서):
+```bash
+for f in ./airport-transfer.html ./assets/app.js ./booking.html ./index.html ./shuttle-chauffeur.html ./shuttle-venue.html ./travel.html; do
+  sed -i 's/2026\.07\.13\.3/2026.07.13.4/g' "$f"
+done
+grep -c "2026.07.13.4" assets/app.js
+```
+Expected: `1` 출력(SITE_VERSION 라인에서 매치).
 
-  vrBtns.forEach(function(b, i){
-    b.addEventListener('click', function(){
-      root.setAttribute('data-vr', b.getAttribute('data-vr-btn'));
-      applyGroup(vrBtns, 'data-vr');
-    });
-    b.addEventListener('keydown', function(e){
-      var d = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
-      if (!d) return;
-      var n = vrBtns[(i + d + vrBtns.length) % vrBtns.length];
-      n.focus(); n.click();
-    });
-  });
+- [ ] **Step 2: 데스크톱(1280px) 렌더 검증**
 
-  vdBtns.forEach(function(b, i){
-    b.addEventListener('click', function(){
-      root.setAttribute('data-vd', b.getAttribute('data-vd-btn'));
-      applyGroup(vdBtns, 'data-vd');
-    });
-    b.addEventListener('keydown', function(e){
-      var d = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
-      if (!d) return;
-      var n = vdBtns[(i + d + vdBtns.length) % vdBtns.length];
-      n.focus(); n.click();
-    });
-  });
+Run: 브라우저 뷰포트 1280×900으로 `shuttle-venue.html` 열어 A/B 노선 × 10/21~24 날짜 8개 조합 전부 스크린샷.
+Expected: 모든 조합에서 U자형 다이어그램의 `.uroute-curve`가 위/아래 두 줄 오른쪽을 자연스럽게 잇고, 시간표 숫자가 표에 정리한 값과 정확히 일치. 가로 스크롤 없음.
 
-  applyGroup(vrBtns, 'data-vr');
-  applyGroup(vdBtns, 'data-vd');
-})();
-</script>
-<script src="https://unpkg.com/maplibre-gl@5.24.0/dist/maplibre-gl.js"></script>
-<script>
-(async function(){
-  var HOTELS = [
-    {tier:'bexco', ko:'벡스코', en:'BEXCO', lat:35.169071, lng:129.136306},
-    {tier:'vip', ko:'파크하얏트 부산', en:'Park Hyatt Busan', lat:35.156558, lng:129.141864},
-    {tier:'vip', ko:'웨스틴조선 부산', en:'Westin Josun Busan', lat:35.155982, lng:129.154120},
-    {tier:'vip', ko:'그랜드조선 해운대', en:'Grand Josun Haeundae', lat:35.160108, lng:129.163170},
-    {tier:'vip', ko:'파라다이스 호텔 부산', en:'Paradise Hotel Busan', lat:35.160169, lng:129.164947},
-    {tier:'vip', ko:'시그니엘 부산', en:'Signiel Busan', lat:35.159801, lng:129.169609},
-    {tier:'gen', ko:'L7 해운대 바이 롯데', en:'L7 Haeundae by LOTTE', lat:35.160158, lng:129.159975},
-    {tier:'gen', ko:'트래블로지 스위트 부산 센텀', en:'Travelodge Suites Busan Centum', lat:35.165965, lng:129.132984},
-    {tier:'gen', ko:'라마다 앙코르 바이 윈덤 부산 해운대', en:'Ramada Encore by Wyndham Busan Haeundae', lat:35.163472, lng:129.159444},
-    {tier:'gen', ko:'펠릭스 바이 STX', en:'Felix by STX Hotel & Suite', lat:35.162976, lng:129.158442},
-    {tier:'gen', ko:'라비드 아틀란 호텔', en:'Lavi De Atlan Hotel', lat:35.161128, lng:129.161490},
-    {tier:'gen', ko:'해운대 센트럴호텔', en:'Haeundae Central Hotel', lat:35.160822, lng:129.166931},
-    {tier:'gen', ko:'플레아드블랑 호텔 앤 레지던스', en:'Plea De Blanc Hotel & Residence', lat:35.160957, lng:129.166552},
-    {tier:'gen', ko:'부산 영무파라드 호텔 해운대비치', en:'Busan Yeongmu Parade Hotel Haeundae Beach', lat:35.160934, lng:129.166519},
-    {tier:'gen', ko:'블루스토리 호텔', en:'Blue Story Hotel', lat:35.159959, lng:129.157689},
-    {tier:'gen', ko:'코오롱 씨클라우드 호텔', en:'Kolon Seacloud Hotel', lat:35.160527, lng:129.162373},
-    {tier:'gen', ko:'해운대 마리안느 호텔', en:'Haeundae Marianne Hotel', lat:35.161460, lng:129.164568}
-  ];
+- [ ] **Step 3: 모바일(390px) 렌더 검증**
 
-  function mPerDegLng(lat) { return 111320 * Math.cos(lat * Math.PI / 180); }
-  function distMeters(a, b) {
-    var dLat = (a.lat - b.lat) * 111320;
-    var dLng = (a.lng - b.lng) * mPerDegLng((a.lat + b.lat) / 2);
-    return Math.sqrt(dLat * dLat + dLng * dLng);
-  }
-  function applyDeoverlap(list, thresholdMeters, spreadMeters) {
-    var used = new Array(list.length).fill(false);
-    for (var i = 0; i < list.length; i++) {
-      if (used[i]) continue;
-      var cluster = [i];
-      used[i] = true;
-      for (var j = i + 1; j < list.length; j++) {
-        if (!used[j] && distMeters(list[i], list[j]) < thresholdMeters) {
-          cluster.push(j);
-          used[j] = true;
-        }
-      }
-      if (cluster.length > 1) {
-        var latSum = 0, lngSum = 0;
-        cluster.forEach(function (idx) { latSum += list[idx].lat; lngSum += list[idx].lng; });
-        var centerLat = latSum / cluster.length;
-        var centerLng = lngSum / cluster.length;
-        var mLat = spreadMeters / 111320;
-        var mLng = spreadMeters / mPerDegLng(centerLat);
-        cluster.forEach(function (idx, k) {
-          var angle = (2 * Math.PI * k) / cluster.length;
-          list[idx].renderLat = centerLat + mLat * Math.sin(angle);
-          list[idx].renderLng = centerLng + mLng * Math.cos(angle);
-        });
-      } else {
-        list[cluster[0]].renderLat = list[cluster[0]].lat;
-        list[cluster[0]].renderLng = list[cluster[0]].lng;
-      }
-    }
-  }
+Run: 뷰포트 390×844로 전환 후 동일하게 확인.
+Expected: `.uroute` 패딩이 좁아지고(`@media(max-width:620px)` 규칙) 텍스트가 줄바꿈되더라도 `.uroute-curve`가 카드 밖으로 넘치지 않음. 탭 버튼(노선 2개+날짜 4개)이 가로로 눌리지 않고 읽을 수 있는 크기 유지.
 
-  function createMarkerEl(tier, badge, label) {
-    var pin = document.createElement('div');
-    pin.className = 'hmap-pin ' + (tier === 'vip' ? 'hmap-pin--vip' : tier === 'bexco' ? 'hmap-pin--bexco' : 'hmap-pin--gen');
-    if (tier === 'bexco') {
-      var dot = document.createElement('span');
-      dot.className = 'hmap-dot hmap-dot--diamond';
-      var lbl = document.createElement('span');
-      lbl.className = 'hmap-label';
-      lbl.textContent = label;
-      pin.appendChild(dot);
-      pin.appendChild(lbl);
-    } else {
-      var badgeEl = document.createElement('span');
-      badgeEl.className = 'hmap-dot';
-      badgeEl.textContent = badge;
-      pin.appendChild(badgeEl);
-    }
-    return pin;
-  }
+- [ ] **Step 4: 커밋**
 
-  var el = document.getElementById('hotelMap');
-  if (!el || typeof maplibregl === 'undefined') return;
+```bash
+git add aphrs-2026-transport/ docs/superpowers/
+git commit -m "$(cat <<'EOF'
+feat: 행사장 셔틀 페이지 노선×날짜 탭 + U자형 노선도로 재구성 v2026.07.13.4
 
-  applyDeoverlap(HOTELS, 25, 18);
+가짜 placeholder 시간표를 공식 PPTX 기반 실제 운행시간표(날짜별 집중/일반/리셉션 운행)로 전량 교체.
+왕복 노선을 U자형 다이어그램(위=가는편·아래=오는편, 오른쪽 border-radius 곡선 연결)으로 표현하고
+노선(A/B)×날짜(10/21~24) 탭으로 8개 조합을 전환. Faculty Dinner 셔틀은 10/23 탭 안에 노선 무관
+공통 노출로 통합, TBD였던 출발시각을 확정 시각으로 교체. 노선 A 정류장 순서(시그니엘→파라다이스)를
+공식 자료 기준으로 정정.
 
-  var mapStyle = 'https://tiles.openfreemap.org/styles/bright';
-  try {
-    var styleRes = await fetch(mapStyle);
-    var styleJson = await styleRes.json();
-    styleJson.layers = styleJson.layers.filter(function (l) { return l['source-layer'] !== 'poi'; });
-    mapStyle = styleJson;
-  } catch (e) { /* fetch failed — fall back to unmodified style URL */ }
+Co-Authored-By: Claude Sonnet 5 <noreply@anthropic.com>
+EOF
+)"
+```
 
-  var map = new maplibregl.Map({
-    container: 'hotelMap',
-    style: mapStyle,
-    center: [129.16, 35.16],
-    zoom: 13,
-    attributionControl: { compact: false }
-  });
-  map.addControl(new maplibregl.NavigationControl({ showCompass: false }), 'top-left');
+---
 
-  function popupHtml(h, isEnNow) {
-    var badgeClass = h.tier === 'vip' ? 'hlist-badge--vip' : 'hlist-badge--gen';
-    return '<div class="hmap-popup"><span class="hlist-badge ' + badgeClass + '">' + h.badge + '</span><span class="hmap-popup-name">' + (isEnNow ? h.en : h.ko) + '</span></div>';
-  }
+## Self-Review 체크리스트 (실행 전 참고용)
 
-  var isEn = document.documentElement.getAttribute('data-ui-lang') === 'en';
-  var VIP_LETTERS = ['A', 'B', 'C', 'D', 'E'];
-  var vipI = 0, genI = 0;
-  var popups = [];
-  var bounds = new maplibregl.LngLatBounds();
-  var markers = HOTELS.map(function (h) {
-    if (h.tier === 'vip') h.badge = VIP_LETTERS[vipI++];
-    else if (h.tier === 'gen') h.badge = String(++genI);
-    var markerEl = createMarkerEl(h.tier, h.badge, isEn ? h.en : h.ko);
-    var m = new maplibregl.Marker({ element: markerEl, anchor: 'center' })
-      .setLngLat([h.renderLng, h.renderLat])
-      .addTo(map);
-    m.hotelData = h;
-    if (h.tier !== 'bexco') {
-      var popup = new maplibregl.Popup({ closeButton: false, offset: 16 }).setHTML(popupHtml(h, isEn));
-      popup.on('open', function () {
-        popups.forEach(function (p) { if (p !== popup) p.remove(); });
-      });
-      popups.push(popup);
-      m.setPopup(popup);
-    }
-    bounds.extend([h.renderLng, h.renderLat]);
-    return m;
-  });
-
-  map.fitBounds(bounds, { padding: 40, duration: 0 });
-
-  function syncLang() {
-    var isEnNow = document.documentElement.getAttribute('data-ui-lang') === 'en';
-    markers.forEach(function (m) {
-      var h = m.hotelData;
-      if (h.tier === 'bexco') {
-        var lbl = m.getElement().querySelector('.hmap-label');
-        if (lbl) lbl.textContent = isEnNow ? h.en : h.ko;
-      } else {
-        var popup = m.getPopup();
-        if (popup) popup.setHTML(popupHtml(h, isEnNow));
-      }
-    });
-  }
-  new MutationObserver(syncLang).observe(document.documentElement, { attributes: true, attributeFilter: ['data-ui-lang'] });
-})();
-</script>
-</body>
-</html>
+- **스펙 커버리지**: §3 상태관리(Task 2) · §4 U자형 마크업(Task 1,3,4) · §5 실제 데이터(Task 3,4,5) · §6 삭제/재배치 대상(Task 5) · §8 검증 기준(Task 6) 전부 태스크로 매핑됨.
+- **정류장 순서 정정**: Global Constraints에 명시, Task 3의 모든 블록이 "시그니엘 → 파라다이스 → BEXCO" 순으로 작성됨(현재 라이브 사이트의 "파라다이스 → 시그니엘"과 다름에 주의).
+- **타입/이름 일관성**: `data-vr`(a/b) · `data-vd`(1021/1022/1023/1024) · 클래스명 `vr-a`/`vr-b`/`vd-1021~1024`가 Task 1(CSS 정의)부터 Task 5(마지막 사용)까지 동일하게 사용됨.

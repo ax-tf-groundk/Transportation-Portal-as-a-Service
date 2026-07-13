@@ -6,7 +6,7 @@
 (function () {
   'use strict';
 
-  var SITE_VERSION = '2026.07.13.3';
+  var SITE_VERSION = '2026.07.13.4';
   try { console.log('%cRIDEUS Events · APHRS 2026 · build ' + SITE_VERSION, 'color:#e8344e;font-weight:700'); } catch (e) {}
 
   var prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
