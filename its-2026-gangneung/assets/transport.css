@@ -56,7 +56,7 @@ h1,h2,h3,h4{line-height:1.16;letter-spacing:-.4px;text-wrap:balance}
 .btn-white:hover{background:#fff;filter:brightness(.97)}
 
 /* ---------- HEADER ---------- */
-.site-head{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.92);backdrop-filter:blur(10px);border-bottom:2px solid var(--red)}
+.site-head{position:sticky;top:0;z-index:50;background:#fff;border-bottom:2px solid var(--line)}
 .site-head .bar{display:flex;align-items:center;gap:20px;height:70px;max-width:1280px;margin:0 auto;padding:0 24px}
 .brand{display:flex;align-items:center;gap:11px;flex-shrink:0}
 .brand .logo{width:34px;height:34px;border-radius:9px;background:linear-gradient(135deg,#00a58f,var(--red) 55%,var(--red-700));
