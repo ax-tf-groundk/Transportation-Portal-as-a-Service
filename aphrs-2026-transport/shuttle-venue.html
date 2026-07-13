@@ -10,10 +10,10 @@
 <link rel="stylesheet" href="assets/transport.css?v=2026.07.13.4">
 <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@5.24.0/dist/maplibre-gl.css"/>
 <style>
-  /* Venue schedule — 3개 노선 표를 데스크탑에서 3열로 배치 */
+  /* Venue schedule — 날짜별 가는편·오는편 표를 데스크탑에서 2열로 배치 */
   .sched-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;align-items:start;margin-bottom:14px;border-top:1px solid var(--line);padding-top:26px}
   .sched-grid.sched-grid-2col{grid-template-columns:1fr 1fr}
-  .sched-grid h3{margin-top:0;color:var(--navy)!important;text-align:center}
+  .sched-grid h3{margin-top:0;color:var(--navy);text-align:center}
   .sched-grid .sched-table{margin-bottom:0;border:1px solid var(--line);border-radius:var(--radius-sm);overflow:hidden}
   .sched-grid .sched-table table{width:100%}
   .sched-grid .sched-table th,.sched-grid .sched-table td{padding:11px 14px}
@@ -78,7 +78,7 @@
   .uroute-back .ar-lbl{background:var(--red)}
   .uroute-path{font-size:15px;font-weight:700;color:var(--ink)}
   .uroute-path .ar{color:var(--red);font-weight:700;margin:0 5px}
-  .uroute-curve{content:"";position:absolute;top:22px;bottom:22px;right:24px;width:26px;border:3px solid var(--red);border-left:none;border-radius:0 22px 22px 0}
+  .uroute-curve{position:absolute;top:22px;bottom:22px;right:24px;width:26px;border:3px solid var(--red);border-left:none;border-radius:0 22px 22px 0}
   @media(max-width:620px){
     .uroute{padding:18px 40px 18px 18px}
     .uroute-curve{right:14px;width:16px;border-width:2.5px}
@@ -201,10 +201,10 @@
       </button>
     </div>
     <div class="vtabs vtabs-date" role="tablist" aria-label="날짜 선택">
-      <button class="vtab" type="button" role="tab" data-vd-btn="1021" aria-selected="true">10/21 (수)</button>
-      <button class="vtab" type="button" role="tab" data-vd-btn="1022" aria-selected="false" tabindex="-1">10/22 (목)</button>
-      <button class="vtab" type="button" role="tab" data-vd-btn="1023" aria-selected="false" tabindex="-1">10/23 (금)</button>
-      <button class="vtab" type="button" role="tab" data-vd-btn="1024" aria-selected="false" tabindex="-1">10/24 (토)</button>
+      <button class="vtab" type="button" role="tab" data-vd-btn="1021" aria-selected="true"><span class="ko-only">10/21 (수)</span><span class="en-only">Oct 21 (Wed)</span></button>
+      <button class="vtab" type="button" role="tab" data-vd-btn="1022" aria-selected="false" tabindex="-1"><span class="ko-only">10/22 (목)</span><span class="en-only">Oct 22 (Thu)</span></button>
+      <button class="vtab" type="button" role="tab" data-vd-btn="1023" aria-selected="false" tabindex="-1"><span class="ko-only">10/23 (금)</span><span class="en-only">Oct 23 (Fri)</span></button>
+      <button class="vtab" type="button" role="tab" data-vd-btn="1024" aria-selected="false" tabindex="-1"><span class="ko-only">10/24 (토)</span><span class="en-only">Oct 24 (Sat)</span></button>
     </div>
     <div class="uroute vr-a vd-1021">
       <div class="uroute-arm uroute-out">
