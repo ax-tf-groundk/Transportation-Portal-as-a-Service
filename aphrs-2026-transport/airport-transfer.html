@@ -35,11 +35,6 @@ html[data-mode="chauffeur"] .mode-bus{display:none}
   .mode-tab .mt-ic{font-size:18px}
 }
 
-/* ---- chauffeur 보조 스타일 (shuttle-chauffeur.html과 동일) ---- */
-.zone-list{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:.6rem}
-.zone-list li{display:flex;align-items:center;gap:.6rem;font-size:.95rem}
-.zone-list li::before{content:"↔";color:var(--red);font-weight:700;flex-shrink:0}
-
 /* ---- 공항버스: 기점 타이틀 (h2 섹션 제목보다 한 단계 아래, 노선/시간표 라벨보다 위) ---- */
 .origin-h{font-size:21px;font-weight:800;color:var(--ink);letter-spacing:-.2px;margin:0 0 16px;padding-bottom:11px;border-bottom:2px solid var(--red)}
 .origin-h.mt{margin-top:44px}
@@ -188,8 +183,8 @@ html[data-mode="chauffeur"] .mode-bus{display:none}
     <div class="route-rows">
       <div class="rt-card reveal d1">
         <span class="rt-tag"><span class="ko-only">공항리무진</span><span class="en-only">Limousine</span></span>
-        <div class="rt-path ko-only">공항 <span class="ar" aria-hidden="true">→</span> BEXCO <span class="ar" aria-hidden="true">→</span> 해운대</div>
-        <div class="rt-path en-only">Airport <span class="ar" aria-hidden="true">→</span> BEXCO <span class="ar" aria-hidden="true">→</span> Haeundae</div>
+        <div class="rt-path ko-only">김해공항 <span class="ar" aria-hidden="true">→</span> BEXCO <span class="ar" aria-hidden="true">→</span> 해운대</div>
+        <div class="rt-path en-only">Gimhae Airport <span class="ar" aria-hidden="true">→</span> BEXCO <span class="ar" aria-hidden="true">→</span> Haeundae</div>
         <span class="rt-time"><span class="ko-only">약 60분</span><span class="en-only">~60 min</span> · ₩9,500</span>
       </div>
     </div>
@@ -390,22 +385,6 @@ html[data-mode="chauffeur"] .mode-bus{display:none}
     </div>
     <p class="svc-note reveal ko-block">* 요금은 출발지·거리·일정에 따라 산정되며, 상단 예약 위젯에서 확인할 수 있습니다.</p>
     <p class="svc-note reveal en-block">* Fares depend on origin, distance and schedule — check exact rates in the booking widget above.</p>
-  </div>
-</section>
-
-<!-- service zones -->
-<section class="section" style="padding-top:0" aria-labelledby="zone-h">
-  <div class="wrap">
-    <div class="sec-head reveal">
-      <h2 class="sec-h" id="zone-h"><span class="ko-only">운행 구간</span><span class="en-only">Service Zones</span></h2>
-      <p class="sec-sub ko-block">부산 시내 어디든 포인트투포인트 이동이 가능합니다. 주요 운행 구간:</p>
-      <p class="sec-sub en-block">Point-to-point transfers anywhere in Busan. Key routes:</p>
-    </div>
-    <ul class="zone-list reveal">
-      <li><span class="ko-only">김해국제공항 (PUS) &nbsp;↔&nbsp; 공식호텔 / BEXCO</span><span class="en-only">Gimhae Int'l Airport (PUS) &nbsp;↔&nbsp; Official Hotels / BEXCO</span></li>
-      <li><span class="ko-only">부산역 (KTX) &nbsp;↔&nbsp; 공식호텔 / BEXCO</span><span class="en-only">Busan Station (KTX) &nbsp;↔&nbsp; Official Hotels / BEXCO</span></li>
-      <li><span class="ko-only">부산 시내 임의 구간 포인트투포인트</span><span class="en-only">Any point-to-point route within Busan</span></li>
-    </ul>
   </div>
 </section>
 
