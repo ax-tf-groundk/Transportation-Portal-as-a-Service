@@ -6,7 +6,7 @@
 (function () {
   'use strict';
 
-  var SITE_VERSION = '2026.07.13.11';
+  var SITE_VERSION = '2026.07.13.12';
   try { console.log('%cRIDEUS Events · ITS 2026 Gangneung · build ' + SITE_VERSION, 'color:#006241;font-weight:700'); } catch (e) {}
 
   var prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -350,11 +350,33 @@
     });
   }
 
+  /* ---- 모바일 햄버거 내비 토글 ---- */
+  function initMobileNav(){
+    var toggle = document.querySelector('.nav-toggle');
+    var nav = document.querySelector('.site-head .nav');
+    if (!toggle || !nav) return;
+    function close(){ nav.classList.remove('open'); toggle.classList.remove('open'); toggle.setAttribute('aria-expanded', 'false'); }
+    toggle.addEventListener('click', function (e) {
+      e.stopPropagation();
+      var open = !nav.classList.contains('open');
+      nav.classList.toggle('open', open);
+      toggle.classList.toggle('open', open);
+      toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+    nav.addEventListener('click', function (e) { if (e.target.closest('a')) close(); });
+    document.addEventListener('click', function (e) {
+      if (nav.classList.contains('open') && !nav.contains(e.target) && !toggle.contains(e.target)) close();
+    });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') close(); });
+    window.addEventListener('resize', function () { if (window.innerWidth > 980) close(); });
+  }
+
   document.addEventListener('DOMContentLoaded', function () {
     initReveal();
     initLang();
     initLookup();
     initRoutes();
     initSliders();
+    initMobileNav();
   });
 })();
