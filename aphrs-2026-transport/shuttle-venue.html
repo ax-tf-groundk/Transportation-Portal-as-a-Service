@@ -10,15 +10,6 @@
 <link rel="stylesheet" href="assets/transport.css?v=2026.07.14.1">
 <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@5.24.0/dist/maplibre-gl.css"/>
 <style>
-  /* Venue schedule — 날짜별 가는편·오는편 표를 데스크탑에서 2열로 배치 */
-  .sched-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;align-items:start;margin-bottom:14px;border-top:1px solid var(--line);padding-top:26px}
-  .sched-grid.sched-grid-2col{grid-template-columns:1fr 1fr}
-  .sched-grid h3{margin-top:0;color:var(--navy);text-align:center}
-  .sched-grid .sched-table{margin-bottom:0;border:1px solid var(--line);border-radius:var(--radius-sm);overflow:hidden}
-  .sched-grid .sched-table table{width:100%}
-  .sched-grid .sched-table th,.sched-grid .sched-table td{padding:11px 14px}
-  .sched-grid .sched-table tbody tr:last-child td{border-bottom:none}
-  @media(max-width:920px){.sched-grid{grid-template-columns:1fr}.sched-grid.sched-grid-2col{grid-template-columns:1fr}}
   /* STOPS 카드 — 호텔명 한·영 병기, 현재 토글 언어가 primary(16px)·다른 언어는 서브(12.5px). order로 primary를 항상 위로 */
   .dest-name{display:flex;flex-direction:column;line-height:1.25;margin-bottom:2px}
   .dest-name .nm-ko,.dest-name .nm-en{margin:0}
@@ -131,10 +122,6 @@
   .vgroup:not([data-vd="1022"]) .sched-note.vd-1022{display:none!important}
   .vgroup:not([data-vd="1023"]) .sched-note.vd-1023{display:none!important}
   .vgroup:not([data-vd="1024"]) .sched-note.vd-1024{display:none!important}
-  /* Faculty Dinner(.fd-1023)는 어느 .vgroup에도 속하지 않는 노선 무관 공통 섹션이라
-     위 .vgroup 스코프 규칙이 적용되지 않는다 — 4개 vgroup 중 하나라도 10/23이면 보이도록
-     JS가 <html>에 계산해서 세팅하는 data-any-1023 전역 속성으로 별도 게이팅 */
-  html:not([data-any-1023="true"]) .fd-1023{display:none}
 </style>
 </head>
 <body>
@@ -761,7 +748,7 @@
     </div>
     </div>
 
-    <div class="warn-box reveal fd-1023" style="margin-top:24px">
+    <div class="warn-box reveal" style="margin-top:24px">
       <div class="wb-icon"><svg class="ico ico-lg" viewBox="0 0 24 24" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg></div>
       <div class="wb-body">
         <h4 class="ko-block">Faculty Dinner 셔틀 <span style="font-weight:700;opacity:.75">— 10/23(금) 저녁, 노선 선택과 무관하게 운영</span></h4>
@@ -770,24 +757,31 @@
         <p class="en-block">For <b>invited Faculty Dinner guests only</b> — not available to general registered attendees. To the dinner (<b>17:00–17:30, every 10 min</b>), use the venue shuttle above to Signiel. After the dinner, <b>10 buses depart every 2 minutes from 20:00</b>; guests staying near BEXCO can ride to BEXCO on the extended run.</p>
       </div>
     </div>
-    <div class="sched-grid reveal fd-1023" style="grid-template-columns:1fr;margin-top:14px">
-      <div class="sched-col">
-        <h3 style="font-size:1rem;font-weight:700;margin:0 0 10px;color:var(--red)"><span class="ko-only">귀가행 — 시그니엘 → 웨스틴조선 → 파크하얏트 → (BEXCO)</span><span class="en-only">Return — Signiel → Westin Josun → Park Hyatt → (BEXCO)</span></h3>
-        <div class="sched-table"><table>
-          <thead><tr><th><span class="ko-only">호차</span><span class="en-only">Bus #</span></th><th><span class="ko-only">시그니엘</span><span class="en-only">Signiel</span></th><th><span class="ko-only">웨스틴조선</span><span class="en-only">Westin Josun</span></th><th><span class="ko-only">파크하얏트</span><span class="en-only">Park Hyatt</span></th><th><span class="ko-only">BEXCO(연장)</span><span class="en-only">BEXCO (ext.)</span></th></tr></thead>
-          <tbody>
-            <tr><td>1</td><td>20:00</td><td>20:12</td><td>20:22</td><td>(20:32)</td></tr>
-            <tr><td>2</td><td>20:02</td><td>20:14</td><td>20:24</td><td>(20:34)</td></tr>
-            <tr><td>3</td><td>20:04</td><td>20:16</td><td>20:26</td><td>(20:36)</td></tr>
-            <tr><td>4</td><td>20:06</td><td>20:18</td><td>20:28</td><td>(20:38)</td></tr>
-            <tr><td>5</td><td>20:08</td><td>20:20</td><td>20:30</td><td>(20:40)</td></tr>
-            <tr><td>6</td><td>20:10</td><td>20:22</td><td>20:32</td><td>(20:42)</td></tr>
-            <tr><td>7</td><td>20:12</td><td>20:24</td><td>20:34</td><td>(20:44)</td></tr>
-            <tr><td>8</td><td>20:14</td><td>20:26</td><td>20:36</td><td>(20:46)</td></tr>
-            <tr><td>9</td><td>20:16</td><td>20:28</td><td>20:38</td><td>(20:48)</td></tr>
-            <tr><td>10</td><td>20:18</td><td>20:30</td><td>20:40</td><td>(20:50)</td></tr>
-          </tbody>
-        </table></div>
+    <h3 class="sched-dir-h" style="color:var(--navy);margin-top:14px"><span class="ko-only">귀가행 — 시그니엘 → 웨스틴조선 → 파크하얏트 → (BEXCO)</span><span class="en-only">Return — Signiel → Westin Josun → Park Hyatt → (BEXCO)</span></h3>
+    <div class="sched-stops">
+      <div class="sched-stop-row">
+        <span class="sched-stop-name ko-only">시그니엘</span><span class="sched-stop-name en-only">Signiel</span>
+        <div class="sched-chips">
+          <span class="sched-chip">20:00</span><span class="sched-chip">20:02</span><span class="sched-chip">20:04</span><span class="sched-chip">20:06</span><span class="sched-chip">20:08</span><span class="sched-chip">20:10</span><span class="sched-chip">20:12</span><span class="sched-chip">20:14</span><span class="sched-chip">20:16</span><span class="sched-chip">20:18</span>
+        </div>
+      </div>
+      <div class="sched-stop-row">
+        <span class="sched-stop-name ko-only">웨스틴조선</span><span class="sched-stop-name en-only">Westin Josun</span>
+        <div class="sched-chips">
+          <span class="sched-chip">20:12</span><span class="sched-chip">20:14</span><span class="sched-chip">20:16</span><span class="sched-chip">20:18</span><span class="sched-chip">20:20</span><span class="sched-chip">20:22</span><span class="sched-chip">20:24</span><span class="sched-chip">20:26</span><span class="sched-chip">20:28</span><span class="sched-chip">20:30</span>
+        </div>
+      </div>
+      <div class="sched-stop-row">
+        <span class="sched-stop-name ko-only">파크하얏트</span><span class="sched-stop-name en-only">Park Hyatt</span>
+        <div class="sched-chips">
+          <span class="sched-chip">20:22</span><span class="sched-chip">20:24</span><span class="sched-chip">20:26</span><span class="sched-chip">20:28</span><span class="sched-chip">20:30</span><span class="sched-chip">20:32</span><span class="sched-chip">20:34</span><span class="sched-chip">20:36</span><span class="sched-chip">20:38</span><span class="sched-chip">20:40</span>
+        </div>
+      </div>
+      <div class="sched-stop-row">
+        <span class="sched-stop-name ko-only">BEXCO(연장)</span><span class="sched-stop-name en-only">BEXCO (ext.)</span>
+        <div class="sched-chips">
+          <span class="sched-chip">20:32</span><span class="sched-chip">20:34</span><span class="sched-chip">20:36</span><span class="sched-chip">20:38</span><span class="sched-chip">20:40</span><span class="sched-chip">20:42</span><span class="sched-chip">20:44</span><span class="sched-chip">20:46</span><span class="sched-chip">20:48</span><span class="sched-chip">20:50</span>
+        </div>
       </div>
     </div>
     <div class="warn-box reveal" style="margin-top:18px">
@@ -1046,13 +1040,6 @@
 
   var vgroups = Array.prototype.slice.call(document.querySelectorAll('.vgroup'));
 
-  /* Faculty Dinner(.fd-1023)는 특정 vgroup에 속하지 않는 노선 무관 공통 섹션 —
-     4개 vgroup 중 하나라도 10/23을 보고 있으면 노출되도록 전역 속성으로 매번 재계산 */
-  function updateAny1023(){
-    var any = vgroups.some(function(g){ return g.getAttribute('data-vd') === '1023'; });
-    root.setAttribute('data-any-1023', any ? 'true' : 'false');
-  }
-
   vgroups.forEach(function(group){
     var vdBtns = Array.prototype.slice.call(group.querySelectorAll('[data-vd-btn]'));
 
@@ -1069,7 +1056,6 @@
       b.addEventListener('click', function(){
         group.setAttribute('data-vd', b.getAttribute('data-vd-btn'));
         applyVd();
-        updateAny1023();
       });
       b.addEventListener('keydown', function(e){
         var d = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
@@ -1081,8 +1067,6 @@
 
     applyVd();
   });
-
-  updateAny1023();
 })();
 </script>
 <script src="https://unpkg.com/maplibre-gl@5.24.0/dist/maplibre-gl.js"></script>
