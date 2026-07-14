@@ -6,7 +6,7 @@
 (function () {
   'use strict';
 
-  var SITE_VERSION = '2026.07.13.14';
+  var SITE_VERSION = '2026.07.13.15';
   try { console.log('%cRIDEUS Events · ITS 2026 Gangneung · build ' + SITE_VERSION, 'color:#006241;font-weight:700'); } catch (e) {}
 
   var prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -114,6 +114,9 @@
     '전시장': 'Exhibition Hall',
     '올림픽파크 후문': 'Rear Gate',
     '아레나 정류장': 'Arena Bus Stop',
+    '컨벤션센터': 'Convention Center',
+    '오죽헌': 'Ojukheon',
+    '안목카페거리': 'Anmok Cafe Street',
     '인천공항 제2터미널': 'Incheon Airport T2',
     '인천공항 제1터미널': 'Incheon Airport T1',
     '문막휴게소(강릉방향)': 'Munmak Rest Area',
@@ -127,6 +130,7 @@
     '강릉올림픽파크 ~ 호텔탑스텐 순환': 'Olympic Park ~ Hotel Tops10 Loop',
     '강릉올림픽파크 ~ 강릉버스터미널 순환': 'Olympic Park ~ Bus Terminal Loop',
     '강릉올림픽파크 순환': 'Olympic Park On-site Loop',
+    '컨벤션센터 ~ 오죽헌 · 안목 카페거리 투어': 'Convention Center ~ Ojukheon & Anmok Cafe Street Tour',
     '인천국제공항 → 강릉': 'Incheon Airport → Gangneung',
     '김포국제공항 → 강릉': 'Gimpo Airport → Gangneung',
     '강릉올림픽파크 → 서울역': 'Olympic Park → Seoul Station'
@@ -145,13 +149,17 @@
     train: { stroke: 'M8 3.1V7a4 4 0 0 0 8 0V3.1M9 15l-1-1M15 15l1-1M9 19c-2.8 0-5-2.2-5-5v-4a8 8 0 0 1 16 0v4c0 2.8-2.2 5-5 5ZM8 19l-2 3M16 19l2 3' },
     rest: { stroke: 'M3 2v7c0 1.1.9 2 2 2a2 2 0 0 0 2-2V2M7 2v20M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3ZM21 15v7' },
     hotel: { stroke: 'M2 4v16M2 8h18a2 2 0 0 1 2 2v10M2 17h20M6 8v9' },
-    bus: { stroke: 'M8 6v6M15 6v6M2 12h19.6M18 18h3s.5-1.7.8-2.8c.1-.4.2-.8.2-1.2 0-.4-.1-.8-.2-1.2l-1.4-5C20.1 6.8 19.1 6 18 6H4a2 2 0 0 0-2 2v10h3M8 18h5', extra: '<circle cx="7" cy="18" r="1.6"/><circle cx="16" cy="18" r="1.6"/>' }
+    bus: { stroke: 'M8 6v6M15 6v6M2 12h19.6M18 18h3s.5-1.7.8-2.8c.1-.4.2-.8.2-1.2 0-.4-.1-.8-.2-1.2l-1.4-5C20.1 6.8 19.1 6 18 6H4a2 2 0 0 0-2 2v10h3M8 18h5', extra: '<circle cx="7" cy="18" r="1.6"/><circle cx="16" cy="18" r="1.6"/>' },
+    hanok: { stroke: 'M2 10h20M4.5 10 12 4.5 19.5 10M6 10v9M18 10v9M5 19h14M9.5 19v-5h5v5' },
+    coffee: { stroke: 'M4 8h12v4a6 6 0 0 1-12 0zM16 9a3 3 0 0 1 0 6M4 20h13M8 3v2.5M11 3v2.5M13.5 3v2.5' }
   };
   function iconType(nm){
     if (/역|KTX/.test(nm)) return 'train';
     if (/공항|청사/.test(nm)) return 'plane';
     if (/휴게소/.test(nm)) return 'rest';
     if (/터미널/.test(nm)) return 'bus';
+    if (/오죽헌|한옥|고택/.test(nm)) return 'hanok';
+    if (/카페|커피|안목/.test(nm)) return 'coffee';
     if (/호텔|리조트|샌드파인|스카이베이|씨마크|세인트존스|모노그램|탑스텐|오션스위트|SL|씨티|썬크루즈/.test(nm)) return 'hotel';
     return null;
   }
