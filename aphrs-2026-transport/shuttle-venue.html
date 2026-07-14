@@ -72,8 +72,12 @@
 
   /* 노선도 — route-map(airport-transfer.html) 재사용. 위=가는 편, 아래=오는 편, 각각 독립 카드. 날짜와 무관하게 노선(vr) 선택에만 반응(고정 콘텐츠) */
   .uroute{display:flex;flex-direction:column;gap:18px;margin-top:18px}
-  .uroute-arm{display:flex;flex-direction:column;gap:8px}
-  .rm-head{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:0 4px 10px}
+  .rm-head{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:14px}
+  .route-map .rm-track{padding:110px 10px 14px}
+  /* 모바일(≤620px)에서는 transport.css가 회전 라벨을 세로 타임라인으로 전환(padding:14px 16px) —
+     위 셀렉터가 동일 클래스 조합이라 media query보다 특이도가 높아 그대로 두면 70px 상단 여백이 모바일에도 남는다.
+     같은 결합 셀렉터로 재선언해 원래 반응형 의도를 복원. */
+  @media(max-width:620px){.route-map .rm-track{padding:14px 16px}}
 
   /* 시간표(공항↔호텔 페이지 형식 차용) — 회차를 컬럼으로, 정류장을 행으로 */
   .sched-h{margin:0 0 8px;font-size:13.5px;font-weight:700;color:var(--muted)}
@@ -207,17 +211,16 @@
 
     <div class="uroute vr-a">
       <div class="uroute-arm">
-        <div class="rm-head">
-          <span class="rt-tag">A</span>
-          <span class="ko-only">가는 편 · 시그니엘 → 파라다이스 → BEXCO</span>
-          <span class="en-only">Outbound · Signiel → Paradise → BEXCO</span>
-          <a href="#" onclick="return false" class="rm-live">
-            <span class="live-dot" aria-hidden="true"></span>
-            <span class="ko-only">실시간 위치 확인 (준비중)</span>
-            <span class="en-only">Live location (coming soon)</span>
-          </a>
-        </div>
         <div class="route-map">
+          <div class="rm-head">
+            <span class="ko-only">행사장행</span>
+            <span class="en-only">To Venue</span>
+            <a href="#" onclick="return false" class="rm-live">
+              <span class="live-dot" aria-hidden="true"></span>
+              <span class="ko-only">실시간 위치 확인 (준비중)</span>
+              <span class="en-only">Live location (coming soon)</span>
+            </a>
+          </div>
           <div class="rm-track">
             <ol class="rm-line" style="grid-template-columns:repeat(3,1fr)">
               <li class="rm-stop"><span class="rm-label ko-only">시그니엘</span><span class="rm-label en-only">Signiel</span><span class="rm-dot"></span></li>
@@ -228,17 +231,16 @@
         </div>
       </div>
       <div class="uroute-arm">
-        <div class="rm-head">
-          <span class="rt-tag" style="background:var(--red)">A</span>
-          <span class="ko-only">오는 편 · BEXCO → 파라다이스 → 시그니엘</span>
-          <span class="en-only">Return · BEXCO → Paradise → Signiel</span>
-          <a href="#" onclick="return false" class="rm-live">
-            <span class="live-dot" aria-hidden="true"></span>
-            <span class="ko-only">실시간 위치 확인 (준비중)</span>
-            <span class="en-only">Live location (coming soon)</span>
-          </a>
-        </div>
         <div class="route-map">
+          <div class="rm-head">
+            <span class="ko-only">호텔행</span>
+            <span class="en-only">To Hotel</span>
+            <a href="#" onclick="return false" class="rm-live">
+              <span class="live-dot" aria-hidden="true"></span>
+              <span class="ko-only">실시간 위치 확인 (준비중)</span>
+              <span class="en-only">Live location (coming soon)</span>
+            </a>
+          </div>
           <div class="rm-track">
             <ol class="rm-line" style="grid-template-columns:repeat(3,1fr)">
               <li class="rm-stop"><span class="rm-label" style="color:var(--red)">BEXCO</span><span class="rm-dot"></span></li>
@@ -251,17 +253,16 @@
     </div>
     <div class="uroute vr-b">
       <div class="uroute-arm">
-        <div class="rm-head">
-          <span class="rt-tag">B</span>
-          <span class="ko-only">가는 편 · 웨스틴조선 → 파크하얏트 → BEXCO</span>
-          <span class="en-only">Outbound · Westin Josun → Park Hyatt → BEXCO</span>
-          <a href="#" onclick="return false" class="rm-live">
-            <span class="live-dot" aria-hidden="true"></span>
-            <span class="ko-only">실시간 위치 확인 (준비중)</span>
-            <span class="en-only">Live location (coming soon)</span>
-          </a>
-        </div>
         <div class="route-map">
+          <div class="rm-head">
+            <span class="ko-only">행사장행</span>
+            <span class="en-only">To Venue</span>
+            <a href="#" onclick="return false" class="rm-live">
+              <span class="live-dot" aria-hidden="true"></span>
+              <span class="ko-only">실시간 위치 확인 (준비중)</span>
+              <span class="en-only">Live location (coming soon)</span>
+            </a>
+          </div>
           <div class="rm-track">
             <ol class="rm-line" style="grid-template-columns:repeat(3,1fr)">
               <li class="rm-stop"><span class="rm-label ko-only">웨스틴조선</span><span class="rm-label en-only">Westin Josun</span><span class="rm-dot"></span></li>
@@ -272,17 +273,16 @@
         </div>
       </div>
       <div class="uroute-arm">
-        <div class="rm-head">
-          <span class="rt-tag" style="background:var(--red)">B</span>
-          <span class="ko-only">오는 편 · BEXCO → 파크하얏트 → 웨스틴조선</span>
-          <span class="en-only">Return · BEXCO → Park Hyatt → Westin Josun</span>
-          <a href="#" onclick="return false" class="rm-live">
-            <span class="live-dot" aria-hidden="true"></span>
-            <span class="ko-only">실시간 위치 확인 (준비중)</span>
-            <span class="en-only">Live location (coming soon)</span>
-          </a>
-        </div>
         <div class="route-map">
+          <div class="rm-head">
+            <span class="ko-only">호텔행</span>
+            <span class="en-only">To Hotel</span>
+            <a href="#" onclick="return false" class="rm-live">
+              <span class="live-dot" aria-hidden="true"></span>
+              <span class="ko-only">실시간 위치 확인 (준비중)</span>
+              <span class="en-only">Live location (coming soon)</span>
+            </a>
+          </div>
           <div class="rm-track">
             <ol class="rm-line" style="grid-template-columns:repeat(3,1fr)">
               <li class="rm-stop"><span class="rm-label" style="color:var(--red)">BEXCO</span><span class="rm-dot"></span></li>
