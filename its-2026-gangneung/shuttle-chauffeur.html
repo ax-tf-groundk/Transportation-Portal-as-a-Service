@@ -5,9 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="Cache-Control" content="no-cache">
 <title>전용 차량 — 2026 강릉 ITS 세계총회 교통 | RIDEUS Events</title>
-<meta name="version" content="2026.07.13.4">
-<link rel="stylesheet" href="assets/transport.css?v=2026.07.13.4">
-<link rel="icon" type="image/png" sizes="64x64" href="assets/img/favicon.png?v=2026.07.13.4">
+<meta name="version" content="2026.07.13.5">
+<link rel="stylesheet" href="assets/transport.css?v=2026.07.13.5">
+<link rel="icon" type="image/png" sizes="64x64" href="assets/img/favicon.png?v=2026.07.13.5">
 <link rel="apple-touch-icon" href="assets/img/favicon-180.png">
 <style>
 /* 전용차량 — 차량 안내 카드 (APHRS Vehicles 구성) */
@@ -23,6 +23,7 @@
 .svc-cap{font-size:13px;color:var(--muted);margin-top:4px}
 .svc-note{font-size:12.5px;color:var(--muted);margin-top:16px;line-height:1.6}
 .svc-cta{margin-top:24px;display:flex;gap:12px;flex-wrap:wrap}
+.chauffeur-widget-wrap{margin-top:6px;min-height:70px}
 </style>
 </head>
 <body>
@@ -70,10 +71,14 @@
 <section class="section" aria-labelledby="book-h">
   <div class="wrap">
     <div class="sec-head reveal"><span class="kicker"><span class="ko-only">전용차량 예약</span><span class="en-only">Book a Chauffeur</span></span><h2 class="sec-h" id="book-h"><span class="ko-only">전용 차량 예약</span><span class="en-only">Book a Private Car</span></h2>
-      <p class="sec-sub"><span class="ko-only">일정·인원에 맞는 차량 · 기사 포함 도어투도어</span><span class="en-only">A vehicle to fit your itinerary and party · door-to-door with chauffeur</span></p></div>
-    <div class="svc-cta reveal" style="margin-top:0">
-      <a class="btn btn-orange" href="booking.html?route=chauffeur"><span class="ko-only">전용 차량 문의·예약 ↗</span><span class="en-only">Enquire &amp; Book Private Car ↗</span></a>
-      <a class="btn btn-outline" href="mailto:ops@groundk.com"><span class="ko-only">이메일 문의</span><span class="en-only">Email Us</span></a>
+      <p class="sec-sub"><span class="ko-only">일정·인원에 맞는 차량을 선택해 바로 예약하세요 · 기사 포함 도어투도어</span><span class="en-only">Select a vehicle that fits your schedule and party, then book instantly · door-to-door with chauffeur</span></p></div>
+    <div class="chauffeur-widget-wrap reveal">
+      <div class="ko-block">
+        <t-booking-widget api-key="pk_test_DWOuhH7hx2njOk2UFvSfP9BA" preset="wp_2wes4edk"></t-booking-widget>
+      </div>
+      <div class="en-block">
+        <t-booking-widget api-key="pk_test_DWOuhH7hx2njOk2UFvSfP9BA" preset="wp_vjivac82"></t-booking-widget>
+      </div>
     </div>
   </div>
 </section>
@@ -124,7 +129,7 @@
     <a class="brand" href="index.html"><span class="logo" aria-hidden="true">R</span><span class="wm"><b>RIDEUS Events</b><small>GroundK · 참가자 교통 포털 데모</small></span></a>
     <nav class="fnav"><a href="shuttle-airport-in.html">공항 → 강릉</a><a href="shuttle-venue.html">행사장 셔틀</a><a href="shuttle-airport-out.html">강릉 → 서울역</a><a href="shuttle-chauffeur.html">전용 차량</a><a href="info-access.html">여행 정보</a></nav>
   </div>
-  <div class="legal"><b>GroundK Co., Ltd</b> · CEO 장동원 · Business Reg. 238-81-00429 · ops@groundk.com<br><span class="ver">© 2026 GroundK · 2026 강릉 ITS 세계총회 교통 포털 (콘셉트 데모) · build 2026.07.13.4</span></div>
+  <div class="legal"><b>GroundK Co., Ltd</b> · CEO 장동원 · Business Reg. 238-81-00429 · ops@groundk.com<br><span class="ver">© 2026 GroundK · 2026 강릉 ITS 세계총회 교통 포털 (콘셉트 데모) · build 2026.07.13.5</span></div>
 </div></footer>
 <div class="mockup-flag">콘셉트 목업 · 실제 예약 연동 예정</div>
 
@@ -141,6 +146,32 @@
   </div>
 </div>
 
-<script src="assets/app.js?v=2026.07.13.4"></script>
+<script src="assets/app.js?v=2026.07.13.5"></script>
+<!-- 전용차량 예약 위젯 (Triseup) -->
+<script src="https://connect.triseup.com/widget.js"></script>
+<script src="https://connect.triseup.com/booking-button.js" data-api-key="pk_test_DWOuhH7hx2njOk2UFvSfP9BA" data-preset="wp_2wes4edk"></script>
+<script>
+/* 위젯의 '시간대절/Hourly' 표기를 '일대절/Daily'로 치환 (라이트/섀도우 DOM 모두 탐색) */
+(function(){
+  var RULES = [
+    [/By the hour/ig, 'By the day'],
+    [/Hourly/ig, 'Daily'],
+    [/시간대절/g, '일대절'],
+    [/대절 시간/g, '대절 일수']
+  ];
+  function apply(v){ RULES.forEach(function(r){ v = v.replace(r[0], r[1]); }); return v; }
+  function swap(root){
+    try{
+      var w = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, null), n;
+      while ((n = w.nextNode())){ var nv = apply(n.nodeValue); if (nv !== n.nodeValue) n.nodeValue = nv; }
+      var els = root.querySelectorAll ? root.querySelectorAll('*') : [];
+      for (var i = 0; i < els.length; i++){ if (els[i].shadowRoot) swap(els[i].shadowRoot); }
+    } catch(e){}
+  }
+  function run(){ swap(document.body); }
+  new MutationObserver(run).observe(document.documentElement, { childList:true, subtree:true, characterData:true });
+  window.addEventListener('load', function(){ setTimeout(run, 700); setTimeout(run, 1800); setTimeout(run, 3500); });
+})();
+</script>
 </body>
 </html>

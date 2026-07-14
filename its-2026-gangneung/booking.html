@@ -5,39 +5,45 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="Cache-Control" content="no-cache">
 <title>셔틀 신청 — 2026 강릉 ITS 세계총회 교통 | RIDEUS Events</title>
-<meta name="version" content="2026.07.13.4">
-<link rel="stylesheet" href="assets/transport.css?v=2026.07.13.4">
-<link rel="icon" type="image/png" sizes="64x64" href="assets/img/favicon.png?v=2026.07.13.4">
+<meta name="version" content="2026.07.13.5">
+<link rel="stylesheet" href="assets/transport.css?v=2026.07.13.5">
+<link rel="icon" type="image/png" sizes="64x64" href="assets/img/favicon.png?v=2026.07.13.5">
 <link rel="apple-touch-icon" href="assets/img/favicon-180.png">
 <style>
-.bk-grid{display:grid;grid-template-columns:1.5fr 1fr;gap:26px;align-items:start}
-@media(max-width:820px){.bk-grid{grid-template-columns:1fr}}
-.bk-form{background:#fff;border:1px solid var(--line);border-radius:var(--radius-lg);padding:24px;box-shadow:var(--shadow)}
-.bk-form h3{margin:0 0 4px;font-size:18px;color:var(--navy)}
-.bk-form .sub{margin:0 0 18px;font-size:13px;color:var(--muted)}
-.fld{margin-bottom:15px}
-.fld label{display:block;font-size:12.5px;font-weight:800;color:var(--navy);margin-bottom:6px}
-.fld input,.fld select{width:100%;padding:11px 12px;border:1px solid var(--line);border-radius:10px;font:inherit;font-size:14px;background:#fff;color:var(--ink)}
-.fld input:focus,.fld select:focus{outline:none;border-color:var(--red);box-shadow:0 0 0 3px var(--red-050)}
-.fld-2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.bk-side{background:var(--navy);color:#fff;border-radius:var(--radius-lg);padding:22px;position:sticky;top:88px}
-.bk-side .rt-name{font-size:16px;font-weight:800;margin:0 0 3px}
-.bk-side .rt-sub{font-size:12.5px;opacity:.7;margin:0 0 16px}
-.bk-side .kv{display:flex;justify-content:space-between;gap:10px;padding:9px 0;border-bottom:1px solid rgba(255,255,255,.14);font-size:13px}
-.bk-side .kv:last-of-type{border-bottom:0}
-.bk-side .kv b{font-weight:700}
-.bk-badge{display:inline-block;background:var(--orange);color:#fff;font-size:11px;font-weight:800;padding:4px 10px;border-radius:999px;margin-bottom:14px}
-.voucher{display:none;background:#fff;border:2px solid var(--red);border-radius:var(--radius-lg);padding:26px;text-align:center;box-shadow:var(--shadow-h)}
-.voucher.on{display:block}
-.voucher .vtick{width:56px;height:56px;border-radius:50%;background:var(--red-050);color:var(--red);display:flex;align-items:center;justify-content:center;font-size:28px;margin:0 auto 14px}
-.voucher h3{margin:0 0 6px;color:var(--navy);font-size:20px}
-.voucher .vcode{font-size:26px;font-weight:900;letter-spacing:.06em;color:var(--red);margin:10px 0}
-.voucher .vmeta{font-size:13px;color:var(--muted);line-height:1.6}
-.bk-hidden{display:none!important}
+/* booking.html scoped — 서비스별 동적 양식(국·영문) */
+.bk-wrap{max-width:640px}
+.book-form-card{background:#fff;border:1px solid var(--line);border-radius:var(--radius-lg);box-shadow:var(--shadow);padding:26px 24px}
+.book-form-card h2{font-size:18px;color:var(--navy);margin:0 0 18px;letter-spacing:-.3px}
+.svc-badge{display:inline-block;padding:4px 12px;border-radius:999px;font-size:11px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;background:var(--red-050);color:var(--red);margin-bottom:12px}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:520px){.form-row{grid-template-columns:1fr}}
+.form-group{display:flex;flex-direction:column;gap:6px;margin-bottom:15px}
+.form-group label{font-size:12.5px;font-weight:800;color:var(--navy)}
+.form-control{border:1px solid var(--line);border-radius:10px;padding:11px 12px;font:inherit;font-size:14px;background:#fff;color:var(--ink);width:100%;box-sizing:border-box;transition:border-color .15s}
+.form-control:focus{outline:none;border-color:var(--red);box-shadow:0 0 0 3px var(--red-050)}
+.form-submit-row{margin-top:18px}
+.info-note{background:var(--red-050);border:1px solid #cfe6dd;border-radius:10px;padding:12px 14px;font-size:12.5px;color:var(--red-700);line-height:1.6;margin-bottom:16px}
+.info-note a{color:var(--red);font-weight:700}
+/* voucher */
+.voucher-panel{display:none;background:#fff;border:2px solid var(--red);border-radius:var(--radius-lg);box-shadow:var(--shadow-h);padding:28px 24px;text-align:center;margin-top:20px}
+.voucher-panel.visible{display:block}
+.voucher-qr{font-size:44px;line-height:1;margin:2px 0 10px}
+.voucher-ref{font-size:24px;font-weight:900;letter-spacing:.05em;color:var(--red);margin-bottom:4px}
+.voucher-svc{font-size:15px;font-weight:700;color:var(--ink);margin-bottom:4px}
+.voucher-date{font-size:13px;color:var(--muted);margin-bottom:12px}
+.voucher-demo-note{background:var(--red-050);border:1px solid #cfe6dd;border-radius:8px;padding:11px 14px;font-size:12.5px;color:var(--red-700);margin-top:12px;line-height:1.6}
+.voucher-actions{margin-top:16px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+/* no-service */
+.no-svc-panel{display:none;text-align:center;padding:40px 16px}
+.no-svc-panel.visible{display:block}
+.no-svc-panel .big-icon{font-size:44px;margin-bottom:12px}
+.no-svc-panel h2{color:var(--navy);margin-bottom:6px}
+.no-svc-panel p{color:var(--muted);margin-bottom:18px}
+.no-svc-opts{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
 </style>
 </head>
 <body>
-<a class="skip" href="#main">본문 바로가기</a>
+<a class="skip" href="#main"><span class="ko-only">본문 바로가기</span><span class="en-only">Skip to content</span></a>
 <div class="demo-banner">GroundK 콘셉트 데모 — 아래 신청은 <b>실제 접수되지 않습니다</b>. 화면 시연용 목업입니다.</div>
 <header class="site-head"><div class="bar">
   <a class="brand brand-its" href="index.html"><img src="assets/img/its-mark.png" alt="2026 강릉 ITS 세계총회"><span class="brand-lockup"><b>GANGNEUNG</b><small>ITS World Congress 2026 · <span class="ko-only">교통 포털</span><span class="en-only">Transport Portal</span></small></span></a>
@@ -71,68 +77,64 @@
 <main id="main">
 <section class="detail-hero dhero-its">
   <div class="inner">
-    <nav class="crumb" aria-label="breadcrumb"><a href="index.html">홈</a> › <span id="crumbRoute">셔틀 신청</span></nav>
-    <h1 id="pageTitle">셔틀 신청</h1>
-    <p class="dsub" id="pageSub">아래 정보를 입력하면 접수 확인(목업)을 발급합니다. 실제 배정은 조직위 수요조사 후 안내됩니다.</p>
+    <nav class="crumb" aria-label="breadcrumb"><a href="index.html"><span class="ko-only">홈</span><span class="en-only">Home</span></a> › <span id="crumbRoute"><span class="ko-only">예약</span><span class="en-only">Booking</span></span></nav>
+    <h1 id="heroTitle"><span class="ko-only">교통 예약</span><span class="en-only">Book Transportation</span></h1>
+    <p class="dsub" id="heroSub"><span class="ko-only">아래 정보를 입력하면 접수 확인(목업)을 발급합니다. 실제 배정은 조직위 안내에 따릅니다.</span><span class="en-only">Fill in the details below to receive a mock confirmation. Actual assignment follows the organizing committee's guidance.</span></p>
   </div>
 </section>
 
 <section class="section">
-  <div class="wrap">
-    <div class="bk-grid" id="formArea">
-      <form class="bk-form" id="bkForm" novalidate>
-        <h3>신청자 정보</h3>
-        <p class="sub">* 표시는 필수 항목입니다.</p>
-        <div class="fld-2">
-          <div class="fld"><label>이름 (영문) *</label><input type="text" required placeholder="Gil-dong Hong"></div>
-          <div class="fld"><label>등록번호 / Reg. ID</label><input type="text" placeholder="ITS2026-XXXX"></div>
-        </div>
-        <div class="fld-2">
-          <div class="fld"><label>이메일 *</label><input type="email" required placeholder="you@email.com"></div>
-          <div class="fld"><label>연락처</label><input type="tel" placeholder="+82 10-0000-0000"></div>
-        </div>
+  <div class="wrap bk-wrap">
 
-        <div id="fldAirport">
-          <div class="fld-2">
-            <div class="fld"><label>공항 *</label><select><option>인천국제공항 T1</option><option>인천국제공항 T2</option><option>김포국제공항</option></select></div>
-            <div class="fld"><label id="dateLbl">입국일 *</label><select id="dateSel"><option>2026-10-17 (토)</option><option>2026-10-18 (일)</option><option>2026-10-19 (월)</option></select></div>
-          </div>
-          <div class="fld"><label>항공편명 / 도착시각</label><input type="text" placeholder="KE0000 / 14:30"></div>
+    <!-- BOOKING FORM -->
+    <div class="book-form-card" id="bookWidget">
+      <div class="svc-badge" id="heroBadge" style="display:none"></div>
+      <h2 id="formHeading"><span class="ko-only">예약 정보 입력</span><span class="en-only">Complete Your Booking</span></h2>
+      <form id="bookingForm" novalidate>
+        <div id="formFields"><!-- dynamic --></div>
+
+        <div class="form-group">
+          <label for="f-name"><span class="ko-only">성명 (영문)</span><span class="en-only">Full Name</span> *</label>
+          <input type="text" id="f-name" class="form-control" placeholder="Gil-dong Hong" required>
+        </div>
+        <div class="form-group">
+          <label for="f-email"><span class="ko-only">이메일</span><span class="en-only">Email Address</span> *</label>
+          <input type="email" id="f-email" class="form-control" placeholder="you@email.com" required>
         </div>
 
-        <div id="fldChauffeur" class="bk-hidden">
-          <div class="fld-2">
-            <div class="fld"><label>차종 *</label><select><option>세단 (1~3인)</option><option>SUV (1~4인)</option><option>밴/스타리아 (7~9인)</option><option>스프린터 (11~14인)</option></select></div>
-            <div class="fld"><label>이용일 *</label><input type="date"></div>
-          </div>
-          <div class="fld"><label>이용 구간 / 요청사항</label><input type="text" placeholder="예: 인천공항 → 스카이베이경포, 영접 요청"></div>
+        <div class="form-submit-row">
+          <button type="submit" class="btn btn-red btn-block" id="submitBtn"><span class="ko-only">신청 접수 (데모) →</span><span class="en-only">Confirm Booking (demo) →</span></button>
         </div>
-
-        <div class="fld"><label>동반 인원</label><select><option>1명</option><option>2명</option><option>3명</option><option>4명 이상</option></select></div>
-
-        <button type="submit" class="btn btn-orange" style="width:100%;justify-content:center;margin-top:6px" id="submitBtn">신청 접수 (데모)</button>
-        <p style="font-size:12px;color:var(--muted);text-align:center;margin:10px 0 0">제출 시 개인정보는 저장되지 않습니다 · 콘셉트 목업</p>
+        <p style="font-size:12px;color:var(--muted);text-align:center;margin:12px 0 0"><span class="ko-only">제출 시 개인정보는 저장되지 않습니다 · 콘셉트 목업</span><span class="en-only">No personal data is stored on submit · concept mockup</span></p>
       </form>
-
-      <aside class="bk-side">
-        <span class="bk-badge" id="sideBadge">사전신청</span>
-        <p class="rt-name" id="sideName">공항 입국 셔틀</p>
-        <p class="rt-sub" id="sideSub">인천·김포공항 → 강릉</p>
-        <div class="kv"><span>운영일</span><b id="kvDate">10.17~19</b></div>
-        <div class="kv"><span>차량</span><b id="kvCar">28인승 버스</b></div>
-        <div class="kv"><span>요금</span><b id="kvFare">무료</b></div>
-        <div class="kv"><span>접수</span><b>수요조사 후 배정</b></div>
-      </aside>
     </div>
 
-    <div class="voucher" id="voucher">
-      <div class="vtick">✓</div>
-      <h3>신청이 접수되었습니다 <span style="font-size:13px;font-weight:700;color:var(--muted)">(데모)</span></h3>
-      <p class="vmeta">아래 접수번호로 배정 결과를 안내드립니다. <b>실제 접수는 이뤄지지 않는 시연 화면</b>입니다.</p>
-      <div class="vcode" id="vcode">ITS-SH-000000</div>
-      <p class="vmeta" id="vsummary"></p>
-      <a class="btn btn-navy" href="index.html" style="margin-top:16px">홈으로 돌아가기</a>
+    <!-- VOUCHER -->
+    <div class="voucher-panel" id="voucherPanel">
+      <div class="voucher-qr">🎫</div>
+      <div class="voucher-ref" id="vRef"></div>
+      <div class="voucher-svc" id="vSvc"></div>
+      <div class="voucher-date" id="vDate"></div>
+      <div class="voucher-demo-note">⚠️ <strong><span class="ko-only">콘셉트 데모입니다.</span><span class="en-only">This is a concept demo.</span></strong> <span class="ko-only">이 바우처는 실제 교통 서비스에 유효하지 않으며 실제 예약이 생성되지 않았습니다.</span><span class="en-only">This voucher is not valid for actual transportation and no real booking has been created.</span></div>
+      <div class="voucher-actions">
+        <button class="btn btn-outline" onclick="window.print()"><span class="ko-only">바우처 인쇄</span><span class="en-only">Print Voucher</span></button>
+        <a href="index.html" class="btn btn-red">← <span class="ko-only">홈으로</span><span class="en-only">Back to Home</span></a>
+      </div>
     </div>
+
+    <!-- NO SERVICE -->
+    <div class="no-svc-panel" id="noSvcPanel">
+      <div class="big-icon">🚌</div>
+      <h2><span class="ko-only">서비스가 선택되지 않았습니다</span><span class="en-only">No Service Selected</span></h2>
+      <p><span class="ko-only">예약할 교통 서비스를 선택하세요.</span><span class="en-only">Please choose a transportation service to book.</span></p>
+      <div class="no-svc-opts">
+        <a href="booking.html?svc=airport-in" class="btn btn-outline"><span class="ko-only">공항 → 강릉</span><span class="en-only">Airport → Gangneung</span></a>
+        <a href="booking.html?svc=airport-out" class="btn btn-outline"><span class="ko-only">강릉 → 서울역</span><span class="en-only">Gangneung → Seoul</span></a>
+        <a href="booking.html?svc=baggage" class="btn btn-outline"><span class="ko-only">짐 배송</span><span class="en-only">Baggage</span></a>
+        <a href="shuttle-chauffeur.html" class="btn btn-outline"><span class="ko-only">전용 차량</span><span class="en-only">Private Car</span></a>
+      </div>
+    </div>
+
   </div>
 </section>
 </main>
@@ -142,45 +144,128 @@
     <a class="brand" href="index.html"><span class="logo" aria-hidden="true">R</span><span class="wm"><b>RIDEUS Events</b><small>GroundK · 참가자 교통 포털 데모</small></span></a>
     <nav class="fnav"><a href="shuttle-airport-in.html">공항 → 강릉</a><a href="shuttle-venue.html">행사장 셔틀</a><a href="shuttle-airport-out.html">강릉 → 서울역</a><a href="shuttle-chauffeur.html">전용 차량</a><a href="info-access.html">여행 정보</a></nav>
   </div>
-  <div class="legal"><b>GroundK Co., Ltd</b> · CEO 장동원 · Business Reg. 238-81-00429 · ops@groundk.com<br><span class="ver">© 2026 GroundK · 2026 강릉 ITS 세계총회 교통 포털 (콘셉트 데모) · build 2026.07.13.4</span></div>
+  <div class="legal"><b>GroundK Co., Ltd</b> · CEO 장동원 · Business Reg. 238-81-00429 · ops@groundk.com<br><span class="ver">© 2026 GroundK · 2026 강릉 ITS 세계총회 교통 포털 (콘셉트 데모) · build 2026.07.13.5</span></div>
 </div></footer>
 <div class="mockup-flag">콘셉트 목업 · 실제 예약 연동 예정</div>
-<script src="assets/app.js?v=2026.07.13.4"></script>
+
+<script src="assets/app.js?v=2026.07.13.5"></script>
 <script>
 (function(){
-  var ROUTES={
-    'airport-in':{title:'공항 → 베뉴 입국 셔틀 신청',crumb:'입국 셔틀 신청',badge:'사전신청',name:'공항 입국 셔틀',sub:'인천·김포공항 → 강릉',date:'10.17~19',car:'28인승 버스',fare:'사전신청',mode:'airport',dlbl:'입국일 *'},
-    'airport-out':{title:'베뉴 → 공항 출국 셔틀 신청',crumb:'출국 셔틀 신청',badge:'사전신청 · 선착순',name:'출국 셔틀',sub:'컨벤션센터 → 서울역',date:'10.23(금)',car:'28인승 버스',fare:'사전신청',mode:'airport',dlbl:'탑승 시간대 *',dopts:['16:00','17:00','18:00']},
-    'chauffeur':{title:'전용 차량 문의',crumb:'전용 차량 문의',badge:'유료 · 견적',name:'전용 차량',sub:'공항·시내·행사장 도어투도어',date:'상시',car:'세단~스프린터',fare:'견적',mode:'chauffeur'}
+  'use strict';
+  function getLang(){ return document.documentElement.getAttribute('data-lang') === 'en' ? 'en' : 'ko'; }
+  function t(ko, en){ return getLang() === 'en' ? en : ko; }
+  function qs(id){ return document.getElementById(id); }
+  function getParam(name){ var m = new RegExp('[?&]' + name + '=([^&]*)').exec(location.search); return m ? decodeURIComponent(m[1]) : ''; }
+
+  /* 서비스 정의 */
+  var SERVICES = {
+    'airport-in':  { nameKo:'공항 → 강릉 입국 셔틀', nameEn:'Airport → Gangneung Shuttle', badgeKo:'사전신청', badgeEn:'Advance', color:'var(--red)',    code:'AIN',  fields:['from-airport','date-arrive','pax'] },
+    'airport-out': { nameKo:'강릉 → 서울역 출국 셔틀', nameEn:'Gangneung → Seoul Shuttle',   badgeKo:'사전신청', badgeEn:'Advance', color:'var(--red)',    code:'AOUT', fields:['time-slot','pax'] },
+    'baggage':     { nameKo:'짐 배송',            nameEn:'Baggage Delivery',           badgeKo:'',      badgeEn:'',       color:'var(--orange)', code:'BAG',  fields:['bag-dir','airport','hotel','date'] },
+    'private':     { nameKo:'전용 차량',          nameEn:'Private Car',                badgeKo:'유료',   badgeEn:'Paid',   color:'var(--navy)',   code:'PC',   fields:['vehicle','from','to','date','pax','flight'] }
   };
-  function qp(k){return new URLSearchParams(location.search).get(k)}
-  var r=ROUTES[qp('route')]||ROUTES['airport-in'];
-  document.getElementById('pageTitle').textContent=r.title;
-  document.getElementById('crumbRoute').textContent=r.crumb;
-  document.getElementById('sideBadge').textContent=r.badge;
-  document.getElementById('sideName').textContent=r.name;
-  document.getElementById('sideSub').textContent=r.sub;
-  document.getElementById('kvDate').textContent=r.date;
-  document.getElementById('kvCar').textContent=r.car;
-  document.getElementById('kvFare').textContent=r.fare;
-  if(r.mode==='chauffeur'){
-    document.getElementById('fldAirport').classList.add('bk-hidden');
-    document.getElementById('fldChauffeur').classList.remove('bk-hidden');
-    document.getElementById('submitBtn').textContent='문의 접수 (데모)';
-  }else{
-    document.getElementById('dateLbl').textContent=r.dlbl;
-    if(r.dopts){var s=document.getElementById('dateSel');s.innerHTML='';r.dopts.forEach(function(o){var op=document.createElement('option');op.textContent=o;s.appendChild(op)})}
+  function svcName(svc){ return getLang() === 'en' ? svc.nameEn : svc.nameKo; }
+
+  /* 필드 정의 (옵션 문자열은 국·영문 공통으로 읽히는 값 사용) */
+  var FIELD_DEFS = {
+    'from-airport': { labelKo:'출발 공항', labelEn:'Departure Airport', type:'select', options:['Incheon Airport T1','Incheon Airport T2','Gimpo Airport'] },
+    'date-arrive':  { labelKo:'입국일',   labelEn:'Arrival Date',      type:'select', options:['2026-10-17 (Sat)','2026-10-18 (Sun)','2026-10-19 (Mon)'] },
+    'time-slot':    { labelKo:'탑승 시간대', labelEn:'Departure Time',  type:'select', options:['16:00','17:00','18:00'] },
+    'pax':          { labelKo:'동반 인원', labelEn:'Passengers',        type:'select', options:['1','2','3','4','5','6+'] },
+    'bag-dir':      { labelKo:'배송 방향', labelEn:'Direction',         type:'select', options:['Airport → Hotel','Hotel → Airport'] },
+    'airport':      { labelKo:'공항',     labelEn:'Airport',           type:'select', options:['Incheon Airport T1','Incheon Airport T2','Gimpo Airport'] },
+    'hotel':        { labelKo:'호텔',     labelEn:'Hotel',             type:'select', options:['Skybay Hotel Gyeongpo','Seamarq Hotel',"St. John's Hotel",'Shilla Monogram Gangneung','SL Hotel Gangneung','Other'] },
+    'date':         { labelKo:'희망일',   labelEn:'Date',              type:'date',   min:'2026-10-15', max:'2026-10-25' },
+    'vehicle':      { labelKo:'차량 종류', labelEn:'Vehicle Type',      type:'select', options:['Sedan (Genesis G90)','Van (Staria)','Coach (Solati)'] },
+    'from':         { labelKo:'탑승 위치', labelEn:'Pick-up Location',  type:'text',   placeholderKo:'탑승 주소 또는 랜드마크', placeholderEn:'Pick-up address or landmark' },
+    'to':           { labelKo:'목적지',   labelEn:'Drop-off Location',  type:'text',   placeholderKo:'목적지 주소 또는 랜드마크', placeholderEn:'Destination address or landmark' },
+    'flight':       { labelKo:'항공편명 / 도착시각', labelEn:'Flight No. / Arrival', type:'text', placeholderKo:'예: KE123 / 14:30', placeholderEn:'e.g. KE123 / 14:30' }
+  };
+
+  function buildSelect(id, label, options){
+    var h = '<div class="form-group"><label for="f-' + id + '">' + label + '</label>';
+    h += '<select id="f-' + id + '" class="form-control" name="' + id + '"><option value="">— ' + t('선택', 'Select') + ' —</option>';
+    options.forEach(function(o){ h += '<option value="' + o + '">' + o + '</option>'; });
+    return h + '</select></div>';
   }
-  // deterministic mock code from time-agnostic seed
-  var seed=0,base=(r.crumb+location.search);for(var i=0;i<base.length;i++)seed=(seed*31+base.charCodeAt(i))>>>0;
-  document.getElementById('bkForm').addEventListener('submit',function(e){
+  function buildDate(id, label, min, max){
+    return '<div class="form-group"><label for="f-' + id + '">' + label + '</label><input type="date" id="f-' + id + '" class="form-control" name="' + id + '"' + (min ? ' min="' + min + '"' : '') + (max ? ' max="' + max + '"' : '') + '></div>';
+  }
+  function buildText(id, label, ph){
+    return '<div class="form-group"><label for="f-' + id + '">' + label + '</label><input type="text" id="f-' + id + '" class="form-control" name="' + id + '"' + (ph ? ' placeholder="' + ph + '"' : '') + '></div>';
+  }
+  function buildField(id){
+    var def = FIELD_DEFS[id];
+    if (!def) return '';
+    var label = getLang() === 'en' ? def.labelEn : def.labelKo;
+    if (def.type === 'select') return buildSelect(id, label, def.options);
+    if (def.type === 'date')   return buildDate(id, label, def.min, def.max);
+    if (def.type === 'text')   return buildText(id, label, getLang() === 'en' ? (def.placeholderEn || '') : (def.placeholderKo || ''));
+    return '';
+  }
+
+  function renderFields(svc){
+    if (!svc) return;
+    qs('formFields').innerHTML = svc.fields.map(buildField).join('');
+  }
+
+  function renderHero(svc){
+    var badge = qs('heroBadge');
+    if (!svc){
+      qs('heroTitle').innerHTML = '<span class="ko-only">교통 예약</span><span class="en-only">Book Transportation</span>';
+      qs('crumbRoute').innerHTML = '<span class="ko-only">예약</span><span class="en-only">Booking</span>';
+      badge.style.display = 'none';
+      return;
+    }
+    qs('heroTitle').textContent = svcName(svc);
+    qs('crumbRoute').textContent = svcName(svc);
+    qs('formHeading').textContent = t('예약: ', 'Book: ') + svcName(svc);
+    var bText = getLang() === 'en' ? svc.badgeEn : svc.badgeKo;
+    if (bText){ badge.textContent = bText; badge.style.display = ''; } else { badge.style.display = 'none'; }
+  }
+
+  var svcKey = getParam('svc').toLowerCase();
+  // 하위호환: 이전 ?route= 파라미터도 매핑
+  if (!svcKey){ var r = getParam('route').toLowerCase(); if (r === 'chauffeur') svcKey = 'private'; else if (r) svcKey = r; }
+  var svc = SERVICES[svcKey];
+
+  if (!svc){
+    qs('bookWidget').style.display = 'none';
+    qs('noSvcPanel').classList.add('visible');
+    renderHero(null);
+  } else {
+    renderHero(svc);
+    renderFields(svc);
+  }
+
+  /* 언어 토글 시 재렌더 */
+  new MutationObserver(function(muts){
+    muts.forEach(function(m){
+      if (m.attributeName === 'data-lang'){
+        if (svc){ renderHero(svc); renderFields(svc); } else { renderHero(null); }
+      }
+    });
+  }).observe(document.documentElement, { attributes:true, attributeFilter:['data-lang'] });
+
+  /* 제출 → 바우처 */
+  var seed = 0, base = (svcKey + location.search);
+  for (var i = 0; i < base.length; i++) seed = (seed * 31 + base.charCodeAt(i)) >>> 0;
+
+  qs('bookingForm').addEventListener('submit', function(e){
     e.preventDefault();
-    var code='ITS-'+(r.mode==='chauffeur'?'PC':'SH')+'-'+String(100000+(seed%900000));
-    document.getElementById('vcode').textContent=code;
-    document.getElementById('vsummary').innerHTML='<b>'+r.name+'</b> · '+r.sub;
-    document.getElementById('formArea').style.display='none';
-    var v=document.getElementById('voucher');v.classList.add('on');
-    window.scrollTo({top:0,behavior:'smooth'});
+    var name = qs('f-name').value.trim(), email = qs('f-email').value.trim();
+    if (!name || !email){ alert(t('성명과 이메일을 입력해 주세요.', 'Please enter your name and email.')); return; }
+    var dateVal = '';
+    if (svc) svc.fields.forEach(function(fid){
+      if (!dateVal){ var el = qs('f-' + fid); if (el && el.value && (FIELD_DEFS[fid] && (FIELD_DEFS[fid].type === 'date' || fid === 'date-arrive'))) dateVal = el.value; }
+    });
+    var code = 'ITS-' + (svc ? svc.code : 'XXX') + '-' + String(100000 + (seed % 900000));
+    qs('vRef').textContent = code;
+    qs('vSvc').textContent = svc ? svcName(svc) : t('교통', 'Transportation');
+    qs('vDate').textContent = '📅 ' + (dateVal || t('날짜 미정', 'Date TBD')) + '  ·  ' + name;
+    qs('bookWidget').style.display = 'none';
+    qs('voucherPanel').classList.add('visible');
+    qs('voucherPanel').scrollIntoView({ behavior:'smooth', block:'start' });
   });
 })();
 </script>
