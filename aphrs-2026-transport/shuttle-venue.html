@@ -6,8 +6,8 @@
 <meta http-equiv="Cache-Control" content="no-cache">
 <title>행사장 셔틀 — 호텔↔BEXCO — APHRS 2026 부산 교통 | RIDEUS Events</title>
 <meta name="description" content="APHRS 2026 등록 참가자 무료 행사장 셔틀. 공식호텔↔BEXCO, 2026.10.21~24 운행. 노선·시간표·정류장 안내.">
-<meta name="version" content="2026.07.14.1">
-<link rel="stylesheet" href="assets/transport.css?v=2026.07.14.1">
+<meta name="version" content="2026.07.14.2">
+<link rel="stylesheet" href="assets/transport.css?v=2026.07.14.2">
 <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@5.24.0/dist/maplibre-gl.css"/>
 <style>
   /* STOPS 카드 — 호텔명 한·영 병기, 현재 토글 언어가 primary(16px)·다른 언어는 서브(12.5px). order로 primary를 항상 위로 */
@@ -95,14 +95,15 @@
   .sched-stops{display:flex;flex-direction:column;border:1px solid var(--line-2);border-radius:var(--radius-sm);overflow:hidden}
   .sched-stop-row{display:flex;align-items:center;border-bottom:1px solid var(--line-2)}
   .sched-stop-row:last-child{border-bottom:none}
-  .sched-stop-name{flex:0 0 auto;width:100px;font-size:13px;font-weight:700;color:var(--ink);padding:9px 13px;border-right:1px solid var(--line-2)}
+  .sched-stop-name{flex:0 0 auto;width:120px;font-size:13px;font-weight:700;color:var(--ink);padding:9px 13px;border-right:1px solid var(--line-2)}
   .sched-chips{display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding:8px 10px;flex:1}
   .sched-chip{display:inline-flex;align-items:center;justify-content:center;width:50px;font-size:13px;font-weight:600;color:var(--ink);background:#fff;border:1px solid #ddd;border-radius:8px;padding:0;height:23px;white-space:nowrap}
   .sched-chip.is-peak{color:var(--amber);background:#fdf1e0;border-color:#f0d9a8;font-weight:700}
   .sched-chip.is-dash{color:var(--soft);background:var(--bg,#f7f8fb);border-color:var(--line)}
-  @media(max-width:560px){.sched-stop-name{width:80px;font-size:12px;padding:8px 10px}.sched-chip{width:44px;font-size:12px;height:21px}}
-  /* 노선명 헤딩(sched-dir-h) 삭제로 표 사이 구분선도 불필요 — 여백만으로 분리 */
-  .sched-dir{margin-bottom:28px}
+  @media(max-width:560px){.sched-stop-name{width:96px;font-size:12px;padding:8px 10px}.sched-chip{width:44px;font-size:12px;height:21px}}
+  /* 노선명 헤딩(sched-dir-h) 삭제로 표 사이 구분선도 불필요 — 여백만으로 분리.
+     margin-top은 날짜 탭 바로 아래 시간표 카드 사이 간격(탭과 표가 딱 붙어있던 문제 보정). */
+  .sched-dir{margin-top:16px;margin-bottom:28px}
 
   /* 노선(vr)은 여전히 페이지 전역(html) 토글 — A/B 노선 선택은 한 번에 하나만 보여야 하는 페이지 단위 상태 */
   html:not([data-vr="a"]) .vr-a{display:none}
@@ -212,6 +213,15 @@
       </h2>
       <p class="sec-sub ko-block">전체 학회 기간 동안 5개 공식호텔과 BEXCO를 2개 노선으로 나누어 운행합니다.<br>무료, 예약 불필요.</p>
       <p class="sec-sub en-block">Two routes connect all 5 official hotels to BEXCO throughout the conference.<br>Free, no reservation needed.</p>
+    </div>
+    <div class="warn-box reveal" style="margin-bottom:18px">
+      <div class="wb-icon"><svg class="ico ico-lg" viewBox="0 0 24 24" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg></div>
+      <div class="wb-body">
+        <h4 class="ko-block">그랜드조선 해운대 투숙객 안내</h4>
+        <h4 class="en-block">For guests at Grand Josun Haeundae</h4>
+        <p class="ko-block">그랜드조선 해운대 투숙객께서는 행사장 셔틀 이용 시 <b>파라다이스 호텔 정거장</b>을 이용해 주세요. 그랜드조선 ↔ 파라다이스 호텔은 <b>도보 약 5분</b> 거리입니다.</p>
+        <p class="en-block">Guests at Grand Josun Haeundae: please board the event shuttle at the <b>Paradise Hotel</b> stop (~5 min walk from Grand Josun).</p>
+      </div>
     </div>
     <div class="vtabs" role="tablist" aria-label="노선 선택">
       <button class="vtab" type="button" role="tab" data-vr-btn="a" aria-selected="true">
@@ -748,15 +758,8 @@
     </div>
     </div>
 
-    <div class="warn-box reveal" style="margin-top:24px">
-      <div class="wb-icon"><svg class="ico ico-lg" viewBox="0 0 24 24" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg></div>
-      <div class="wb-body">
-        <h4 class="ko-block">Faculty Dinner 셔틀 <span style="font-weight:700;opacity:.75">— 10/23(금) 저녁, 노선 선택과 무관하게 운영</span></h4>
-        <h4 class="en-block">Faculty Dinner Shuttle <span style="font-weight:700;opacity:.75">— Oct 23 (Fri) evening, runs independently of route selection</span></h4>
-        <p class="ko-block"><b>Faculty Dinner 초청자 전용</b>이며 일반 등록 참가자는 이용하실 수 없습니다. 만찬장행 <b>17:00~17:30(10분 간격)</b>은 위 베뉴 셔틀을 그대로 이용해 시그니엘로 이동합니다. 귀가행은 만찬 종료 후 <b>20:00부터 2분 간격으로 10대가 순차 출발</b>하며, 벡스코 인근 호텔 투숙객은 벡스코까지 연장 운행합니다.</p>
-        <p class="en-block">For <b>invited Faculty Dinner guests only</b> — not available to general registered attendees. To the dinner (<b>17:00–17:30, every 10 min</b>), use the venue shuttle above to Signiel. After the dinner, <b>10 buses depart every 2 minutes from 20:00</b>; guests staying near BEXCO can ride to BEXCO on the extended run.</p>
-      </div>
-    </div>
+    <h3 class="ko-block" style="font-size:1.15rem;font-weight:700;color:var(--navy);margin-top:32px">Faculty Dinner 셔틀 <span style="font-weight:700;opacity:.7;font-size:.85em">— 10/23(금) 저녁, 노선 선택과 무관하게 운영</span></h3>
+    <h3 class="en-block" style="font-size:1.15rem;font-weight:700;color:var(--navy);margin-top:32px">Faculty Dinner Shuttle <span style="font-weight:700;opacity:.7;font-size:.85em">— Oct 23 (Fri) evening, runs independently of route selection</span></h3>
     <div class="sched-stops" style="margin-top:14px">
       <div class="sched-stop-row">
         <span class="sched-stop-name ko-only">시그니엘</span><span class="sched-stop-name en-only">Signiel</span>
@@ -786,10 +789,8 @@
     <div class="warn-box reveal" style="margin-top:18px">
       <div class="wb-icon"><svg class="ico ico-lg" viewBox="0 0 24 24" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg></div>
       <div class="wb-body">
-        <h4 class="ko-block">그랜드조선 해운대 투숙객 안내</h4>
-        <h4 class="en-block">For guests at Grand Josun Haeundae</h4>
-        <p class="ko-block">그랜드조선 해운대 투숙객께서는 행사장 셔틀 이용 시 <b>파라다이스 호텔 정거장</b>을 이용해 주세요. 그랜드조선 ↔ 파라다이스 호텔은 <b>도보 약 5분</b> 거리입니다.</p>
-        <p class="en-block">Guests at Grand Josun Haeundae: please board the event shuttle at the <b>Paradise Hotel</b> stop (~5 min walk from Grand Josun).</p>
+        <p class="ko-block"><b>Faculty Dinner 초청자 전용</b>이며 일반 등록 참가자는 이용하실 수 없습니다. 만찬장행 <b>17:00~17:30(10분 간격)</b>은 위 베뉴 셔틀을 그대로 이용해 시그니엘로 이동합니다. 귀가행은 만찬 종료 후 <b>20:00부터 2분 간격으로 10대가 순차 출발</b>하며, 벡스코 인근 호텔 투숙객은 벡스코까지 연장 운행합니다.</p>
+        <p class="en-block">For <b>invited Faculty Dinner guests only</b> — not available to general registered attendees. To the dinner (<b>17:00–17:30, every 10 min</b>), use the venue shuttle above to Signiel. After the dinner, <b>10 buses depart every 2 minutes from 20:00</b>; guests staying near BEXCO can ride to BEXCO on the extended run.</p>
       </div>
     </div>
   </div>
@@ -917,7 +918,7 @@
         <li>선착순 탑승입니다. 별도 예약은 필요하지 않습니다.</li>
         <li>출발 <b>10분 전</b>까지 정류장에 도착해 주세요.</li>
         <li>피크 시간대에는 만석일 수 있습니다. 만석 시 <b>다음 운행 편</b>을 이용해 주세요.</li>
-        <li>실시간 추적은 제공되지 않습니다. 지정 정류장에서 대기해 주세요.</li>
+        <li>실시간 위치 확인은 추후 제공 예정입니다. 지정 정류장에서 대기해 주세요.</li>
         <li>시간표는 변경될 수 있습니다. 현장 안내판을 확인해 주세요.</li>
       </ul>
       <ul class="en-block">
@@ -925,7 +926,7 @@
         <li>First-come, first-served. No reservation required.</li>
         <li>Please arrive at the stop <b>10 minutes before departure</b>.</li>
         <li>Shuttles may be full during peak hours. Please wait for the next service.</li>
-        <li>Real-time tracking is not available. Please wait at your designated stop.</li>
+        <li>Live location tracking is coming soon. Please wait at your designated stop.</li>
         <li>Schedule is subject to change. Check on-site boards for updates.</li>
       </ul>
     </div>
@@ -955,7 +956,7 @@
       <b>GroundK Co., Ltd</b> · 대표 장동원 · 사업자등록번호 238-81-00429<br>
       부산광역시 해운대구 센텀동로 45, 405호 (우 48059) · Tel +82-2-863-3540 · Fax +82-70-8275-3540 · ops@groundk.com<br>
       <span class="ko-only">RIDEUS는 GroundK의 Transportation × Travel 플랫폼입니다. 모든 거래·교환·환불·민원은 GroundK가 처리합니다.</span><span class="en-only">RIDEUS is GroundK's Transportation × Travel platform. All transactions, exchanges, refunds &amp; inquiries are handled by GroundK.</span><br>
-      <span class="ver">© 2026 GroundK · <span class="ko-only">APHRS 2026 참가자 교통 포털 (콘셉트 데모)</span><span class="en-only">APHRS 2026 Participant Transport Portal (Concept Demo)</span> · build 2026.07.14.1</span>
+      <span class="ver">© 2026 GroundK · <span class="ko-only">APHRS 2026 참가자 교통 포털 (콘셉트 데모)</span><span class="en-only">APHRS 2026 Participant Transport Portal (Concept Demo)</span> · build 2026.07.14.2</span>
     </div>
   </div>
 </footer>
@@ -977,7 +978,7 @@
   </div>
 </div>
 
-<script src="assets/app.js?v=2026.07.14.1"></script>
+<script src="assets/app.js?v=2026.07.14.2"></script>
 
 <script>
 (function(){
