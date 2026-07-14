@@ -817,6 +817,12 @@ h1,h2,h3,h4{line-height:1.16;letter-spacing:-.4px;text-wrap:balance}
   .t-hero .inner { padding:36px 16px 38px; }
   .detail-hero .inner { padding:26px 16px 20px; }
   .hero-fb .hero-inner { padding:44px 16px; }
+  .hero .hero-inner { padding:46px 18px 42px; }
+
+  /* ── 모바일 세로 여백 축소 (400px 기준) ── */
+  .section { padding:46px 0; }
+  section.svc-section, section.chauffeur, section.useful, section.tv-section { padding-top:44px; padding-bottom:40px; }
+  .corp-foot { padding:32px 0 38px; }
 
   /* ── VA-TABLE: 핵심 깨짐 수정 ──
      MODE 컬럼 텍스트가 한 글자씩 세로로 쪼개지는 원인:
