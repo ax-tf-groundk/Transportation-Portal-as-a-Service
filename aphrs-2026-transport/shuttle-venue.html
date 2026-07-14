@@ -70,10 +70,11 @@
   .vtabs:not(.vtabs-date) .vtab[aria-selected="true"]{color:#fff;background:var(--navy)}
   .vtabs.vtabs-date .vtab[aria-selected="true"]{color:var(--red);background:var(--red-050)}
   .vtab:hover:not([aria-selected="true"]){color:var(--ink)}
-  .vtabs.vtabs-date{margin-top:18px;margin-bottom:0;border-bottom-left-radius:0;border-bottom-right-radius:0}
-  .vtabs.vtabs-date .vtab{font-size:13px;padding:10px 12px}
-  /* 날짜 탭 + 시간표를 하나의 카드로 시각적 연결 — 탭 하단 라운드 제거 후 패널이 이어받음 */
-  .sched-panel{border:1px solid var(--line-2);border-top:none;border-radius:0 0 var(--radius-sm) var(--radius-sm);padding:16px}
+  /* 날짜 탭 — Figma 실측: 세그먼트형(하나의 테두리 공유)이 아니라 각각 독립된 알약 버튼이
+     12px 간격으로 떨어져 있고 개별 테두리를 가짐(선택=red-050 배경/red 테두리, 미선택=흰 배경/line 테두리) */
+  .vtabs.vtabs-date{margin-top:18px;gap:12px;border:none;border-radius:0;overflow:visible}
+  .vtabs.vtabs-date .vtab{flex:none;font-size:13px;padding:8px 12px;border-radius:21px;border:1px solid var(--line);background:#fff}
+  .vtabs.vtabs-date .vtab[aria-selected="true"]{border-color:var(--red)}
 
   /* 노선도 — route-map(airport-transfer.html) 재사용. 위=행사장행, 아래=호텔행, 각각 독립 카드. 날짜와 무관하게 노선(vr) 선택에만 반응(고정 콘텐츠) */
   .uroute{display:flex;flex-direction:column;gap:18px;margin-top:18px}
@@ -257,7 +258,6 @@
     </div>
 
     <!-- ══════════ 노선 A — 10/21 (행사장행) ══════════ -->
-    <div class="sched-panel vr-a vd-1021">
     <div class="sched-dir reveal vr-a vd-1021">
       <div class="sched-stops">
         <div class="sched-stop-row">
@@ -282,10 +282,8 @@
     </div>
     <p class="sched-note reveal ko-block vr-a vd-1021" style="margin-top:14px">10/21(수) 운영시간: 프로그램 08:00-17:15 · 집중 운행 07:00-10:00(20분 간격) · 일반 운행 08:30-17:00(1시간 간격) · 집중 운행 17:30-18:20(20분 간격)</p>
     <p class="sched-note reveal en-block vr-a vd-1021" style="margin-top:14px">Oct 21 (Wed) hours: Program 08:00-17:15 · Peak 07:00-10:00 (every 20 min) · Regular 08:30-17:00 (hourly) · Peak 17:30-18:20 (every 20 min)</p>
-    </div>
 
     <!-- ══════════ 노선 A — 10/22 (행사장행) ══════════ -->
-    <div class="sched-panel vr-a vd-1022">
     <div class="sched-dir reveal vr-a vd-1022">
       <div class="sched-stops">
         <div class="sched-stop-row">
@@ -310,10 +308,8 @@
     </div>
     <p class="sched-note reveal ko-block vr-a vd-1022" style="margin-top:14px">10/22(목) 운영시간: 프로그램 08:30-18:00(1그룹 종료 16:30) · 집중 운행 07:20-08:00(10분 간격) · 일반 운행 09:00-17:00(1시간 간격) · 집중 운행 17:00-18:30, 19:40-19:50(10분 간격)</p>
     <p class="sched-note reveal en-block vr-a vd-1022" style="margin-top:14px">Oct 22 (Thu) hours: Program 08:30-18:00 (Group 1 ends 16:30) · Peak 07:20-08:00 (every 10 min) · Regular 09:00-17:00 (hourly) · Peak 17:00-18:30, 19:40-19:50 (every 10 min)</p>
-    </div>
 
     <!-- ══════════ 노선 A — 10/23 (행사장행) ══════════ -->
-    <div class="sched-panel vr-a vd-1023">
     <div class="sched-dir reveal vr-a vd-1023">
       <div class="sched-stops">
         <div class="sched-stop-row">
@@ -338,10 +334,8 @@
     </div>
     <p class="sched-note reveal ko-block vr-a vd-1023" style="margin-top:14px">10/23(금) 운영시간: 프로그램 08:30-16:50 · 집중 운행 07:20-08:00(10분 간격) · 일반 운행 09:00-17:00(1시간 간격) · 집중 운행 17:00-17:30(10분 간격) / 18:00 디너 만찬(시그니엘)</p>
     <p class="sched-note reveal en-block vr-a vd-1023" style="margin-top:14px">Oct 23 (Fri) hours: Program 08:30-16:50 · Peak 07:20-08:00 (every 10 min) · Regular 09:00-17:00 (hourly) · Peak 17:00-17:30 (every 10 min) / 18:00 Faculty Dinner (Signiel)</p>
-    </div>
 
     <!-- ══════════ 노선 A — 10/24 (행사장행) ══════════ -->
-    <div class="sched-panel vr-a vd-1024">
     <div class="sched-dir reveal vr-a vd-1024">
       <div class="sched-stops">
         <div class="sched-stop-row">
@@ -366,7 +360,6 @@
     </div>
     <p class="sched-note reveal ko-block vr-a vd-1024" style="margin-top:14px">10/24(토) 운영시간(폐회일): 프로그램 08:30-16:00(15:15 세션 종료) · 집중 운행 07:20-08:00(10분 간격) · 일반 운행 09:00-14:30(1시간 간격) · 집중 운행 15:20-16:00(10분 간격)</p>
     <p class="sched-note reveal en-block vr-a vd-1024" style="margin-top:14px">Oct 24 (Sat, closing day) hours: Program 08:30-16:00 (sessions end 15:15) · Peak 07:20-08:00 (every 10 min) · Regular 09:00-14:30 (hourly) · Peak 15:20-16:00 (every 10 min)</p>
-    </div>
 
       <div class="uroute-arm">
         <div class="route-map">
@@ -521,7 +514,6 @@
     </div>
 
     <!-- ══════════ 노선 B — 10/21 (행사장행) ══════════ -->
-    <div class="sched-panel vr-b vd-1021">
     <div class="sched-dir reveal vr-b vd-1021">
       <div class="sched-stops">
         <div class="sched-stop-row">
@@ -546,10 +538,8 @@
     </div>
     <p class="sched-note reveal ko-block vr-b vd-1021" style="margin-top:14px">10/21(수) 운영시간: 프로그램 08:00-17:15 · 집중 운행 07:00-10:00(20분 간격) · 일반 운행 08:30-17:00(1시간 간격) · 집중 운행 17:30-18:20(20분 간격)</p>
     <p class="sched-note reveal en-block vr-b vd-1021" style="margin-top:14px">Oct 21 (Wed) hours: Program 08:00-17:15 · Peak 07:00-10:00 (every 20 min) · Regular 08:30-17:00 (hourly) · Peak 17:30-18:20 (every 20 min)</p>
-    </div>
 
     <!-- ══════════ 노선 B — 10/22 (행사장행) ══════════ -->
-    <div class="sched-panel vr-b vd-1022">
     <div class="sched-dir reveal vr-b vd-1022">
       <div class="sched-stops">
         <div class="sched-stop-row">
@@ -574,10 +564,8 @@
     </div>
     <p class="sched-note reveal ko-block vr-b vd-1022" style="margin-top:14px">10/22(목) 운영시간: 프로그램 08:30-18:00(1그룹 종료 16:30) · 집중 운행 07:20-08:00(10분 간격) · 일반 운행 09:00-17:00(1시간 간격) · 집중 운행 17:00-18:30, 19:40-19:50(10분 간격)</p>
     <p class="sched-note reveal en-block vr-b vd-1022" style="margin-top:14px">Oct 22 (Thu) hours: Program 08:30-18:00 (Group 1 ends 16:30) · Peak 07:20-08:00 (every 10 min) · Regular 09:00-17:00 (hourly) · Peak 17:00-18:30, 19:40-19:50 (every 10 min)</p>
-    </div>
 
     <!-- ══════════ 노선 B — 10/23 (행사장행) ══════════ -->
-    <div class="sched-panel vr-b vd-1023">
     <div class="sched-dir reveal vr-b vd-1023">
       <div class="sched-stops">
         <div class="sched-stop-row">
@@ -602,10 +590,8 @@
     </div>
     <p class="sched-note reveal ko-block vr-b vd-1023" style="margin-top:14px">10/23(금) 운영시간: 프로그램 08:30-16:50 · 집중 운행 07:20-08:00(10분 간격) · 일반 운행 09:00-17:00(1시간 간격) · 집중 운행 17:00-17:30(10분 간격) / 18:00 디너 만찬(시그니엘) — 17시 이후 오는 편은 시그니엘(만찬장)까지 연장 운행합니다.</p>
     <p class="sched-note reveal en-block vr-b vd-1023" style="margin-top:14px">Oct 23 (Fri) hours: Program 08:30-16:50 · Peak 07:20-08:00 (every 10 min) · Regular 09:00-17:00 (hourly) · Peak 17:00-17:30 (every 10 min) / 18:00 Faculty Dinner (Signiel) — after 17:00, return trips extend to Signiel (dinner venue).</p>
-    </div>
 
     <!-- ══════════ 노선 B — 10/24 (행사장행) ══════════ -->
-    <div class="sched-panel vr-b vd-1024">
     <div class="sched-dir reveal vr-b vd-1024">
       <div class="sched-stops">
         <div class="sched-stop-row">
@@ -630,7 +616,6 @@
     </div>
     <p class="sched-note reveal ko-block vr-b vd-1024" style="margin-top:14px">10/24(토) 운영시간(폐회일): 프로그램 08:30-16:00(15:15 세션 종료) · 집중 운행 07:20-08:00(10분 간격) · 일반 운행 09:00-14:30(1시간 간격) · 집중 운행 15:20-16:00(10분 간격)</p>
     <p class="sched-note reveal en-block vr-b vd-1024" style="margin-top:14px">Oct 24 (Sat, closing day) hours: Program 08:30-16:00 (sessions end 15:15) · Peak 07:20-08:00 (every 10 min) · Regular 09:00-14:30 (hourly) · Peak 15:20-16:00 (every 10 min)</p>
-    </div>
 
       <div class="uroute-arm">
         <div class="route-map">
