@@ -6,7 +6,7 @@
 (function () {
   'use strict';
 
-  var SITE_VERSION = '2026.07.13.8';
+  var SITE_VERSION = '2026.07.13.9';
   try { console.log('%cRIDEUS Events · ITS 2026 Gangneung · build ' + SITE_VERSION, 'color:#006241;font-weight:700'); } catch (e) {}
 
   var prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -190,7 +190,7 @@
     svg.setAttribute('class', 'lm-svg');
     // 정류장 마커 종류 선판정 (선 끊김 계산용)
     pts.forEach(function(pt){ pt.mk = numbered ? 'num' : (iconType(pt.s.nm) ? 'icon' : 'dot'); });
-    function gapR(pt){ return pt.mk === 'icon' ? 14 : (pt.mk === 'num' ? R : 0); }
+    function gapR(pt){ return pt.mk === 'icon' ? 18 : (pt.mk === 'num' ? R : 0); }
     // 연결선 — 아이콘/번호 정류장 자리에서는 선을 끊어 겹침 방지 (구간별 선분)
     for (var p = 0; p < pts.length - 1; p++){
       var a = pts[p], b = pts[p + 1];

@@ -83,8 +83,9 @@ h1,h2,h3,h4{line-height:1.16;letter-spacing:-.4px;text-wrap:balance}
 .section:first-of-type{border-top:none}
 .section.tight{padding:40px 0}
 .kicker{font-size:11.5px;font-weight:700;color:var(--red);letter-spacing:0.8px;text-transform:uppercase;display:block;margin-bottom:11px;border-left:3px solid var(--red);padding-left:10px}
-.sec-h{font-size:28px;font-weight:800;color:var(--ink);letter-spacing:-.6px}
+.sec-h{font-size:28px;font-weight:800;color:var(--ink);letter-spacing:-.6px;border-left:4px solid var(--red);padding-left:14px}
 .sec-sub{margin-top:9px;color:var(--muted);font-size:15.5px;max-width:64ch;line-height:1.6}
+.sec-head .sec-sub{padding-left:18px}
 .sec-head{margin-bottom:30px;max-width:780px}
 
 /* ---------- HERO ---------- */
