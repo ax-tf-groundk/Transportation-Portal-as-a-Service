@@ -6,7 +6,7 @@
 (function () {
   'use strict';
 
-  var SITE_VERSION = '2026.07.13.5';
+  var SITE_VERSION = '2026.07.13.6';
   try { console.log('%cRIDEUS Events · ITS 2026 Gangneung · build ' + SITE_VERSION, 'color:#006241;font-weight:700'); } catch (e) {}
 
   var prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -133,7 +133,12 @@
   };
   function curLang(){ return document.documentElement.getAttribute('data-lang') === 'en' ? 'en' : 'ko'; }
   function stopLabel(nm){ return (curLang() === 'en' && STOP_EN[nm]) ? STOP_EN[nm] : nm; }
-  function stopBi(nm){ return '<span class="ko-only">' + nm + '</span><span class="en-only">' + (STOP_EN[nm] || nm) + '</span>'; }
+  // 시간표 머릿글 — 긴 이름(특히 영문 호텔명)을 2~3줄로 줄바꿈해 가로 스크롤 방지
+  function stopBi(nm){
+    var ko = splitName(nm).join('<br>');
+    var en = splitName(STOP_EN[nm] || nm).join('<br>');
+    return '<span class="ko-only">' + ko + '</span><span class="en-only">' + en + '</span>';
+  }
   // 정류장 공용 아이콘(SVG) — 공항/역(기차)/휴게소/호텔/터미널. 그 외(베뉴 등)는 점.
   var LM_ICONS = {
     plane: { fill: 'M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z' },
