@@ -989,7 +989,13 @@ html[data-lang="en"] .rd-live.en-only{display:inline-flex}
 .tt-table th.tt-hub small,.tt-table th.tt-turn small{color:var(--orange-600)}
 .tt-table tbody tr:last-child td{border-bottom:0}
 .tt-note{font-size:11px;color:var(--muted);padding:10px 16px;line-height:1.5;background:#fff}
-@media(max-width:560px){.lm-label{font-size:10px}.rroute{padding:18px 14px}}
+/* 방향별(왕복) 시간표 — 오전 편도·야간 편도가 비대칭이라 방향 2개로 분리 */
+.tt-dir{padding:0 0 4px}
+.tt-dir+.tt-dir{border-top:8px solid var(--line-2)}
+.tt-dir-h{display:flex;align-items:center;gap:9px;font-size:12.5px;font-weight:800;color:var(--navy);padding:11px 16px 9px;background:#f4faf7}
+.tt-dir-h::before{content:"↳";color:var(--red);font-weight:900}
+.tt-dir-c{margin-left:auto;font-size:11px;font-weight:700;color:var(--muted);background:#fff;border:1px solid var(--line);border-radius:20px;padding:2px 10px}
+@media(max-width:560px){.lm-label{font-size:10px}.rroute{padding:18px 14px}.tt-dir-h{font-size:12px;padding:10px 13px 8px}}
 
 /* ══════════ 이중언어(KO/EN) + 네비 드롭다운 ══════════ */
 .en-only{display:none}
