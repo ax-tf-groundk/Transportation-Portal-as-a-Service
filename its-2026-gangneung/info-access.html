@@ -6,9 +6,9 @@
 <meta http-equiv="Cache-Control" content="no-cache">
 <title>여행 정보 — 2026 강릉 ITS 세계총회 교통 | RIDEUS Events</title>
 <meta name="description" content="2026 강릉 ITS 세계총회 참가자 여행 정보 — 입국 안내, 공항→강릉 교통편(버스·KTX), 짐 배송. 인천·김포공항에서 강릉까지 오는 모든 방법.">
-<meta name="version" content="2026.07.13.6">
-<link rel="stylesheet" href="assets/transport.css?v=2026.07.13.6">
-<link rel="icon" type="image/png" sizes="64x64" href="assets/img/favicon.png?v=2026.07.13.6">
+<meta name="version" content="2026.07.13.7">
+<link rel="stylesheet" href="assets/transport.css?v=2026.07.13.7">
+<link rel="icon" type="image/png" sizes="64x64" href="assets/img/favicon.png?v=2026.07.13.7">
 <link rel="apple-touch-icon" href="assets/img/favicon-180.png">
 <style>
 /* sticky tab bar */
@@ -109,6 +109,12 @@
 .info-box b{display:block;font-size:14.5px;color:var(--red-700);margin-bottom:4px}
 .info-box p{font-size:13px;color:var(--ink);line-height:1.6}
 .tv-cta{margin-top:26px;display:flex;flex-wrap:wrap;gap:12px}
+/* 목적지 카드 */
+.dest-card{display:flex;gap:16px;align-items:flex-start;max-width:760px;margin-top:4px;background:#fff;border:1px solid var(--line);border-left:4px solid var(--red);border-radius:14px;padding:16px 20px;box-shadow:var(--shadow)}
+.dest-card .dc-k{flex:0 0 auto;font-size:13px;font-weight:800;color:var(--red);white-space:nowrap}
+.dest-card .dc-v{font-size:13.5px;color:var(--ink);line-height:1.6}
+.dest-card .dc-v b{display:block;font-size:15.5px;color:var(--red-700);margin-bottom:2px}
+@media(max-width:560px){.dest-card{flex-direction:column;gap:7px}}
 </style>
 </head>
 <body>
@@ -149,6 +155,7 @@
   <div class="inner">
     <nav class="crumb" aria-label="breadcrumb"><a href="index.html"><span class="ko-only">홈</span><span class="en-only">Home</span></a> › <span><span class="ko-only">여행 정보</span><span class="en-only">Travel Info</span></span></nav>
     <h1><span class="ko-only">여행 정보</span><span class="en-only">Travel Information</span></h1>
+    <p class="dsub"><span class="ko-only">입국부터 KTX·짐배송까지, 한국에서의 이동에 필요한 정보를 한 곳에.</span><span class="en-only">Everything you need to get around in Korea — from arrival to KTX and baggage delivery — in one place.</span></p>
   </div>
 </section>
 
@@ -158,9 +165,11 @@
   <div class="wrap">
     <div class="sec-head reveal"><span class="kicker"><span class="ko-only">입국 안내</span><span class="en-only">Arrival</span></span></div>
 
-    <p class="sec-sub" style="margin-bottom:14px;max-width:760px"><span class="ko-only">대부분의 해외 참가자는 <b>인천국제공항(ICN)</b>으로, 일부는 <b>김포국제공항(GMP)</b>으로 입국합니다. 두 공항 모두 <b>직행 시외버스</b> 또는 <b>KTX(서울역 경유)</b>로 강릉까지 이동합니다. 공항별 상세 경로는 아래 <b>공항 → 강릉</b>에서 확인하세요.</span><span class="en-only">Most international participants arrive at <b>Incheon Int'l Airport (ICN)</b>, and some at <b>Gimpo Int'l Airport (GMP)</b>. From either airport you can reach Gangneung by <b>direct intercity bus</b> or <b>KTX (via Seoul Station)</b>. See the detailed routes per airport under <b>To Gangneung</b> below.</span></p>
-    <div class="notice" style="max-width:760px"><span class="ko-only">📍 목적지 — 강릉올림픽파크 컨벤션센터 · 강원특별자치도 강릉시 포남동 200 · Tel +82-33-350-3911</span><span class="en-only">📍 Destination — Gangneung Olympic Park Convention Center · 200 Ponam-dong, Gangneung, Gangwon State · Tel +82-33-350-3911</span></div>
-    <div class="notice" style="margin-top:10px;max-width:760px"><span class="ko-only">🚌 강릉역·강릉터미널 → 행사장은 <a href="shuttle-venue.html" style="color:var(--red);font-weight:700">역·터미널 순환 셔틀(G1)</a> 또는 택시(약 5~15분).</span><span class="en-only">🚌 Gangneung Station/Terminal → venue via the <a href="shuttle-venue.html" style="color:var(--red);font-weight:700">Station Loop shuttle (G1)</a> or taxi (approx. 5–15 min).</span></div>
+    <p class="sec-sub" style="margin-bottom:16px;max-width:760px"><span class="ko-only">인천국제공항과 김포국제공항 이용객 모두 <b>직행 시외버스</b> 또는 <b>서울역으로 이동하여 KTX</b>로 강릉까지 이동할 수 있습니다. 강릉역·강릉터미널에서 행사장까지는 <a href="shuttle-venue.html" style="color:var(--red);font-weight:700">역·터미널 순환 셔틀(G1)</a> 또는 택시로 이동할 수 있습니다. 공항별 상세 이동 경로는 아래에서 확인해 주세요.</span><span class="en-only">Participants arriving at both <b>Incheon</b> and <b>Gimpo International Airports</b> can reach Gangneung by <b>direct intercity bus</b>, or by <b>transferring to KTX at Seoul Station</b>. From Gangneung Station or the Bus Terminal to the venue, use the <a href="shuttle-venue.html" style="color:var(--red);font-weight:700">Station Loop shuttle (G1)</a> or a taxi. Check the detailed route for each airport below.</span></p>
+    <div class="dest-card">
+      <div class="dc-k"><span class="ko-only">📍 목적지</span><span class="en-only">📍 Destination</span></div>
+      <div class="dc-v"><b><span class="ko-only">강릉올림픽파크 컨벤션센터</span><span class="en-only">Gangneung Olympic Park Convention Center</span></b><span class="ko-only">강원특별자치도 강릉시 포남동 200 · Tel +82-33-350-3911</span><span class="en-only">200 Ponam-dong, Gangneung, Gangwon State · Tel +82-33-350-3911</span></div>
+    </div>
   </div>
 </section>
 
@@ -410,7 +419,7 @@
     <a class="brand" href="index.html"><span class="logo" aria-hidden="true">R</span><span class="wm"><b>RIDEUS Events</b><small>GroundK · 참가자 교통 포털 데모</small></span></a>
     <nav class="fnav"><a href="shuttle-airport-in.html">공항 → 강릉</a><a href="shuttle-venue.html">행사장 셔틀</a><a href="shuttle-airport-out.html">강릉 → 서울역</a><a href="shuttle-chauffeur.html">전용 차량</a><a href="info-access.html">여행 정보</a></nav>
   </div>
-  <div class="legal"><b>GroundK Co., Ltd</b> · CEO 장동원 · Business Reg. 238-81-00429 · ops@groundk.com<br><span class="ver">© 2026 GroundK · 2026 강릉 ITS 세계총회 교통 포털 (콘셉트 데모) · build 2026.07.13.6</span></div>
+  <div class="legal"><b>GroundK Co., Ltd</b> · CEO 장동원 · Business Reg. 238-81-00429 · ops@groundk.com<br><span class="ver">© 2026 GroundK · 2026 강릉 ITS 세계총회 교통 포털 (콘셉트 데모) · build 2026.07.13.7</span></div>
 </div></footer>
 <div class="mockup-flag">콘셉트 목업 · 실제 예약 연동 예정</div>
 
@@ -427,7 +436,7 @@
   </div>
 </div>
 
-<script src="assets/app.js?v=2026.07.13.6"></script>
+<script src="assets/app.js?v=2026.07.13.7"></script>
 <script>
 (function(){
   // accordion (one-page scroll, no tabs)
