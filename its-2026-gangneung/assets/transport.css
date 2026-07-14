@@ -1055,3 +1055,13 @@ html[data-lang="en"] .en-block{display:block}
     min-width:0;background:var(--bg-2);border:none;box-shadow:none;padding:2px 0 8px;margin:0}
   .nav .dd-menu a{padding:10px 22px 10px 40px;font-size:13.5px;border-radius:0}
 }
+
+/* ===== 소형 폰(≤440px) 타이포·카드 한 단계 축소 (꽉 참 완화) ===== */
+@media(max-width:440px){
+  .detail-hero{min-height:200px}
+  .detail-hero h1{font-size:22px;gap:8px}
+  .detail-hero .dsub{font-size:13.5px;margin-top:7px}
+  .sec-h{font-size:21px;padding-left:12px;border-left-width:3px}
+  .sec-head .sec-sub,.sec-sub{font-size:13.5px}
+  .rd-name{font-size:14px}
+}

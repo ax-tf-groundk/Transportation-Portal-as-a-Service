@@ -6,9 +6,9 @@
 <meta http-equiv="Cache-Control" content="no-cache">
 <title>2026 강릉 ITS 세계총회 — 참가자 교통 포털 | RIDEUS Events · GroundK</title>
 <meta name="description" content="2026 강릉 ITS 세계총회(10.19–23, 강릉 올림픽파크) 참가자 교통 포털. 공항 입국·출국 셔틀, 행사장 순환 셔틀, 전용차량, KTX·버스 여행 정보.">
-<meta name="version" content="2026.07.13.13">
-<link rel="stylesheet" href="assets/transport.css?v=2026.07.13.13">
-<link rel="icon" type="image/png" sizes="64x64" href="assets/img/favicon.png?v=2026.07.13.13">
+<meta name="version" content="2026.07.13.14">
+<link rel="stylesheet" href="assets/transport.css?v=2026.07.13.14">
+<link rel="icon" type="image/png" sizes="64x64" href="assets/img/favicon.png?v=2026.07.13.14">
 <link rel="apple-touch-icon" href="assets/img/favicon-180.png">
 <style>
 /* ── ITS landing-specific (공식 그린 #006241 + 틸 #009E95) ── */
@@ -155,6 +155,25 @@ html[data-lang="en"] .hero-slogan .en{display:block}
 .sp-row{display:flex;align-items:center;gap:13px;margin-top:14px}
 .sp-ic{width:46px;height:46px;border-radius:50%;display:grid;place-items:center;font-size:19px;background:var(--red-050);border:1px solid #cfe6dd;flex-shrink:0}
 .sp-row b{font-size:15px;color:var(--ink);display:block;font-weight:800} .sp-row small{font-size:12.5px;color:var(--soft)}
+/* 소형 폰(≤440px) — 히어로·카드 타이포 축소 */
+@media(max-width:440px){
+  .hero{min-height:auto}
+  .hero-inner{padding:40px 18px 40px}
+  .hero-slogan .ko{font-size:29px}
+  .hero-slogan .en{font-size:27px}
+  .hero-theme{font-size:14px;margin-top:12px}
+  .hero-lead{font-size:14px;margin-top:14px}
+  .scard{min-height:236px}
+  .scard-bar{font-size:11px;padding:8px 16px}
+  .scard-dir{font-size:18px}
+  .scard-sub{font-size:12.5px}
+  .chauffeur-inner{padding:26px 22px}
+  .chauffeur h2{font-size:21px}
+  .chauffeur p{font-size:13.5px;margin-top:10px}
+  .ch-feat{padding:12px 14px}
+  .ch-feat b{font-size:14px}
+  .useful .sec-h,.svc-section .sec-h{font-size:21px}
+}
 </style>
 </head>
 <body>
@@ -365,7 +384,7 @@ html[data-lang="en"] .hero-slogan .en{display:block}
       <b>GroundK Co., Ltd</b> · CEO 장동원 · Business Reg. 238-81-00429<br>
       405호, 45 Centum Dong-ro, Haeundae-gu, Busan 48059 · Tel +82-2-863-3540 · ops@groundk.com<br>
       RIDEUS는 GroundK의 Transportation × Travel 플랫폼입니다. 모든 거래·환불·민원은 GroundK가 처리합니다.<br>
-      <span class="ver">© 2026 GroundK · 2026 강릉 ITS 세계총회 참가자 교통 포털 (콘셉트 데모) · build 2026.07.13.13</span>
+      <span class="ver">© 2026 GroundK · 2026 강릉 ITS 세계총회 참가자 교통 포털 (콘셉트 데모) · build 2026.07.13.14</span>
     </div>
   </div>
 </footer>
@@ -386,6 +405,6 @@ html[data-lang="en"] .hero-slogan .en{display:block}
   </div>
 </div>
 
-<script src="assets/app.js?v=2026.07.13.13"></script>
+<script src="assets/app.js?v=2026.07.13.14"></script>
 </body>
 </html>
