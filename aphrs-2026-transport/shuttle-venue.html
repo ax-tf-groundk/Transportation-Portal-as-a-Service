@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ko" data-vr="a" data-vd="1021">
 <head>
 <meta charset="UTF-8">
@@ -6,8 +6,8 @@
 <meta http-equiv="Cache-Control" content="no-cache">
 <title>행사장 셔틀 — 호텔↔BEXCO — APHRS 2026 부산 교통 | RIDEUS Events</title>
 <meta name="description" content="APHRS 2026 등록 참가자 무료 행사장 셔틀. 공식호텔↔BEXCO, 2026.10.21~24 운행. 노선·시간표·정류장 안내.">
-<meta name="version" content="2026.07.13.4">
-<link rel="stylesheet" href="assets/transport.css?v=2026.07.13.4">
+<meta name="version" content="2026.07.14.1">
+<link rel="stylesheet" href="assets/transport.css?v=2026.07.14.1">
 <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@5.24.0/dist/maplibre-gl.css"/>
 <style>
   /* Venue schedule — 날짜별 가는편·오는편 표를 데스크탑에서 2열로 배치 */
@@ -61,29 +61,41 @@
   .hotel-map .maplibregl-popup-content{border-radius:8px;box-shadow:0 10px 26px rgba(0,0,0,.22);padding:10px 13px}
   .hotel-map .maplibregl-popup-tip{filter:drop-shadow(0 2px 3px rgba(0,0,0,.12))}
 
-  /* ===== Venue Shuttle — 노선×날짜 탭 + U자형 노선도 (2026-07-13) ===== */
+  /* ===== Venue Shuttle — 노선×날짜 탭 + 직선 노선도 (2026-07-14 개정: U자형→직선, 날짜 무관 고정) ===== */
   .vtabs{display:flex;border-radius:var(--radius-sm);overflow:hidden;border:1px solid var(--line);margin-top:16px}
   .vtab{flex:1;padding:13px 16px;background:#fff;border:none;font:inherit;font-size:14.5px;font-weight:700;color:var(--muted);cursor:pointer;transition:background .15s,color .15s}
   .vtab:not(:last-child){border-right:1px solid var(--line)}
   .vtab[aria-selected="true"]{color:var(--red);background:var(--red-050)}
   .vtab:hover:not([aria-selected="true"]){color:var(--ink)}
-  .vtabs.vtabs-date{margin-top:10px}
+  .vtabs.vtabs-date{margin-top:18px}
   .vtabs.vtabs-date .vtab{font-size:13px;padding:10px 12px}
 
-  /* U자형 노선도 — 위=가는 편, 아래=오는 편, 오른쪽을 border-radius 곡선으로 연결 */
-  .uroute{position:relative;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px 64px 22px 24px;margin-top:18px}
+  /* 직선 노선도 — 위=가는 편, 아래=오는 편. 날짜와 무관하게 노선(vr) 선택에만 반응(고정 콘텐츠) */
+  .uroute{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:20px 24px;margin-top:18px}
   .uroute-arm{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
-  .uroute-arm:not(:last-child){margin-bottom:16px}
+  .uroute-arm:not(:last-child){margin-bottom:16px;padding-bottom:16px;border-bottom:1px solid var(--line)}
   .uroute-arm .ar-lbl{flex:0 0 auto;font-size:12px;font-weight:800;color:#fff;background:var(--navy);border-radius:8px;padding:7px 12px;letter-spacing:.3px}
   .uroute-back .ar-lbl{background:var(--red)}
   .uroute-path{font-size:15px;font-weight:700;color:var(--ink)}
   .uroute-path .ar{color:var(--red);font-weight:700;margin:0 5px}
-  .uroute-curve{position:absolute;top:22px;bottom:22px;right:24px;width:26px;border:3px solid var(--red);border-left:none;border-radius:0 22px 22px 0}
   @media(max-width:620px){
-    .uroute{padding:18px 40px 18px 18px}
-    .uroute-curve{right:14px;width:16px;border-width:2.5px}
+    .uroute{padding:16px 18px}
     .uroute-path{font-size:13.5px}
   }
+
+  /* 시간표(공항↔호텔 페이지 형식 차용) — 회차를 컬럼으로, 정류장을 행으로 */
+  .sched-h{margin:0 0 8px;font-size:13.5px;font-weight:700;color:var(--muted)}
+  .sched-phase:not(:last-child){margin-bottom:18px}
+  .sched-hbus{overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid var(--line);border-radius:var(--radius-sm)}
+  .sched-hbus table{border-collapse:collapse;width:max-content;min-width:100%}
+  .sched-hbus th,.sched-hbus td{padding:9px 13px;text-align:center;border-bottom:1px solid var(--line-2);border-right:1px solid var(--line-2);font-size:13px;white-space:nowrap}
+  .sched-hbus th:last-child,.sched-hbus td:last-child{border-right:none}
+  .sched-hbus thead th{background:var(--bg,#f7f8fb);color:var(--muted);font-weight:700;font-size:11px;letter-spacing:.4px;text-transform:uppercase}
+  .sched-hbus tbody th{background:var(--bg,#f7f8fb);color:var(--ink);font-weight:700;text-align:left}
+  .sched-hbus tbody td{font-weight:600;color:var(--ink)}
+  .sched-hbus tbody tr:last-child th,.sched-hbus tbody tr:last-child td{border-bottom:none}
+  .sched-dir{margin-bottom:28px;padding-bottom:24px;border-bottom:1px solid var(--line)}
+  .sched-dir-h{font-size:1rem;font-weight:700;margin:0 0 14px}
 
   /* 노선(vr)×날짜(vd) 토글 — 두 조건 AND 결합, 둘 다 맞을 때만 표시 */
   html:not([data-vr="a"]) .vr-a{display:none}
@@ -200,510 +212,495 @@
         <span class="ko-only">B 노선 (웨스틴조선 · 파크하얏트)</span><span class="en-only">Route B (Westin Josun · Park Hyatt)</span>
       </button>
     </div>
+
+    <div class="uroute vr-a">
+      <div class="uroute-arm uroute-out">
+        <span class="ar-lbl ko-only">가는 편</span><span class="ar-lbl en-only">Outbound</span>
+        <span class="uroute-path ko-only">시그니엘 <span class="ar">→</span> 파라다이스 <span class="ar">→</span> BEXCO</span>
+        <span class="uroute-path en-only">Signiel <span class="ar">→</span> Paradise <span class="ar">→</span> BEXCO</span>
+      </div>
+      <div class="uroute-arm uroute-back">
+        <span class="ar-lbl ko-only">오는 편</span><span class="ar-lbl en-only">Return</span>
+        <span class="uroute-path ko-only">BEXCO <span class="ar">→</span> 파라다이스 <span class="ar">→</span> 시그니엘</span>
+        <span class="uroute-path en-only">BEXCO <span class="ar">→</span> Paradise <span class="ar">→</span> Signiel</span>
+      </div>
+    </div>
+    <div class="uroute vr-b">
+      <div class="uroute-arm uroute-out">
+        <span class="ar-lbl ko-only">가는 편</span><span class="ar-lbl en-only">Outbound</span>
+        <span class="uroute-path ko-only">웨스틴조선 <span class="ar">→</span> 파크하얏트 <span class="ar">→</span> BEXCO</span>
+        <span class="uroute-path en-only">Westin Josun <span class="ar">→</span> Park Hyatt <span class="ar">→</span> BEXCO</span>
+      </div>
+      <div class="uroute-arm uroute-back">
+        <span class="ar-lbl ko-only">오는 편</span><span class="ar-lbl en-only">Return</span>
+        <span class="uroute-path ko-only">BEXCO <span class="ar">→</span> 파크하얏트 <span class="ar">→</span> 웨스틴조선</span>
+        <span class="uroute-path en-only">BEXCO <span class="ar">→</span> Park Hyatt <span class="ar">→</span> Westin Josun</span>
+      </div>
+    </div>
+
     <div class="vtabs vtabs-date" role="tablist" aria-label="날짜 선택">
       <button class="vtab" type="button" role="tab" data-vd-btn="1021" aria-selected="true"><span class="ko-only">10/21 (수)</span><span class="en-only">Oct 21 (Wed)</span></button>
       <button class="vtab" type="button" role="tab" data-vd-btn="1022" aria-selected="false" tabindex="-1"><span class="ko-only">10/22 (목)</span><span class="en-only">Oct 22 (Thu)</span></button>
       <button class="vtab" type="button" role="tab" data-vd-btn="1023" aria-selected="false" tabindex="-1"><span class="ko-only">10/23 (금)</span><span class="en-only">Oct 23 (Fri)</span></button>
       <button class="vtab" type="button" role="tab" data-vd-btn="1024" aria-selected="false" tabindex="-1"><span class="ko-only">10/24 (토)</span><span class="en-only">Oct 24 (Sat)</span></button>
     </div>
-    <div class="uroute vr-a vd-1021">
-      <div class="uroute-arm uroute-out">
-        <span class="ar-lbl ko-only">가는 편</span><span class="ar-lbl en-only">Outbound</span>
-        <span class="uroute-path ko-only">시그니엘 <span class="ar">→</span> 파라다이스 <span class="ar">→</span> BEXCO</span>
-        <span class="uroute-path en-only">Signiel <span class="ar">→</span> Paradise <span class="ar">→</span> BEXCO</span>
-      </div>
-      <div class="uroute-arm uroute-back">
-        <span class="ar-lbl ko-only">오는 편</span><span class="ar-lbl en-only">Return</span>
-        <span class="uroute-path ko-only">BEXCO <span class="ar">→</span> 파라다이스 <span class="ar">→</span> 시그니엘</span>
-        <span class="uroute-path en-only">BEXCO <span class="ar">→</span> Paradise <span class="ar">→</span> Signiel</span>
-      </div>
-      <div class="uroute-curve" aria-hidden="true"></div>
-    </div>
+
+    <!-- ══════════ 노선 A — 10/21 ══════════ -->
     <p class="sched-note reveal ko-block vr-a vd-1021" style="margin-top:14px">10/21(수) 운영시간: 프로그램 08:00-17:15 · 집중 운행 07:00-10:00(20분 간격) · 일반 운행 08:30-17:00(1시간 간격) · 집중 운행 17:30-18:20(20분 간격)</p>
     <p class="sched-note reveal en-block vr-a vd-1021" style="margin-top:14px">Oct 21 (Wed) hours: Program 08:00-17:15 · Peak 07:00-10:00 (every 20 min) · Regular 08:30-17:00 (hourly) · Peak 17:30-18:20 (every 20 min)</p>
-    <div class="sched-grid reveal vr-a vd-1021 sched-grid-2col">
-      <div class="sched-col">
-        <h3 style="font-size:1rem;font-weight:700;margin:0 0 10px;color:var(--red)"><span class="ko-only">시그니엘 → BEXCO</span><span class="en-only">Signiel → BEXCO</span></h3>
-        <div class="sched-table"><table>
-          <thead><tr><th>#</th><th><span class="ko-only">시그니엘</span><span class="en-only">Signiel</span></th><th><span class="ko-only">파라다이스</span><span class="en-only">Paradise</span></th><th>BEXCO</th></tr></thead>
+    <div class="sched-dir reveal vr-a vd-1021">
+      <h3 class="sched-dir-h" style="color:var(--red)"><span class="ko-only">시그니엘 → BEXCO</span><span class="en-only">Signiel → BEXCO</span></h3>
+      <div class="sched-phase">
+        <div class="sched-h"><span class="ko-only">집중 운행</span><span class="en-only">Peak</span></div>
+        <div class="sched-hbus"><table>
+          <thead><tr><th><span class="ko-only">회차</span><span class="en-only">Trip</span></th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th></tr></thead>
           <tbody>
-            <tr><td colspan="4" style="text-align:left;font-weight:700;color:var(--muted);background:var(--bg,#f7f8fb)"><span class="ko-only">집중 운행</span><span class="en-only">Peak</span></td></tr>
-            <tr><td>1</td><td>7:00</td><td>7:07</td><td>7:25</td></tr>
-            <tr><td>2</td><td>7:20</td><td>7:27</td><td>7:45</td></tr>
-            <tr><td>3</td><td>7:40</td><td>7:47</td><td>8:05</td></tr>
-            <tr><td>4</td><td>8:00</td><td>8:07</td><td>8:25</td></tr>
-            <tr><td>5</td><td>8:20</td><td>8:27</td><td>8:45</td></tr>
-            <tr><td>6</td><td>8:40</td><td>8:47</td><td>9:05</td></tr>
-            <tr><td>7</td><td>9:00</td><td>9:07</td><td>9:25</td></tr>
-            <tr><td>8</td><td>9:20</td><td>9:27</td><td>9:45</td></tr>
-            <tr><td>9</td><td>9:40</td><td>9:47</td><td>10:05</td></tr>
-            <tr><td colspan="4" style="text-align:left;font-weight:700;color:var(--muted);background:var(--bg,#f7f8fb)"><span class="ko-only">일반 운행</span><span class="en-only">Regular</span></td></tr>
-            <tr><td>10</td><td>10:00</td><td>10:07</td><td>10:25</td></tr>
-            <tr><td>11</td><td>11:00</td><td>11:07</td><td>11:25</td></tr>
-            <tr><td>12</td><td>12:00</td><td>12:07</td><td>12:25</td></tr>
-            <tr><td>13</td><td>13:00</td><td>13:07</td><td>13:25</td></tr>
-            <tr><td>14</td><td>14:00</td><td>14:07</td><td>14:25</td></tr>
-            <tr><td>15</td><td>15:00</td><td>15:07</td><td>15:25</td></tr>
-            <tr><td>16</td><td>16:00</td><td>16:07</td><td>16:25</td></tr>
+            <tr><th><span class="ko-only">시그니엘</span><span class="en-only">Signiel</span></th><td>7:00</td><td>7:20</td><td>7:40</td><td>8:00</td><td>8:20</td><td>8:40</td><td>9:00</td><td>9:20</td><td>9:40</td></tr>
+            <tr><th><span class="ko-only">파라다이스</span><span class="en-only">Paradise</span></th><td>7:07</td><td>7:27</td><td>7:47</td><td>8:07</td><td>8:27</td><td>8:47</td><td>9:07</td><td>9:27</td><td>9:47</td></tr>
+            <tr><th>BEXCO</th><td>7:25</td><td>7:45</td><td>8:05</td><td>8:25</td><td>8:45</td><td>9:05</td><td>9:25</td><td>9:45</td><td>10:05</td></tr>
           </tbody>
         </table></div>
       </div>
-      <div class="sched-col">
-        <h3 style="font-size:1rem;font-weight:700;margin:0 0 10px;color:var(--navy)"><span class="ko-only">BEXCO → 시그니엘</span><span class="en-only">BEXCO → Signiel</span></h3>
-        <div class="sched-table"><table>
-          <thead><tr><th>#</th><th>BEXCO</th><th><span class="ko-only">파라다이스</span><span class="en-only">Paradise</span></th><th><span class="ko-only">시그니엘</span><span class="en-only">Signiel</span></th></tr></thead>
+      <div class="sched-phase">
+        <div class="sched-h"><span class="ko-only">일반 운행</span><span class="en-only">Regular</span></div>
+        <div class="sched-hbus"><table>
+          <thead><tr><th><span class="ko-only">회차</span><span class="en-only">Trip</span></th><th>10</th><th>11</th><th>12</th><th>13</th><th>14</th><th>15</th><th>16</th></tr></thead>
           <tbody>
-            <tr><td colspan="4" style="text-align:left;font-weight:700;color:var(--muted);background:var(--bg,#f7f8fb)"><span class="ko-only">일반 운행</span><span class="en-only">Regular</span></td></tr>
-            <tr><td>1</td><td>10:30</td><td>10:48</td><td>10:53</td></tr>
-            <tr><td>2</td><td>11:30</td><td>11:48</td><td>11:53</td></tr>
-            <tr><td>3</td><td>12:30</td><td>12:48</td><td>12:53</td></tr>
-            <tr><td>4</td><td>13:30</td><td>13:48</td><td>13:53</td></tr>
-            <tr><td>5</td><td>14:30</td><td>14:48</td><td>14:53</td></tr>
-            <tr><td>6</td><td>15:30</td><td>15:48</td><td>15:53</td></tr>
-            <tr><td>7</td><td>16:30</td><td>16:48</td><td>16:53</td></tr>
-            <tr><td colspan="4" style="text-align:left;font-weight:700;color:var(--muted);background:var(--bg,#f7f8fb)"><span class="ko-only">집중 운행</span><span class="en-only">Peak</span></td></tr>
-            <tr><td>8</td><td>17:30</td><td>17:48</td><td>17:53</td></tr>
-            <tr><td>9</td><td>17:50</td><td>18:08</td><td>18:13</td></tr>
-            <tr><td>10</td><td>18:10</td><td>18:28</td><td>18:33</td></tr>
-            <tr><td>11</td><td>18:30</td><td>18:48</td><td>18:53</td></tr>
+            <tr><th><span class="ko-only">시그니엘</span><span class="en-only">Signiel</span></th><td>10:00</td><td>11:00</td><td>12:00</td><td>13:00</td><td>14:00</td><td>15:00</td><td>16:00</td></tr>
+            <tr><th><span class="ko-only">파라다이스</span><span class="en-only">Paradise</span></th><td>10:07</td><td>11:07</td><td>12:07</td><td>13:07</td><td>14:07</td><td>15:07</td><td>16:07</td></tr>
+            <tr><th>BEXCO</th><td>10:25</td><td>11:25</td><td>12:25</td><td>13:25</td><td>14:25</td><td>15:25</td><td>16:25</td></tr>
           </tbody>
         </table></div>
       </div>
     </div>
-    <div class="uroute vr-a vd-1022">
-      <div class="uroute-arm uroute-out">
-        <span class="ar-lbl ko-only">가는 편</span><span class="ar-lbl en-only">Outbound</span>
-        <span class="uroute-path ko-only">시그니엘 <span class="ar">→</span> 파라다이스 <span class="ar">→</span> BEXCO</span>
-        <span class="uroute-path en-only">Signiel <span class="ar">→</span> Paradise <span class="ar">→</span> BEXCO</span>
+    <div class="sched-dir reveal vr-a vd-1021" style="margin-bottom:0">
+      <h3 class="sched-dir-h" style="color:var(--navy)"><span class="ko-only">BEXCO → 시그니엘</span><span class="en-only">BEXCO → Signiel</span></h3>
+      <div class="sched-phase">
+        <div class="sched-h"><span class="ko-only">일반 운행</span><span class="en-only">Regular</span></div>
+        <div class="sched-hbus"><table>
+          <thead><tr><th><span class="ko-only">회차</span><span class="en-only">Trip</span></th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th></tr></thead>
+          <tbody>
+            <tr><th>BEXCO</th><td>10:30</td><td>11:30</td><td>12:30</td><td>13:30</td><td>14:30</td><td>15:30</td><td>16:30</td></tr>
+            <tr><th><span class="ko-only">파라다이스</span><span class="en-only">Paradise</span></th><td>10:48</td><td>11:48</td><td>12:48</td><td>13:48</td><td>14:48</td><td>15:48</td><td>16:48</td></tr>
+            <tr><th><span class="ko-only">시그니엘</span><span class="en-only">Signiel</span></th><td>10:53</td><td>11:53</td><td>12:53</td><td>13:53</td><td>14:53</td><td>15:53</td><td>16:53</td></tr>
+          </tbody>
+        </table></div>
       </div>
-      <div class="uroute-arm uroute-back">
-        <span class="ar-lbl ko-only">오는 편</span><span class="ar-lbl en-only">Return</span>
-        <span class="uroute-path ko-only">BEXCO <span class="ar">→</span> 파라다이스 <span class="ar">→</span> 시그니엘</span>
-        <span class="uroute-path en-only">BEXCO <span class="ar">→</span> Paradise <span class="ar">→</span> Signiel</span>
+      <div class="sched-phase">
+        <div class="sched-h"><span class="ko-only">집중 운행</span><span class="en-only">Peak</span></div>
+        <div class="sched-hbus"><table>
+          <thead><tr><th><span class="ko-only">회차</span><span class="en-only">Trip</span></th><th>8</th><th>9</th><th>10</th><th>11</th></tr></thead>
+          <tbody>
+            <tr><th>BEXCO</th><td>17:30</td><td>17:50</td><td>18:10</td><td>18:30</td></tr>
+            <tr><th><span class="ko-only">파라다이스</span><span class="en-only">Paradise</span></th><td>17:48</td><td>18:08</td><td>18:28</td><td>18:48</td></tr>
+            <tr><th><span class="ko-only">시그니엘</span><span class="en-only">Signiel</span></th><td>17:53</td><td>18:13</td><td>18:33</td><td>18:53</td></tr>
+          </tbody>
+        </table></div>
       </div>
-      <div class="uroute-curve" aria-hidden="true"></div>
     </div>
+
+    <!-- ══════════ 노선 A — 10/22 ══════════ -->
     <p class="sched-note reveal ko-block vr-a vd-1022" style="margin-top:14px">10/22(목) 운영시간: 프로그램 08:30-18:00(1그룹 종료 16:30) · 집중 운행 07:20-08:00(10분 간격) · 일반 운행 09:00-17:00(1시간 간격) · 집중 운행 17:00-18:30, 19:40-19:50(10분 간격)</p>
     <p class="sched-note reveal en-block vr-a vd-1022" style="margin-top:14px">Oct 22 (Thu) hours: Program 08:30-18:00 (Group 1 ends 16:30) · Peak 07:20-08:00 (every 10 min) · Regular 09:00-17:00 (hourly) · Peak 17:00-18:30, 19:40-19:50 (every 10 min)</p>
-    <div class="sched-grid reveal vr-a vd-1022 sched-grid-2col">
-      <div class="sched-col">
-        <h3 style="font-size:1rem;font-weight:700;margin:0 0 10px;color:var(--red)"><span class="ko-only">시그니엘 → BEXCO</span><span class="en-only">Signiel → BEXCO</span></h3>
-        <div class="sched-table"><table>
-          <thead><tr><th>#</th><th><span class="ko-only">시그니엘</span><span class="en-only">Signiel</span></th><th><span class="ko-only">파라다이스</span><span class="en-only">Paradise</span></th><th>BEXCO</th></tr></thead>
+    <div class="sched-dir reveal vr-a vd-1022">
+      <h3 class="sched-dir-h" style="color:var(--red)"><span class="ko-only">시그니엘 → BEXCO</span><span class="en-only">Signiel → BEXCO</span></h3>
+      <div class="sched-phase">
+        <div class="sched-h"><span class="ko-only">집중 운행</span><span class="en-only">Peak</span></div>
+        <div class="sched-hbus"><table>
+          <thead><tr><th><span class="ko-only">회차</span><span class="en-only">Trip</span></th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th></tr></thead>
           <tbody>
-            <tr><td colspan="4" style="text-align:left;font-weight:700;color:var(--muted);background:var(--bg,#f7f8fb)"><span class="ko-only">집중 운행</span><span class="en-only">Peak</span></td></tr>
-            <tr><td>1</td><td>7:20</td><td>7:27</td><td>7:45</td></tr>
-            <tr><td>2</td><td>7:30</td><td>7:37</td><td>7:55</td></tr>
-            <tr><td>3</td><td>7:40</td><td>7:47</td><td>8:05</td></tr>
-            <tr><td>4</td><td>7:50</td><td>7:57</td><td>8:15</td></tr>
-            <tr><td>5</td><td>8:00</td><td>8:07</td><td>8:25</td></tr>
-            <tr><td colspan="4" style="text-align:left;font-weight:700;color:var(--muted);background:var(--bg,#f7f8fb)"><span class="ko-only">일반 운행</span><span class="en-only">Regular</span></td></tr>
-            <tr><td>6</td><td>9:00</td><td>9:07</td><td>9:25</td></tr>
-            <tr><td>7</td><td>10:00</td><td>10:07</td><td>10:25</td></tr>
-            <tr><td>8</td><td>11:00</td><td>11:07</td><td>11:25</td></tr>
-            <tr><td>9</td><td>12:00</td><td>12:07</td><td>12:25</td></tr>
-            <tr><td>10</td><td>13:00</td><td>13:07</td><td>13:25</td></tr>
-            <tr><td>11</td><td>14:00</td><td>14:07</td><td>14:25</td></tr>
-            <tr><td>12</td><td>15:00</td><td>15:07</td><td>15:25</td></tr>
-            <tr><td>13</td><td>16:00</td><td>16:07</td><td>16:25</td></tr>
+            <tr><th><span class="ko-only">시그니엘</span><span class="en-only">Signiel</span></th><td>7:20</td><td>7:30</td><td>7:40</td><td>7:50</td><td>8:00</td></tr>
+            <tr><th><span class="ko-only">파라다이스</span><span class="en-only">Paradise</span></th><td>7:27</td><td>7:37</td><td>7:47</td><td>7:57</td><td>8:07</td></tr>
+            <tr><th>BEXCO</th><td>7:45</td><td>7:55</td><td>8:05</td><td>8:15</td><td>8:25</td></tr>
           </tbody>
         </table></div>
       </div>
-      <div class="sched-col">
-        <h3 style="font-size:1rem;font-weight:700;margin:0 0 10px;color:var(--navy)"><span class="ko-only">BEXCO → 시그니엘</span><span class="en-only">BEXCO → Signiel</span></h3>
-        <div class="sched-table"><table>
-          <thead><tr><th>#</th><th>BEXCO</th><th><span class="ko-only">파라다이스</span><span class="en-only">Paradise</span></th><th><span class="ko-only">시그니엘</span><span class="en-only">Signiel</span></th></tr></thead>
+      <div class="sched-phase">
+        <div class="sched-h"><span class="ko-only">일반 운행</span><span class="en-only">Regular</span></div>
+        <div class="sched-hbus"><table>
+          <thead><tr><th><span class="ko-only">회차</span><span class="en-only">Trip</span></th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>11</th><th>12</th><th>13</th></tr></thead>
           <tbody>
-            <tr><td colspan="4" style="text-align:left;font-weight:700;color:var(--muted);background:var(--bg,#f7f8fb)"><span class="ko-only">일반 운행</span><span class="en-only">Regular</span></td></tr>
-            <tr><td>1</td><td>10:30</td><td>10:48</td><td>10:53</td></tr>
-            <tr><td>2</td><td>11:30</td><td>11:48</td><td>11:53</td></tr>
-            <tr><td>3</td><td>12:30</td><td>12:48</td><td>12:53</td></tr>
-            <tr><td>4</td><td>13:30</td><td>13:48</td><td>13:53</td></tr>
-            <tr><td>5</td><td>14:30</td><td>14:48</td><td>14:53</td></tr>
-            <tr><td>6</td><td>15:30</td><td>15:48</td><td>15:53</td></tr>
-            <tr><td>7</td><td>16:30</td><td>16:48</td><td>16:53</td></tr>
-            <tr><td colspan="4" style="text-align:left;font-weight:700;color:var(--muted);background:var(--bg,#f7f8fb)"><span class="ko-only">집중 운행</span><span class="en-only">Peak</span></td></tr>
-            <tr><td>8</td><td>17:00</td><td>17:18</td><td>17:23</td></tr>
-            <tr><td>9</td><td>17:30</td><td>17:48</td><td>17:53</td></tr>
-            <tr><td>10</td><td>18:00</td><td>18:18</td><td>18:23</td></tr>
-            <tr><td>11</td><td>18:10</td><td>18:28</td><td>18:33</td></tr>
-            <tr><td>12</td><td>18:20</td><td>18:38</td><td>18:43</td></tr>
-            <tr><td>13</td><td>18:30</td><td>18:48</td><td>18:53</td></tr>
-            <tr><td colspan="4" style="text-align:left;font-weight:700;color:var(--muted);background:var(--bg,#f7f8fb)"><span class="ko-only">리셉션 운행</span><span class="en-only">Reception</span></td></tr>
-            <tr><td>14</td><td>19:40</td><td>19:58</td><td>20:03</td></tr>
-            <tr><td>15</td><td>19:50</td><td>20:08</td><td>20:13</td></tr>
+            <tr><th><span class="ko-only">시그니엘</span><span class="en-only">Signiel</span></th><td>9:00</td><td>10:00</td><td>11:00</td><td>12:00</td><td>13:00</td><td>14:00</td><td>15:00</td><td>16:00</td></tr>
+            <tr><th><span class="ko-only">파라다이스</span><span class="en-only">Paradise</span></th><td>9:07</td><td>10:07</td><td>11:07</td><td>12:07</td><td>13:07</td><td>14:07</td><td>15:07</td><td>16:07</td></tr>
+            <tr><th>BEXCO</th><td>9:25</td><td>10:25</td><td>11:25</td><td>12:25</td><td>13:25</td><td>14:25</td><td>15:25</td><td>16:25</td></tr>
           </tbody>
         </table></div>
       </div>
     </div>
-    <div class="uroute vr-a vd-1023">
-      <div class="uroute-arm uroute-out">
-        <span class="ar-lbl ko-only">가는 편</span><span class="ar-lbl en-only">Outbound</span>
-        <span class="uroute-path ko-only">시그니엘 <span class="ar">→</span> 파라다이스 <span class="ar">→</span> BEXCO</span>
-        <span class="uroute-path en-only">Signiel <span class="ar">→</span> Paradise <span class="ar">→</span> BEXCO</span>
+    <div class="sched-dir reveal vr-a vd-1022" style="margin-bottom:0">
+      <h3 class="sched-dir-h" style="color:var(--navy)"><span class="ko-only">BEXCO → 시그니엘</span><span class="en-only">BEXCO → Signiel</span></h3>
+      <div class="sched-phase">
+        <div class="sched-h"><span class="ko-only">일반 운행</span><span class="en-only">Regular</span></div>
+        <div class="sched-hbus"><table>
+          <thead><tr><th><span class="ko-only">회차</span><span class="en-only">Trip</span></th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th></tr></thead>
+          <tbody>
+            <tr><th>BEXCO</th><td>10:30</td><td>11:30</td><td>12:30</td><td>13:30</td><td>14:30</td><td>15:30</td><td>16:30</td></tr>
+            <tr><th><span class="ko-only">파라다이스</span><span class="en-only">Paradise</span></th><td>10:48</td><td>11:48</td><td>12:48</td><td>13:48</td><td>14:48</td><td>15:48</td><td>16:48</td></tr>
+            <tr><th><span class="ko-only">시그니엘</span><span class="en-only">Signiel</span></th><td>10:53</td><td>11:53</td><td>12:53</td><td>13:53</td><td>14:53</td><td>15:53</td><td>16:53</td></tr>
+          </tbody>
+        </table></div>
       </div>
-      <div class="uroute-arm uroute-back">
-        <span class="ar-lbl ko-only">오는 편</span><span class="ar-lbl en-only">Return</span>
-        <span class="uroute-path ko-only">BEXCO <span class="ar">→</span> 파라다이스 <span class="ar">→</span> 시그니엘</span>
-        <span class="uroute-path en-only">BEXCO <span class="ar">→</span> Paradise <span class="ar">→</span> Signiel</span>
+      <div class="sched-phase">
+        <div class="sched-h"><span class="ko-only">집중 운행</span><span class="en-only">Peak</span></div>
+        <div class="sched-hbus"><table>
+          <thead><tr><th><span class="ko-only">회차</span><span class="en-only">Trip</span></th><th>8</th><th>9</th><th>10</th><th>11</th><th>12</th><th>13</th></tr></thead>
+          <tbody>
+            <tr><th>BEXCO</th><td>17:00</td><td>17:30</td><td>18:00</td><td>18:10</td><td>18:20</td><td>18:30</td></tr>
+            <tr><th><span class="ko-only">파라다이스</span><span class="en-only">Paradise</span></th><td>17:18</td><td>17:48</td><td>18:18</td><td>18:28</td><td>18:38</td><td>18:48</td></tr>
+            <tr><th><span class="ko-only">시그니엘</span><span class="en-only">Signiel</span></th><td>17:23</td><td>17:53</td><td>18:23</td><td>18:33</td><td>18:43</td><td>18:53</td></tr>
+          </tbody>
+        </table></div>
       </div>
-      <div class="uroute-curve" aria-hidden="true"></div>
+      <div class="sched-phase">
+        <div class="sched-h"><span class="ko-only">리셉션 운행</span><span class="en-only">Reception</span></div>
+        <div class="sched-hbus"><table>
+          <thead><tr><th><span class="ko-only">회차</span><span class="en-only">Trip</span></th><th>14</th><th>15</th></tr></thead>
+          <tbody>
+            <tr><th>BEXCO</th><td>19:40</td><td>19:50</td></tr>
+            <tr><th><span class="ko-only">파라다이스</span><span class="en-only">Paradise</span></th><td>19:58</td><td>20:08</td></tr>
+            <tr><th><span class="ko-only">시그니엘</span><span class="en-only">Signiel</span></th><td>20:03</td><td>20:13</td></tr>
+          </tbody>
+        </table></div>
+      </div>
     </div>
+
+    <!-- ══════════ 노선 A — 10/23 ══════════ -->
     <p class="sched-note reveal ko-block vr-a vd-1023" style="margin-top:14px">10/23(금) 운영시간: 프로그램 08:30-16:50 · 집중 운행 07:20-08:00(10분 간격) · 일반 운행 09:00-17:00(1시간 간격) · 집중 운행 17:00-17:30(10분 간격) / 18:00 디너 만찬(시그니엘)</p>
     <p class="sched-note reveal en-block vr-a vd-1023" style="margin-top:14px">Oct 23 (Fri) hours: Program 08:30-16:50 · Peak 07:20-08:00 (every 10 min) · Regular 09:00-17:00 (hourly) · Peak 17:00-17:30 (every 10 min) / 18:00 Faculty Dinner (Signiel)</p>
-    <div class="sched-grid reveal vr-a vd-1023 sched-grid-2col">
-      <div class="sched-col">
-        <h3 style="font-size:1rem;font-weight:700;margin:0 0 10px;color:var(--red)"><span class="ko-only">시그니엘 → BEXCO</span><span class="en-only">Signiel → BEXCO</span></h3>
-        <div class="sched-table"><table>
-          <thead><tr><th>#</th><th><span class="ko-only">시그니엘</span><span class="en-only">Signiel</span></th><th><span class="ko-only">파라다이스</span><span class="en-only">Paradise</span></th><th>BEXCO</th></tr></thead>
+    <div class="sched-dir reveal vr-a vd-1023">
+      <h3 class="sched-dir-h" style="color:var(--red)"><span class="ko-only">시그니엘 → BEXCO</span><span class="en-only">Signiel → BEXCO</span></h3>
+      <div class="sched-phase">
+        <div class="sched-h"><span class="ko-only">집중 운행</span><span class="en-only">Peak</span></div>
+        <div class="sched-hbus"><table>
+          <thead><tr><th><span class="ko-only">회차</span><span class="en-only">Trip</span></th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th></tr></thead>
           <tbody>
-            <tr><td colspan="4" style="text-align:left;font-weight:700;color:var(--muted);background:var(--bg,#f7f8fb)"><span class="ko-only">집중 운행</span><span class="en-only">Peak</span></td></tr>
-            <tr><td>1</td><td>7:20</td><td>7:27</td><td>7:45</td></tr>
-            <tr><td>2</td><td>7:30</td><td>7:37</td><td>7:55</td></tr>
-            <tr><td>3</td><td>7:40</td><td>7:47</td><td>8:05</td></tr>
-            <tr><td>4</td><td>7:50</td><td>7:57</td><td>8:15</td></tr>
-            <tr><td>5</td><td>8:00</td><td>8:07</td><td>8:25</td></tr>
-            <tr><td colspan="4" style="text-align:left;font-weight:700;color:var(--muted);background:var(--bg,#f7f8fb)"><span class="ko-only">일반 운행</span><span class="en-only">Regular</span></td></tr>
-            <tr><td>6</td><td>9:00</td><td>9:07</td><td>9:25</td></tr>
-            <tr><td>7</td><td>10:00</td><td>10:07</td><td>10:25</td></tr>
-            <tr><td>8</td><td>11:00</td><td>11:07</td><td>11:25</td></tr>
-            <tr><td>9</td><td>12:00</td><td>12:07</td><td>12:25</td></tr>
-            <tr><td>10</td><td>13:00</td><td>13:07</td><td>13:25</td></tr>
-            <tr><td>11</td><td>14:00</td><td>14:07</td><td>14:25</td></tr>
-            <tr><td>12</td><td>15:00</td><td>15:07</td><td>15:25</td></tr>
-            <tr><td>13</td><td>16:00</td><td>16:07</td><td>16:25</td></tr>
+            <tr><th><span class="ko-only">시그니엘</span><span class="en-only">Signiel</span></th><td>7:20</td><td>7:30</td><td>7:40</td><td>7:50</td><td>8:00</td></tr>
+            <tr><th><span class="ko-only">파라다이스</span><span class="en-only">Paradise</span></th><td>7:27</td><td>7:37</td><td>7:47</td><td>7:57</td><td>8:07</td></tr>
+            <tr><th>BEXCO</th><td>7:45</td><td>7:55</td><td>8:05</td><td>8:15</td><td>8:25</td></tr>
           </tbody>
         </table></div>
       </div>
-      <div class="sched-col">
-        <h3 style="font-size:1rem;font-weight:700;margin:0 0 10px;color:var(--navy)"><span class="ko-only">BEXCO → 시그니엘</span><span class="en-only">BEXCO → Signiel</span></h3>
-        <div class="sched-table"><table>
-          <thead><tr><th>#</th><th>BEXCO</th><th><span class="ko-only">파라다이스</span><span class="en-only">Paradise</span></th><th><span class="ko-only">시그니엘</span><span class="en-only">Signiel</span></th></tr></thead>
+      <div class="sched-phase">
+        <div class="sched-h"><span class="ko-only">일반 운행</span><span class="en-only">Regular</span></div>
+        <div class="sched-hbus"><table>
+          <thead><tr><th><span class="ko-only">회차</span><span class="en-only">Trip</span></th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>11</th><th>12</th><th>13</th></tr></thead>
           <tbody>
-            <tr><td colspan="4" style="text-align:left;font-weight:700;color:var(--muted);background:var(--bg,#f7f8fb)"><span class="ko-only">일반 운행</span><span class="en-only">Regular</span></td></tr>
-            <tr><td>1</td><td>10:30</td><td>10:48</td><td>10:53</td></tr>
-            <tr><td>2</td><td>11:30</td><td>11:48</td><td>11:53</td></tr>
-            <tr><td>3</td><td>12:30</td><td>12:48</td><td>12:53</td></tr>
-            <tr><td>4</td><td>13:30</td><td>13:48</td><td>13:53</td></tr>
-            <tr><td>5</td><td>14:30</td><td>14:48</td><td>14:53</td></tr>
-            <tr><td>6</td><td>15:30</td><td>15:48</td><td>15:53</td></tr>
-            <tr><td>7</td><td>16:30</td><td>16:48</td><td>16:53</td></tr>
-            <tr><td colspan="4" style="text-align:left;font-weight:700;color:var(--muted);background:var(--bg,#f7f8fb)"><span class="ko-only">집중 운행</span><span class="en-only">Peak</span></td></tr>
-            <tr><td>8</td><td>17:00</td><td>17:18</td><td>17:23</td></tr>
-            <tr><td>9</td><td>17:10</td><td>17:28</td><td>17:33</td></tr>
-            <tr><td>10</td><td>17:20</td><td>17:38</td><td>17:43</td></tr>
-            <tr><td>11</td><td>17:30</td><td>17:48</td><td>17:53</td></tr>
+            <tr><th><span class="ko-only">시그니엘</span><span class="en-only">Signiel</span></th><td>9:00</td><td>10:00</td><td>11:00</td><td>12:00</td><td>13:00</td><td>14:00</td><td>15:00</td><td>16:00</td></tr>
+            <tr><th><span class="ko-only">파라다이스</span><span class="en-only">Paradise</span></th><td>9:07</td><td>10:07</td><td>11:07</td><td>12:07</td><td>13:07</td><td>14:07</td><td>15:07</td><td>16:07</td></tr>
+            <tr><th>BEXCO</th><td>9:25</td><td>10:25</td><td>11:25</td><td>12:25</td><td>13:25</td><td>14:25</td><td>15:25</td><td>16:25</td></tr>
           </tbody>
         </table></div>
       </div>
     </div>
-    <div class="uroute vr-a vd-1024">
-      <div class="uroute-arm uroute-out">
-        <span class="ar-lbl ko-only">가는 편</span><span class="ar-lbl en-only">Outbound</span>
-        <span class="uroute-path ko-only">시그니엘 <span class="ar">→</span> 파라다이스 <span class="ar">→</span> BEXCO</span>
-        <span class="uroute-path en-only">Signiel <span class="ar">→</span> Paradise <span class="ar">→</span> BEXCO</span>
+    <div class="sched-dir reveal vr-a vd-1023" style="margin-bottom:0">
+      <h3 class="sched-dir-h" style="color:var(--navy)"><span class="ko-only">BEXCO → 시그니엘</span><span class="en-only">BEXCO → Signiel</span></h3>
+      <div class="sched-phase">
+        <div class="sched-h"><span class="ko-only">일반 운행</span><span class="en-only">Regular</span></div>
+        <div class="sched-hbus"><table>
+          <thead><tr><th><span class="ko-only">회차</span><span class="en-only">Trip</span></th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th></tr></thead>
+          <tbody>
+            <tr><th>BEXCO</th><td>10:30</td><td>11:30</td><td>12:30</td><td>13:30</td><td>14:30</td><td>15:30</td><td>16:30</td></tr>
+            <tr><th><span class="ko-only">파라다이스</span><span class="en-only">Paradise</span></th><td>10:48</td><td>11:48</td><td>12:48</td><td>13:48</td><td>14:48</td><td>15:48</td><td>16:48</td></tr>
+            <tr><th><span class="ko-only">시그니엘</span><span class="en-only">Signiel</span></th><td>10:53</td><td>11:53</td><td>12:53</td><td>13:53</td><td>14:53</td><td>15:53</td><td>16:53</td></tr>
+          </tbody>
+        </table></div>
       </div>
-      <div class="uroute-arm uroute-back">
-        <span class="ar-lbl ko-only">오는 편</span><span class="ar-lbl en-only">Return</span>
-        <span class="uroute-path ko-only">BEXCO <span class="ar">→</span> 파라다이스 <span class="ar">→</span> 시그니엘</span>
-        <span class="uroute-path en-only">BEXCO <span class="ar">→</span> Paradise <span class="ar">→</span> Signiel</span>
+      <div class="sched-phase">
+        <div class="sched-h"><span class="ko-only">집중 운행</span><span class="en-only">Peak</span></div>
+        <div class="sched-hbus"><table>
+          <thead><tr><th><span class="ko-only">회차</span><span class="en-only">Trip</span></th><th>8</th><th>9</th><th>10</th><th>11</th></tr></thead>
+          <tbody>
+            <tr><th>BEXCO</th><td>17:00</td><td>17:10</td><td>17:20</td><td>17:30</td></tr>
+            <tr><th><span class="ko-only">파라다이스</span><span class="en-only">Paradise</span></th><td>17:18</td><td>17:28</td><td>17:38</td><td>17:48</td></tr>
+            <tr><th><span class="ko-only">시그니엘</span><span class="en-only">Signiel</span></th><td>17:23</td><td>17:33</td><td>17:43</td><td>17:53</td></tr>
+          </tbody>
+        </table></div>
       </div>
-      <div class="uroute-curve" aria-hidden="true"></div>
     </div>
+
+    <!-- ══════════ 노선 A — 10/24 ══════════ -->
     <p class="sched-note reveal ko-block vr-a vd-1024" style="margin-top:14px">10/24(토) 운영시간(폐회일): 프로그램 08:30-16:00(15:15 세션 종료) · 집중 운행 07:20-08:00(10분 간격) · 일반 운행 09:00-14:30(1시간 간격) · 집중 운행 15:20-16:00(10분 간격)</p>
     <p class="sched-note reveal en-block vr-a vd-1024" style="margin-top:14px">Oct 24 (Sat, closing day) hours: Program 08:30-16:00 (sessions end 15:15) · Peak 07:20-08:00 (every 10 min) · Regular 09:00-14:30 (hourly) · Peak 15:20-16:00 (every 10 min)</p>
-    <div class="sched-grid reveal vr-a vd-1024 sched-grid-2col">
-      <div class="sched-col">
-        <h3 style="font-size:1rem;font-weight:700;margin:0 0 10px;color:var(--red)"><span class="ko-only">시그니엘 → BEXCO</span><span class="en-only">Signiel → BEXCO</span></h3>
-        <div class="sched-table"><table>
-          <thead><tr><th>#</th><th><span class="ko-only">시그니엘</span><span class="en-only">Signiel</span></th><th><span class="ko-only">파라다이스</span><span class="en-only">Paradise</span></th><th>BEXCO</th></tr></thead>
+    <div class="sched-dir reveal vr-a vd-1024">
+      <h3 class="sched-dir-h" style="color:var(--red)"><span class="ko-only">시그니엘 → BEXCO</span><span class="en-only">Signiel → BEXCO</span></h3>
+      <div class="sched-phase">
+        <div class="sched-h"><span class="ko-only">집중 운행</span><span class="en-only">Peak</span></div>
+        <div class="sched-hbus"><table>
+          <thead><tr><th><span class="ko-only">회차</span><span class="en-only">Trip</span></th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th></tr></thead>
           <tbody>
-            <tr><td colspan="4" style="text-align:left;font-weight:700;color:var(--muted);background:var(--bg,#f7f8fb)"><span class="ko-only">집중 운행</span><span class="en-only">Peak</span></td></tr>
-            <tr><td>1</td><td>7:20</td><td>7:27</td><td>7:45</td></tr>
-            <tr><td>2</td><td>7:30</td><td>7:37</td><td>7:55</td></tr>
-            <tr><td>3</td><td>7:40</td><td>7:47</td><td>8:05</td></tr>
-            <tr><td>4</td><td>7:50</td><td>7:57</td><td>8:15</td></tr>
-            <tr><td>5</td><td>8:00</td><td>8:07</td><td>8:25</td></tr>
-            <tr><td colspan="4" style="text-align:left;font-weight:700;color:var(--muted);background:var(--bg,#f7f8fb)"><span class="ko-only">일반 운행</span><span class="en-only">Regular</span></td></tr>
-            <tr><td>6</td><td>9:00</td><td>9:07</td><td>9:25</td></tr>
-            <tr><td>7</td><td>10:00</td><td>10:07</td><td>10:25</td></tr>
-            <tr><td>8</td><td>11:00</td><td>11:07</td><td>11:25</td></tr>
-            <tr><td>9</td><td>12:00</td><td>12:07</td><td>12:25</td></tr>
-            <tr><td>10</td><td>13:00</td><td>13:07</td><td>13:25</td></tr>
-            <tr><td>11</td><td>14:00</td><td>14:07</td><td>14:25</td></tr>
+            <tr><th><span class="ko-only">시그니엘</span><span class="en-only">Signiel</span></th><td>7:20</td><td>7:30</td><td>7:40</td><td>7:50</td><td>8:00</td></tr>
+            <tr><th><span class="ko-only">파라다이스</span><span class="en-only">Paradise</span></th><td>7:27</td><td>7:37</td><td>7:47</td><td>7:57</td><td>8:07</td></tr>
+            <tr><th>BEXCO</th><td>7:45</td><td>7:55</td><td>8:05</td><td>8:15</td><td>8:25</td></tr>
           </tbody>
         </table></div>
       </div>
-      <div class="sched-col">
-        <h3 style="font-size:1rem;font-weight:700;margin:0 0 10px;color:var(--navy)"><span class="ko-only">BEXCO → 시그니엘</span><span class="en-only">BEXCO → Signiel</span></h3>
-        <div class="sched-table"><table>
-          <thead><tr><th>#</th><th>BEXCO</th><th><span class="ko-only">파라다이스</span><span class="en-only">Paradise</span></th><th><span class="ko-only">시그니엘</span><span class="en-only">Signiel</span></th></tr></thead>
+      <div class="sched-phase">
+        <div class="sched-h"><span class="ko-only">일반 운행</span><span class="en-only">Regular</span></div>
+        <div class="sched-hbus"><table>
+          <thead><tr><th><span class="ko-only">회차</span><span class="en-only">Trip</span></th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>11</th></tr></thead>
           <tbody>
-            <tr><td colspan="4" style="text-align:left;font-weight:700;color:var(--muted);background:var(--bg,#f7f8fb)"><span class="ko-only">일반 운행</span><span class="en-only">Regular</span></td></tr>
-            <tr><td>1</td><td>10:30</td><td>10:48</td><td>10:53</td></tr>
-            <tr><td>2</td><td>11:30</td><td>11:48</td><td>11:53</td></tr>
-            <tr><td>3</td><td>12:30</td><td>12:48</td><td>12:53</td></tr>
-            <tr><td>4</td><td>13:30</td><td>13:48</td><td>13:53</td></tr>
-            <tr><td>5</td><td>14:30</td><td>14:48</td><td>14:53</td></tr>
-            <tr><td colspan="4" style="text-align:left;font-weight:700;color:var(--muted);background:var(--bg,#f7f8fb)"><span class="ko-only">집중 운행</span><span class="en-only">Peak</span></td></tr>
-            <tr><td>6</td><td>15:20</td><td>15:38</td><td>15:43</td></tr>
-            <tr><td>7</td><td>15:30</td><td>15:48</td><td>15:53</td></tr>
-            <tr><td>8</td><td>15:40</td><td>15:58</td><td>16:03</td></tr>
-            <tr><td>9</td><td>15:50</td><td>16:08</td><td>16:13</td></tr>
-            <tr><td>10</td><td>16:00</td><td>16:18</td><td>16:23</td></tr>
+            <tr><th><span class="ko-only">시그니엘</span><span class="en-only">Signiel</span></th><td>9:00</td><td>10:00</td><td>11:00</td><td>12:00</td><td>13:00</td><td>14:00</td></tr>
+            <tr><th><span class="ko-only">파라다이스</span><span class="en-only">Paradise</span></th><td>9:07</td><td>10:07</td><td>11:07</td><td>12:07</td><td>13:07</td><td>14:07</td></tr>
+            <tr><th>BEXCO</th><td>9:25</td><td>10:25</td><td>11:25</td><td>12:25</td><td>13:25</td><td>14:25</td></tr>
           </tbody>
         </table></div>
       </div>
     </div>
-    <div class="uroute vr-b vd-1021">
-      <div class="uroute-arm uroute-out">
-        <span class="ar-lbl ko-only">가는 편</span><span class="ar-lbl en-only">Outbound</span>
-        <span class="uroute-path ko-only">웨스틴조선 <span class="ar">→</span> 파크하얏트 <span class="ar">→</span> BEXCO</span>
-        <span class="uroute-path en-only">Westin Josun <span class="ar">→</span> Park Hyatt <span class="ar">→</span> BEXCO</span>
+    <div class="sched-dir reveal vr-a vd-1024" style="margin-bottom:0">
+      <h3 class="sched-dir-h" style="color:var(--navy)"><span class="ko-only">BEXCO → 시그니엘</span><span class="en-only">BEXCO → Signiel</span></h3>
+      <div class="sched-phase">
+        <div class="sched-h"><span class="ko-only">일반 운행</span><span class="en-only">Regular</span></div>
+        <div class="sched-hbus"><table>
+          <thead><tr><th><span class="ko-only">회차</span><span class="en-only">Trip</span></th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th></tr></thead>
+          <tbody>
+            <tr><th>BEXCO</th><td>10:30</td><td>11:30</td><td>12:30</td><td>13:30</td><td>14:30</td></tr>
+            <tr><th><span class="ko-only">파라다이스</span><span class="en-only">Paradise</span></th><td>10:48</td><td>11:48</td><td>12:48</td><td>13:48</td><td>14:48</td></tr>
+            <tr><th><span class="ko-only">시그니엘</span><span class="en-only">Signiel</span></th><td>10:53</td><td>11:53</td><td>12:53</td><td>13:53</td><td>14:53</td></tr>
+          </tbody>
+        </table></div>
       </div>
-      <div class="uroute-arm uroute-back">
-        <span class="ar-lbl ko-only">오는 편</span><span class="ar-lbl en-only">Return</span>
-        <span class="uroute-path ko-only">BEXCO <span class="ar">→</span> 파크하얏트 <span class="ar">→</span> 웨스틴조선</span>
-        <span class="uroute-path en-only">BEXCO <span class="ar">→</span> Park Hyatt <span class="ar">→</span> Westin Josun</span>
+      <div class="sched-phase">
+        <div class="sched-h"><span class="ko-only">집중 운행</span><span class="en-only">Peak</span></div>
+        <div class="sched-hbus"><table>
+          <thead><tr><th><span class="ko-only">회차</span><span class="en-only">Trip</span></th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th></tr></thead>
+          <tbody>
+            <tr><th>BEXCO</th><td>15:20</td><td>15:30</td><td>15:40</td><td>15:50</td><td>16:00</td></tr>
+            <tr><th><span class="ko-only">파라다이스</span><span class="en-only">Paradise</span></th><td>15:38</td><td>15:48</td><td>15:58</td><td>16:08</td><td>16:18</td></tr>
+            <tr><th><span class="ko-only">시그니엘</span><span class="en-only">Signiel</span></th><td>15:43</td><td>15:53</td><td>16:03</td><td>16:13</td><td>16:23</td></tr>
+          </tbody>
+        </table></div>
       </div>
-      <div class="uroute-curve" aria-hidden="true"></div>
     </div>
+
+    <!-- ══════════ 노선 B — 10/21 ══════════ -->
     <p class="sched-note reveal ko-block vr-b vd-1021" style="margin-top:14px">10/21(수) 운영시간: 프로그램 08:00-17:15 · 집중 운행 07:00-10:00(20분 간격) · 일반 운행 08:30-17:00(1시간 간격) · 집중 운행 17:30-18:20(20분 간격)</p>
     <p class="sched-note reveal en-block vr-b vd-1021" style="margin-top:14px">Oct 21 (Wed) hours: Program 08:00-17:15 · Peak 07:00-10:00 (every 20 min) · Regular 08:30-17:00 (hourly) · Peak 17:30-18:20 (every 20 min)</p>
-    <div class="sched-grid reveal vr-b vd-1021 sched-grid-2col">
-      <div class="sched-col">
-        <h3 style="font-size:1rem;font-weight:700;margin:0 0 10px;color:var(--red)"><span class="ko-only">웨스틴조선 → BEXCO</span><span class="en-only">Westin Josun → BEXCO</span></h3>
-        <div class="sched-table"><table>
-          <thead><tr><th>#</th><th><span class="ko-only">웨스틴조선</span><span class="en-only">Westin Josun</span></th><th><span class="ko-only">파크하얏트</span><span class="en-only">Park Hyatt</span></th><th>BEXCO</th></tr></thead>
+    <div class="sched-dir reveal vr-b vd-1021">
+      <h3 class="sched-dir-h" style="color:var(--red)"><span class="ko-only">웨스틴조선 → BEXCO</span><span class="en-only">Westin Josun → BEXCO</span></h3>
+      <div class="sched-phase">
+        <div class="sched-h"><span class="ko-only">집중 운행</span><span class="en-only">Peak</span></div>
+        <div class="sched-hbus"><table>
+          <thead><tr><th><span class="ko-only">회차</span><span class="en-only">Trip</span></th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th></tr></thead>
           <tbody>
-            <tr><td colspan="4" style="text-align:left;font-weight:700;color:var(--muted);background:var(--bg,#f7f8fb)"><span class="ko-only">집중 운행</span><span class="en-only">Peak</span></td></tr>
-            <tr><td>1</td><td>7:00</td><td>7:10</td><td>7:20</td></tr>
-            <tr><td>2</td><td>7:20</td><td>7:30</td><td>7:40</td></tr>
-            <tr><td>3</td><td>7:40</td><td>7:50</td><td>8:00</td></tr>
-            <tr><td>4</td><td>8:00</td><td>8:10</td><td>8:20</td></tr>
-            <tr><td>5</td><td>8:20</td><td>8:30</td><td>8:40</td></tr>
-            <tr><td>6</td><td>8:40</td><td>8:50</td><td>9:00</td></tr>
-            <tr><td>7</td><td>9:00</td><td>9:10</td><td>9:20</td></tr>
-            <tr><td>8</td><td>9:20</td><td>9:30</td><td>9:40</td></tr>
-            <tr><td>9</td><td>9:40</td><td>9:50</td><td>10:00</td></tr>
-            <tr><td colspan="4" style="text-align:left;font-weight:700;color:var(--muted);background:var(--bg,#f7f8fb)"><span class="ko-only">일반 운행</span><span class="en-only">Regular</span></td></tr>
-            <tr><td>10</td><td>10:00</td><td>10:10</td><td>10:20</td></tr>
-            <tr><td>11</td><td>11:00</td><td>11:10</td><td>11:20</td></tr>
-            <tr><td>12</td><td>12:00</td><td>12:10</td><td>12:20</td></tr>
-            <tr><td>13</td><td>13:00</td><td>13:10</td><td>13:20</td></tr>
-            <tr><td>14</td><td>14:00</td><td>14:10</td><td>14:20</td></tr>
-            <tr><td>15</td><td>15:00</td><td>15:10</td><td>15:20</td></tr>
-            <tr><td>16</td><td>16:00</td><td>16:10</td><td>16:20</td></tr>
+            <tr><th><span class="ko-only">웨스틴조선</span><span class="en-only">Westin Josun</span></th><td>7:00</td><td>7:20</td><td>7:40</td><td>8:00</td><td>8:20</td><td>8:40</td><td>9:00</td><td>9:20</td><td>9:40</td></tr>
+            <tr><th><span class="ko-only">파크하얏트</span><span class="en-only">Park Hyatt</span></th><td>7:10</td><td>7:30</td><td>7:50</td><td>8:10</td><td>8:30</td><td>8:50</td><td>9:10</td><td>9:30</td><td>9:50</td></tr>
+            <tr><th>BEXCO</th><td>7:20</td><td>7:40</td><td>8:00</td><td>8:20</td><td>8:40</td><td>9:00</td><td>9:20</td><td>9:40</td><td>10:00</td></tr>
           </tbody>
         </table></div>
       </div>
-      <div class="sched-col">
-        <h3 style="font-size:1rem;font-weight:700;margin:0 0 10px;color:var(--navy)"><span class="ko-only">BEXCO → 웨스틴조선</span><span class="en-only">BEXCO → Westin Josun</span></h3>
-        <div class="sched-table"><table>
-          <thead><tr><th>#</th><th>BEXCO</th><th><span class="ko-only">파크하얏트</span><span class="en-only">Park Hyatt</span></th><th><span class="ko-only">웨스틴조선</span><span class="en-only">Westin Josun</span></th></tr></thead>
+      <div class="sched-phase">
+        <div class="sched-h"><span class="ko-only">일반 운행</span><span class="en-only">Regular</span></div>
+        <div class="sched-hbus"><table>
+          <thead><tr><th><span class="ko-only">회차</span><span class="en-only">Trip</span></th><th>10</th><th>11</th><th>12</th><th>13</th><th>14</th><th>15</th><th>16</th></tr></thead>
           <tbody>
-            <tr><td colspan="4" style="text-align:left;font-weight:700;color:var(--muted);background:var(--bg,#f7f8fb)"><span class="ko-only">일반 운행</span><span class="en-only">Regular</span></td></tr>
-            <tr><td>1</td><td>10:30</td><td>10:42</td><td>10:50</td></tr>
-            <tr><td>2</td><td>11:30</td><td>11:42</td><td>11:50</td></tr>
-            <tr><td>3</td><td>12:30</td><td>12:42</td><td>12:50</td></tr>
-            <tr><td>4</td><td>13:30</td><td>13:42</td><td>13:50</td></tr>
-            <tr><td>5</td><td>14:30</td><td>14:42</td><td>14:50</td></tr>
-            <tr><td>6</td><td>15:30</td><td>15:42</td><td>15:50</td></tr>
-            <tr><td>7</td><td>16:30</td><td>16:42</td><td>16:50</td></tr>
-            <tr><td colspan="4" style="text-align:left;font-weight:700;color:var(--muted);background:var(--bg,#f7f8fb)"><span class="ko-only">집중 운행</span><span class="en-only">Peak</span></td></tr>
-            <tr><td>8</td><td>17:30</td><td>17:42</td><td>17:50</td></tr>
-            <tr><td>9</td><td>17:50</td><td>18:02</td><td>18:10</td></tr>
-            <tr><td>10</td><td>18:10</td><td>18:22</td><td>18:30</td></tr>
-            <tr><td>11</td><td>18:30</td><td>18:42</td><td>18:50</td></tr>
+            <tr><th><span class="ko-only">웨스틴조선</span><span class="en-only">Westin Josun</span></th><td>10:00</td><td>11:00</td><td>12:00</td><td>13:00</td><td>14:00</td><td>15:00</td><td>16:00</td></tr>
+            <tr><th><span class="ko-only">파크하얏트</span><span class="en-only">Park Hyatt</span></th><td>10:10</td><td>11:10</td><td>12:10</td><td>13:10</td><td>14:10</td><td>15:10</td><td>16:10</td></tr>
+            <tr><th>BEXCO</th><td>10:20</td><td>11:20</td><td>12:20</td><td>13:20</td><td>14:20</td><td>15:20</td><td>16:20</td></tr>
           </tbody>
         </table></div>
       </div>
     </div>
-    <div class="uroute vr-b vd-1022">
-      <div class="uroute-arm uroute-out">
-        <span class="ar-lbl ko-only">가는 편</span><span class="ar-lbl en-only">Outbound</span>
-        <span class="uroute-path ko-only">웨스틴조선 <span class="ar">→</span> 파크하얏트 <span class="ar">→</span> BEXCO</span>
-        <span class="uroute-path en-only">Westin Josun <span class="ar">→</span> Park Hyatt <span class="ar">→</span> BEXCO</span>
+    <div class="sched-dir reveal vr-b vd-1021" style="margin-bottom:0">
+      <h3 class="sched-dir-h" style="color:var(--navy)"><span class="ko-only">BEXCO → 웨스틴조선</span><span class="en-only">BEXCO → Westin Josun</span></h3>
+      <div class="sched-phase">
+        <div class="sched-h"><span class="ko-only">일반 운행</span><span class="en-only">Regular</span></div>
+        <div class="sched-hbus"><table>
+          <thead><tr><th><span class="ko-only">회차</span><span class="en-only">Trip</span></th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th></tr></thead>
+          <tbody>
+            <tr><th>BEXCO</th><td>10:30</td><td>11:30</td><td>12:30</td><td>13:30</td><td>14:30</td><td>15:30</td><td>16:30</td></tr>
+            <tr><th><span class="ko-only">파크하얏트</span><span class="en-only">Park Hyatt</span></th><td>10:42</td><td>11:42</td><td>12:42</td><td>13:42</td><td>14:42</td><td>15:42</td><td>16:42</td></tr>
+            <tr><th><span class="ko-only">웨스틴조선</span><span class="en-only">Westin Josun</span></th><td>10:50</td><td>11:50</td><td>12:50</td><td>13:50</td><td>14:50</td><td>15:50</td><td>16:50</td></tr>
+          </tbody>
+        </table></div>
       </div>
-      <div class="uroute-arm uroute-back">
-        <span class="ar-lbl ko-only">오는 편</span><span class="ar-lbl en-only">Return</span>
-        <span class="uroute-path ko-only">BEXCO <span class="ar">→</span> 파크하얏트 <span class="ar">→</span> 웨스틴조선</span>
-        <span class="uroute-path en-only">BEXCO <span class="ar">→</span> Park Hyatt <span class="ar">→</span> Westin Josun</span>
+      <div class="sched-phase">
+        <div class="sched-h"><span class="ko-only">집중 운행</span><span class="en-only">Peak</span></div>
+        <div class="sched-hbus"><table>
+          <thead><tr><th><span class="ko-only">회차</span><span class="en-only">Trip</span></th><th>8</th><th>9</th><th>10</th><th>11</th></tr></thead>
+          <tbody>
+            <tr><th>BEXCO</th><td>17:30</td><td>17:50</td><td>18:10</td><td>18:30</td></tr>
+            <tr><th><span class="ko-only">파크하얏트</span><span class="en-only">Park Hyatt</span></th><td>17:42</td><td>18:02</td><td>18:22</td><td>18:42</td></tr>
+            <tr><th><span class="ko-only">웨스틴조선</span><span class="en-only">Westin Josun</span></th><td>17:50</td><td>18:10</td><td>18:30</td><td>18:50</td></tr>
+          </tbody>
+        </table></div>
       </div>
-      <div class="uroute-curve" aria-hidden="true"></div>
     </div>
+
+    <!-- ══════════ 노선 B — 10/22 ══════════ -->
     <p class="sched-note reveal ko-block vr-b vd-1022" style="margin-top:14px">10/22(목) 운영시간: 프로그램 08:30-18:00(1그룹 종료 16:30) · 집중 운행 07:20-08:00(10분 간격) · 일반 운행 09:00-17:00(1시간 간격) · 집중 운행 17:00-18:30, 19:40-19:50(10분 간격)</p>
     <p class="sched-note reveal en-block vr-b vd-1022" style="margin-top:14px">Oct 22 (Thu) hours: Program 08:30-18:00 (Group 1 ends 16:30) · Peak 07:20-08:00 (every 10 min) · Regular 09:00-17:00 (hourly) · Peak 17:00-18:30, 19:40-19:50 (every 10 min)</p>
-    <div class="sched-grid reveal vr-b vd-1022 sched-grid-2col">
-      <div class="sched-col">
-        <h3 style="font-size:1rem;font-weight:700;margin:0 0 10px;color:var(--red)"><span class="ko-only">웨스틴조선 → BEXCO</span><span class="en-only">Westin Josun → BEXCO</span></h3>
-        <div class="sched-table"><table>
-          <thead><tr><th>#</th><th><span class="ko-only">웨스틴조선</span><span class="en-only">Westin Josun</span></th><th><span class="ko-only">파크하얏트</span><span class="en-only">Park Hyatt</span></th><th>BEXCO</th></tr></thead>
+    <div class="sched-dir reveal vr-b vd-1022">
+      <h3 class="sched-dir-h" style="color:var(--red)"><span class="ko-only">웨스틴조선 → BEXCO</span><span class="en-only">Westin Josun → BEXCO</span></h3>
+      <div class="sched-phase">
+        <div class="sched-h"><span class="ko-only">집중 운행</span><span class="en-only">Peak</span></div>
+        <div class="sched-hbus"><table>
+          <thead><tr><th><span class="ko-only">회차</span><span class="en-only">Trip</span></th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th></tr></thead>
           <tbody>
-            <tr><td colspan="4" style="text-align:left;font-weight:700;color:var(--muted);background:var(--bg,#f7f8fb)"><span class="ko-only">집중 운행</span><span class="en-only">Peak</span></td></tr>
-            <tr><td>1</td><td>7:20</td><td>7:30</td><td>7:40</td></tr>
-            <tr><td>2</td><td>7:30</td><td>7:40</td><td>7:50</td></tr>
-            <tr><td>3</td><td>7:40</td><td>7:50</td><td>8:00</td></tr>
-            <tr><td>4</td><td>7:50</td><td>8:00</td><td>8:10</td></tr>
-            <tr><td>5</td><td>8:00</td><td>8:10</td><td>8:20</td></tr>
-            <tr><td colspan="4" style="text-align:left;font-weight:700;color:var(--muted);background:var(--bg,#f7f8fb)"><span class="ko-only">일반 운행</span><span class="en-only">Regular</span></td></tr>
-            <tr><td>6</td><td>9:00</td><td>9:10</td><td>9:20</td></tr>
-            <tr><td>7</td><td>10:00</td><td>10:10</td><td>10:20</td></tr>
-            <tr><td>8</td><td>11:00</td><td>11:10</td><td>11:20</td></tr>
-            <tr><td>9</td><td>12:00</td><td>12:10</td><td>12:20</td></tr>
-            <tr><td>10</td><td>13:00</td><td>13:10</td><td>13:20</td></tr>
-            <tr><td>11</td><td>14:00</td><td>14:10</td><td>14:20</td></tr>
-            <tr><td>12</td><td>15:00</td><td>15:10</td><td>15:20</td></tr>
-            <tr><td>13</td><td>16:00</td><td>16:10</td><td>16:20</td></tr>
+            <tr><th><span class="ko-only">웨스틴조선</span><span class="en-only">Westin Josun</span></th><td>7:20</td><td>7:30</td><td>7:40</td><td>7:50</td><td>8:00</td></tr>
+            <tr><th><span class="ko-only">파크하얏트</span><span class="en-only">Park Hyatt</span></th><td>7:30</td><td>7:40</td><td>7:50</td><td>8:00</td><td>8:10</td></tr>
+            <tr><th>BEXCO</th><td>7:40</td><td>7:50</td><td>8:00</td><td>8:10</td><td>8:20</td></tr>
           </tbody>
         </table></div>
       </div>
-      <div class="sched-col">
-        <h3 style="font-size:1rem;font-weight:700;margin:0 0 10px;color:var(--navy)"><span class="ko-only">BEXCO → 웨스틴조선</span><span class="en-only">BEXCO → Westin Josun</span></h3>
-        <div class="sched-table"><table>
-          <thead><tr><th>#</th><th>BEXCO</th><th><span class="ko-only">파크하얏트</span><span class="en-only">Park Hyatt</span></th><th><span class="ko-only">웨스틴조선</span><span class="en-only">Westin Josun</span></th></tr></thead>
+      <div class="sched-phase">
+        <div class="sched-h"><span class="ko-only">일반 운행</span><span class="en-only">Regular</span></div>
+        <div class="sched-hbus"><table>
+          <thead><tr><th><span class="ko-only">회차</span><span class="en-only">Trip</span></th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>11</th><th>12</th><th>13</th></tr></thead>
           <tbody>
-            <tr><td colspan="4" style="text-align:left;font-weight:700;color:var(--muted);background:var(--bg,#f7f8fb)"><span class="ko-only">일반 운행</span><span class="en-only">Regular</span></td></tr>
-            <tr><td>1</td><td>10:30</td><td>10:42</td><td>10:50</td></tr>
-            <tr><td>2</td><td>11:30</td><td>11:42</td><td>11:50</td></tr>
-            <tr><td>3</td><td>12:30</td><td>12:42</td><td>12:50</td></tr>
-            <tr><td>4</td><td>13:30</td><td>13:42</td><td>13:50</td></tr>
-            <tr><td>5</td><td>14:30</td><td>14:42</td><td>14:50</td></tr>
-            <tr><td>6</td><td>15:30</td><td>15:42</td><td>15:50</td></tr>
-            <tr><td>7</td><td>16:30</td><td>16:42</td><td>16:50</td></tr>
-            <tr><td colspan="4" style="text-align:left;font-weight:700;color:var(--muted);background:var(--bg,#f7f8fb)"><span class="ko-only">집중 운행</span><span class="en-only">Peak</span></td></tr>
-            <tr><td>8</td><td>17:00</td><td>17:12</td><td>17:20</td></tr>
-            <tr><td>9</td><td>17:30</td><td>17:42</td><td>17:50</td></tr>
-            <tr><td>10</td><td>18:00</td><td>18:12</td><td>18:20</td></tr>
-            <tr><td>11</td><td>18:10</td><td>18:22</td><td>18:30</td></tr>
-            <tr><td>12</td><td>18:20</td><td>18:32</td><td>18:40</td></tr>
-            <tr><td>13</td><td>18:30</td><td>18:42</td><td>18:50</td></tr>
-            <tr><td colspan="4" style="text-align:left;font-weight:700;color:var(--muted);background:var(--bg,#f7f8fb)"><span class="ko-only">리셉션 운행</span><span class="en-only">Reception</span></td></tr>
-            <tr><td>14</td><td>19:40</td><td>19:52</td><td>20:00</td></tr>
-            <tr><td>15</td><td>19:50</td><td>20:02</td><td>20:10</td></tr>
+            <tr><th><span class="ko-only">웨스틴조선</span><span class="en-only">Westin Josun</span></th><td>9:00</td><td>10:00</td><td>11:00</td><td>12:00</td><td>13:00</td><td>14:00</td><td>15:00</td><td>16:00</td></tr>
+            <tr><th><span class="ko-only">파크하얏트</span><span class="en-only">Park Hyatt</span></th><td>9:10</td><td>10:10</td><td>11:10</td><td>12:10</td><td>13:10</td><td>14:10</td><td>15:10</td><td>16:10</td></tr>
+            <tr><th>BEXCO</th><td>9:20</td><td>10:20</td><td>11:20</td><td>12:20</td><td>13:20</td><td>14:20</td><td>15:20</td><td>16:20</td></tr>
           </tbody>
         </table></div>
       </div>
     </div>
-    <div class="uroute vr-b vd-1023">
-      <div class="uroute-arm uroute-out">
-        <span class="ar-lbl ko-only">가는 편</span><span class="ar-lbl en-only">Outbound</span>
-        <span class="uroute-path ko-only">웨스틴조선 <span class="ar">→</span> 파크하얏트 <span class="ar">→</span> BEXCO</span>
-        <span class="uroute-path en-only">Westin Josun <span class="ar">→</span> Park Hyatt <span class="ar">→</span> BEXCO</span>
+    <div class="sched-dir reveal vr-b vd-1022" style="margin-bottom:0">
+      <h3 class="sched-dir-h" style="color:var(--navy)"><span class="ko-only">BEXCO → 웨스틴조선</span><span class="en-only">BEXCO → Westin Josun</span></h3>
+      <div class="sched-phase">
+        <div class="sched-h"><span class="ko-only">일반 운행</span><span class="en-only">Regular</span></div>
+        <div class="sched-hbus"><table>
+          <thead><tr><th><span class="ko-only">회차</span><span class="en-only">Trip</span></th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th></tr></thead>
+          <tbody>
+            <tr><th>BEXCO</th><td>10:30</td><td>11:30</td><td>12:30</td><td>13:30</td><td>14:30</td><td>15:30</td><td>16:30</td></tr>
+            <tr><th><span class="ko-only">파크하얏트</span><span class="en-only">Park Hyatt</span></th><td>10:42</td><td>11:42</td><td>12:42</td><td>13:42</td><td>14:42</td><td>15:42</td><td>16:42</td></tr>
+            <tr><th><span class="ko-only">웨스틴조선</span><span class="en-only">Westin Josun</span></th><td>10:50</td><td>11:50</td><td>12:50</td><td>13:50</td><td>14:50</td><td>15:50</td><td>16:50</td></tr>
+          </tbody>
+        </table></div>
       </div>
-      <div class="uroute-arm uroute-back">
-        <span class="ar-lbl ko-only">오는 편 (17시 이후 시그니엘까지 연장)</span><span class="ar-lbl en-only">Return (extends to Signiel after 17:00)</span>
-        <span class="uroute-path ko-only">BEXCO <span class="ar">→</span> 파크하얏트 <span class="ar">→</span> 웨스틴조선</span>
-        <span class="uroute-path en-only">BEXCO <span class="ar">→</span> Park Hyatt <span class="ar">→</span> Westin Josun</span>
+      <div class="sched-phase">
+        <div class="sched-h"><span class="ko-only">집중 운행</span><span class="en-only">Peak</span></div>
+        <div class="sched-hbus"><table>
+          <thead><tr><th><span class="ko-only">회차</span><span class="en-only">Trip</span></th><th>8</th><th>9</th><th>10</th><th>11</th><th>12</th><th>13</th></tr></thead>
+          <tbody>
+            <tr><th>BEXCO</th><td>17:00</td><td>17:30</td><td>18:00</td><td>18:10</td><td>18:20</td><td>18:30</td></tr>
+            <tr><th><span class="ko-only">파크하얏트</span><span class="en-only">Park Hyatt</span></th><td>17:12</td><td>17:42</td><td>18:12</td><td>18:22</td><td>18:32</td><td>18:42</td></tr>
+            <tr><th><span class="ko-only">웨스틴조선</span><span class="en-only">Westin Josun</span></th><td>17:20</td><td>17:50</td><td>18:20</td><td>18:30</td><td>18:40</td><td>18:50</td></tr>
+          </tbody>
+        </table></div>
       </div>
-      <div class="uroute-curve" aria-hidden="true"></div>
+      <div class="sched-phase">
+        <div class="sched-h"><span class="ko-only">리셉션 운행</span><span class="en-only">Reception</span></div>
+        <div class="sched-hbus"><table>
+          <thead><tr><th><span class="ko-only">회차</span><span class="en-only">Trip</span></th><th>14</th><th>15</th></tr></thead>
+          <tbody>
+            <tr><th>BEXCO</th><td>19:40</td><td>19:50</td></tr>
+            <tr><th><span class="ko-only">파크하얏트</span><span class="en-only">Park Hyatt</span></th><td>19:52</td><td>20:02</td></tr>
+            <tr><th><span class="ko-only">웨스틴조선</span><span class="en-only">Westin Josun</span></th><td>20:00</td><td>20:10</td></tr>
+          </tbody>
+        </table></div>
+      </div>
     </div>
+
+    <!-- ══════════ 노선 B — 10/23 ══════════ -->
     <p class="sched-note reveal ko-block vr-b vd-1023" style="margin-top:14px">10/23(금) 운영시간: 프로그램 08:30-16:50 · 집중 운행 07:20-08:00(10분 간격) · 일반 운행 09:00-17:00(1시간 간격) · 집중 운행 17:00-17:30(10분 간격) / 18:00 디너 만찬(시그니엘) — 17시 이후 오는 편은 시그니엘(만찬장)까지 연장 운행합니다.</p>
     <p class="sched-note reveal en-block vr-b vd-1023" style="margin-top:14px">Oct 23 (Fri) hours: Program 08:30-16:50 · Peak 07:20-08:00 (every 10 min) · Regular 09:00-17:00 (hourly) · Peak 17:00-17:30 (every 10 min) / 18:00 Faculty Dinner (Signiel) — after 17:00, return trips extend to Signiel (dinner venue).</p>
-    <div class="sched-grid reveal vr-b vd-1023 sched-grid-2col">
-      <div class="sched-col">
-        <h3 style="font-size:1rem;font-weight:700;margin:0 0 10px;color:var(--red)"><span class="ko-only">웨스틴조선 → BEXCO</span><span class="en-only">Westin Josun → BEXCO</span></h3>
-        <div class="sched-table"><table>
-          <thead><tr><th>#</th><th><span class="ko-only">웨스틴조선</span><span class="en-only">Westin Josun</span></th><th><span class="ko-only">파크하얏트</span><span class="en-only">Park Hyatt</span></th><th>BEXCO</th></tr></thead>
+    <div class="sched-dir reveal vr-b vd-1023">
+      <h3 class="sched-dir-h" style="color:var(--red)"><span class="ko-only">웨스틴조선 → BEXCO</span><span class="en-only">Westin Josun → BEXCO</span></h3>
+      <div class="sched-phase">
+        <div class="sched-h"><span class="ko-only">집중 운행</span><span class="en-only">Peak</span></div>
+        <div class="sched-hbus"><table>
+          <thead><tr><th><span class="ko-only">회차</span><span class="en-only">Trip</span></th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th></tr></thead>
           <tbody>
-            <tr><td colspan="4" style="text-align:left;font-weight:700;color:var(--muted);background:var(--bg,#f7f8fb)"><span class="ko-only">집중 운행</span><span class="en-only">Peak</span></td></tr>
-            <tr><td>1</td><td>7:20</td><td>7:30</td><td>7:40</td></tr>
-            <tr><td>2</td><td>7:30</td><td>7:40</td><td>7:50</td></tr>
-            <tr><td>3</td><td>7:40</td><td>7:50</td><td>8:00</td></tr>
-            <tr><td>4</td><td>7:50</td><td>8:00</td><td>8:10</td></tr>
-            <tr><td>5</td><td>8:00</td><td>8:10</td><td>8:20</td></tr>
-            <tr><td colspan="4" style="text-align:left;font-weight:700;color:var(--muted);background:var(--bg,#f7f8fb)"><span class="ko-only">일반 운행</span><span class="en-only">Regular</span></td></tr>
-            <tr><td>6</td><td>9:00</td><td>9:10</td><td>9:20</td></tr>
-            <tr><td>7</td><td>10:00</td><td>10:10</td><td>10:20</td></tr>
-            <tr><td>8</td><td>11:00</td><td>11:10</td><td>11:20</td></tr>
-            <tr><td>9</td><td>12:00</td><td>12:10</td><td>12:20</td></tr>
-            <tr><td>10</td><td>13:00</td><td>13:10</td><td>13:20</td></tr>
-            <tr><td>11</td><td>14:00</td><td>14:10</td><td>14:20</td></tr>
-            <tr><td>12</td><td>15:00</td><td>15:10</td><td>15:20</td></tr>
-            <tr><td>13</td><td>16:00</td><td>16:10</td><td>16:20</td></tr>
+            <tr><th><span class="ko-only">웨스틴조선</span><span class="en-only">Westin Josun</span></th><td>7:20</td><td>7:30</td><td>7:40</td><td>7:50</td><td>8:00</td></tr>
+            <tr><th><span class="ko-only">파크하얏트</span><span class="en-only">Park Hyatt</span></th><td>7:30</td><td>7:40</td><td>7:50</td><td>8:00</td><td>8:10</td></tr>
+            <tr><th>BEXCO</th><td>7:40</td><td>7:50</td><td>8:00</td><td>8:10</td><td>8:20</td></tr>
           </tbody>
         </table></div>
       </div>
-      <div class="sched-col">
-        <h3 style="font-size:1rem;font-weight:700;margin:0 0 10px;color:var(--navy)"><span class="ko-only">BEXCO → 웨스틴조선</span><span class="en-only">BEXCO → Westin Josun</span></h3>
-        <div class="sched-table"><table>
-          <thead><tr><th>#</th><th>BEXCO</th><th><span class="ko-only">파크하얏트</span><span class="en-only">Park Hyatt</span></th><th><span class="ko-only">웨스틴조선</span><span class="en-only">Westin Josun</span></th><th><span class="ko-only">시그니엘(연장)</span><span class="en-only">Signiel (ext.)</span></th></tr></thead>
+      <div class="sched-phase">
+        <div class="sched-h"><span class="ko-only">일반 운행</span><span class="en-only">Regular</span></div>
+        <div class="sched-hbus"><table>
+          <thead><tr><th><span class="ko-only">회차</span><span class="en-only">Trip</span></th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>11</th><th>12</th><th>13</th></tr></thead>
           <tbody>
-            <tr><td colspan="5" style="text-align:left;font-weight:700;color:var(--muted);background:var(--bg,#f7f8fb)"><span class="ko-only">일반 운행</span><span class="en-only">Regular</span></td></tr>
-            <tr><td>1</td><td>10:30</td><td>10:42</td><td>10:50</td><td>—</td></tr>
-            <tr><td>2</td><td>11:30</td><td>11:42</td><td>11:50</td><td>—</td></tr>
-            <tr><td>3</td><td>12:30</td><td>12:42</td><td>12:50</td><td>—</td></tr>
-            <tr><td>4</td><td>13:30</td><td>13:42</td><td>13:50</td><td>—</td></tr>
-            <tr><td>5</td><td>14:30</td><td>14:42</td><td>14:50</td><td>—</td></tr>
-            <tr><td>6</td><td>15:30</td><td>15:42</td><td>15:50</td><td>—</td></tr>
-            <tr><td>7</td><td>16:30</td><td>16:42</td><td>16:50</td><td>—</td></tr>
-            <tr><td colspan="5" style="text-align:left;font-weight:700;color:var(--muted);background:var(--bg,#f7f8fb)"><span class="ko-only">집중 운행 (시그니엘 연장)</span><span class="en-only">Peak (extends to Signiel)</span></td></tr>
-            <tr><td>8</td><td>17:00</td><td>17:12</td><td>17:20</td><td>17:30</td></tr>
-            <tr><td>9</td><td>17:10</td><td>17:22</td><td>17:30</td><td>17:40</td></tr>
-            <tr><td>10</td><td>17:20</td><td>17:32</td><td>17:40</td><td>17:50</td></tr>
-            <tr><td>11</td><td>17:30</td><td>17:42</td><td>17:50</td><td>18:00</td></tr>
+            <tr><th><span class="ko-only">웨스틴조선</span><span class="en-only">Westin Josun</span></th><td>9:00</td><td>10:00</td><td>11:00</td><td>12:00</td><td>13:00</td><td>14:00</td><td>15:00</td><td>16:00</td></tr>
+            <tr><th><span class="ko-only">파크하얏트</span><span class="en-only">Park Hyatt</span></th><td>9:10</td><td>10:10</td><td>11:10</td><td>12:10</td><td>13:10</td><td>14:10</td><td>15:10</td><td>16:10</td></tr>
+            <tr><th>BEXCO</th><td>9:20</td><td>10:20</td><td>11:20</td><td>12:20</td><td>13:20</td><td>14:20</td><td>15:20</td><td>16:20</td></tr>
           </tbody>
         </table></div>
       </div>
     </div>
-    <div class="uroute vr-b vd-1024">
-      <div class="uroute-arm uroute-out">
-        <span class="ar-lbl ko-only">가는 편</span><span class="ar-lbl en-only">Outbound</span>
-        <span class="uroute-path ko-only">웨스틴조선 <span class="ar">→</span> 파크하얏트 <span class="ar">→</span> BEXCO</span>
-        <span class="uroute-path en-only">Westin Josun <span class="ar">→</span> Park Hyatt <span class="ar">→</span> BEXCO</span>
+    <div class="sched-dir reveal vr-b vd-1023" style="margin-bottom:0">
+      <h3 class="sched-dir-h" style="color:var(--navy)"><span class="ko-only">BEXCO → 웨스틴조선 (17시 이후 시그니엘까지 연장)</span><span class="en-only">BEXCO → Westin Josun (extends to Signiel after 17:00)</span></h3>
+      <div class="sched-phase">
+        <div class="sched-h"><span class="ko-only">일반 운행</span><span class="en-only">Regular</span></div>
+        <div class="sched-hbus"><table>
+          <thead><tr><th><span class="ko-only">회차</span><span class="en-only">Trip</span></th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th></tr></thead>
+          <tbody>
+            <tr><th>BEXCO</th><td>10:30</td><td>11:30</td><td>12:30</td><td>13:30</td><td>14:30</td><td>15:30</td><td>16:30</td></tr>
+            <tr><th><span class="ko-only">파크하얏트</span><span class="en-only">Park Hyatt</span></th><td>10:42</td><td>11:42</td><td>12:42</td><td>13:42</td><td>14:42</td><td>15:42</td><td>16:42</td></tr>
+            <tr><th><span class="ko-only">웨스틴조선</span><span class="en-only">Westin Josun</span></th><td>10:50</td><td>11:50</td><td>12:50</td><td>13:50</td><td>14:50</td><td>15:50</td><td>16:50</td></tr>
+            <tr><th><span class="ko-only">시그니엘(연장)</span><span class="en-only">Signiel (ext.)</span></th><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+          </tbody>
+        </table></div>
       </div>
-      <div class="uroute-arm uroute-back">
-        <span class="ar-lbl ko-only">오는 편</span><span class="ar-lbl en-only">Return</span>
-        <span class="uroute-path ko-only">BEXCO <span class="ar">→</span> 파크하얏트 <span class="ar">→</span> 웨스틴조선</span>
-        <span class="uroute-path en-only">BEXCO <span class="ar">→</span> Park Hyatt <span class="ar">→</span> Westin Josun</span>
+      <div class="sched-phase">
+        <div class="sched-h"><span class="ko-only">집중 운행 (시그니엘 연장)</span><span class="en-only">Peak (extends to Signiel)</span></div>
+        <div class="sched-hbus"><table>
+          <thead><tr><th><span class="ko-only">회차</span><span class="en-only">Trip</span></th><th>8</th><th>9</th><th>10</th><th>11</th></tr></thead>
+          <tbody>
+            <tr><th>BEXCO</th><td>17:00</td><td>17:10</td><td>17:20</td><td>17:30</td></tr>
+            <tr><th><span class="ko-only">파크하얏트</span><span class="en-only">Park Hyatt</span></th><td>17:12</td><td>17:22</td><td>17:32</td><td>17:42</td></tr>
+            <tr><th><span class="ko-only">웨스틴조선</span><span class="en-only">Westin Josun</span></th><td>17:20</td><td>17:30</td><td>17:40</td><td>17:50</td></tr>
+            <tr><th><span class="ko-only">시그니엘(연장)</span><span class="en-only">Signiel (ext.)</span></th><td>17:30</td><td>17:40</td><td>17:50</td><td>18:00</td></tr>
+          </tbody>
+        </table></div>
       </div>
-      <div class="uroute-curve" aria-hidden="true"></div>
     </div>
+
+    <!-- ══════════ 노선 B — 10/24 ══════════ -->
     <p class="sched-note reveal ko-block vr-b vd-1024" style="margin-top:14px">10/24(토) 운영시간(폐회일): 프로그램 08:30-16:00(15:15 세션 종료) · 집중 운행 07:20-08:00(10분 간격) · 일반 운행 09:00-14:30(1시간 간격) · 집중 운행 15:20-16:00(10분 간격)</p>
     <p class="sched-note reveal en-block vr-b vd-1024" style="margin-top:14px">Oct 24 (Sat, closing day) hours: Program 08:30-16:00 (sessions end 15:15) · Peak 07:20-08:00 (every 10 min) · Regular 09:00-14:30 (hourly) · Peak 15:20-16:00 (every 10 min)</p>
-    <div class="sched-grid reveal vr-b vd-1024 sched-grid-2col">
-      <div class="sched-col">
-        <h3 style="font-size:1rem;font-weight:700;margin:0 0 10px;color:var(--red)"><span class="ko-only">웨스틴조선 → BEXCO</span><span class="en-only">Westin Josun → BEXCO</span></h3>
-        <div class="sched-table"><table>
-          <thead><tr><th>#</th><th><span class="ko-only">웨스틴조선</span><span class="en-only">Westin Josun</span></th><th><span class="ko-only">파크하얏트</span><span class="en-only">Park Hyatt</span></th><th>BEXCO</th></tr></thead>
+    <div class="sched-dir reveal vr-b vd-1024">
+      <h3 class="sched-dir-h" style="color:var(--red)"><span class="ko-only">웨스틴조선 → BEXCO</span><span class="en-only">Westin Josun → BEXCO</span></h3>
+      <div class="sched-phase">
+        <div class="sched-h"><span class="ko-only">집중 운행</span><span class="en-only">Peak</span></div>
+        <div class="sched-hbus"><table>
+          <thead><tr><th><span class="ko-only">회차</span><span class="en-only">Trip</span></th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th></tr></thead>
           <tbody>
-            <tr><td colspan="4" style="text-align:left;font-weight:700;color:var(--muted);background:var(--bg,#f7f8fb)"><span class="ko-only">집중 운행</span><span class="en-only">Peak</span></td></tr>
-            <tr><td>1</td><td>7:20</td><td>7:30</td><td>7:40</td></tr>
-            <tr><td>2</td><td>7:30</td><td>7:40</td><td>7:50</td></tr>
-            <tr><td>3</td><td>7:40</td><td>7:50</td><td>8:00</td></tr>
-            <tr><td>4</td><td>7:50</td><td>8:00</td><td>8:10</td></tr>
-            <tr><td>5</td><td>8:00</td><td>8:10</td><td>8:20</td></tr>
-            <tr><td colspan="4" style="text-align:left;font-weight:700;color:var(--muted);background:var(--bg,#f7f8fb)"><span class="ko-only">일반 운행</span><span class="en-only">Regular</span></td></tr>
-            <tr><td>6</td><td>9:00</td><td>9:10</td><td>9:20</td></tr>
-            <tr><td>7</td><td>10:00</td><td>10:10</td><td>10:20</td></tr>
-            <tr><td>8</td><td>11:00</td><td>11:10</td><td>11:20</td></tr>
-            <tr><td>9</td><td>12:00</td><td>12:10</td><td>12:20</td></tr>
-            <tr><td>10</td><td>13:00</td><td>13:10</td><td>13:20</td></tr>
-            <tr><td>11</td><td>14:00</td><td>14:10</td><td>14:20</td></tr>
+            <tr><th><span class="ko-only">웨스틴조선</span><span class="en-only">Westin Josun</span></th><td>7:20</td><td>7:30</td><td>7:40</td><td>7:50</td><td>8:00</td></tr>
+            <tr><th><span class="ko-only">파크하얏트</span><span class="en-only">Park Hyatt</span></th><td>7:30</td><td>7:40</td><td>7:50</td><td>8:00</td><td>8:10</td></tr>
+            <tr><th>BEXCO</th><td>7:40</td><td>7:50</td><td>8:00</td><td>8:10</td><td>8:20</td></tr>
           </tbody>
         </table></div>
       </div>
-      <div class="sched-col">
-        <h3 style="font-size:1rem;font-weight:700;margin:0 0 10px;color:var(--navy)"><span class="ko-only">BEXCO → 웨스틴조선</span><span class="en-only">BEXCO → Westin Josun</span></h3>
-        <div class="sched-table"><table>
-          <thead><tr><th>#</th><th>BEXCO</th><th><span class="ko-only">파크하얏트</span><span class="en-only">Park Hyatt</span></th><th><span class="ko-only">웨스틴조선</span><span class="en-only">Westin Josun</span></th></tr></thead>
+      <div class="sched-phase">
+        <div class="sched-h"><span class="ko-only">일반 운행</span><span class="en-only">Regular</span></div>
+        <div class="sched-hbus"><table>
+          <thead><tr><th><span class="ko-only">회차</span><span class="en-only">Trip</span></th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>11</th></tr></thead>
           <tbody>
-            <tr><td colspan="4" style="text-align:left;font-weight:700;color:var(--muted);background:var(--bg,#f7f8fb)"><span class="ko-only">일반 운행</span><span class="en-only">Regular</span></td></tr>
-            <tr><td>1</td><td>10:30</td><td>10:42</td><td>10:50</td></tr>
-            <tr><td>2</td><td>11:30</td><td>11:42</td><td>11:50</td></tr>
-            <tr><td>3</td><td>12:30</td><td>12:42</td><td>12:50</td></tr>
-            <tr><td>4</td><td>13:30</td><td>13:42</td><td>13:50</td></tr>
-            <tr><td>5</td><td>14:30</td><td>14:42</td><td>14:50</td></tr>
-            <tr><td colspan="4" style="text-align:left;font-weight:700;color:var(--muted);background:var(--bg,#f7f8fb)"><span class="ko-only">집중 운행</span><span class="en-only">Peak</span></td></tr>
-            <tr><td>6</td><td>15:20</td><td>15:32</td><td>15:40</td></tr>
-            <tr><td>7</td><td>15:30</td><td>15:42</td><td>15:50</td></tr>
-            <tr><td>8</td><td>15:40</td><td>15:52</td><td>16:00</td></tr>
-            <tr><td>9</td><td>15:50</td><td>16:02</td><td>16:10</td></tr>
-            <tr><td>10</td><td>16:00</td><td>16:12</td><td>16:20</td></tr>
+            <tr><th><span class="ko-only">웨스틴조선</span><span class="en-only">Westin Josun</span></th><td>9:00</td><td>10:00</td><td>11:00</td><td>12:00</td><td>13:00</td><td>14:00</td></tr>
+            <tr><th><span class="ko-only">파크하얏트</span><span class="en-only">Park Hyatt</span></th><td>9:10</td><td>10:10</td><td>11:10</td><td>12:10</td><td>13:10</td><td>14:10</td></tr>
+            <tr><th>BEXCO</th><td>9:20</td><td>10:20</td><td>11:20</td><td>12:20</td><td>13:20</td><td>14:20</td></tr>
           </tbody>
         </table></div>
       </div>
     </div>
+    <div class="sched-dir reveal vr-b vd-1024" style="margin-bottom:0">
+      <h3 class="sched-dir-h" style="color:var(--navy)"><span class="ko-only">BEXCO → 웨스틴조선</span><span class="en-only">BEXCO → Westin Josun</span></h3>
+      <div class="sched-phase">
+        <div class="sched-h"><span class="ko-only">일반 운행</span><span class="en-only">Regular</span></div>
+        <div class="sched-hbus"><table>
+          <thead><tr><th><span class="ko-only">회차</span><span class="en-only">Trip</span></th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th></tr></thead>
+          <tbody>
+            <tr><th>BEXCO</th><td>10:30</td><td>11:30</td><td>12:30</td><td>13:30</td><td>14:30</td></tr>
+            <tr><th><span class="ko-only">파크하얏트</span><span class="en-only">Park Hyatt</span></th><td>10:42</td><td>11:42</td><td>12:42</td><td>13:42</td><td>14:42</td></tr>
+            <tr><th><span class="ko-only">웨스틴조선</span><span class="en-only">Westin Josun</span></th><td>10:50</td><td>11:50</td><td>12:50</td><td>13:50</td><td>14:50</td></tr>
+          </tbody>
+        </table></div>
+      </div>
+      <div class="sched-phase">
+        <div class="sched-h"><span class="ko-only">집중 운행</span><span class="en-only">Peak</span></div>
+        <div class="sched-hbus"><table>
+          <thead><tr><th><span class="ko-only">회차</span><span class="en-only">Trip</span></th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th></tr></thead>
+          <tbody>
+            <tr><th>BEXCO</th><td>15:20</td><td>15:30</td><td>15:40</td><td>15:50</td><td>16:00</td></tr>
+            <tr><th><span class="ko-only">파크하얏트</span><span class="en-only">Park Hyatt</span></th><td>15:32</td><td>15:42</td><td>15:52</td><td>16:02</td><td>16:12</td></tr>
+            <tr><th><span class="ko-only">웨스틴조선</span><span class="en-only">Westin Josun</span></th><td>15:40</td><td>15:50</td><td>16:00</td><td>16:10</td><td>16:20</td></tr>
+          </tbody>
+        </table></div>
+      </div>
+    </div>
+
     <div class="warn-box reveal vd-1023" style="margin-top:24px">
       <div class="wb-icon"><svg class="ico ico-lg" viewBox="0 0 24 24" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg></div>
       <div class="wb-body">
@@ -905,7 +902,7 @@
       <b>GroundK Co., Ltd</b> · 대표 장동원 · 사업자등록번호 238-81-00429<br>
       부산광역시 해운대구 센텀동로 45, 405호 (우 48059) · Tel +82-2-863-3540 · Fax +82-70-8275-3540 · ops@groundk.com<br>
       <span class="ko-only">RIDEUS는 GroundK의 Transportation × Travel 플랫폼입니다. 모든 거래·교환·환불·민원은 GroundK가 처리합니다.</span><span class="en-only">RIDEUS is GroundK's Transportation × Travel platform. All transactions, exchanges, refunds &amp; inquiries are handled by GroundK.</span><br>
-      <span class="ver">© 2026 GroundK · <span class="ko-only">APHRS 2026 참가자 교통 포털 (콘셉트 데모)</span><span class="en-only">APHRS 2026 Participant Transport Portal (Concept Demo)</span> · build 2026.07.13.4</span>
+      <span class="ver">© 2026 GroundK · <span class="ko-only">APHRS 2026 참가자 교통 포털 (콘셉트 데모)</span><span class="en-only">APHRS 2026 Participant Transport Portal (Concept Demo)</span> · build 2026.07.14.1</span>
     </div>
   </div>
 </footer>
@@ -927,7 +924,7 @@
   </div>
 </div>
 
-<script src="assets/app.js?v=2026.07.13.4"></script>
+<script src="assets/app.js?v=2026.07.14.1"></script>
 
 <script>
 (function(){
