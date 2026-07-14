@@ -6,7 +6,7 @@
 (function () {
   'use strict';
 
-  var SITE_VERSION = '2026.07.13.3';
+  var SITE_VERSION = '2026.07.13.4';
   try { console.log('%cRIDEUS Events · ITS 2026 Gangneung · build ' + SITE_VERSION, 'color:#006241;font-weight:700'); } catch (e) {}
 
   var prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -81,6 +81,11 @@
 
   var SVGNS = 'http://www.w3.org/2000/svg';
   function splitName(nm){
+    var parts = nm.split(' ');
+    // 3단어 이상이고 길면 3줄로 분할(예: Shilla Monogram Gangneung) — 박스 밖 이탈 방지
+    if (parts.length >= 3 && nm.length > 19){
+      return [parts[0], parts[1], parts.slice(2).join(' ')];
+    }
     var sp = nm.indexOf(' ');
     if (sp >= 0) return [nm.slice(0, sp), nm.slice(sp + 1)];
     if (nm.length > 8){ var m = Math.ceil(nm.length / 2); return [nm.slice(0, m), nm.slice(m)]; }
@@ -105,6 +110,10 @@
     '월화거리': 'Wolhwa Street',
     '강릉버스터미널': 'Gangneung Bus Terminal',
     '강릉아이스아레나': 'Gangneung Ice Arena',
+    '회의장': 'Convention Center',
+    '전시장': 'Exhibition Hall',
+    '올림픽파크 후문': 'Rear Gate',
+    '아레나 정류장': 'Arena Bus Stop',
     '인천공항 제2터미널': 'Incheon Airport T2',
     '인천공항 제1터미널': 'Incheon Airport T1',
     '문막휴게소(강릉방향)': 'Munmak Rest Area',
