@@ -113,22 +113,28 @@
   /* 노선명 헤딩(sched-dir-h) 삭제로 표 사이 구분선도 불필요 — 여백만으로 분리 */
   .sched-dir{margin-bottom:28px}
 
-  /* 노선(vr)×날짜(vd) 토글 — 두 조건 AND 결합, 둘 다 맞을 때만 표시 */
+  /* 노선(vr)은 여전히 페이지 전역(html) 토글 — A/B 노선 선택은 한 번에 하나만 보여야 하는 페이지 단위 상태 */
   html:not([data-vr="a"]) .vr-a{display:none}
   html:not([data-vr="b"]) .vr-b{display:none}
-  html:not([data-vd="1021"]) .vd-1021{display:none}
-  html:not([data-vd="1022"]) .vd-1022{display:none}
-  html:not([data-vd="1023"]) .vd-1023{display:none}
-  html:not([data-vd="1024"]) .vd-1024{display:none}
+  /* 날짜(vd)는 더 이상 전역이 아니라 .vgroup(방향별 날짜탭+시간표 묶음) 단위 로컬 상태 —
+     행사장행/호텔행 날짜탭이 서로 다른 날짜를 동시에 볼 수 있도록 완전히 독립 */
+  .vgroup:not([data-vd="1021"]) .vd-1021{display:none}
+  .vgroup:not([data-vd="1022"]) .vd-1022{display:none}
+  .vgroup:not([data-vd="1023"]) .vd-1023{display:none}
+  .vgroup:not([data-vd="1024"]) .vd-1024{display:none}
   /* .sched-note는 vr/vd 게이팅 클래스와 ko-block/en-block이 같은 엘리먼트에 공존 —
      transport.css의 html[data-ui-lang="en"] .en-block{display:block!important} 가
      영어 모드에서 위 vr/vd 숨김을 덮어써 8개 노트가 동시에 노출되는 문제가 있어 별도 강제 */
   html:not([data-vr="a"]) .sched-note.vr-a{display:none!important}
   html:not([data-vr="b"]) .sched-note.vr-b{display:none!important}
-  html:not([data-vd="1021"]) .sched-note.vd-1021{display:none!important}
-  html:not([data-vd="1022"]) .sched-note.vd-1022{display:none!important}
-  html:not([data-vd="1023"]) .sched-note.vd-1023{display:none!important}
-  html:not([data-vd="1024"]) .sched-note.vd-1024{display:none!important}
+  .vgroup:not([data-vd="1021"]) .sched-note.vd-1021{display:none!important}
+  .vgroup:not([data-vd="1022"]) .sched-note.vd-1022{display:none!important}
+  .vgroup:not([data-vd="1023"]) .sched-note.vd-1023{display:none!important}
+  .vgroup:not([data-vd="1024"]) .sched-note.vd-1024{display:none!important}
+  /* Faculty Dinner(.fd-1023)는 어느 .vgroup에도 속하지 않는 노선 무관 공통 섹션이라
+     위 .vgroup 스코프 규칙이 적용되지 않는다 — 4개 vgroup 중 하나라도 10/23이면 보이도록
+     JS가 <html>에 계산해서 세팅하는 data-any-1023 전역 속성으로 별도 게이팅 */
+  html:not([data-any-1023="true"]) .fd-1023{display:none}
 </style>
 </head>
 <body>
@@ -222,10 +228,10 @@
     </div>
     <div class="vtabs" role="tablist" aria-label="노선 선택">
       <button class="vtab" type="button" role="tab" data-vr-btn="a" aria-selected="true">
-        <span class="ko-only">A 노선 (시그니엘 · 파라다이스)</span><span class="en-only">Route A (Signiel · Paradise)</span>
+        <span class="ko-only">A 노선</span><span class="en-only">Route A</span>
       </button>
       <button class="vtab" type="button" role="tab" data-vr-btn="b" aria-selected="false" tabindex="-1">
-        <span class="ko-only">B 노선 (웨스틴조선 · 파크하얏트)</span><span class="en-only">Route B (Westin Josun · Park Hyatt)</span>
+        <span class="ko-only">B 노선</span><span class="en-only">Route B</span>
       </button>
     </div>
 
@@ -250,6 +256,7 @@
         </div>
       </div>
 
+    <div class="vgroup" data-vd="1021">
     <div class="vtabs vtabs-date vr-a" role="tablist" aria-label="날짜 선택">
       <button class="vtab" type="button" role="tab" data-vd-btn="1021" aria-selected="true"><span class="ko-only">10/21 (수)</span><span class="en-only">Oct 21 (Wed)</span></button>
       <button class="vtab" type="button" role="tab" data-vd-btn="1022" aria-selected="false" tabindex="-1"><span class="ko-only">10/22 (목)</span><span class="en-only">Oct 22 (Thu)</span></button>
@@ -360,6 +367,7 @@
     </div>
     <p class="sched-note reveal ko-block vr-a vd-1024" style="margin-top:14px">10/24(토) 운영시간(폐회일): 프로그램 08:30-16:00(15:15 세션 종료) · 집중 운행 07:20-08:00(10분 간격) · 일반 운행 09:00-14:30(1시간 간격) · 집중 운행 15:20-16:00(10분 간격)</p>
     <p class="sched-note reveal en-block vr-a vd-1024" style="margin-top:14px">Oct 24 (Sat, closing day) hours: Program 08:30-16:00 (sessions end 15:15) · Peak 07:20-08:00 (every 10 min) · Regular 09:00-14:30 (hourly) · Peak 15:20-16:00 (every 10 min)</p>
+    </div>
 
       <div class="uroute-arm">
         <div class="route-map">
@@ -381,6 +389,7 @@
         </div>
       </div>
 
+    <div class="vgroup" data-vd="1021">
     <div class="vtabs vtabs-date vr-a" role="tablist" aria-label="날짜 선택">
       <button class="vtab" type="button" role="tab" data-vd-btn="1021" aria-selected="true"><span class="ko-only">10/21 (수)</span><span class="en-only">Oct 21 (Wed)</span></button>
       <button class="vtab" type="button" role="tab" data-vd-btn="1022" aria-selected="false" tabindex="-1"><span class="ko-only">10/22 (목)</span><span class="en-only">Oct 22 (Thu)</span></button>
@@ -484,6 +493,7 @@
       </div>
     </div>
     </div>
+    </div>
 
     <div class="uroute vr-b">
       <div class="uroute-arm">
@@ -506,6 +516,7 @@
         </div>
       </div>
 
+    <div class="vgroup" data-vd="1021">
     <div class="vtabs vtabs-date vr-b" role="tablist" aria-label="날짜 선택">
       <button class="vtab" type="button" role="tab" data-vd-btn="1021" aria-selected="true"><span class="ko-only">10/21 (수)</span><span class="en-only">Oct 21 (Wed)</span></button>
       <button class="vtab" type="button" role="tab" data-vd-btn="1022" aria-selected="false" tabindex="-1"><span class="ko-only">10/22 (목)</span><span class="en-only">Oct 22 (Thu)</span></button>
@@ -616,6 +627,7 @@
     </div>
     <p class="sched-note reveal ko-block vr-b vd-1024" style="margin-top:14px">10/24(토) 운영시간(폐회일): 프로그램 08:30-16:00(15:15 세션 종료) · 집중 운행 07:20-08:00(10분 간격) · 일반 운행 09:00-14:30(1시간 간격) · 집중 운행 15:20-16:00(10분 간격)</p>
     <p class="sched-note reveal en-block vr-b vd-1024" style="margin-top:14px">Oct 24 (Sat, closing day) hours: Program 08:30-16:00 (sessions end 15:15) · Peak 07:20-08:00 (every 10 min) · Regular 09:00-14:30 (hourly) · Peak 15:20-16:00 (every 10 min)</p>
+    </div>
 
       <div class="uroute-arm">
         <div class="route-map">
@@ -637,6 +649,7 @@
         </div>
       </div>
 
+    <div class="vgroup" data-vd="1021">
     <div class="vtabs vtabs-date vr-b" role="tablist" aria-label="날짜 선택">
       <button class="vtab" type="button" role="tab" data-vd-btn="1021" aria-selected="true"><span class="ko-only">10/21 (수)</span><span class="en-only">Oct 21 (Wed)</span></button>
       <button class="vtab" type="button" role="tab" data-vd-btn="1022" aria-selected="false" tabindex="-1"><span class="ko-only">10/22 (목)</span><span class="en-only">Oct 22 (Thu)</span></button>
@@ -746,8 +759,9 @@
       </div>
     </div>
     </div>
+    </div>
 
-    <div class="warn-box reveal vd-1023" style="margin-top:24px">
+    <div class="warn-box reveal fd-1023" style="margin-top:24px">
       <div class="wb-icon"><svg class="ico ico-lg" viewBox="0 0 24 24" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg></div>
       <div class="wb-body">
         <h4 class="ko-block">Faculty Dinner 셔틀 <span style="font-weight:700;opacity:.75">— 10/23(금) 저녁, 노선 선택과 무관하게 운영</span></h4>
@@ -756,7 +770,7 @@
         <p class="en-block">For <b>invited Faculty Dinner guests only</b> — not available to general registered attendees. To the dinner (<b>17:00–17:30, every 10 min</b>), use the venue shuttle above to Signiel. After the dinner, <b>10 buses depart every 2 minutes from 20:00</b>; guests staying near BEXCO can ride to BEXCO on the extended run.</p>
       </div>
     </div>
-    <div class="sched-grid reveal vd-1023" style="grid-template-columns:1fr;margin-top:14px">
+    <div class="sched-grid reveal fd-1023" style="grid-template-columns:1fr;margin-top:14px">
       <div class="sched-col">
         <h3 style="font-size:1rem;font-weight:700;margin:0 0 10px;color:var(--red)"><span class="ko-only">귀가행 — 시그니엘 → 웨스틴조선 → 파크하얏트 → (BEXCO)</span><span class="en-only">Return — Signiel → Westin Josun → Park Hyatt → (BEXCO)</span></h3>
         <div class="sched-table"><table>
@@ -999,17 +1013,17 @@
 })();
 </script>
 <script>
-/* Venue Shuttle — 노선(vr) × 날짜(vd) 상태 관리 */
+/* Venue Shuttle — 노선(vr, 전역) × 날짜(vd, .vgroup 단위 로컬) 상태 관리
+   날짜는 더 이상 페이지 전역이 아니다 — 행사장행/호텔행 날짜탭이 서로 다른 날짜를
+   동시에 볼 수 있도록 각 .vgroup(방향별 날짜탭+시간표 묶음)이 자기만의 data-vd를 가진다. */
 (function(){
   var root = document.documentElement;
   var vrBtns = Array.prototype.slice.call(document.querySelectorAll('[data-vr-btn]'));
-  var vdBtns = Array.prototype.slice.call(document.querySelectorAll('[data-vd-btn]'));
 
-  function applyGroup(btns, attr){
-    var current = root.getAttribute(attr);
-    btns.forEach(function(b){
-      var key = b.getAttribute('data-vr-btn') || b.getAttribute('data-vd-btn');
-      var on = key === current;
+  function applyVr(){
+    var current = root.getAttribute('data-vr');
+    vrBtns.forEach(function(b){
+      var on = b.getAttribute('data-vr-btn') === current;
       b.setAttribute('aria-selected', String(on));
       b.setAttribute('tabindex', on ? '0' : '-1');
     });
@@ -1018,7 +1032,7 @@
   vrBtns.forEach(function(b, i){
     b.addEventListener('click', function(){
       root.setAttribute('data-vr', b.getAttribute('data-vr-btn'));
-      applyGroup(vrBtns, 'data-vr');
+      applyVr();
     });
     b.addEventListener('keydown', function(e){
       var d = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
@@ -1028,21 +1042,47 @@
     });
   });
 
-  vdBtns.forEach(function(b, i){
-    b.addEventListener('click', function(){
-      root.setAttribute('data-vd', b.getAttribute('data-vd-btn'));
-      applyGroup(vdBtns, 'data-vd');
+  applyVr();
+
+  var vgroups = Array.prototype.slice.call(document.querySelectorAll('.vgroup'));
+
+  /* Faculty Dinner(.fd-1023)는 특정 vgroup에 속하지 않는 노선 무관 공통 섹션 —
+     4개 vgroup 중 하나라도 10/23을 보고 있으면 노출되도록 전역 속성으로 매번 재계산 */
+  function updateAny1023(){
+    var any = vgroups.some(function(g){ return g.getAttribute('data-vd') === '1023'; });
+    root.setAttribute('data-any-1023', any ? 'true' : 'false');
+  }
+
+  vgroups.forEach(function(group){
+    var vdBtns = Array.prototype.slice.call(group.querySelectorAll('[data-vd-btn]'));
+
+    function applyVd(){
+      var current = group.getAttribute('data-vd');
+      vdBtns.forEach(function(b){
+        var on = b.getAttribute('data-vd-btn') === current;
+        b.setAttribute('aria-selected', String(on));
+        b.setAttribute('tabindex', on ? '0' : '-1');
+      });
+    }
+
+    vdBtns.forEach(function(b, i){
+      b.addEventListener('click', function(){
+        group.setAttribute('data-vd', b.getAttribute('data-vd-btn'));
+        applyVd();
+        updateAny1023();
+      });
+      b.addEventListener('keydown', function(e){
+        var d = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
+        if (!d) return;
+        var n = vdBtns[(i + d + vdBtns.length) % vdBtns.length];
+        n.focus(); n.click();
+      });
     });
-    b.addEventListener('keydown', function(e){
-      var d = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
-      if (!d) return;
-      var n = vdBtns[(i + d + vdBtns.length) % vdBtns.length];
-      n.focus(); n.click();
-    });
+
+    applyVd();
   });
 
-  applyGroup(vrBtns, 'data-vr');
-  applyGroup(vdBtns, 'data-vd');
+  updateAny1023();
 })();
 </script>
 <script src="https://unpkg.com/maplibre-gl@5.24.0/dist/maplibre-gl.js"></script>
