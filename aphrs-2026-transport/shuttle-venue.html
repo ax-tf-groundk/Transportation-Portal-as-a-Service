@@ -206,15 +206,47 @@
     </div>
 
     <div class="uroute vr-a">
-      <div class="uroute-arm uroute-out">
-        <span class="ar-lbl ko-only">가는 편</span><span class="ar-lbl en-only">Outbound</span>
-        <span class="uroute-path ko-only">시그니엘 <span class="ar">→</span> 파라다이스 <span class="ar">→</span> BEXCO</span>
-        <span class="uroute-path en-only">Signiel <span class="ar">→</span> Paradise <span class="ar">→</span> BEXCO</span>
+      <div class="uroute-arm">
+        <div class="rm-head">
+          <span class="rt-tag">A</span>
+          <span class="ko-only">가는 편 · 시그니엘 → 파라다이스 → BEXCO</span>
+          <span class="en-only">Outbound · Signiel → Paradise → BEXCO</span>
+          <a href="#" onclick="return false" class="rm-live">
+            <span class="live-dot" aria-hidden="true"></span>
+            <span class="ko-only">실시간 위치 확인 (준비중)</span>
+            <span class="en-only">Live location (coming soon)</span>
+          </a>
+        </div>
+        <div class="route-map">
+          <div class="rm-track">
+            <ol class="rm-line" style="grid-template-columns:repeat(3,1fr)">
+              <li class="rm-stop"><span class="rm-label ko-only">시그니엘</span><span class="rm-label en-only">Signiel</span><span class="rm-dot"></span></li>
+              <li class="rm-stop"><span class="rm-label ko-only">파라다이스</span><span class="rm-label en-only">Paradise</span><span class="rm-dot"></span></li>
+              <li class="rm-stop"><span class="rm-label" style="color:var(--red)">BEXCO</span><span class="rm-dot"></span></li>
+            </ol>
+          </div>
+        </div>
       </div>
-      <div class="uroute-arm uroute-back">
-        <span class="ar-lbl ko-only">오는 편</span><span class="ar-lbl en-only">Return</span>
-        <span class="uroute-path ko-only">BEXCO <span class="ar">→</span> 파라다이스 <span class="ar">→</span> 시그니엘</span>
-        <span class="uroute-path en-only">BEXCO <span class="ar">→</span> Paradise <span class="ar">→</span> Signiel</span>
+      <div class="uroute-arm">
+        <div class="rm-head">
+          <span class="rt-tag" style="background:var(--red)">A</span>
+          <span class="ko-only">오는 편 · BEXCO → 파라다이스 → 시그니엘</span>
+          <span class="en-only">Return · BEXCO → Paradise → Signiel</span>
+          <a href="#" onclick="return false" class="rm-live">
+            <span class="live-dot" aria-hidden="true"></span>
+            <span class="ko-only">실시간 위치 확인 (준비중)</span>
+            <span class="en-only">Live location (coming soon)</span>
+          </a>
+        </div>
+        <div class="route-map">
+          <div class="rm-track">
+            <ol class="rm-line" style="grid-template-columns:repeat(3,1fr)">
+              <li class="rm-stop"><span class="rm-label" style="color:var(--red)">BEXCO</span><span class="rm-dot"></span></li>
+              <li class="rm-stop"><span class="rm-label ko-only">파라다이스</span><span class="rm-label en-only">Paradise</span><span class="rm-dot"></span></li>
+              <li class="rm-stop"><span class="rm-label ko-only">시그니엘</span><span class="rm-label en-only">Signiel</span><span class="rm-dot"></span></li>
+            </ol>
+          </div>
+        </div>
       </div>
     </div>
     <div class="uroute vr-b">
