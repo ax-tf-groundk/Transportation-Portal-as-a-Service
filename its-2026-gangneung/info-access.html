@@ -4,115 +4,420 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="Cache-Control" content="no-cache">
-<title>오시는 길 — 2026 강릉 ITS 세계총회 교통 | RIDEUS Events</title>
-<meta name="version" content="2026.07.13.1">
-<link rel="stylesheet" href="assets/transport.css?v=2026.07.13.1">
-<link rel="icon" type="image/png" sizes="64x64" href="assets/img/favicon.png?v=2026.07.13.1">
+<title>여행 정보 — 2026 강릉 ITS 세계총회 교통 | RIDEUS Events</title>
+<meta name="description" content="2026 강릉 ITS 세계총회 참가자 여행 정보 — 입국 안내, 공항→강릉 교통편(버스·KTX), 짐 배송. 인천·김포공항에서 강릉까지 오는 모든 방법.">
+<meta name="version" content="2026.07.13.22">
+<link rel="stylesheet" href="assets/transport.css?v=2026.07.13.22">
+<link rel="icon" type="image/png" sizes="64x64" href="assets/img/favicon.png?v=2026.07.13.22">
 <link rel="apple-touch-icon" href="assets/img/favicon-180.png">
 <style>
-.acc-table{width:100%;border-collapse:collapse;font-size:14px;background:#fff;border:1px solid var(--line);border-radius:var(--radius-lg);overflow:hidden}
-.acc-table th,.acc-table td{padding:13px 14px;text-align:left;vertical-align:top;border-bottom:1px solid var(--line)}
-.acc-table thead th{background:var(--red-050);color:var(--red-700);font-weight:800;font-size:12.5px;letter-spacing:.02em;white-space:nowrap}
-.acc-table tbody tr:last-child td{border-bottom:0}
-.acc-mode{font-weight:800;color:var(--navy);white-space:nowrap}
-.acc-mode small{display:block;font-weight:600;color:var(--muted);font-size:11.5px;margin-top:2px}
-.acc-time{font-weight:800;color:var(--red)}
-.acc-price{font-weight:700;color:var(--ink)}
-.acc-table a{color:var(--red);font-weight:700;text-decoration:none}
-.acc-table a:hover{text-decoration:underline}
-.acc-note{font-size:12.5px;color:var(--muted);line-height:1.4}
-.acc-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
-@media(max-width:640px){.acc-table{min-width:640px}}
+/* sticky tab bar */
+.tabbar{position:sticky;top:62px;z-index:40;background:rgba(255,255,255,.97);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);box-shadow:0 2px 10px -6px rgba(10,30,20,.18)}
+.tabbar-inner{display:flex;gap:2px;max-width:var(--maxw);margin:0 auto;padding:0 24px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.tabbar-inner::-webkit-scrollbar{display:none}
+.tv-tab{flex:0 0 auto;display:inline-flex;align-items:center;gap:7px;padding:16px 18px;font-size:14.5px;font-weight:700;color:var(--muted);border:none;background:none;border-bottom:3px solid transparent;white-space:nowrap;cursor:pointer;font-family:inherit;transition:.15s}
+.tv-tab:hover{color:var(--red)}
+.tv-tab.active{color:var(--red);border-bottom-color:var(--red)}
+@media(max-width:760px){.tabbar-inner{padding:0 16px}.tv-tab{padding:14px 13px;font-size:13.5px}}
+/* sections */
+.tv-section{padding:52px 0;border-top:1px solid var(--line-2);scroll-margin-top:80px}
+.tv-section:first-of-type{border-top:none}
+.tv-group{margin-top:34px}
+.tv-group:first-of-type{margin-top:22px}
+.tv-subh{font-size:18px;font-weight:800;color:var(--ink);letter-spacing:-.3px;margin-bottom:14px}
+.acc-part .tv-subh{padding-bottom:12px;border-bottom:2px solid var(--red);margin-bottom:20px}
+.acc-part{margin-bottom:40px}.acc-part:last-child{margin-bottom:0}
+/* accordion */
+.acc-item{border:1px solid var(--line);border-radius:12px;margin-bottom:10px;overflow:hidden}
+.acc-btn{width:100%;text-align:left;background:#fff;border:none;padding:17px 20px;font-family:inherit;font-size:15.5px;font-weight:700;color:var(--ink);cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.acc-btn:hover{background:var(--red-050)}
+.acc-btn.open{color:var(--red);background:var(--red-050)}
+.acc-btn .acc-ic{margin-right:9px}
+.acc-chevron{flex-shrink:0;font-size:16px;transition:transform .2s}
+.acc-btn.open .acc-chevron{transform:rotate(180deg)}
+.acc-body{display:none;padding:20px 22px 24px;border-top:1px solid var(--line);background:#f8fbfa;font-size:14px;line-height:1.8;color:var(--ink)}
+.acc-body.open{display:block}
+.acc-body p{margin-bottom:6px}
+.acc-body table{width:100%;border-collapse:collapse;margin:12px 0;font-size:13px;background:#fff;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.acc-body th,.acc-body td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line-2)}
+.acc-body thead th{background:var(--navy);color:#fff;font-size:12px;letter-spacing:.3px}
+.acc-body tbody tr:last-child td{border-bottom:0}
+.acc-body .highlight{color:var(--red);font-weight:800}
+.acc-body ul{padding-left:18px;margin:8px 0}
+.acc-body ul li{margin-bottom:5px}
+.acc-body .notice{background:var(--red-050);border:1px solid #cfe6dd;border-radius:8px;padding:11px 14px;margin-top:12px;font-size:12.5px;line-height:1.6}
+.acc-step{font-weight:800;color:var(--navy);margin:14px 0 4px;font-size:14px}
+.acc-route-badge{display:inline-block;background:var(--orange);color:#fff;font-size:11px;font-weight:800;padding:3px 9px;border-radius:6px;margin-right:6px}
+.acc-bus-times{display:flex;flex-wrap:wrap;gap:7px;margin-top:8px}
+.acc-bus-times span{background:var(--navy);color:#fff;padding:4px 9px;border-radius:6px;font-size:12.5px;font-weight:700}
+/* summary flow chips */
+.flow{display:flex;align-items:stretch;gap:0;flex-wrap:wrap;margin-top:8px}
+.flow .node{flex:1 1 0;min-width:120px;min-height:74px;background:#fff;border:1.5px solid var(--red);border-radius:12px;padding:10px 12px;text-align:center;display:flex;flex-direction:column;justify-content:center;align-items:center}
+.flow .node b{display:block;font-size:14px;font-weight:800;color:var(--red-700);line-height:1.25}
+.flow .node small{display:block;font-size:11px;color:var(--muted);margin-top:3px}
+.flow .conn{flex:0 0 34px;display:flex;align-items:center;justify-content:center;color:var(--orange);font-weight:900;font-size:20px}
+.flow .conn small{display:none}
+@media(max-width:600px){.flow{flex-direction:column}.flow .node{width:100%}.flow .conn{flex:0 0 auto;padding:4px 0}.flow .conn::before{content:"↓"}.flow .conn>span{display:none}}
+/* 전체 여정 3단 그리드 */
+.jgrid{margin-top:10px}
+.jg-end{background:var(--navy);color:#fff;border-radius:14px;padding:16px 20px;text-align:center;font-size:16px;font-weight:800}
+.jg-end small{font-weight:600;opacity:.78;margin-left:8px;font-size:12px}
+.jg-arrow{text-align:center;color:var(--orange);font-weight:900;font-size:22px;padding:5px 0;line-height:1}
+.jg-cols{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+@media(max-width:760px){.jg-cols{grid-template-columns:1fr}}
+.jg-col{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px 16px 18px;box-shadow:var(--shadow);display:flex;flex-direction:column}
+.jg-h{font-size:15px;font-weight:800;color:var(--red);margin-bottom:10px}
+.jg-col ol{margin:0 0 14px;padding-left:18px;flex:1}
+.jg-col li{font-size:13px;color:var(--ink);line-height:1.5;margin-bottom:6px}
+.jg-col .btn{align-self:flex-start}
+/* KTX journey timeline */
+.journey{list-style:none;margin:8px 0 0;padding:0}
+.jstep{position:relative;padding:0 0 26px 58px;min-height:40px}
+.jstep:last-child{padding-bottom:0}
+.jstep::before{content:"";position:absolute;left:27px;top:6px;bottom:-6px;width:2px;background:var(--line)}
+.jstep:last-child::before{display:none}
+.jstep-marker{position:absolute;left:8px;top:0;width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;background:#fff;border:2px solid var(--line);z-index:1}
+.jstep--book .jstep-marker{background:var(--red);border-color:var(--red)}
+.jstep--end .jstep-marker{background:var(--navy);border-color:var(--navy)}
+.jstep-card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:15px 18px}
+.jstep--book .jstep-card{border-color:#cfe6dd;background:var(--red-050)}
+.jstep-title{font-size:15.5px;font-weight:800;color:var(--ink);margin:0}
+.jstep-sub{font-size:13px;color:var(--muted);margin-top:4px;line-height:1.6}
+.jstep-meta{font-size:13px;color:var(--ink);margin-top:6px;line-height:1.6}
+.jstep-meta strong{color:var(--red);font-weight:800}
+.jstep-cta{margin-top:12px;display:flex;gap:10px;flex-wrap:wrap}
+/* baggage cards */
+.arr-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:6px}
+@media(max-width:720px){.arr-grid{grid-template-columns:1fr}}
+.bcard{background:#fff;border:1px solid var(--line);border-radius:var(--radius-lg);overflow:hidden;box-shadow:var(--shadow)}
+.bcard .bhead{background:var(--red-050);color:var(--red-700);font-weight:800;font-size:15px;padding:14px 18px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:9px}
+.bcard .bbody{padding:16px 18px 20px}
+.bcard .bmeta{font-size:12px;color:var(--orange);font-weight:700;margin-bottom:8px}
+.bcard ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+.bcard ul li{position:relative;padding-left:20px;font-size:13.5px;color:var(--ink);line-height:1.5}
+.bcard ul li::before{content:"✓";position:absolute;left:0;color:var(--red);font-weight:900}
+/* how steps */
+.how-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:6px}
+@media(max-width:720px){.how-grid{grid-template-columns:1fr}}
+.hstep{background:#fff;border:1px solid var(--line);border-radius:var(--radius-lg);padding:22px 20px;box-shadow:var(--shadow)}
+.hstep .hnum{display:inline-grid;place-items:center;width:36px;height:36px;border-radius:50%;background:var(--red);color:#fff;font-weight:800;font-size:15px;margin-bottom:10px}
+.hstep h4{font-size:15px;font-weight:800;color:var(--ink);margin-bottom:6px}
+.hstep p{font-size:13px;color:var(--muted);line-height:1.6}
+.hstep a{color:var(--red);font-weight:700}
+.info-box{display:flex;gap:14px;align-items:flex-start;background:var(--red-050);border:1px solid #cfe6dd;border-radius:var(--radius-lg);padding:18px 22px;margin-top:8px}
+.info-box .ib-ic{font-size:22px;flex-shrink:0}
+.info-box b{display:block;font-size:14.5px;color:var(--red-700);margin-bottom:4px}
+.info-box p{font-size:13px;color:var(--ink);line-height:1.6}
+.tv-cta{margin-top:26px;display:flex;flex-wrap:wrap;gap:12px}
+/* 입국 안내 — 본문(좌) + 목적지 카드(우) 2단 */
+.arrival-cols{display:grid;grid-template-columns:1fr minmax(280px,350px);gap:28px;align-items:start;margin-top:2px}
+@media(max-width:760px){.arrival-cols{grid-template-columns:1fr;gap:16px}}
+.arrival-cols .sec-sub{max-width:none;margin:0}
+/* 목적지 카드 */
+.dest-card{display:flex;flex-direction:column;gap:7px;background:#fff;border:1px solid var(--line);border-left:4px solid var(--red);border-radius:14px;padding:15px 17px;box-shadow:var(--shadow)}
+.dest-card .dc-k{font-size:12.5px;font-weight:800;color:var(--red)}
+.dest-card .dc-v{font-size:13px;color:var(--ink);line-height:1.55}
+.dest-card .dc-v b{display:block;font-size:15px;color:var(--red-700);margin-bottom:3px}
 </style>
 </head>
 <body>
 <a class="skip" href="#main">본문 바로가기</a>
-<div class="demo-banner">GroundK 콘셉트 데모 — 요금·시간은 참고용이며 실제 예매는 각 사업자 사이트에서 진행됩니다.</div>
+<div class="demo-banner">GroundK 콘셉트 데모 — 요금·시각은 참고용이며 실제 예매는 각 사업자 사이트에서 진행됩니다. 공식 사이트(<b>2026itsworldcongress.org</b>) 별도.</div>
 <header class="site-head"><div class="bar">
-  <a class="brand brand-its" href="index.html"><img src="assets/img/its-mark.png" alt="2026 강릉 ITS 세계총회"><span class="brand-lockup"><b>GANGNEUNG</b><small>ITS World Congress 2026 · 교통 포털</small></span></a>
-  <nav class="nav" aria-label="셔틀 노선">
-    <a href="index.html">홈</a>
-    <a href="shuttle-airport-in.html">공항 → 베뉴</a>
-    <a href="shuttle-airport-out.html">베뉴 → 공항</a>
-    <a href="shuttle-venue.html">행사장 셔틀</a>
-    <a href="shuttle-chauffeur.html">전용 차량</a>
-    <a href="info-access.html" class="active">오시는 길</a>
+  <a class="brand brand-its" href="index.html"><img src="assets/img/its-mark.png" alt="2026 강릉 ITS 세계총회"><span class="brand-lockup"><b>GANGNEUNG</b><small>ITS World Congress 2026 · <span class="ko-only">교통 포털</span><span class="en-only">Transport Portal</span></small></span></a>
+  <nav class="nav" aria-label="교통">
+    <a href="shuttle-airport-in.html"><span class="ko-only">공항 → 강릉</span><span class="en-only">To Gangneung</span></a>
+    <span class="nav-dd">
+      <a href="shuttle-venue.html"><span class="ko-only">행사장 셔틀</span><span class="en-only">Venue Shuttle</span></a>
+      <div class="dd-menu">
+        <a href="shuttle-venue.html#station"><span class="ko-only">역·터미널 순환</span><span class="en-only">Station Loop</span></a>
+        <a href="shuttle-venue.html#hotel"><span class="ko-only">숙소 순환</span><span class="en-only">Hotel Loop</span></a>
+        <a href="shuttle-venue.html#internal"><span class="ko-only">행사장 내부 순환</span><span class="en-only">On-site Loop</span></a>
+        <a href="shuttle-venue.html#tour"><span class="ko-only">투어 셔틀</span><span class="en-only">Tour Shuttle</span></a>
+      </div>
+    </span>
+    <a href="shuttle-airport-out.html"><span class="ko-only">강릉 → 서울역</span><span class="en-only">To Seoul</span></a>
+    <a href="shuttle-chauffeur.html"><span class="ko-only">전용 차량</span><span class="en-only">Private Car</span></a>
+    <span class="nav-dd">
+      <a href="info-access.html" class="active"><span class="ko-only">여행 정보</span><span class="en-only">Travel Info</span></a>
+      <div class="dd-menu">
+        <a href="info-access.html#arrival"><span class="ko-only">입국 안내</span><span class="en-only">Arrival</span></a>
+        <a href="info-access.html#access"><span class="ko-only">공항 → 강릉</span><span class="en-only">To Gangneung</span></a>
+        <a href="info-access.html#baggage"><span class="ko-only">짐 배송</span><span class="en-only">Baggage</span></a>
+      </div>
+    </span>
   </nav>
   <div class="head-right">
     <button class="lang" id="langToggle" type="button">🌐 <span class="seg on" data-lang="ko">KO</span><span class="seg" data-lang="en">EN</span></button>
-    <button class="head-link hide-sm" id="lookupBtn" type="button">예약조회</button>
-    <a class="head-link ext hide-sm" href="https://2026itsworldcongress.org" target="_blank" rel="noopener">공식 사이트</a>
+    <button class="head-link hide-sm" id="lookupBtn" type="button"><span class="ko-only">예약조회</span><span class="en-only">Booking</span></button>
+    <a class="head-link ext hide-sm" href="https://2026itsworldcongress.org" target="_blank" rel="noopener"><span class="ko-only">공식 사이트</span><span class="en-only">Official Site</span></a>
   </div>
+
+  <button class="nav-toggle" type="button" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
 </div></header>
 
 <main id="main">
 <section class="detail-hero dhero-its">
   <div class="inner">
-    <nav class="crumb" aria-label="breadcrumb"><a href="index.html">홈</a> › <span>오시는 길</span></nav>
-    <h1>오시는 길 <span style="font-size:.55em;font-weight:700;opacity:.85">Getting to Gangneung</span></h1>
-    <p class="dsub">셔틀 외에 개별적으로 강릉에 오는 방법입니다. KTX·고속버스·공항버스 요금과 소요시간, 예매처를 한눈에 정리했습니다.</p>
+    <nav class="crumb" aria-label="breadcrumb"><a href="index.html"><span class="ko-only">홈</span><span class="en-only">Home</span></a> › <span><span class="ko-only">여행 정보</span><span class="en-only">Travel Info</span></span></nav>
+    <h1><span class="ko-only">여행 정보</span><span class="en-only">Travel Information</span></h1>
+    <p class="dsub"><span class="ko-only">입국부터 KTX·짐배송까지, 한국에서의 이동에 필요한 정보를 한 곳에.</span><span class="en-only">Everything you need to get around in Korea — from arrival to KTX and baggage delivery — in one place.</span></p>
   </div>
 </section>
 
-<section class="section" id="ktx" aria-labelledby="ac-h">
+<!-- TAB BAR -->
+<!-- ============ 1. 입국 안내 ============ -->
+<section class="tv-section" id="arrival" aria-label="입국 안내">
   <div class="wrap">
-    <div class="sec-head reveal"><span class="kicker">대중교통 요약 · Public Transport</span><h2 class="sec-h" id="ac-h">서울·공항 → 강릉</h2>
-      <p class="sec-sub">가장 빠른 길은 서울역에서 KTX. 인천공항에서는 공항버스 또는 서울역 환승 후 KTX를 권장합니다.</p></div>
+    <div class="sec-head reveal"><h2 class="sec-h"><span class="ko-only">입국 안내</span><span class="en-only">Arrival</span></h2></div>
 
-    <div class="acc-wrap reveal">
-    <table class="acc-table">
-      <thead><tr><th>수단</th><th>구간</th><th>소요시간</th><th>요금(편도)</th><th>예매</th></tr></thead>
-      <tbody>
-        <tr>
-          <td class="acc-mode">🚄 KTX<small>고속열차</small></td>
-          <td>서울역 → 강릉역</td>
-          <td class="acc-time">약 1h54′</td>
-          <td class="acc-price">₩27,600</td>
-          <td><a href="https://www.letskorail.com" target="_blank" rel="noopener">코레일 ↗</a><br><span class="acc-note">Let's Korail / 코레일톡</span></td>
-        </tr>
-        <tr>
-          <td class="acc-mode">🚄 KTX<small>공항 연계</small></td>
-          <td>인천공항 → (공항철도) → 서울역 → 강릉역</td>
-          <td class="acc-time">약 3h30′</td>
-          <td class="acc-price">₩42,000~</td>
-          <td><a href="https://www.letskorail.com" target="_blank" rel="noopener">코레일 ↗</a><br><span class="acc-note">공항철도+KTX 환승</span></td>
-        </tr>
-        <tr>
-          <td class="acc-mode">🚌 공항버스<small>리무진</small></td>
-          <td>인천공항 → 강릉시외버스터미널</td>
-          <td class="acc-time">약 3h40′</td>
-          <td class="acc-price">₩29,600</td>
-          <td><a href="https://www.kobus.co.kr" target="_blank" rel="noopener">코버스 ↗</a><br><span class="acc-note">인천공항 리무진</span></td>
-        </tr>
-        <tr>
-          <td class="acc-mode">🚌 고속버스<small>Express</small></td>
-          <td>서울고속버스터미널 → 강릉</td>
-          <td class="acc-time">약 2h40′</td>
-          <td class="acc-price">₩15,000~</td>
-          <td><a href="https://www.kobus.co.kr" target="_blank" rel="noopener">코버스 ↗</a><br><span class="acc-note">우등 ₩22,000</span></td>
-        </tr>
-        <tr>
-          <td class="acc-mode">🚗 렌터카<small>Self-drive</small></td>
-          <td>서울 → 강릉 (영동고속도로)</td>
-          <td class="acc-time">약 2h30′</td>
-          <td class="acc-price">별도</td>
-          <td><span class="acc-note">주요 렌터카사<br>공항·강릉역 지점</span></td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="arrival-cols">
+      <p class="sec-sub"><span class="ko-only">인천국제공항과 김포국제공항 이용객 모두 <b>직행 시외버스</b> 또는 <b>서울역으로 이동하여 KTX</b>로 강릉까지 이동할 수 있습니다. 강릉역·강릉터미널에서 행사장까지는 <a href="shuttle-venue.html" style="color:var(--red);font-weight:700">역·터미널 순환 셔틀(G1)</a> 또는 택시로 이동할 수 있습니다. 공항별 상세 이동 경로는 아래에서 확인해 주세요.</span><span class="en-only">Participants arriving at both <b>Incheon</b> and <b>Gimpo International Airports</b> can reach Gangneung by <b>direct intercity bus</b>, or by <b>transferring to KTX at Seoul Station</b>. From Gangneung Station or the Bus Terminal to the venue, use the <a href="shuttle-venue.html" style="color:var(--red);font-weight:700">Station Loop shuttle (G1)</a> or a taxi. Check the detailed route for each airport below.</span></p>
+      <div class="dest-card">
+        <div class="dc-k"><span class="ko-only">📍 목적지</span><span class="en-only">📍 Destination</span></div>
+        <div class="dc-v"><b><span class="ko-only">강릉올림픽파크 컨벤션센터</span><span class="en-only">Gangneung Olympic Park Convention Center</span></b><span class="ko-only">강원특별자치도 강릉시 포남동 200 · Tel +82-33-350-3911</span><span class="en-only">200 Ponam-dong, Gangneung, Gangwon State · Tel +82-33-350-3911</span></div>
+      </div>
     </div>
-    <p class="sec-sub" style="margin-top:12px">※ 요금·소요시간은 2026년 상반기 기준 참고값이며 실제 예매 시 변동될 수 있습니다. 강릉역에서 행사장까지는 <a href="shuttle-venue.html">역·터미널 순환 셔틀</a>을 이용하세요.</p>
   </div>
 </section>
 
-<section class="section" style="padding-top:46px" aria-labelledby="tip-h">
+<!-- ============ 2. 공항 → 강릉 ============ -->
+<section class="tv-section" id="access" aria-label="공항 → 강릉">
   <div class="wrap">
-    <div class="sec-head reveal"><span class="kicker">도착 후 · Last Mile</span><h2 class="sec-h" id="tip-h">강릉역·터미널에서 행사장까지</h2></div>
-    <div class="rt-list">
-      <div class="rt-card reveal d1"><span class="rt-tag">무료 셔틀</span><div class="rt-path"><b>역·터미널 순환</b> · 강릉역·시외터미널 → 컨벤션센터, 배차 15분</div><span class="rt-time">권장</span></div>
-      <div class="rt-card reveal d2"><span class="rt-tag">택시</span><div class="rt-path"><b>강릉역 → 행사장</b> · 약 15분, 시내 요금</div><span class="rt-time">₩8,000~</span></div>
-      <div class="rt-card reveal d3"><span class="rt-tag">전용 차량</span><div class="rt-path"><b>도어투도어</b> · <a href="shuttle-chauffeur.html">전용 차량 문의</a>로 개별 배차</div><span class="rt-time">유료</span></div>
+    <div class="sec-head reveal"><h2 class="sec-h"><span class="ko-only">공항에서 강릉까지</span><span class="en-only">From the airport to Gangneung</span></h2>
+      <p class="sec-sub" style="max-width:none"><span class="ko-only">인천·김포공항 · 버스·KTX 상세 경로 (출처: 공식 사이트 · 평일 기준)</span><span class="en-only">Incheon &amp; Gimpo airports · detailed bus &amp; KTX routes (source: official site · weekdays)</span></p></div>
+
+    <div class="acc-part">
+    <h3 class="tv-subh"><span class="ko-only">Part 1. 인천국제공항 출발</span><span class="en-only">Part 1. From Incheon Int'l Airport</span></h3>
+    <!-- ICN Train -->
+    <div class="acc-item">
+      <button class="acc-btn" type="button"><span><span class="acc-ic">🚄</span><span class="ko-only">인천공항 → 강릉 · KTX (서울역 경유)</span><span class="en-only">Incheon → Gangneung · KTX (via Seoul Station)</span></span><span class="acc-chevron">▾</span></button>
+      <div class="acc-body">
+        <div class="flow">
+          <div class="node"><b><span class="ko-only">인천국제공항</span><span class="en-only">Incheon Airport</span></b><small>ICN</small></div>
+          <div class="conn"><span>→</span></div>
+          <div class="node"><b><span class="ko-only">서울역</span><span class="en-only">Seoul Station</span></b><small>KTX</small></div>
+          <div class="conn"><span>→</span></div>
+          <div class="node"><b><span class="ko-only">강릉역</span><span class="en-only">Gangneung Stn</span></b><small><span class="ko-only">3번 출구</span><span class="en-only">Exit 3</span></small></div>
+          <div class="conn"><span>→</span></div>
+          <div class="node"><b><span class="ko-only">강릉올림픽파크</span><span class="en-only">Olympic Park</span></b></div>
+        </div>
+        <p class="acc-step"><span class="ko-only">[Step 1] 인천공항 → 서울역</span><span class="en-only">[Step 1] Incheon Airport → Seoul Station</span></p>
+        <table>
+          <thead><tr><th><span class="ko-only">수단</span><span class="en-only">Mode</span></th><th><span class="ko-only">소요</span><span class="en-only">Time</span></th><th><span class="ko-only">요금</span><span class="en-only">Fare</span></th></tr></thead>
+          <tbody>
+            <tr><td><span class="ko-only">AREX 직통열차 (논스톱)</span><span class="en-only">AREX Express (non-stop)</span></td><td><span class="ko-only">50분</span><span class="en-only">50 min</span></td><td class="highlight">₩13,000</td></tr>
+            <tr><td><span class="ko-only">리무진버스 6001</span><span class="en-only">Limousine Bus 6001</span></td><td><span class="ko-only">약 1h40m</span><span class="en-only">~1h40m</span></td><td>₩17,000</td></tr>
+            <tr><td><span class="ko-only">리무진버스 6702</span><span class="en-only">Limousine Bus 6702</span></td><td><span class="ko-only">약 1h30m</span><span class="en-only">~1h30m</span></td><td>₩18,000</td></tr>
+            <tr><td><span class="ko-only">택시</span><span class="en-only">Taxi</span></td><td><span class="ko-only">약 1h10m</span><span class="en-only">~1h10m</span></td><td>₩60,000~</td></tr>
+          </tbody>
+        </table>
+        <p style="font-size:12.5px"><span class="ko-only">버스 티켓 — T1 4·6·8·10번 출구 옆 / T2 교통센터 B1F. 6001: 탑승 T1 1층 5번·T2 B1F 29번 / 6702: T1 1층 3번·T2 B1F 18번.</span><span class="en-only">Bus tickets — beside T1 Exits 4·6·8·10 / T2 Transportation Center B1F. 6001: board T1 1F stop 5 · T2 B1F stop 29 / 6702: T1 1F stop 3 · T2 B1F stop 18.</span></p>
+        <p class="acc-step"><span class="ko-only">[Step 2] 서울역 → 강릉역 (KTX) <span class="highlight">(사전 예매 권장)</span></span><span class="en-only">[Step 2] Seoul Station → Gangneung Station (KTX) <span class="highlight">(advance booking recommended)</span></span></p>
+        <p><span class="ko-only">서울역 매표소에서 KTX 티켓 구매. 강릉은 인기 관광지로 좌석이 한정되니 도착 즉시 예매를 권장합니다. (약 2시간 / ₩27,600~33,100, 좌석 등급에 따라 상이)</span><span class="en-only">Buy KTX tickets at the Seoul Station counter. Gangneung is a popular destination and seats are limited, so booking on arrival is recommended. (~2 hours / ₩27,600–33,100, varies by seat class)</span></p>
+        <p class="acc-step"><span class="ko-only">[Step 3] 강릉역 → 행사장 (택시)</span><span class="en-only">[Step 3] Gangneung Station → venue (taxi)</span></p>
+        <p><span class="ko-only"><b>3번 출구</b>로 나와 택시 탑승, 약 5분(₩5,000). 또는 역·터미널 순환 셔틀.</span><span class="en-only">Take <b>Exit 3</b> and a taxi, ~5 min (₩5,000). Or use the Station Loop shuttle.</span></p>
+        <div class="jstep-cta"><a href="https://www.letskorail.com" target="_blank" rel="noopener" class="btn btn-red btn-sm"><span class="ko-only">KORAIL에서 KTX 예매 ↗</span><span class="en-only">Book KTX on KORAIL ↗</span></a></div>
+      </div>
     </div>
+
+    <!-- ICN Bus -->
+    <div class="acc-item">
+      <button class="acc-btn" type="button"><span><span class="acc-ic">🚌</span><span class="ko-only">인천공항 → 강릉 · 직행 시외버스</span><span class="en-only">Incheon → Gangneung · direct intercity bus</span></span><span class="acc-chevron">▾</span></button>
+      <div class="acc-body">
+        <div class="flow">
+          <div class="node"><b><span class="ko-only">인천국제공항</span><span class="en-only">Incheon Airport</span></b><small>ICN</small></div>
+          <div class="conn"><span>→</span></div>
+          <div class="node"><b><span class="ko-only">강릉<br>시외버스터미널</span><span class="en-only">Gangneung<br>Bus Terminal</span></b><small><span class="ko-only">직행버스</span><span class="en-only">Direct</span></small></div>
+          <div class="conn"><span>→</span></div>
+          <div class="node"><b><span class="ko-only">강릉올림픽파크</span><span class="en-only">Olympic Park</span></b><small><span class="ko-only">행사장</span><span class="en-only">Venue</span></small></div>
+        </div>
+        <p class="acc-step"><span class="ko-only">[Step 1] 직행 시외버스 티켓 구매 <span class="highlight">(사전 예매 권장)</span></span><span class="en-only">[Step 1] Buy a direct intercity bus ticket <span class="highlight">(advance booking recommended)</span></span></p>
+        <p><span class="ko-only">인천공항 매표소·키오스크에서 강릉행 직행버스 티켓 구매. 좌석이 한정되어 사전 예매를 권장합니다. (소요 약 3h55m / ₩37,600~45,300, 버스 등급에 따라 상이)</span><span class="en-only">Buy a direct Gangneung-bound ticket at the airport counter or kiosk. Seats are limited, so advance booking is recommended. (~3h55m / ₩37,600–45,300, varies by bus class)</span></p>
+        <ul>
+          <li><span class="ko-only">T1 매표소 — 1층 <b>4·6·8·10번 출구</b> 옆 (4번 04:30~01:30 / 6·8·10번 05:40~22:20)</span><span class="en-only">T1 counter — 1F beside <b>Exits 4·6·8·10</b> (Exit 4: 04:30–01:30 / Exits 6·8·10: 05:40–22:20)</span></li>
+          <li><span class="ko-only">T2 매표소 — 교통센터 <b>지하 1층</b> 버스터미널 (04:00~24:00)</span><span class="en-only">T2 counter — Transportation Center <b>B1F</b> bus terminal (04:00–24:00)</span></li>
+        </ul>
+        <p class="acc-step"><span class="ko-only">[Step 2] 버스 탑승</span><span class="en-only">[Step 2] Board the bus</span></p>
+        <ul>
+          <li><span class="ko-only">탑승 위치 (T1) — 1층 <b>13번</b> 승차장</span><span class="en-only">Boarding (T1) — 1F <b>stop 13</b></span></li>
+          <li><span class="ko-only">탑승 위치 (T2) — 교통센터 지하 1층 <b>10번</b> 승차장</span><span class="en-only">Boarding (T2) — Transportation Center B1F <b>stop 10</b></span></li>
+        </ul>
+        <p><span class="ko-only">버스는 정시 출발하므로 미리 승차장에 도착하세요.</span><span class="en-only">Buses depart on time, so arrive at the platform early.</span></p>
+        <p class="acc-step"><span class="ko-only">운행 시간표 (평일)</span><span class="en-only">Timetable (weekdays)</span></p>
+        <p style="font-size:12.5px;margin-bottom:2px"><b><span class="ko-only">T1 출발</span><span class="en-only">From T1</span></b></p>
+        <div class="acc-bus-times"><span>07:40</span><span>09:40</span><span>12:00</span><span>13:00</span><span>15:00</span><span>16:30</span><span>18:00</span><span>19:10</span><span>21:40</span></div>
+        <p style="font-size:12.5px;margin:10px 0 2px"><b><span class="ko-only">T2 출발</span><span class="en-only">From T2</span></b></p>
+        <div class="acc-bus-times"><span>07:20</span><span>09:10</span><span>11:40</span><span>12:30</span><span>14:40</span><span>16:00</span><span>17:40</span><span>18:50</span><span>21:10</span></div>
+        <p class="acc-step"><span class="ko-only">[Step 3] 강릉터미널 → 행사장 (택시)</span><span class="en-only">[Step 3] Gangneung Terminal → venue (taxi)</span></p>
+        <p><span class="ko-only">강릉시외버스터미널에서 택시로 컨벤션센터까지 약 15분(₩8,000). 또는 무료 <a href="shuttle-venue.html" style="color:var(--red);font-weight:700">역·터미널 순환 셔틀</a>.</span><span class="en-only">From Gangneung Intercity Bus Terminal, ~15 min by taxi to the convention center (₩8,000). Or the free <a href="shuttle-venue.html" style="color:var(--red);font-weight:700">Station Loop shuttle</a>.</span></p>
+      </div>
+    </div>
+
+    </div>
+
+    <div class="acc-part">
+    <h3 class="tv-subh"><span class="ko-only">Part 2. 김포국제공항 출발</span><span class="en-only">Part 2. From Gimpo Int'l Airport</span></h3>
+    <!-- GMP Train -->
+    <div class="acc-item">
+      <button class="acc-btn" type="button"><span><span class="acc-ic">🚄</span><span class="ko-only">김포공항 → 강릉 · 공항철도 + KTX</span><span class="en-only">Gimpo → Gangneung · Airport Railroad + KTX</span></span><span class="acc-chevron">▾</span></button>
+      <div class="acc-body">
+        <div class="flow">
+          <div class="node"><b><span class="ko-only">김포국제공항</span><span class="en-only">Gimpo Airport</span></b><small>GMP</small></div>
+          <div class="conn"><span>→</span></div>
+          <div class="node"><b><span class="ko-only">서울역</span><span class="en-only">Seoul Station</span></b><small>KTX</small></div>
+          <div class="conn"><span>→</span></div>
+          <div class="node"><b><span class="ko-only">강릉역</span><span class="en-only">Gangneung Stn</span></b><small><span class="ko-only">3번 출구</span><span class="en-only">Exit 3</span></small></div>
+          <div class="conn"><span>→</span></div>
+          <div class="node"><b><span class="ko-only">강릉올림픽파크</span><span class="en-only">Olympic Park</span></b></div>
+        </div>
+        <p class="acc-step"><span class="ko-only">[Step 1] 김포공항 → 서울역</span><span class="en-only">[Step 1] Gimpo Airport → Seoul Station</span></p>
+        <table>
+          <thead><tr><th><span class="ko-only">수단</span><span class="en-only">Mode</span></th><th><span class="ko-only">소요</span><span class="en-only">Time</span></th><th><span class="ko-only">요금</span><span class="en-only">Fare</span></th><th><span class="ko-only">비고</span><span class="en-only">Notes</span></th></tr></thead>
+          <tbody>
+            <tr><td><span class="ko-only">공항철도 (일반, 완행)</span><span class="en-only">Airport Railroad (all-stop)</span></td><td>40<span class="ko-only">분</span><span class="en-only"> min</span><small style="color:var(--muted)"><span class="ko-only"> (도보 20분 포함)</span><span class="en-only"> (incl. 20 min walk)</span></small></td><td class="highlight">₩1,750</td><td><span class="ko-only">예약 불필요 · 5~8분 간격</span><span class="en-only">No booking · every 5–8 min</span></td></tr>
+            <tr><td><span class="ko-only">택시</span><span class="en-only">Taxi</span></td><td><span class="ko-only">약 50분</span><span class="en-only">~50 min</span></td><td>₩30,000~</td><td>—</td></tr>
+            <tr><td><span class="ko-only">시내버스 605</span><span class="en-only">City Bus 605</span></td><td><span class="ko-only">약 1h20m</span><span class="en-only">~1h20m</span></td><td>₩1,500</td><td><span class="ko-only">7~11분 간격 · 짐 공간 제한</span><span class="en-only">Every 7–11 min · limited luggage space</span></td></tr>
+          </tbody>
+        </table>
+        <p style="font-size:12.5px"><span class="ko-only">공항철도 — 김포공항역 지하 1층에서 교통카드 구매 후 서울역 방면 탑승. 버스 605 — 국제선청사 4번 승차장 → 서울역 10~12번 출구 앞 하차.</span><span class="en-only">Airport Railroad — buy a transit card at Gimpo Airport Station B1F and board toward Seoul Station. Bus 605 — International Terminal stop 4 → alight in front of Seoul Station Exits 10–12.</span></p>
+        <p class="acc-step"><span class="ko-only">[Step 2] 서울역 → 강릉역 (KTX) <span class="highlight">(사전 예매 권장)</span></span><span class="en-only">[Step 2] Seoul Station → Gangneung Station (KTX) <span class="highlight">(advance booking recommended)</span></span></p>
+        <p><span class="ko-only">약 2시간 / ₩27,600~33,100 (좌석 등급에 따라 상이).</span><span class="en-only">~2 hours / ₩27,600–33,100 (varies by seat class).</span></p>
+        <p class="acc-step"><span class="ko-only">[Step 3] 강릉역 → 행사장 (택시)</span><span class="en-only">[Step 3] Gangneung Station → venue (taxi)</span></p>
+        <p><span class="ko-only"><b>3번 출구</b>로 나와 택시 약 5분(₩5,000). 또는 역·터미널 순환 셔틀.</span><span class="en-only">Take <b>Exit 3</b> and a taxi, ~5 min (₩5,000). Or the Station Loop shuttle.</span></p>
+      </div>
+    </div>
+
+    <!-- GMP Bus -->
+    <div class="acc-item">
+      <button class="acc-btn" type="button"><span><span class="acc-ic">🚌</span><span class="ko-only">김포공항 → 강릉 · 직행 시외버스</span><span class="en-only">Gimpo → Gangneung · direct intercity bus</span></span><span class="acc-chevron">▾</span></button>
+      <div class="acc-body">
+        <div class="flow">
+          <div class="node"><b><span class="ko-only">김포국제공항</span><span class="en-only">Gimpo Airport</span></b><small>GMP</small></div>
+          <div class="conn"><span>→</span></div>
+          <div class="node"><b><span class="ko-only">강릉<br>시외버스터미널</span><span class="en-only">Gangneung<br>Bus Terminal</span></b></div>
+          <div class="conn"><span>→</span></div>
+          <div class="node"><b><span class="ko-only">강릉올림픽파크</span><span class="en-only">Olympic Park</span></b></div>
+        </div>
+        <p class="acc-step"><span class="ko-only">[Step 1] 직행 시외버스 티켓 구매 <span class="highlight">(사전 예매 권장)</span></span><span class="en-only">[Step 1] Buy a direct intercity bus ticket <span class="highlight">(advance booking recommended)</span></span></p>
+        <p><span class="ko-only">김포공항 키오스크에서 강릉행 직행버스 티켓 구매. (약 3h30m / ₩30,000~36,200, 등급에 따라 상이)</span><span class="en-only">Buy a direct Gangneung-bound ticket at a Gimpo Airport kiosk. (~3h30m / ₩30,000–36,200, varies by class)</span></p>
+        <ul>
+          <li><span class="ko-only">국제선청사 — <b>2층 2번 게이트</b></span><span class="en-only">International Terminal — <b>2F Gate 2</b></span></li>
+          <li><span class="ko-only">국내선청사 — 1층 시외버스 매표소</span><span class="en-only">Domestic Terminal — 1F intercity bus ticket office</span></li>
+        </ul>
+        <p class="acc-step"><span class="ko-only">[Step 2] 버스 탑승</span><span class="en-only">[Step 2] Board the bus</span></p>
+        <ul>
+          <li><span class="ko-only">국제선청사 — <b>2층 3번 승차장</b></span><span class="en-only">International Terminal — <b>2F stop 3</b></span></li>
+          <li><span class="ko-only">국내선청사 — <b>11-1번 승차장</b></span><span class="en-only">Domestic Terminal — <b>stop 11-1</b></span></li>
+        </ul>
+        <p class="acc-step"><span class="ko-only">운행 시간표 (국제선청사 기준)</span><span class="en-only">Timetable (International Terminal)</span></p>
+        <div class="acc-bus-times"><span>08:10</span><span>10:10</span><span>12:30</span><span>13:30</span><span>14:30</span><span>15:30</span><span>17:00</span><span>18:30</span><span>19:40</span><span>22:10</span></div>
+        <p style="font-size:12px;color:var(--muted);margin-top:6px"><span class="ko-only">※ 국내선청사 승차는 별도이며 시간표가 다소 상이할 수 있습니다.</span><span class="en-only">※ Domestic Terminal boarding is separate and its timetable may differ slightly.</span></p>
+        <p class="acc-step"><span class="ko-only">[Step 3] 강릉터미널 → 행사장 (택시)</span><span class="en-only">[Step 3] Gangneung Terminal → venue (taxi)</span></p>
+        <p><span class="ko-only">택시로 약 15분(₩8,000). 또는 역·터미널 순환 셔틀.</span><span class="en-only">~15 min by taxi (₩8,000). Or the Station Loop shuttle.</span></p>
+      </div>
+    </div>
+    <!-- GMP-END -->
+    </div>
+
+    <!-- 전체 여정 — 3가지 방법 나란히 -->
+    <div class="tv-group">
+      <h3 class="tv-subh"><span class="ko-only">전체 여정 — 강릉까지 오는 3가지 방법</span><span class="en-only">Full Journey — 3 ways to Gangneung</span></h3>
+      <div class="jgrid">
+        <div class="jg-end top">✈️ <span class="ko-only">인천 / 김포국제공항</span><span class="en-only">Incheon / Gimpo Int'l Airport</span> <small class="ko-only">출발</small><small class="en-only">Start</small></div>
+        <div class="jg-arrow">↓</div>
+        <div class="jg-cols">
+          <div class="jg-col">
+            <div class="jg-h">🚄 <span class="ko-only">KTX</span><span class="en-only">By KTX</span></div>
+            <ol>
+              <li><span class="ko-only">공항철도·버스 → 서울역</span><span class="en-only">Airport rail/bus → Seoul Station</span></li>
+              <li><span class="ko-only">서울역 → 강릉역 KTX (약 2시간)</span><span class="en-only">Seoul → Gangneung KTX (~2h)</span></li>
+              <li><span class="ko-only">강릉역 → 행사장 (셔틀·택시)</span><span class="en-only">Gangneung Stn → venue (shuttle/taxi)</span></li>
+            </ol>
+            <a class="btn btn-red btn-sm" href="https://www.letskorail.com" target="_blank" rel="noopener"><span class="ko-only">KTX 예매 ↗</span><span class="en-only">Book KTX ↗</span></a>
+          </div>
+          <div class="jg-col">
+            <div class="jg-h">🚌 <span class="ko-only">시외버스</span><span class="en-only">By Intercity Bus</span></div>
+            <ol>
+              <li><span class="ko-only">공항 → 강릉시외버스터미널 (직행)</span><span class="en-only">Airport → Gangneung Bus Terminal (direct)</span></li>
+              <li><span class="ko-only">터미널 → 행사장 (셔틀·택시)</span><span class="en-only">Terminal → venue (shuttle/taxi)</span></li>
+            </ol>
+            <a class="btn btn-navy btn-sm" href="https://www.kobus.co.kr" target="_blank" rel="noopener"><span class="ko-only">버스 예매 ↗</span><span class="en-only">Book Bus ↗</span></a>
+          </div>
+          <div class="jg-col">
+            <div class="jg-h">🚘 <span class="ko-only">전용 차량</span><span class="en-only">Private Car</span></div>
+            <ol>
+              <li><span class="ko-only">기사 포함 도어투도어 예약</span><span class="en-only">Chauffeur, door-to-door</span></li>
+              <li><span class="ko-only">공항 → 행사장 직접 이동</span><span class="en-only">Airport → venue directly</span></li>
+            </ol>
+            <a class="btn btn-outline btn-sm" href="shuttle-chauffeur.html"><span class="ko-only">전용 차량 →</span><span class="en-only">Private Car →</span></a>
+          </div>
+        </div>
+        <div class="jg-arrow">↓</div>
+        <div class="jg-end bottom">📍 <span class="ko-only">강릉올림픽파크</span><span class="en-only">Gangneung Olympic Park</span> <small class="ko-only">행사장 도착</small><small class="en-only">Venue</small></div>
+      </div>
+      <p style="font-size:12px;color:var(--muted);margin-top:10px"><span class="ko-only">※ 요금·시각은 참고용이며 실제 예매 시 변동될 수 있습니다.</span><span class="en-only">※ Fares/times are for reference and may vary at booking.</span></p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 3. 짐 배송 ============ -->
+<section class="tv-section" id="baggage" aria-label="짐 배송">
+  <div class="wrap">
+    <div class="sec-head reveal"><h2 class="sec-h"><span class="ko-only">공항 ↔ 호텔 짐 배송</span><span class="en-only">Airport ↔ hotel baggage delivery</span></h2>
+      <p class="sec-sub"><span class="ko-only">무거운 짐 없이 가볍게 이동</span><span class="en-only">Travel light, without heavy luggage</span></p></div>
+
+    <div class="tv-group">
+      <h3 class="tv-subh"><span class="ko-only">서비스 옵션</span><span class="en-only">Service options</span></h3>
+      <div class="arr-grid">
+        <div class="bcard">
+          <img src="assets/img/baggage_airport.webp" alt="" style="width:100%;height:168px;object-fit:cover;display:block">
+          <div class="bhead">🧳 <span class="ko-only">공항 → 호텔 배송</span><span class="en-only">Airport → hotel</span></div>
+          <div class="bbody">
+            <div class="bmeta"><span class="ko-only">이동 중 배송 완료</span><span class="en-only">Delivered while you travel</span></div>
+            <ul>
+              <li><span class="ko-only">도착 후 공항 지정 카운터에 짐 맡기기</span><span class="en-only">Drop your bags at the designated airport counter on arrival</span></li>
+              <li><span class="ko-only">짐 없이 가볍게 <strong>호텔로 이동</strong></span><span class="en-only">Travel to your <strong>hotel</strong> hands-free</span></li>
+              <li><span class="ko-only">호텔 컨시어지에서 수령</span><span class="en-only">Collect at the hotel concierge</span></li>
+            </ul>
+          </div>
+        </div>
+        <div class="bcard">
+          <img src="assets/img/baggage_hotel.webp" alt="" style="width:100%;height:168px;object-fit:cover;display:block">
+          <div class="bhead">🏨 <span class="ko-only">호텔 → 공항 배송</span><span class="en-only">Hotel → airport</span></div>
+          <div class="bbody">
+            <div class="bmeta"><span class="ko-only">빈손으로 출국</span><span class="en-only">Depart empty-handed</span></div>
+            <ul>
+              <li><span class="ko-only"><strong>출발 전날</strong> 예약 필수</span><span class="en-only">Book by <strong>the day before</strong> departure</span></li>
+              <li><span class="ko-only">호텔 컨시어지에 짐 맡기기</span><span class="en-only">Leave your bags with the hotel concierge</span></li>
+              <li><span class="ko-only">공항까지 안전하게 운송</span><span class="en-only">Transported safely to the airport</span></li>
+              <li><span class="ko-only">체크인 전 지정 카운터에서 수령</span><span class="en-only">Collect at the designated counter before check-in</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tv-group">
+      <h3 class="tv-subh"><span class="ko-only">예약 방법</span><span class="en-only">How to book</span></h3>
+      <div class="how-grid">
+        <div class="hstep"><span class="hnum">1</span><h4><span class="ko-only">포털에서 예약</span><span class="en-only">Book on the portal</span></h4><p><span class="ko-only">이 포털의 예약 폼으로 가장 빠르게 예약하고 즉시 확인을 받으세요.</span><span class="en-only">Book fastest with this portal's form and get instant confirmation.</span></p></div>
+        <div class="hstep"><span class="hnum">2</span><h4><span class="ko-only">이메일 문의</span><span class="en-only">Email us</span></h4><p><span class="ko-only">도착일·호텔명·항공편 정보를 <a href="mailto:ops@groundk.com">ops@groundk.com</a>으로 보내주세요.</span><span class="en-only">Send your arrival date, hotel and flight details to <a href="mailto:ops@groundk.com">ops@groundk.com</a>.</span></p></div>
+        <div class="hstep"><span class="hnum">3</span><h4><span class="ko-only">현장 접수</span><span class="en-only">On-site desk</span></h4><p><span class="ko-only">인천·김포공항 도착 홀 또는 공식 호텔 컨시어지에서도 현장 접수가 가능합니다.</span><span class="en-only">Also available at the Incheon/Gimpo arrival halls or official hotel concierges.</span></p></div>
+      </div>
+    </div>
+
+    <div class="tv-group">
+      <div class="info-box">
+        <span class="ib-ic">ℹ️</span>
+        <div>
+          <b><span class="ko-only">짐 배송 이용 안내</span><span class="en-only">Baggage delivery notes</span></b>
+          <p><span class="ko-only">짐 배송 서비스는 총회 공식 호텔에 투숙하는 참가자에 한해 이용 가능합니다. 배송 가능 중량·품목 제한이 있으며, 귀중품·위험물은 별도 처리됩니다. 자세한 사항은 예약 시 안내드립니다.</span><span class="en-only">Baggage delivery is available only to participants staying at an official congress hotel. Weight and item limits apply, and valuables/hazardous items are handled separately. Details are provided at booking.</span></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="tv-cta"><a href="booking.html?svc=baggage" class="btn btn-red"><span class="ko-only">짐 배송 문의 →</span><span class="en-only">Baggage inquiry →</span></a></div>
   </div>
 </section>
 </main>
@@ -120,9 +425,9 @@
 <footer class="corp-foot"><div class="wrap">
   <div class="top">
     <a class="brand" href="index.html"><span class="logo" aria-hidden="true">R</span><span class="wm"><b>RIDEUS Events</b><small>GroundK · 참가자 교통 포털 데모</small></span></a>
-    <nav class="fnav"><a href="shuttle-airport-in.html">공항 → 베뉴</a><a href="shuttle-airport-out.html">베뉴 → 공항</a><a href="shuttle-venue.html">행사장 셔틀</a><a href="shuttle-chauffeur.html">전용 차량</a><a href="info-access.html">오시는 길</a></nav>
+    <nav class="fnav"><a href="shuttle-airport-in.html"><span class="ko-only">공항 → 강릉</span><span class="en-only">To Gangneung</span></a><a href="shuttle-venue.html"><span class="ko-only">행사장 셔틀</span><span class="en-only">Venue Shuttle</span></a><a href="shuttle-airport-out.html"><span class="ko-only">강릉 → 서울역</span><span class="en-only">To Seoul</span></a><a href="shuttle-chauffeur.html"><span class="ko-only">전용 차량</span><span class="en-only">Private Car</span></a><a href="info-access.html"><span class="ko-only">여행 정보</span><span class="en-only">Travel Info</span></a></nav>
   </div>
-  <div class="legal"><b>GroundK Co., Ltd</b> · CEO 장동원 · Business Reg. 238-81-00429 · ops@groundk.com<br><span class="ver">© 2026 GroundK · 2026 강릉 ITS 세계총회 교통 포털 (콘셉트 데모) · build 2026.07.13.1</span></div>
+  <div class="legal"><b>GroundK Co., Ltd</b> · CEO 장동원 · Business Reg. 238-81-00429 · ops@groundk.com<br><span class="ver">© 2026 GroundK · 2026 강릉 ITS 세계총회 교통 포털 (콘셉트 데모) · build 2026.07.13.22</span></div>
 </div></footer>
 <div class="mockup-flag">콘셉트 목업 · 실제 예약 연동 예정</div>
 
@@ -139,6 +444,15 @@
   </div>
 </div>
 
-<script src="assets/app.js?v=2026.07.13.1"></script>
+<script src="assets/app.js?v=2026.07.13.22"></script>
+<script>
+(function(){
+  // accordion (one-page scroll, no tabs)
+  document.querySelectorAll('.acc-btn').forEach(function(b){b.addEventListener('click',function(){
+    var body=b.nextElementSibling; var open=b.classList.contains('open');
+    b.classList.toggle('open',!open); if(body)body.classList.toggle('open',!open);
+  })});
+})();
+</script>
 </body>
 </html>

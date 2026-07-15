@@ -5,101 +5,175 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="Cache-Control" content="no-cache">
 <title>행사장 셔틀 — 2026 강릉 ITS 세계총회 교통 | RIDEUS Events</title>
-<meta name="version" content="2026.07.13.1">
-<link rel="stylesheet" href="assets/transport.css?v=2026.07.13.1">
-<link rel="icon" type="image/png" sizes="64x64" href="assets/img/favicon.png?v=2026.07.13.1">
+<meta name="version" content="2026.07.13.22">
+<link rel="stylesheet" href="assets/transport.css?v=2026.07.13.22">
+<link rel="stylesheet" href="https://unpkg.com/maplibre-gl@5.24.0/dist/maplibre-gl.css"/>
+<link rel="icon" type="image/png" sizes="64x64" href="assets/img/favicon.png?v=2026.07.13.22">
 <link rel="apple-touch-icon" href="assets/img/favicon-180.png">
+<style>
+/* 행사장 내부 순환 실지도 (OpenFreeMap · MapLibre GL) */
+.op-map{height:430px;border-radius:14px;overflow:hidden;border:1px solid var(--line);margin-top:14px}
+@media(max-width:760px){.op-map{height:350px}}
+.op-pin{display:flex;flex-direction:column;align-items:center}
+.op-pin .op-dot{width:26px;height:26px;border-radius:50%;background:var(--red);border:2.5px solid #fff;box-shadow:0 2px 7px rgba(0,0,0,.42);color:#fff;font-weight:800;font-size:12.5px;display:flex;align-items:center;justify-content:center;line-height:1}
+.op-pin .op-lbl{margin-top:4px;font-size:11px;font-weight:800;color:var(--red-700);white-space:nowrap;background:rgba(255,255,255,.92);padding:1px 7px;border-radius:6px;box-shadow:0 1px 3px rgba(0,0,0,.22)}
+.op-map-note{font-size:12px;color:var(--muted);margin-top:9px}
+/* 투어 셔틀 — 개요 표 + 관광지 카드 */
+.tour-ov{display:grid;grid-template-columns:1fr 1fr;gap:9px 26px;margin-top:2px;background:#fff;border:1px solid var(--line);border-left:4px solid var(--red);border-radius:14px;padding:18px 22px;box-shadow:var(--shadow)}
+@media(max-width:600px){.tour-ov{grid-template-columns:1fr;gap:9px}}
+.tour-ov .ti{display:flex;gap:10px;font-size:13.5px;line-height:1.5;align-items:baseline}
+.tour-ov .ti b{flex:0 0 82px;color:var(--red);font-weight:800;font-size:12px;letter-spacing:.2px;white-space:nowrap}
+.tour-ov .ti > span{color:var(--ink)}
+.tour-spots{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:8px}
+@media(max-width:640px){.tour-spots{grid-template-columns:1fr}}
+.spot-card{background:#fff;border:1px solid var(--line);border-radius:var(--radius-lg);overflow:hidden;box-shadow:var(--shadow);display:flex;flex-direction:column}
+.spot-card img{width:100%;height:190px;object-fit:cover;display:block}
+.spot-body{padding:16px 18px 18px}
+.spot-body h3{font-size:17px;font-weight:800;color:var(--navy);margin:0 0 3px;display:flex;align-items:center;gap:7px}
+.spot-body .spot-tag{font-size:11.5px;font-weight:800;color:var(--orange);margin-bottom:9px}
+.spot-body p{font-size:13px;color:var(--ink);line-height:1.65;margin:0}
+</style>
 </head>
 <body>
 <a class="skip" href="#main">본문 바로가기</a>
 <div class="demo-banner">GroundK 콘셉트 데모 — 실제 예약·배정은 처리되지 않습니다. 공식 사이트(<b>2026itsworldcongress.org</b>) 별도.</div>
 <header class="site-head"><div class="bar">
-  <a class="brand brand-its" href="index.html"><img src="assets/img/its-mark.png" alt="2026 강릉 ITS 세계총회"><span class="brand-lockup"><b>GANGNEUNG</b><small>ITS World Congress 2026 · 교통 포털</small></span></a>
-  <nav class="nav" aria-label="셔틀 노선">
-    <a href="index.html">홈</a>
-    <a href="shuttle-airport-in.html">공항 → 베뉴</a>
-    <a href="shuttle-airport-out.html">베뉴 → 공항</a>
-    <a href="shuttle-venue.html" class="active">행사장 셔틀</a>
-    <a href="shuttle-chauffeur.html">전용 차량</a>
-    <a href="info-access.html">오시는 길</a>
+  <a class="brand brand-its" href="index.html"><img src="assets/img/its-mark.png" alt="2026 강릉 ITS 세계총회"><span class="brand-lockup"><b>GANGNEUNG</b><small>ITS World Congress 2026 · <span class="ko-only">교통 포털</span><span class="en-only">Transport Portal</span></small></span></a>
+  <nav class="nav" aria-label="교통">
+    <a href="shuttle-airport-in.html"><span class="ko-only">공항 → 강릉</span><span class="en-only">To Gangneung</span></a>
+    <span class="nav-dd">
+      <a href="shuttle-venue.html" class="active"><span class="ko-only">행사장 셔틀</span><span class="en-only">Venue Shuttle</span></a>
+      <div class="dd-menu">
+        <a href="shuttle-venue.html#station"><span class="ko-only">역·터미널 순환</span><span class="en-only">Station Loop</span></a>
+        <a href="shuttle-venue.html#hotel"><span class="ko-only">숙소 순환</span><span class="en-only">Hotel Loop</span></a>
+        <a href="shuttle-venue.html#internal"><span class="ko-only">행사장 내부 순환</span><span class="en-only">On-site Loop</span></a>
+        <a href="shuttle-venue.html#tour"><span class="ko-only">투어 셔틀</span><span class="en-only">Tour Shuttle</span></a>
+      </div>
+    </span>
+    <a href="shuttle-airport-out.html"><span class="ko-only">강릉 → 서울역</span><span class="en-only">To Seoul</span></a>
+    <a href="shuttle-chauffeur.html"><span class="ko-only">전용 차량</span><span class="en-only">Private Car</span></a>
+    <span class="nav-dd">
+      <a href="info-access.html"><span class="ko-only">여행 정보</span><span class="en-only">Travel Info</span></a>
+      <div class="dd-menu">
+        <a href="info-access.html#arrival"><span class="ko-only">입국 안내</span><span class="en-only">Arrival</span></a>
+        <a href="info-access.html#access"><span class="ko-only">공항 → 강릉</span><span class="en-only">To Gangneung</span></a>
+        <a href="info-access.html#baggage"><span class="ko-only">짐 배송</span><span class="en-only">Baggage</span></a>
+      </div>
+    </span>
   </nav>
   <div class="head-right">
     <button class="lang" id="langToggle" type="button">🌐 <span class="seg on" data-lang="ko">KO</span><span class="seg" data-lang="en">EN</span></button>
-    <button class="head-link hide-sm" id="lookupBtn" type="button">예약조회</button>
-    <a class="head-link ext hide-sm" href="https://2026itsworldcongress.org" target="_blank" rel="noopener">공식 사이트</a>
+    <button class="head-link hide-sm" id="lookupBtn" type="button"><span class="ko-only">예약조회</span><span class="en-only">Booking</span></button>
+    <a class="head-link ext hide-sm" href="https://2026itsworldcongress.org" target="_blank" rel="noopener"><span class="ko-only">공식 사이트</span><span class="en-only">Official Site</span></a>
   </div>
+
+  <button class="nav-toggle" type="button" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
 </div></header>
 
 <main id="main">
 <section class="detail-hero dhero-its">
   <div class="inner">
-    <nav class="crumb" aria-label="breadcrumb"><a href="index.html">홈</a> › <span>행사장 셔틀</span></nav>
-    <h1>행사장 셔틀 <span style="font-size:.55em;font-weight:700;opacity:.85">기간 중 무료 순환</span></h1>
-    <p class="dsub">총회 기간(2026.10.19~23) 숙소·역·행사장을 잇는 <b>무료 순환 셔틀</b>. 별도 신청 없이 지정 정류장에서 탑승하세요.</p>
-  </div>
+    <nav class="crumb" aria-label="breadcrumb"><a href="index.html"><span class="ko-only">홈</span><span class="en-only">Home</span></a> › <span><span class="ko-only">행사장 셔틀</span><span class="en-only">Venue Shuttle</span></span></nav>
+    <h1><span class="ko-only">행사장 셔틀</span><span class="en-only">Venue Shuttle</span> <span style="font-size:.55em;font-weight:700;opacity:.85"><span class="ko-only">기간 중 순환 운행</span><span class="en-only">Loop service during the congress</span></span></h1>
+    <p class="dsub"><span class="ko-only">강릉 내에서의 이동을 돕기 위해 순환 셔틀을 운행합니다.</span><span class="en-only">Loop shuttles run to help you get around within Gangneung.</span></p>
+    </div>
 </section>
 
 <div class="wrap subnav-wrap">
   <nav class="subnav" aria-label="행사장 셔틀 종류">
-    <a href="#" class="active" data-tab="hotel">숙소 순환 셔틀</a>
-    <a href="#" data-tab="station">역·터미널 순환</a>
-    <a href="#" data-tab="internal">행사장 내부 순환</a>
+    <a href="#" class="active" data-tab="station"><span class="ko-only">역·터미널 순환</span><span class="en-only">Station Loop</span></a>
+    <a href="#" data-tab="hotel"><span class="ko-only">숙소 순환 셔틀</span><span class="en-only">Hotel Loop</span></a>
+    <a href="#" data-tab="internal"><span class="ko-only">행사장 내부 순환</span><span class="en-only">On-site Loop</span></a>
+    <a href="#" data-tab="tour"><span class="ko-only">투어 셔틀</span><span class="en-only">Tour Shuttle</span></a>
   </nav>
 </div>
 
 <div class="wrap">
   <!-- ===== 숙소 순환 (G2~G5) ===== -->
-  <section class="subtab" id="tab-hotel">
-    <div class="sec-head reveal"><span class="kicker">숙소 순환 · Hotel Loop</span><h2 class="sec-h">숙소 ↔ 강릉올림픽파크, 4개 노선</h2>
-      <p class="sec-sub">강릉올림픽파크를 기점으로 주요 숙소를 왕복 순환합니다. 운영 2026.10.19~23 · 배차 15~60분 · 무료.</p></div>
+  <section class="subtab" id="tab-hotel" hidden>
+    <div class="sec-head reveal"><h2 class="sec-h"><span class="ko-only">숙소 ↔ 강릉올림픽파크</span><span class="en-only">Hotels ↔ Gangneung Olympic Park</span></h2>
+      <p class="sec-sub"><span class="ko-only">숙소 ↔ 강릉올림픽파크 왕복 순환</span><span class="en-only">Round-trip loop between hotels and Gangneung Olympic Park</span></p></div>
 
-    <div class="rroute" data-config='{"code":"G2","title":"강릉올림픽파크 ~ 씨마크호텔 순환","meta":["소요 14′","배차 15~60′"],"stops":["강릉올림픽파크","강릉오발","라카이샌드파인리조트","스카이베이호텔 경포","씨마크호텔"],"segs":[2,8,2,2],"loop":true,"first":"07:30","last":"19:30","headway":30,"headwayLabel":"15~60분"}'></div>
+    <div class="rroute" data-config='{"code":"G2","live":"1344","title":"씨마크호텔 ~ 강릉컨벤션센터 순환","meta":["편도 14′","배차 15~60′"],"stops":["씨마크호텔","스카이베이호텔 경포","라카이샌드파인리조트","강릉오발","강릉컨벤션센터"],"segsOut":[2,2,8,2],"loop":true,"gsched":true}'></div>
 
-    <div class="rroute" data-config='{"code":"G3","o":true,"title":"강릉올림픽파크 ~ 신라모노그램강릉 순환","meta":["소요 12′","배차 15~60′"],"stops":["강릉올림픽파크","강릉오발","세인트존스호텔","신라모노그램강릉"],"segs":[2,8,2],"loop":true,"first":"07:30","last":"19:30","headway":30,"headwayLabel":"15~60분"}'></div>
+    <div class="rroute" data-config='{"code":"G3","live":"1345","o":true,"title":"신라모노그램강릉 ~ 강릉컨벤션센터 순환","meta":["편도 12′","배차 15~60′"],"stops":["신라모노그램강릉","세인트존스호텔","강릉오발","강릉컨벤션센터"],"segsOut":[2,8,2],"loop":true,"gsched":true}'></div>
 
-    <div class="rroute" data-config='{"code":"G4","title":"강릉올림픽파크 ~ SL호텔 강릉 순환","meta":["소요 30′","배차 15~60′"],"stops":["강릉올림픽파크","강릉오발","컨피넨스 오션스위트","SL호텔 강릉"],"segs":[2,15,13],"loop":true,"first":"07:30","last":"19:30","headway":30,"headwayLabel":"15~60분"}'></div>
+    <div class="rroute" data-config='{"code":"G4","live":false,"title":"SL호텔 강릉 ~ 강릉컨벤션센터 순환","meta":["편도 30′","배차 15~60′"],"stops":["SL호텔 강릉","컨피넨스 오션스위트","강릉오발","강릉컨벤션센터"],"segsOut":[13,15,2],"loop":true,"gsched":true}'></div>
 
-    <div class="rroute" data-config='{"code":"G5","o":true,"title":"강릉올림픽파크 ~ 호텔탑스텐 순환","meta":["소요 50′","배차 15~60′"],"stops":["강릉올림픽파크","강릉오발","강릉씨티호텔","썬크루즈 호텔·리조트","호텔탑스텐"],"segs":[2,8,29,11],"loop":true,"first":"07:30","last":"19:30","headway":30,"headwayLabel":"15~60분"}'></div>
+    <div class="rroute" data-config='{"code":"G5","live":false,"o":true,"title":"호텔탑스텐 ~ 강릉컨벤션센터 순환","meta":["편도 50′","배차 15~60′"],"stops":["호텔탑스텐","썬크루즈 호텔·리조트","강릉씨티호텔","강릉오발","강릉컨벤션센터"],"segsOut":[11,29,8,2],"loop":true,"gsched":true}'></div>
 
-    <p class="sec-sub" style="margin-top:10px">※ 정류장·소요는 수송계획(안) 기준이며 확정 전 변경될 수 있습니다.</p>
+    <p class="sec-sub" style="margin-top:10px"><span class="ko-only">※ 정류장·소요는 수송계획(안) 기준이며 확정 전 변경될 수 있습니다.</span><span class="en-only">※ Stops and travel times are based on the draft transport plan and may change before they are finalized.</span></p>
   </section>
 
   <!-- ===== 역·터미널 순환 (G1) ===== -->
-  <section class="subtab" id="tab-station" hidden>
-    <div class="sec-head reveal"><span class="kicker">역·터미널 순환 · Station Loop</span><h2 class="sec-h">강릉역·터미널 ↔ 행사장</h2>
-      <p class="sec-sub">KTX 강릉역·시외버스터미널과 강릉올림픽파크를 왕복 순환합니다. 운영 2026.10.19~23 · 배차 15~60분 · 무료.</p></div>
+  <section class="subtab" id="tab-station">
+    <div class="sec-head reveal"><h2 class="sec-h"><span class="ko-only">강릉역·터미널 ↔ 행사장</span><span class="en-only">Gangneung Station &amp; Terminal ↔ Venue</span></h2>
+      <p class="sec-sub"><span class="ko-only">강릉역·터미널 ↔ 강릉올림픽파크 순환</span><span class="en-only">Loop between Gangneung Station / Bus Terminal and Gangneung Olympic Park</span></p></div>
 
-    <div class="rroute" data-config='{"code":"G1","title":"강릉올림픽파크 ~ 강릉버스터미널 순환","meta":["소요 24′","배차 15~60′"],"stops":["강릉올림픽파크","강릉오발","강릉종합운동장","강릉역(KTX)","월화거리","강릉버스터미널"],"segs":[2,2,5,5,10],"loop":true,"first":"07:30","last":"19:30","headway":30,"headwayLabel":"15~60분"}'></div>
+    <div class="rroute" data-config='{"code":"G1","live":"1346","title":"강릉올림픽파크 ~ 강릉버스터미널 순환","meta":["소요 24′","배차 15~60′"],"stops":["강릉올림픽파크","강릉오발","강릉종합운동장","강릉역(KTX)","월화거리","강릉버스터미널"],"segs":[2,2,5,5,10],"loop":true,"first":"07:30","last":"19:30","headway":30,"headwayLabel":"15~60분"}'></div>
 
-    <div class="sec-head reveal" style="margin-top:28px"><span class="kicker">탑승 위치 · Boarding Photos</span><h2 class="sec-h" style="font-size:19px">역·터미널 승차장</h2></div>
+    <div class="sec-head reveal" style="margin-top:28px"><h2 class="sec-h" style="font-size:19px"><span class="ko-only">역·터미널 승차장</span><span class="en-only">Station &amp; Terminal boarding points</span></h2></div>
     <div class="photo-cards">
       <figure class="photo-card2 reveal d1">
-        <figcaption class="pc-head"><span class="pc-no">1</span>강릉역 앞 버스 탑승장</figcaption>
-        <div class="pc-ph">🖼️ 강릉역 앞 버스 탑승장 사진<small>KTX 강릉역 정면 승차 지점 (사진 삽입 예정)</small></div>
-        <div class="pc-cap">KTX 강릉역에서 하차 후 정면 버스 탑승장에서 G1 셔틀 탑승</div>
+        <figcaption class="pc-head"><span class="pc-no">1</span><span class="ko-only">강릉역 앞 버스 탑승장</span><span class="en-only">Bus boarding point in front of Gangneung Station</span></figcaption>
+        <img src="assets/img/boarding-gangneung-station.png" alt="강릉역 앞 버스 탑승장">
+        <div class="pc-cap"><span class="ko-only">KTX 강릉역에서 하차 후 정면 버스 탑승장에서 G1 셔틀 탑승</span><span class="en-only">After arriving at KTX Gangneung Station, board the G1 shuttle at the bus boarding point directly in front.</span></div>
       </figure>
       <figure class="photo-card2 reveal d2">
-        <figcaption class="pc-head"><span class="pc-no">2</span>강릉버스터미널 앞 버스 탑승장</figcaption>
-        <div class="pc-ph">🖼️ 강릉버스터미널 앞 버스 탑승장 사진<small>시외버스터미널 앞 승차 지점 (사진 삽입 예정)</small></div>
-        <div class="pc-cap">시외/고속버스터미널 도착 후 터미널 앞 탑승장에서 G1 셔틀 탑승</div>
+        <figcaption class="pc-head"><span class="pc-no">2</span><span class="ko-only">강릉버스터미널 앞 버스 탑승장</span><span class="en-only">Bus boarding point in front of Gangneung Bus Terminal</span></figcaption>
+        <img src="assets/img/boarding-gangneung-terminal.png" alt="강릉버스터미널 앞 버스 탑승장">
+        <div class="pc-cap"><span class="ko-only">시외/고속버스터미널 도착 후 터미널 앞 탑승장에서 G1 셔틀 탑승</span><span class="en-only">After arriving at the intercity / express bus terminal, board the G1 shuttle at the boarding point in front of the terminal.</span></div>
       </figure>
     </div>
   </section>
 
   <!-- ===== 행사장 내부 순환 (OP) ===== -->
   <section class="subtab" id="tab-internal" hidden>
-    <div class="sec-head reveal"><span class="kicker">행사장 내부 순환 · On-site Loop</span><h2 class="sec-h">올림픽파크 내부 순환</h2>
-      <p class="sec-sub">회의장·전시장·아레나 등 올림픽파크 내 주요 지점을 순환합니다. 운영 2026.10.19~23 · 배차 20분 · 무료.</p></div>
+    <div class="sec-head reveal"><h2 class="sec-h"><span class="ko-only">올림픽파크 내부 순환</span><span class="en-only">Olympic Park on-site loop</span></h2>
+      <p class="sec-sub"><span class="ko-only">올림픽파크 내부 순환</span><span class="en-only">On-site loop within the Olympic Park</span></p></div>
 
-    <div class="rroute" data-config='{"code":"OP","title":"강릉올림픽파크 순환","meta":["소요 18′","배차 20′"],"stops":["강릉올림픽파크","강릉오발","강릉종합운동장","강릉아이스아레나","강릉올림픽파크"],"segs":[2,2,2,2],"loop":false,"first":"09:00","last":"18:20","headway":20,"headwayLabel":"20분"}'></div>
+    <div class="rroute" data-config='{"code":"OP","live":"1347","title":"강릉올림픽파크 순환","meta":["소요 18′","배차 20′"],"stops":["회의장","전시장","올림픽파크 후문","아레나 정류장","회의장"],"segs":[2,2,2,2],"loop":false,"numbered":true,"first":"09:00","last":"18:20","headway":20,"headwayLabel":"20분"}'></div>
 
-    <div class="sec-head reveal" style="margin-top:28px"><span class="kicker">노선도 · Route Map</span><h2 class="sec-h" style="font-size:19px">내부 순환 노선도</h2></div>
-    <div class="photo-cards">
-      <figure class="photo-card2 reveal d1">
-        <figcaption class="pc-head"><span class="pc-no">3</span>행사장 내부 순환셔틀 노선도</figcaption>
-        <div class="pc-ph">🖼️ 행사장 내부 순환셔틀 노선도<small>노선도 이미지 교체 예정</small></div>
-        <div class="pc-cap">① 회의장 · ② 전시장 · ③ 올림픽파크 후문 · ④ 아레나 앞 버스정류장 순환</div>
-      </figure>
+    <div class="sec-head reveal" style="margin-top:28px"><h2 class="sec-h" style="font-size:19px"><span class="ko-only">내부 순환 노선도</span><span class="en-only">On-site loop route map</span></h2></div>
+    <div id="opMap" class="op-map reveal" role="img" aria-label="강릉올림픽파크 내부 순환 셔틀 정류장 지도"></div>
+    <p class="op-map-note"><span class="ko-only">① 회의장 · ② 전시장 · ③ 올림픽파크 후문 · ④ 아레나 앞 버스정류장 순환. ※ 컨벤션센터(공사 중)는 근사 위치입니다.</span><span class="en-only">Loop: ① Convention Center · ② Exhibition Hall · ③ Olympic Park Rear Gate · ④ Bus stop by the Arena. ※ The convention center (under construction) is approximate.</span></p>
+  </section>
+
+  <!-- ===== 투어 셔틀 (TS) ===== -->
+  <section class="subtab" id="tab-tour" hidden>
+    <div class="sec-head reveal"><h2 class="sec-h"><span class="ko-only">투어 셔틀 — 오죽헌 · 안목 카페거리</span><span class="en-only">Tour Shuttle — Ojukheon &amp; Anmok Cafe Street</span></h2>
+      <p class="sec-sub"><span class="ko-only">총회 기간 중 강릉 대표 명소를 도는 순환 투어 셔틀입니다.</span><span class="en-only">A loop tour shuttle to Gangneung's signature attractions during the congress.</span></p></div>
+
+    <div class="tour-ov reveal">
+      <div class="ti"><b><span class="ko-only">운영기간</span><span class="en-only">Dates</span></b><span><span class="ko-only">2026.10.19(월) ~ 10.23(금)</span><span class="en-only">Oct 19 (Mon) – 23 (Fri), 2026</span></span></div>
+      <div class="ti"><b><span class="ko-only">대상</span><span class="en-only">Eligibility</span></b><span><span class="ko-only">등록 참가자</span><span class="en-only">Registered participants</span></span></div>
+      <div class="ti"><b><span class="ko-only">탑승 인원</span><span class="en-only">Capacity</span></b><span><span class="ko-only">1회 최대 41명</span><span class="en-only">Up to 41 per trip</span></span></div>
+      <div class="ti"><b><span class="ko-only">소요 시간</span><span class="en-only">Duration</span></b><span><span class="ko-only">약 45분</span><span class="en-only">~45 min</span></span></div>
+      <div class="ti"><b><span class="ko-only">출발 시각</span><span class="en-only">Departures</span></b><span><span class="ko-only">10:00 ~ 17:00 · 매 정각 출발 (2대 교대 운행)</span><span class="en-only">10:00–17:00 · departs on the hour (2 buses alternating)</span></span></div>
+      <div class="ti"><b><span class="ko-only">운행 구간</span><span class="en-only">Route</span></b><span><span class="ko-only">컨벤션센터 → 오죽헌 → 안목 카페거리 → 컨벤션센터</span><span class="en-only">Convention Center → Ojukheon → Anmok Cafe St. → Convention Center</span></span></div>
+    </div>
+
+    <div class="sec-head reveal" style="margin-top:28px"><h2 class="sec-h" style="font-size:19px"><span class="ko-only">투어 노선도</span><span class="en-only">Tour route</span></h2></div>
+    <div class="rroute" data-config='{"code":"TS","live":false,"title":"컨벤션센터 ~ 오죽헌 · 안목 카페거리 투어","meta":["소요 45′","10:00–17:00 매 정각"],"stops":["컨벤션센터","오죽헌","안목카페거리","컨벤션센터"],"loop":false,"timetable":false}'></div>
+
+    <div class="sec-head reveal" style="margin-top:28px"><h2 class="sec-h" style="font-size:19px"><span class="ko-only">관광지 소개</span><span class="en-only">About the attractions</span></h2></div>
+    <div class="tour-spots">
+      <article class="spot-card reveal d1">
+        <img src="assets/img/ojukheon.jpg" alt="오죽헌 / Ojukheon" style="object-position:center 82%">
+        <div class="spot-body">
+          <h3>🏯 <span class="ko-only">오죽헌</span><span class="en-only">Ojukheon</span></h3>
+          <div class="spot-tag"><span class="ko-only">보물 · 조선시대 유적지</span><span class="en-only">National Treasure · Joseon-era heritage</span></div>
+          <p><span class="ko-only">율곡 이이와 어머니 신사임당이 태어난 조선시대 고택으로, 우리나라에서 가장 오래된 주거 건축 중 하나이자 보물로 지정된 강릉 대표 유적지입니다. 율곡이 태어난 몽룡실, 영정을 모신 문성사, 율곡기념관과 수령 600년의 율곡매를 만날 수 있습니다.</span><span class="en-only">A Joseon-era house where the great scholar Yulgok Yi I and his mother Shin Saimdang were born. One of Korea's oldest residential buildings and a designated National Treasure, it features Mongnyongsil (Yulgok's birth room), the Munseongsa shrine, the Yulgok Memorial Hall, and a 600-year-old plum tree.</span></p>
+        </div>
+      </article>
+      <article class="spot-card reveal d2">
+        <img src="assets/img/anmok-cafe-street.jpg" alt="안목 카페거리 / Anmok Cafe Street">
+        <div class="spot-body">
+          <h3>☕ <span class="ko-only">안목 카페거리</span><span class="en-only">Anmok Cafe Street</span></h3>
+          <div class="spot-tag"><span class="ko-only">해변 · 커피 명소</span><span class="en-only">Beachfront · coffee hotspot</span></div>
+          <p><span class="ko-only">안목해변을 따라 카페가 늘어선 강릉의 대표 커피 거리입니다. 1980년대 자판기 커피에서 시작해 지금은 로스팅 전문 카페가 모인 명소로, 탁 트인 동해를 바라보며 갓 내린 커피를 즐길 수 있고 일출 명소로도 유명합니다.</span><span class="en-only">Gangneung's signature coffee street, lined with cafes along Anmok Beach. From its 1980s vending-machine-coffee roots to today's specialty roasteries, enjoy freshly brewed coffee with wide open East Sea views — also a famous sunrise spot.</span></p>
+        </div>
+      </article>
     </div>
   </section>
 </div>
@@ -107,11 +181,11 @@
 <!-- RULES -->
 <section class="section" aria-labelledby="rl-h">
   <div class="wrap">
-    <div class="sec-head reveal"><span class="kicker">안내 · Information</span><h2 class="sec-h" id="rl-h">이용 안내</h2></div>
+    <div class="sec-head reveal"><h2 class="sec-h" id="rl-h"><span class="ko-only">이용 안내</span><span class="en-only">Good to know</span></h2></div>
     <div class="rules reveal"><ul>
-      <li>행사장 셔틀은 <b>등록 참가자 무료 · 신청 불필요</b>입니다. 지정 정류장에서 자유롭게 탑승하세요.</li>
-      <li>운영 기간은 총회 기간(2026.10.19~23)이며, 프로그램 일정에 맞춰 시간대별로 조정될 수 있습니다.</li>
-      <li>배차는 15~60분 범위(피크 시 증편)이며, 시간표는 30분 간격 예시입니다. 확정 시간표는 조직위 안내에 따릅니다.</li>
+      <li><span class="ko-only">행사장 셔틀은 <b>등록 참가자 · 신청 불필요</b>입니다. 지정 정류장에서 자유롭게 탑승하세요.</span><span class="en-only">The venue shuttle is for <b>registered participants — no booking required</b>. Just board at any designated stop.</span></li>
+      <li><span class="ko-only">운영 기간은 총회 기간(2026.10.19~23)이며, 프로그램 일정에 맞춰 시간대별로 조정될 수 있습니다.</span><span class="en-only">Service runs during the congress (Oct 19–23, 2026) and may be adjusted by time of day to match the program schedule.</span></li>
+      <li><span class="ko-only">배차는 15~60분 범위(피크 시 증편)이며, 시간표는 30분 간격 예시입니다. 확정 시간표는 조직위 안내에 따릅니다.</span><span class="en-only">Headways range from 15 to 60 minutes (more frequent at peak times); the timetable shows 30-minute intervals as an example. The final timetable follows the organizing committee's announcement.</span></li>
     </ul></div>
   </div>
 </section>
@@ -120,9 +194,9 @@
 <footer class="corp-foot"><div class="wrap">
   <div class="top">
     <a class="brand" href="index.html"><span class="logo" aria-hidden="true">R</span><span class="wm"><b>RIDEUS Events</b><small>GroundK · 참가자 교통 포털 데모</small></span></a>
-    <nav class="fnav"><a href="shuttle-airport-in.html">공항 → 베뉴</a><a href="shuttle-airport-out.html">베뉴 → 공항</a><a href="shuttle-venue.html">행사장 셔틀</a><a href="shuttle-chauffeur.html">전용 차량</a><a href="info-access.html">오시는 길</a></nav>
+    <nav class="fnav"><a href="shuttle-airport-in.html"><span class="ko-only">공항 → 강릉</span><span class="en-only">To Gangneung</span></a><a href="shuttle-venue.html"><span class="ko-only">행사장 셔틀</span><span class="en-only">Venue Shuttle</span></a><a href="shuttle-airport-out.html"><span class="ko-only">강릉 → 서울역</span><span class="en-only">To Seoul</span></a><a href="shuttle-chauffeur.html"><span class="ko-only">전용 차량</span><span class="en-only">Private Car</span></a><a href="info-access.html"><span class="ko-only">여행 정보</span><span class="en-only">Travel Info</span></a></nav>
   </div>
-  <div class="legal"><b>GroundK Co., Ltd</b> · CEO 장동원 · Business Reg. 238-81-00429 · ops@groundk.com<br><span class="ver">© 2026 GroundK · 2026 강릉 ITS 세계총회 교통 포털 (콘셉트 데모) · build 2026.07.13.1</span></div>
+  <div class="legal"><b>GroundK Co., Ltd</b> · CEO 장동원 · Business Reg. 238-81-00429 · ops@groundk.com<br><span class="ver">© 2026 GroundK · 2026 강릉 ITS 세계총회 교통 포털 (콘셉트 데모) · build 2026.07.13.22</span></div>
 </div></footer>
 <div class="mockup-flag">콘셉트 목업 · 실제 예약 연동 예정</div>
 
@@ -130,27 +204,76 @@
 <div class="modal-ov" id="lookupModal" role="dialog" aria-modal="true" aria-labelledby="lk-h">
   <div class="modal">
     <button class="modal-x" id="lookupClose" type="button" aria-label="닫기">✕</button>
-    <h3 id="lk-h">예약·배정 조회</h3>
-    <p>접수번호(또는 참가등록번호)와 이메일로 신청 내역을 조회합니다.</p>
-    <div class="mf"><label for="lkCode">접수번호 / 등록번호</label><input id="lkCode" type="text" placeholder="ITS-SH-000000 / ITS2026-XXXX"></div>
-    <div class="mf"><label for="lkEmail">이메일</label><input id="lkEmail" type="email" placeholder="you@email.com"></div>
-    <div class="m-actions"><button class="btn btn-red btn-block btn-sm" id="lookupSubmit" type="button">조회하기</button></div>
-    <p class="m-note" id="lkResult">※ 콘셉트 데모입니다. 실제 배정 시스템과 연동되지 않으며 예시 안내만 표시됩니다.</p>
+    <h3 id="lk-h"><span class="ko-only">예약·배정 조회</span><span class="en-only">Check booking &amp; assignment</span></h3>
+    <p><span class="ko-only">접수번호(또는 참가등록번호)와 이메일로 신청 내역을 조회합니다.</span><span class="en-only">Look up your request with your reference number (or participant registration number) and email.</span></p>
+    <div class="mf"><label for="lkCode"><span class="ko-only">접수번호 / 등록번호</span><span class="en-only">Reference / registration no.</span></label><input id="lkCode" type="text" placeholder="ITS-SH-000000 / ITS2026-XXXX"></div>
+    <div class="mf"><label for="lkEmail"><span class="ko-only">이메일</span><span class="en-only">Email</span></label><input id="lkEmail" type="email" placeholder="you@email.com"></div>
+    <div class="m-actions"><button class="btn btn-red btn-block btn-sm" id="lookupSubmit" type="button"><span class="ko-only">조회하기</span><span class="en-only">Look up</span></button></div>
+    <p class="m-note" id="lkResult"><span class="ko-only">※ 콘셉트 데모입니다. 실제 배정 시스템과 연동되지 않으며 예시 안내만 표시됩니다.</span><span class="en-only">※ This is a concept demo. It is not connected to a real assignment system and shows sample information only.</span></p>
   </div>
 </div>
 
-<script src="assets/app.js?v=2026.07.13.1"></script>
+<script src="assets/app.js?v=2026.07.13.22"></script>
 <script>
 (function(){
   var tabs=document.querySelectorAll('.subnav a[data-tab]');
-  var panes={hotel:document.getElementById('tab-hotel'),station:document.getElementById('tab-station'),internal:document.getElementById('tab-internal')};
-  tabs.forEach(function(t){t.addEventListener('click',function(e){
-    e.preventDefault();
-    tabs.forEach(function(x){x.classList.remove('active')});
-    t.classList.add('active');
-    Object.keys(panes).forEach(function(k){if(panes[k])panes[k].hidden=(k!==t.dataset.tab)});
+  var panes={hotel:document.getElementById('tab-hotel'),station:document.getElementById('tab-station'),internal:document.getElementById('tab-internal'),tour:document.getElementById('tab-tour')};
+  function show(key){
+    if(!panes[key])return;
+    tabs.forEach(function(x){x.classList.toggle('active',x.dataset.tab===key)});
+    Object.keys(panes).forEach(function(k){if(panes[k])panes[k].hidden=(k!==key)});
     if(window.__rerenderSnakes)window.__rerenderSnakes();
-  })});
+    if(key==='internal'&&window.__initOpMap)window.__initOpMap();
+  }
+  tabs.forEach(function(t){t.addEventListener('click',function(e){e.preventDefault();show(t.dataset.tab);});});
+  function fromHash(){var h=(location.hash||'').replace('#','');if(panes[h])show(h);}
+  window.addEventListener('hashchange',fromHash);
+  fromHash();
+})();
+</script>
+<script src="https://unpkg.com/maplibre-gl@5.24.0/dist/maplibre-gl.js"></script>
+<script>
+(function(){
+  var STOPS=[
+    {n:1,ko:'회의장',en:'Convention Center',lat:37.7788,lng:128.9008},
+    {n:2,ko:'전시장',en:'Exhibition Hall',lat:37.7762,lng:128.9013},
+    {n:3,ko:'올림픽파크 후문',en:'Rear Gate',lat:37.7748,lng:128.8983},
+    {n:4,ko:'아레나 정류장',en:'Arena Bus Stop',lat:37.7791,lng:128.8973}
+  ];
+  var inited=false, map=null, markers=[];
+  function isEn(){return document.documentElement.getAttribute('data-lang')==='en';}
+  function makeEl(s){
+    var pin=document.createElement('div'); pin.className='op-pin';
+    var dot=document.createElement('span'); dot.className='op-dot'; dot.textContent=s.n;
+    var lbl=document.createElement('span'); lbl.className='op-lbl'; lbl.textContent=isEn()?s.en:s.ko;
+    pin.appendChild(dot); pin.appendChild(lbl); return pin;
+  }
+  async function build(){
+    var el=document.getElementById('opMap');
+    if(!el||typeof maplibregl==='undefined')return;
+    var style='https://tiles.openfreemap.org/styles/bright';
+    try{ var r=await fetch(style); var j=await r.json(); j.layers=j.layers.filter(function(l){return l['source-layer']!=='poi';}); style=j; }catch(e){}
+    map=new maplibregl.Map({container:'opMap',style:style,center:[128.8993,37.7772],zoom:14.6,attributionControl:{compact:false,customAttribution:'<a href="https://openfreemap.org" target="_blank" rel="noopener">OpenFreeMap</a> © <a href="https://openmaptiles.org/" target="_blank" rel="noopener">OpenMapTiles</a> Data from <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a>'}});
+    map.addControl(new maplibregl.NavigationControl({showCompass:false}),'top-left');
+    var bounds=new maplibregl.LngLatBounds();
+    STOPS.forEach(function(s){
+      var m=new maplibregl.Marker({element:makeEl(s),anchor:'bottom'}).setLngLat([s.lng,s.lat]).addTo(map);
+      m._data=s; markers.push(m); bounds.extend([s.lng,s.lat]);
+    });
+    map.fitBounds(bounds,{padding:70,duration:0,maxZoom:15});
+    map.on('load',function(){
+      var coords=STOPS.map(function(s){return [s.lng,s.lat];}); coords.push([STOPS[0].lng,STOPS[0].lat]);
+      map.addSource('op-loop',{type:'geojson',data:{type:'Feature',geometry:{type:'LineString',coordinates:coords}}});
+      map.addLayer({id:'op-loop-l',type:'line',source:'op-loop',paint:{'line-color':'#006241','line-width':4,'line-opacity':.85,'line-dasharray':[2,1.4]}},
+        map.getStyle().layers.find(function(l){return l.type==='symbol';}) ? map.getStyle().layers.find(function(l){return l.type==='symbol';}).id : undefined);
+    });
+    new MutationObserver(function(){
+      markers.forEach(function(m){var l=m.getElement().querySelector('.op-lbl'); if(l)l.textContent=isEn()?m._data.en:m._data.ko;});
+    }).observe(document.documentElement,{attributes:true,attributeFilter:['data-lang']});
+  }
+  window.__initOpMap=function(){ if(inited){ if(map)setTimeout(function(){map.resize();},30); return;} inited=true; build(); };
+  var ip=document.getElementById('tab-internal');
+  if(ip&&!ip.hidden)window.__initOpMap();
 })();
 </script>
 </body>
