@@ -75,9 +75,6 @@
   /* 노선명 라벨 — Figma 실측(22px/Bold/#333) 반영. 노선명은 이제 노선도 안 여기에만 표기하고
      시간표 위 sched-dir-h 헤딩은 중복이라 삭제(마크업에서 h3 자체를 제거) */
   .rm-title{font-size:22px;font-weight:700;color:var(--ink)}
-  /* Live 버튼 — Figma "View Route Details" 버튼 실측(펄스점 없는 순수 텍스트, radius 4px,
-     background var(--red-050), text var(--red), font-weight 400, padding 4px 28px) 반영 */
-  .rm-live{margin-left:auto;font-size:14px;font-weight:400;color:var(--red);background:var(--red-050);border-radius:4px;padding:4px 28px;white-space:nowrap;text-decoration:none}
   /* 좌측 4px 컬러 스트라이프(transport.css .route-map::before)는 이 페이지에서만 제거 —
      반복되는 카드 좌측 보더 악센트는 흔한 "AI 생성 디자인" 클리셰라는 피드백 반영.
      transport.css 자체는 안 건드려 airport-transfer.html 등 다른 페이지엔 영향 없음. */
@@ -98,7 +95,7 @@
      실측해 반영: 칩 모서리 8px(완전 알약형 아님)·테두리 #ddd·텍스트 13px 세미볼드 #333,
      칩 간격 8px, 행 사이는 여백이 아니라 구분선(border-bottom)으로 분리. */
   .sched-stops{display:flex;flex-direction:column;border:1px solid var(--line-2);border-radius:var(--radius-sm);overflow:hidden}
-  .sched-stop-row{display:flex;align-items:center;border-bottom:1px solid var(--line-2)}
+  .sched-stop-row{display:flex;align-items:stretch;border-bottom:1px solid var(--line-2)}
   .sched-stop-row:last-child{border-bottom:none}
   .sched-stop-name{flex:0 0 auto;width:140px;font-size:13px;font-weight:700;color:var(--ink);padding:9px 13px;background:var(--bg-2);border-right:1px solid var(--line-2)}
   .sched-stop-name.is-bexco{color:var(--red)}
@@ -254,10 +251,6 @@
           <div class="rm-head">
             <span class="rm-title ko-only">행사장행</span>
             <span class="rm-title en-only">To Venue</span>
-            <a href="#" onclick="return false" class="rm-live">
-              <span class="ko-only">실시간 위치 확인 (준비중)</span>
-              <span class="en-only">Live location (coming soon)</span>
-            </a>
           </div>
           <div class="rm-track">
             <ol class="rm-line" style="grid-template-columns:repeat(3,1fr)">
@@ -379,10 +372,6 @@
           <div class="rm-head">
             <span class="rm-title ko-only">호텔행</span>
             <span class="rm-title en-only">To Hotel</span>
-            <a href="#" onclick="return false" class="rm-live">
-              <span class="ko-only">실시간 위치 확인 (준비중)</span>
-              <span class="en-only">Live location (coming soon)</span>
-            </a>
           </div>
           <div class="rm-track">
             <ol class="rm-line" style="grid-template-columns:repeat(3,1fr)">
@@ -514,10 +503,6 @@
           <div class="rm-head">
             <span class="rm-title ko-only">행사장행</span>
             <span class="rm-title en-only">To Venue</span>
-            <a href="#" onclick="return false" class="rm-live">
-              <span class="ko-only">실시간 위치 확인 (준비중)</span>
-              <span class="en-only">Live location (coming soon)</span>
-            </a>
           </div>
           <div class="rm-track">
             <ol class="rm-line" style="grid-template-columns:repeat(3,1fr)">
@@ -636,10 +621,6 @@
           <div class="rm-head">
             <span class="rm-title ko-only">호텔행</span>
             <span class="rm-title en-only">To Hotel</span>
-            <a href="#" onclick="return false" class="rm-live">
-              <span class="ko-only">실시간 위치 확인 (준비중)</span>
-              <span class="en-only">Live location (coming soon)</span>
-            </a>
           </div>
           <div class="rm-track">
             <ol class="rm-line" style="grid-template-columns:repeat(3,1fr)">
@@ -942,7 +923,6 @@
         <li>선착순 탑승입니다. 별도 예약은 필요하지 않습니다.</li>
         <li>출발 <b>10분 전</b>까지 정류장에 도착해 주세요.</li>
         <li>피크 시간대에는 만석일 수 있습니다. 만석 시 <b>다음 운행 편</b>을 이용해 주세요.</li>
-        <li>실시간 위치 확인은 추후 제공 예정입니다. 지정 정류장에서 대기해 주세요.</li>
         <li>시간표는 변경될 수 있습니다. 현장 안내판을 확인해 주세요.</li>
       </ul>
       <ul class="en-block">
@@ -950,7 +930,6 @@
         <li>First-come, first-served. No reservation required.</li>
         <li>Please arrive at the stop <b>10 minutes before departure</b>.</li>
         <li>Shuttles may be full during peak hours. Please wait for the next service.</li>
-        <li>Live location tracking is coming soon. Please wait at your designated stop.</li>
         <li>Schedule is subject to change. Check on-site boards for updates.</li>
       </ul>
     </div>
