@@ -202,17 +202,39 @@
   padding:60px 0;
 }
 .chauffeur-inner {
+  position:relative; z-index:1;
   max-width:var(--maxw); margin:0 auto; padding:0 24px;
-  display:grid; grid-template-columns:1fr auto; gap:40px; align-items:center;
 }
-@media(max-width:720px){ .chauffeur-inner{ grid-template-columns:1fr; gap:24px; } }
-.chauffeur-photo {
-  width:340px; border-radius:var(--radius); overflow:hidden;
-  box-shadow:0 30px 60px -20px rgba(0,0,0,.6);
-  aspect-ratio:16/10; background:#1e2a4a; flex-shrink:0;
+.chauffeur-content { max-width:520px; position:relative; z-index:1; }
+/* 쇼퍼 사진을 콘텐츠 폭(--maxw) 안에서 전체 배경으로 깔되, mask로 좌우 가장자리를 아주
+   완만하게(경계가 안 느껴질 만큼) 투명 처리해 배경(navy 그라디언트)에 자연스럽게 녹아들게
+   함 — 카드처럼 박스로 띄우지 않음. 텍스트 영역도 사진을 완전히 지우지 않고, 대신 별도
+   scrim 그라디언트(::after)로 어둡게 눌러 가독성만 확보 — 텍스트 아래로도 사진이 은은하게
+   비쳐 보이는 걸 의도함. */
+.chauffeur-bg {
+  position:absolute; inset:0;
+  max-width:var(--maxw); left:50%; transform:translateX(-50%);
+  -webkit-mask-image:linear-gradient(to right, transparent 0%, black 45%, black 55%, transparent 100%);
+  mask-image:linear-gradient(to right, transparent 0%, black 45%, black 55%, transparent 100%);
+  pointer-events:none;
 }
-@media(max-width:720px){ .chauffeur-photo{ width:100%; aspect-ratio:16/9; } }
-.chauffeur-photo img { width:100%; height:100%; object-fit:cover; display:block; }
+.chauffeur-bg img { width:100%; height:100%; object-fit:cover; object-position:70% 35%; display:block; }
+.chauffeur-bg::after {
+  content:"";
+  position:absolute; inset:0;
+  background:linear-gradient(to right, rgba(9,14,28,.82) 0%, rgba(9,14,28,.55) 40%, rgba(9,14,28,.18) 65%, rgba(9,14,28,0) 85%);
+}
+/* 모바일은 텍스트가 전체 폭을 쓰고 그 위에 겹칠 여유 공간이 없어 마스크/절대배치를 풀고
+   텍스트 아래 일반 사진 블록으로 되돌림(기존 .chauffeur-photo와 동일한 방식). */
+@media(max-width:720px){
+  .chauffeur-content { max-width:none; }
+  .chauffeur-bg {
+    position:static; inset:auto; transform:none; max-width:none;
+    margin-top:24px; border-radius:var(--radius); overflow:hidden;
+    aspect-ratio:16/9; -webkit-mask-image:none; mask-image:none;
+  }
+  .chauffeur-bg img { object-position:center 30%; }
+}
 .chauffeur-ic { font-size:40px; margin-bottom:6px; }
 .chauffeur h2 {
   font-size:clamp(24px,3.6vw,36px); font-weight:800;
@@ -533,16 +555,16 @@
 <!-- ── PRIVATE CHAUFFEUR ───────────────────────────────────────────── -->
 <section class="chauffeur" aria-label="전용차량 서비스">
   <div class="chauffeur-inner wrap">
-    <div>
+    <div class="chauffeur-content">
       <span class="chauffeur-ic"><svg class="ico ico-lg" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2"/><circle cx="7" cy="17" r="2"/><path d="M9 17h6"/><circle cx="17" cy="17" r="2"/></svg></span>
       <h2>Get a private chauffeur<br><em>just for you</em></h2>
       <p class="ko-block">김해공항·부산역에서 목적지까지 도어 투 도어. 세단·밴·의전 차량. 연자·임원 의전 및 팀 단위 이동에 — 셔틀보다 유연하게.</p>
       <p class="en-block">Door-to-door from Gimhae Airport or Busan Station. Sedans, vans &amp; VIP vehicles. For speakers, executives &amp; group transfers — more flexible than a shuttle.</p>
       <a class="btn btn-white" href="shuttle-chauffeur.html"><span class="ko-only">자세히 보기 →</span><span class="en-only">Learn More →</span></a>
     </div>
-    <div class="chauffeur-photo">
-      <img src="assets/img/chauffeur-g90-hotel-night.webp" alt="Private Chauffeur — G90 hotel drop-off, RIDEUS Events">
-    </div>
+  </div>
+  <div class="chauffeur-bg">
+    <img src="assets/img/chauffeur-g90-hotel-night.webp" alt="Private Chauffeur — G90 hotel drop-off, RIDEUS Events">
   </div>
 </section>
 
