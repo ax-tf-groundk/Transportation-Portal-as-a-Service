@@ -57,6 +57,10 @@
   .vtabs{display:flex;border-radius:var(--radius-sm);overflow:hidden;border:1px solid var(--line);margin-top:16px}
   .vtabs:not(.vtabs-date){border-radius:999px}
   .vtab{flex:1;padding:13px 16px;background:#fff;border:none;font:inherit;font-size:22px;font-weight:700;color:var(--muted);cursor:pointer;transition:background .15s,color .15s}
+  /* 노선명 옆 호텔명 보조 표기 — 노선 A/B만으로는 구분이 안 돼 다시 추가(사용자 피드백).
+     본문(22px bold)과 위계 구분되게 작고 옅은 서브텍스트로 처리. */
+  .vtab-sub{font-weight:400;font-size:.62em;opacity:.75;white-space:nowrap}
+  @media(max-width:560px){.vtab-sub{display:block;margin-top:2px}}
   .vtab:not(:last-child){border-right:1px solid var(--line)}
   .vtabs:not(.vtabs-date) .vtab[aria-selected="true"]{color:#fff;background:var(--navy)}
   .vtabs.vtabs-date .vtab[aria-selected="true"]{color:var(--red);background:var(--red-050)}
@@ -238,10 +242,10 @@
     </div>
     <div class="vtabs" role="tablist" aria-label="노선 선택">
       <button class="vtab" type="button" role="tab" data-vr-btn="a" aria-selected="true">
-        <span class="ko-only">A 노선</span><span class="en-only">Route A</span>
+        <span class="ko-only">A 노선 <span class="vtab-sub">(시그니엘·파라다이스)</span></span><span class="en-only">Route A <span class="vtab-sub">(Signiel·Paradise)</span></span>
       </button>
       <button class="vtab" type="button" role="tab" data-vr-btn="b" aria-selected="false" tabindex="-1">
-        <span class="ko-only">B 노선</span><span class="en-only">Route B</span>
+        <span class="ko-only">B 노선 <span class="vtab-sub">(웨스틴조선·파크하얏트)</span></span><span class="en-only">Route B <span class="vtab-sub">(Westin Josun·Park Hyatt)</span></span>
       </button>
     </div>
 
