@@ -24,6 +24,9 @@
   /* 호텔 지도 */
   .hotel-map{height:460px;border-radius:var(--radius);overflow:hidden;border:1px solid var(--line);margin-top:20px}
   @media(max-width:760px){.hotel-map{height:360px}}
+  /* 지도 로드 실패 폴백 — WebGL 미지원/네트워크 차단 등으로 조용히 빈 박스만 남는 문제 대응 */
+  .hotel-map.is-fallback{display:flex;align-items:center;justify-content:center;background:var(--bg-2,#f7f7f7)}
+  .hotel-map-fallback-msg{color:var(--muted);font-size:14px;line-height:1.6;text-align:center;padding:24px;max-width:320px}
   .hotel-list-grid{display:grid;grid-template-columns:1fr 2fr;gap:44px;margin-top:30px}
   @media(max-width:760px){.hotel-list-grid{grid-template-columns:1fr;gap:28px}}
   .hlist-h{display:flex;align-items:center;gap:8px;font-size:16px;font-weight:800;letter-spacing:.2px;text-transform:uppercase;color:var(--navy);margin:0 0 16px;padding-bottom:11px;border-bottom:1px solid var(--line)}
@@ -1147,7 +1150,23 @@
   }
 
   var el = document.getElementById('hotelMap');
-  if (!el || typeof maplibregl === 'undefined') return;
+  if (!el) return;
+
+  // 지도 로드 실패 폴백 — WebGL 미지원(구형 GPU·VM·브라우저 보안설정)이나 CDN/타일 서버가
+  // 사내망·광고차단기에 막힌 경우 조용히 빈 박스만 남는 문제 대응. 실패 시 바로 아래 있는
+  // 텍스트 호텔 목록(.hotel-list-grid)을 참고하라는 안내로 대체.
+  function showMapFallback() {
+    el.classList.add('is-fallback');
+    el.innerHTML = '<p class="hotel-map-fallback-msg">' +
+      '<span class="ko-only">지도를 불러오지 못했습니다. 아래 호텔 목록을 참고해 주세요.</span>' +
+      '<span class="en-only">Map failed to load. Please see the hotel list below.</span>' +
+      '</p>';
+  }
+
+  if (typeof maplibregl === 'undefined' || (typeof maplibregl.supported === 'function' && !maplibregl.supported())) {
+    showMapFallback();
+    return;
+  }
 
   applyDeoverlap(HOTELS, 25, 18);
 
@@ -1159,13 +1178,29 @@
     mapStyle = styleJson;
   } catch (e) { /* fetch failed — fall back to unmodified style URL */ }
 
-  var map = new maplibregl.Map({
-    container: 'hotelMap',
-    style: mapStyle,
-    center: [129.16, 35.16],
-    zoom: 13,
-    attributionControl: { compact: false }
+  var map;
+  try {
+    map = new maplibregl.Map({
+      container: 'hotelMap',
+      style: mapStyle,
+      center: [129.16, 35.16],
+      zoom: 13,
+      attributionControl: { compact: false }
+    });
+  } catch (e) {
+    showMapFallback();
+    return;
+  }
+
+  var mapReady = false;
+  var mapFailTimer = setTimeout(function () { if (!mapReady) showMapFallback(); }, 10000);
+  map.on('load', function () { mapReady = true; clearTimeout(mapFailTimer); });
+  map.on('error', function () {
+    // load 이전에 난 에러만 치명적으로 취급 — load 이후(개별 타일·아이콘 에러 등)는
+    // 이미 정상 렌더된 지도를 지우지 않고 무시.
+    if (!mapReady) { clearTimeout(mapFailTimer); showMapFallback(); }
   });
+
   map.addControl(new maplibregl.NavigationControl({ showCompass: false }), 'top-left');
 
   function popupHtml(h, isEnNow) {
