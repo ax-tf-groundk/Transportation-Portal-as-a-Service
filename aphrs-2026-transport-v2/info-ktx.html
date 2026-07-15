@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>KTX Reservation — APHRS 2026 Transportation</title>
+  <link rel="stylesheet" href="assets/transport.css?v=2026.06.27.5" />
+</head>
+<body>
+
+  <!-- ░░ DEMO BANNER ░░ -->
+  <div class="demo-banner">
+    🚧 GroundK 콘셉트 데모 — 실제 예약·결제는 처리되지 않습니다.
+  </div>
+
+<header class="site-head">
+  <div class="bar">
+    <a class="brand brand-aphrs" href="index.html">
+      <img src="https://aphrs2026.com/home/2025/aphrs/image/top_logo.png" alt="APHRS 2026 Busan" onerror="this.onerror=null;this.src='assets/img/aphrs-logo.png'">
+      <span class="btag" style="color:var(--red,#E8003D)">교통 포털</span>
+    </a>
+    <nav class="nav">
+      <a href="shuttle-airport-hotel.html">공항 → 호텔</a>
+      <a href="shuttle-hotel-airport.html">호텔 → 공항</a>
+      <a href="shuttle-venue.html">행사장 셔틀</a>
+      <a href="shuttle-chauffeur.html">전용차량</a>
+    </nav>
+    <div class="head-right">
+      <button class="lang" id="langToggle" type="button">🌐 <span class="seg" data-lang="en">EN</span><span class="seg on" data-lang="ko">KO</span></button>
+      <button class="head-link hide-sm" id="lookupBtn" type="button">예약조회</button>
+      <a class="head-link ext hide-sm" href="https://aphrs2026.com" target="_blank" rel="noopener">공식 사이트 ↗</a>
+    </div>
+  </div>
+</header>
+
+  <!-- ░░ SUB HERO ░░ -->
+  <section class="detail-hero"
+           style="background-image:url('https://transport.apec2025.kr/shared/images/sub/bg-visual-ktx.jpg');"
+           onerror="">
+    <div class="detail-hero-inner">
+      <p class="hero-eyebrow">Getting to Busan</p>
+      <h1>KTX — Seoul to Busan</h1>
+      <p class="dsub">High-speed rail from Seoul Station or Incheon Airport to Busan Station. Approx. 2h 30min.</p>
+      <a href="https://www.letskorail.com" target="_blank" rel="noopener" class="btn btn-primary">
+        Book on KORAIL ↗
+      </a>
+    </div>
+  </section>
+
+  <!-- ░░ MAIN CONTENT ░░ -->
+  <main class="page-main">
+
+    <!-- Route Cards -->
+    <section class="section-block">
+      <div class="container">
+        <h2 class="section-title">Routes to Busan</h2>
+        <div class="arr-grid">
+
+          <!-- Card 1 -->
+          <div class="arr-card">
+            <img class="arr-card-thumb" src="assets/img/incheon-airport-ktx.jpg" alt="Incheon Airport KTX">
+            <div class="arr-card-body">
+            <h3 class="arr-card-title">Incheon Airport → Busan</h3>
+            <p class="arr-card-meta">AREX + KTX transfer &nbsp;·&nbsp; ~2h 50min</p>
+            <ol class="arr-steps">
+              <li>Take <strong>AREX</strong> (All-stop) to Seoul Station (~43 min)</li>
+              <li>Transfer to <strong>KTX</strong> at Seoul Station</li>
+              <li>Arrive at <strong>Busan Station</strong></li>
+            </ol>
+            <a href="https://www.letskorail.com" target="_blank" rel="noopener" class="btn btn-outline btn-sm">
+              Check Timetable ↗
+            </a>
+            </div>
+          </div>
+
+          <!-- Card 2 -->
+          <div class="arr-card">
+            <img class="arr-card-thumb" src="assets/img/ktx-train.jpg" alt="KTX 열차">
+            <div class="arr-card-body">
+            <h3 class="arr-card-title">Seoul Station → Busan</h3>
+            <p class="arr-card-meta">KTX Direct &nbsp;·&nbsp; ~2h 20min</p>
+            <ol class="arr-steps">
+              <li>Depart from <strong>Seoul Station</strong></li>
+              <li>KTX direct service — no transfer</li>
+              <li>Arrive at <strong>Busan Station</strong></li>
+            </ol>
+            <a href="https://www.letskorail.com" target="_blank" rel="noopener" class="btn btn-outline btn-sm">
+              Book Now ↗
+            </a>
+            </div>
+          </div>
+
+          <!-- Card 3 -->
+          <div class="arr-card">
+            <img class="arr-card-thumb" src="assets/img/busan-station.jpg" alt="부산역">
+            <div class="arr-card-body">
+            <h3 class="arr-card-title">Busan Station → BEXCO</h3>
+            <p class="arr-card-meta">APHRS Shuttle Connection &nbsp;·&nbsp; ~40min</p>
+            <ol class="arr-steps">
+              <li>Arrive at <strong>Busan Station</strong> (KTX)</li>
+              <li>Head to <strong>APHRS Shuttle Pick-up</strong> zone</li>
+              <li>Shuttle to <strong>BEXCO / Official Hotels</strong></li>
+            </ol>
+            <a href="booking.html?svc=airport" class="btn btn-outline btn-sm">
+              Reserve Shuttle →
+            </a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Photo Gallery -->
+    <section class="section-block section-alt">
+      <div class="container">
+        <h2 class="section-title">KTX Gallery</h2>
+        <div class="photo-grid two-col">
+          <figure class="photo-card">
+            <img src="https://transport.apec2025.kr/shared/images/sub/img-ktx-airport-t1.jpg"
+                 alt="Incheon Airport KTX Terminal 1"
+                 onerror="this.onerror=null;this.src='assets/img/ktx-placeholder.jpg';" />
+            <figcaption>Incheon Airport — KTX Terminal 1 Access</figcaption>
+          </figure>
+          <figure class="photo-card">
+            <img src="https://transport.apec2025.kr/shared/images/zones/bg-visual-busan-station.jpg"
+                 alt="Busan Station"
+                 onerror="this.onerror=null;this.src='assets/img/busan-station-placeholder.jpg';" />
+            <figcaption>Busan Station — KTX Arrival</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- How to Book -->
+    <section class="section-block">
+      <div class="container">
+        <h2 class="section-title">How to Book KTX</h2>
+        <div class="how-grid">
+          <div class="how-step">
+            <span class="how-num">01</span>
+            <h4>KORAIL Official Website</h4>
+            <p>Visit <a href="https://www.letskorail.com" target="_blank" rel="noopener">letskorail.com</a> to search schedules and reserve your seat up to 1 month in advance.</p>
+          </div>
+          <div class="how-step">
+            <span class="how-num">02</span>
+            <h4>Korail Talk App</h4>
+            <p>Download the <strong>Korail Talk</strong> app (iOS / Android) for mobile booking, QR tickets and real-time seat availability.</p>
+          </div>
+          <div class="how-step">
+            <span class="how-num">03</span>
+            <h4>Station Ticket Window</h4>
+            <p>Purchase at any major KTX station counter. Credit cards and cash accepted. English-speaking staff available at Seoul Station.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Info Box -->
+    <section class="section-block section-alt">
+      <div class="container">
+        <div class="info-box info-box--blue">
+          <span class="info-box-icon">ℹ️</span>
+          <div>
+            <strong>APHRS Shuttle Connection from Busan Station</strong>
+            <p>After arriving at Busan Station by KTX, APHRS shuttle buses are available to BEXCO Convention Center and official conference hotels. Journey time is approximately <strong>40 minutes</strong>. Please proceed to the designated APHRS pick-up zone at the main exit.</p>
+            <a href="booking.html?svc=airport" class="btn btn-primary btn-sm" style="margin-top:.75rem;">Reserve Shuttle →</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="section-block cta-section">
+      <div class="container cta-center">
+        <h2>Ready to travel by KTX?</h2>
+        <p>Book your high-speed rail tickets directly on the KORAIL official platform.</p>
+        <a href="https://www.letskorail.com" target="_blank" rel="noopener" class="btn btn-primary btn-lg">
+          Book on KORAIL ↗
+        </a>
+      </div>
+    </section>
+
+  </main>
+
+<!-- ===== CORPORATE FOOTER ===== -->
+<footer class="corp-foot">
+  <div class="wrap">
+    <div class="top">
+      <a class="brand" href="index.html" aria-label="RIDEUS Events 홈">
+        <span class="logo" aria-hidden="true">R</span>
+        <span class="wm"><b>RIDEUS Events</b><small>GroundK · 참가자 교통 포털 데모</small></span>
+      </a>
+      <nav class="fnav" aria-label="푸터">
+        <a href="shuttle-airport-hotel.html">공항 → 호텔</a>
+        <a href="shuttle-hotel-airport.html">호텔 → 공항</a>
+        <a href="shuttle-venue.html">행사장 셔틀</a>
+        <a href="index.html#support">고객 지원</a>
+      </nav>
+    </div>
+    <div class="legal">
+      <b>GroundK Co., Ltd</b> · 대표 장동원 · 사업자등록번호 238-81-00429<br>
+      부산광역시 해운대구 센텀동로 45, 405호 (우 48059) · Tel +82-2-863-3540 · ops@groundk.com<br>
+      RIDEUS는 GroundK의 Transportation × Travel 플랫폼입니다.<br>
+      <span class="ver">© 2026 GroundK · APHRS 2026 참가자 교통 포털 (콘셉트 데모) · build 2026.06.27.5</span>
+    </div>
+  </div>
+</footer>
+
+<div class="mockup-flag" style="z-index:200">컨셉 목업 · 실제 예약 연동 예정</div>
+
+<!-- ===== BOOKING LOOKUP MODAL ===== -->
+<div class="modal-ov" id="lookupModal" role="dialog" aria-modal="true" aria-labelledby="lk-h">
+  <div class="modal">
+    <button class="modal-x" id="lookupClose" type="button" aria-label="닫기">✕</button>
+    <h3 id="lk-h">예약 내역 조회</h3>
+    <p>예약번호와 이메일을 입력하면 데모 예약 내역을 확인합니다.</p>
+    <div class="mf"><label for="lkCode">예약번호</label><input id="lkCode" type="text" placeholder="RE-APHRS-KTX-0001"></div>
+    <div class="mf"><label for="lkEmail">이메일</label><input id="lkEmail" type="email" placeholder="you@example.com"></div>
+    <div class="m-actions"><button class="btn btn-red btn-block btn-sm" id="lookupSubmit" type="button">조회하기</button></div>
+    <p class="m-note" id="lkResult">※ 콘셉트 데모입니다. 실제 예약 시스템과 연동되지 않습니다.</p>
+  </div>
+</div>
+
+<script src="assets/app.js?v=2026.06.27.5"></script>
+</body>
+</html>

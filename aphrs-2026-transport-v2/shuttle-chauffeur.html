@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Cache-Control" content="no-cache">
+<title>Private Chauffeur Service — APHRS 2026</title>
+<meta name="description" content="APHRS 2026 private chauffeur service. Door-to-door sedan, van, or VIP escort. Gimhae Airport or Busan Station to any destination in Busan.">
+<meta name="version" content="2026.06.27.5">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="assets/transport.css?v=2026.06.27.5">
+<style>
+/* Chauffeur page additions — minimal inline supplementary styles */
+.svc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:2rem}
+@media(max-width:720px){.svc-grid{grid-template-columns:1fr}}
+.svc-card{background:#fff;border:1.5px solid var(--bd,#e5e7eb);border-radius:12px;padding:2rem 1.5rem;text-align:center;transition:box-shadow .2s,transform .2s}
+.svc-card:hover{box-shadow:0 8px 32px rgba(0,0,0,.1);transform:translateY(-3px)}
+.svc-ic{font-size:3rem;display:block;margin-bottom:.75rem}
+.svc-name{font-size:1.25rem;font-weight:700;margin-bottom:.25rem}
+.svc-cap{font-size:.82rem;color:var(--soft,#6b7280);margin-bottom:.5rem}
+.svc-desc{font-size:.9rem;color:var(--fg,#374151);margin-bottom:1.25rem;line-height:1.5}
+.zone-list{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:.6rem}
+.zone-list li{display:flex;align-items:center;gap:.6rem;font-size:.95rem}
+.zone-list li::before{content:"↔";color:var(--accent,#b91c1c);font-weight:700;flex-shrink:0}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<div class="demo-banner">
+  GroundK Concept Demo — No actual booking or payment is processed. This is not the official APHRS 2026 website (<b>aphrs2026.com</b> is separate).
+</div>
+
+<header class="site-head">
+  <div class="bar">
+    <a class="brand brand-aphrs" href="index.html" aria-label="APHRS 2026 Busan — Participant Transportation">
+      <img src="https://aphrs2026.com/home/2025/aphrs/image/top_logo.png" alt="APHRS 2026 Busan"
+           onerror="this.onerror=null;this.src='assets/img/aphrs-logo.png'">
+      <span class="btag">Transportation</span>
+    </a>
+    <nav class="nav" aria-label="Shuttle routes">
+      <a href="shuttle-airport-hotel.html">Airport → Hotel</a>
+      <a href="shuttle-hotel-airport.html">Hotel → Airport</a>
+      <a href="shuttle-venue.html">Venue Shuttle</a>
+      <a href="shuttle-chauffeur.html" class="active">Chauffeur</a>
+    </nav>
+    <div class="head-right">
+      <button class="lang" id="langToggle" type="button" aria-label="Switch language (demo)">
+        🌐 <span class="seg on" data-lang="en">EN</span><span class="seg" data-lang="ko">KO</span>
+      </button>
+      <button class="head-link hide-sm" id="lookupBtn" type="button">My Booking</button>
+      <a class="head-link ext hide-sm" href="https://aphrs2026.com" target="_blank" rel="noopener">Official Site</a>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+
+<!-- ===== DETAIL HERO ===== -->
+<section class="detail-hero">
+  <img class="bgimg"
+       src="assets/img/ev-aphrs.webp"
+       alt="Private Chauffeur Vehicle"
+       onerror="this.onerror=null;this.src='assets/img/card-bus.jpg'">
+  <div class="inner">
+    <nav class="crumb" aria-label="breadcrumb">
+      <a href="index.html">Home</a> › <a href="index.html#shuttle">Services</a> › <span>Chauffeur</span>
+    </nav>
+    <h1>Private Chauffeur <span style="font-size:.55em;font-weight:700;opacity:.85">Service</span></h1>
+    <p class="dsub">Door-to-door sedan, van, or VIP. <b>Gimhae Airport or Busan Station</b> to any destination.</p>
+  </div>
+</section>
+
+<div class="wrap">
+  <div class="op-badges">
+    <span class="op-badge"><span class="ob-k">Coverage</span> Gimhae Airport · Busan Station · Hotels · BEXCO</span>
+    <span class="op-badge"><span class="ob-k">Booking</span> Advance reservation required</span>
+    <span class="op-badge paid">PAID · On-demand</span>
+  </div>
+</div>
+
+<!-- ===== VEHICLE SELECTION ===== -->
+<section class="section" aria-labelledby="svc-h">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="kicker">Vehicle Selection · 차량 선택</span>
+      <h2 class="sec-h" id="svc-h">Choose Your Vehicle</h2>
+      <p class="sec-sub">Select the right vehicle for your group size and occasion — from airport transfers to VIP escorted arrivals.</p>
+    </div>
+    <div class="svc-grid">
+
+      <!-- Sedan -->
+      <div class="svc-card reveal d1">
+        <span class="svc-ic">🚗</span>
+        <div class="svc-name">Sedan</div>
+        <div class="svc-cap">Up to 3 passengers</div>
+        <p class="svc-desc">Standard sedan for airport/station to hotel transfers and general point-to-point rides.</p>
+        <a class="btn btn-red" href="booking.html?svc=private&amp;type=sedan">Book Now</a>
+      </div>
+
+      <!-- Van/MPV -->
+      <div class="svc-card reveal d2">
+        <span class="svc-ic">🚐</span>
+        <div class="svc-name">Van / MPV</div>
+        <div class="svc-cap">Up to 7 passengers</div>
+        <p class="svc-desc">Spacious van for group transfers — ideal for delegations or families travelling together.</p>
+        <a class="btn btn-red" href="booking.html?svc=private&amp;type=van">Book Now</a>
+      </div>
+
+      <!-- VIP Escort -->
+      <div class="svc-card reveal d3">
+        <span class="svc-ic">👔</span>
+        <div class="svc-name">VIP Escort</div>
+        <div class="svc-cap">Up to 4 passengers</div>
+        <p class="svc-desc">Luxury sedan with professional escort — for speakers, faculty, and executive delegates.</p>
+        <a class="btn btn-red" href="booking.html?svc=private&amp;type=vip">Book Now</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===== HOW IT WORKS ===== -->
+<section class="section" style="padding-top:0" aria-labelledby="how-h">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="kicker">How It Works · 이용 방법</span>
+      <h2 class="sec-h" id="how-h">4 Steps to Your Ride</h2>
+    </div>
+    <div class="how-steps">
+      <div class="how-step reveal d1"><span class="sn">1</span><b>Select Vehicle</b><p>Sedan, Van/MPV, or VIP Escort</p></div>
+      <div class="how-step reveal d2"><span class="sn">2</span><b>Enter Pickup Details</b><p>Pickup point, destination, date &amp; time</p></div>
+      <div class="how-step reveal d3"><span class="sn">3</span><b>Confirm Schedule</b><p>Review itinerary and passenger count</p></div>
+      <div class="how-step reveal d4"><span class="sn">4</span><b>Receive Voucher</b><p>Get your e-voucher and driver contact</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SERVICE ZONES ===== -->
+<section class="section" style="padding-top:0" aria-labelledby="zone-h">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="kicker">Service Zones · 운행 구간</span>
+      <h2 class="sec-h" id="zone-h">Where We Operate</h2>
+      <p class="sec-sub">Point-to-point transfers anywhere within Busan. Common routes include:</p>
+    </div>
+    <ul class="zone-list reveal">
+      <li>Gimhae Int'l Airport (PUS) &nbsp;↔&nbsp; Official Hotels / BEXCO</li>
+      <li>Busan Station (KTX) &nbsp;↔&nbsp; Official Hotels / BEXCO</li>
+      <li>Point-to-point anywhere within Busan metropolitan area</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ===== RULES ===== -->
+<section class="section" style="padding-top:0" aria-labelledby="rl-h">
+  <div class="wrap">
+    <div class="sec-head reveal"><span class="kicker">Information · 이용 안내</span><h2 class="sec-h" id="rl-h">Usage Guidelines</h2></div>
+    <div class="rules reveal">
+      <h4>Booking &amp; Pricing</h4>
+      <ul>
+        <li><b>Advance booking is required</b> — walk-in reservations are not accepted.</li>
+        <li>Please book at least <b>24 hours in advance</b> of your required pickup time.</li>
+        <li>Fares are <b>TBD</b> and will be confirmed at the time of booking. Payment details will be provided upon reservation.</li>
+        <li>Cancellations must be made at least 12 hours before the scheduled pickup. Late cancellations may incur a fee.</li>
+        <li>Your driver's contact details will be included in the e-voucher sent upon confirmation.</li>
+        <li>Meet-and-greet service is available at Gimhae Airport international arrivals upon request.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ===== CORPORATE FOOTER ===== -->
+<footer class="corp-foot">
+  <div class="wrap">
+    <div class="top">
+      <a class="brand" href="index.html" aria-label="APHRS 2026 Transportation Home">
+        <img src="https://aphrs2026.com/home/2025/aphrs/image/top_logo.png"
+             alt="APHRS 2026"
+             style="height:32px;object-fit:contain"
+             onerror="this.onerror=null;this.src='assets/img/aphrs-logo.png'">
+        <span class="wm"><b>APHRS 2026 Transportation</b><small>GroundK · Participant Transport Portal Demo</small></span>
+      </a>
+      <nav class="fnav" aria-label="Footer navigation">
+        <a href="shuttle-airport-hotel.html">Airport → Hotel</a>
+        <a href="shuttle-hotel-airport.html">Hotel → Airport</a>
+        <a href="shuttle-venue.html">Venue Shuttle</a>
+        <a href="index.html#support">Support</a>
+      </nav>
+    </div>
+    <div class="legal">
+      <b>GroundK Co., Ltd</b> · CEO Jang Dong-won · Business Reg. 238-81-00429<br>
+      405, 45 Centum Dong-ro, Haeundae-gu, Busan 48059, Korea · Tel +82-2-863-3540 · Fax +82-70-8275-3540 · ops@groundk.com<br>
+      RIDEUS is GroundK's Transportation × Travel platform. All transactions, exchanges, refunds and complaints are handled by GroundK.<br>
+      <span class="ver">© 2026 GroundK · APHRS 2026 Participant Transport Portal (Concept Demo) · ver build 2026.06.27.5</span>
+    </div>
+  </div>
+</footer>
+
+<div class="mockup-flag">Concept Mockup · Actual booking integration pending</div>
+
+<!-- ===== BOOKING LOOKUP MODAL ===== -->
+<div class="modal-ov" id="lookupModal" role="dialog" aria-modal="true" aria-labelledby="lk-h">
+  <div class="modal">
+    <button class="modal-x" id="lookupClose" type="button" aria-label="Close">✕</button>
+    <h3 id="lk-h">My Booking Lookup</h3>
+    <p>Enter your booking reference and email to retrieve your demo booking.</p>
+    <div class="mf"><label for="lkCode">Booking Reference</label><input id="lkCode" type="text" placeholder="RE-APHRS-SH-0000"></div>
+    <div class="mf"><label for="lkEmail">Email</label><input id="lkEmail" type="email" placeholder="you@example.com"></div>
+    <div class="m-actions"><button class="btn btn-red btn-block btn-sm" id="lookupSubmit" type="button">Look Up</button></div>
+    <p class="m-note" id="lkResult">※ This is a concept demo. Not connected to a real booking system — sample data only.</p>
+  </div>
+</div>
+
+<script src="assets/app.js?v=2026.06.27.5"></script>
+</body>
+</html>
