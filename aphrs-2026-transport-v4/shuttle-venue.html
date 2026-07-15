@@ -59,7 +59,10 @@
   .vtab{flex:1;padding:13px 16px;background:#fff;border:none;font:inherit;font-size:22px;font-weight:700;color:var(--muted);cursor:pointer;transition:background .15s,color .15s}
   /* 노선명 옆 호텔명 보조 표기 — 노선 A/B만으로는 구분이 안 돼 다시 추가(사용자 피드백).
      본문(22px bold)과 위계 구분되게 작고 옅은 서브텍스트로 처리. */
-  .vtab-sub{font-weight:400;font-size:.62em;opacity:.75;white-space:nowrap}
+  .vtab-sub{font-weight:400;font-size:.72em;opacity:.8;white-space:nowrap}
+  /* 미선택 탭은 흰 배경 위 회색(--muted) 텍스트라 opacity를 더 깎으면 가독성이 급격히 떨어짐 —
+     선택 탭(짙은 남색 배경 + 흰 글자)에만 은은하게 옅게, 미선택 탭은 불투명하게 유지 */
+  .vtab:not([aria-selected="true"]) .vtab-sub{opacity:1}
   @media(max-width:560px){.vtab-sub{display:block;margin-top:2px}}
   .vtab:not(:last-child){border-right:1px solid var(--line)}
   .vtabs:not(.vtabs-date) .vtab[aria-selected="true"]{color:#fff;background:var(--navy)}
@@ -88,7 +91,7 @@
      필요 — 그쪽은 그대로 두고 이 페이지에서만 재정의). rm-track 상단 패딩도 회전 라벨 전용으로 넉넉히
      잡혀 있던 값(185px)이라 함께 줄임. */
   .route-map .rm-label{left:50%;bottom:calc(100% + 10px);transform:translateX(-50%);text-align:center}
-  .route-map .rm-track{padding:40px 10px 14px}
+  .route-map .rm-track{padding:24px 10px 30px}
   @media(max-width:620px){
     .route-map .rm-track{padding:14px 16px}
     .route-map .rm-label{position:static;transform:none;width:auto;bottom:auto;left:auto;text-align:left}
@@ -107,12 +110,14 @@
   /* 노선 진행 순서 보조 표시 — S(기점)/숫자(경유)/E(종점), 노선도의 진행 순서를 시간표에도 반영.
      .sched-stop-name 자체에 display를 주면 같은 엘리먼트의 ko-only/en-only 토글(display:none)과
      캐스케이드 순서 경합이 붙어 두 언어가 동시에 보이는 버그가 남 — 배지는 순수 인라인 흐름으로만 배치. */
-  .stop-badge{display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;border-radius:50%;background:var(--line);color:var(--muted);font-size:9px;font-weight:800;line-height:1;vertical-align:middle;margin-right:6px}
+  /* line-height는 1이 아니라 width/height와 동일한 16px로 맞춘다 — line-height:1은 폰트의
+     ascent/descent 비대칭 때문에 flex 중앙정렬을 걸어도 텍스트가 살짝 위로 떠 보이는 폰트가 있음. */
+  .stop-badge{display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;border-radius:50%;background:var(--line);color:var(--muted);font-size:9px;font-weight:800;line-height:16px;vertical-align:middle;margin-right:6px}
   .sched-chips{display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding:8px 10px;flex:1}
   .sched-chip{display:inline-flex;align-items:center;justify-content:center;width:50px;font-size:14px;letter-spacing:-.3px;font-weight:600;color:var(--ink);background:#fff;border-radius:8px;padding:0;height:23px;white-space:nowrap}
   .sched-chip.is-peak{color:#7a5200;background:#fffbe6;font-weight:700}
   .sched-chip.is-dash{color:var(--soft);background:var(--bg,#f7f8fb)}
-  @media(max-width:560px){.sched-stop-name{width:110px;font-size:12px;padding:8px 10px}.stop-badge{width:14px;height:14px;font-size:8px;margin-right:5px}.sched-chip{width:44px;font-size:13px;height:21px}}
+  @media(max-width:560px){.sched-stop-name{width:110px;font-size:12px;padding:8px 10px}.stop-badge{width:14px;height:14px;font-size:8px;line-height:14px;margin-right:5px}.sched-chip{width:44px;font-size:13px;height:21px}}
   /* 노선명 헤딩(sched-dir-h) 삭제로 표 사이 구분선도 불필요 — 여백만으로 분리.
      margin-top은 날짜 탭 바로 아래 시간표 카드 사이 간격(탭과 표가 딱 붙어있던 문제 보정).
      margin-bottom은 Faculty Dinner 쪽(시간표→도움말 18px)과 간격을 통일. */
