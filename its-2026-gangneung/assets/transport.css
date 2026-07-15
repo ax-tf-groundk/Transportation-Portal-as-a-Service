@@ -989,16 +989,19 @@ html[data-lang="en"] .rd-live.en-only{display:inline-flex}
 .tt-table th.tt-hub small,.tt-table th.tt-turn small{color:var(--orange-600)}
 .tt-table tbody tr:last-child td{border-bottom:0}
 .tt-note{font-size:11px;color:var(--muted);padding:10px 16px;line-height:1.5;background:#fff}
-/* 왕복 통합 시간표(G2~G5) — 미운행 칸 회색 처리 + 컨벤션센터 도착/출발 2단 */
+/* 왕복 통합 시간표(G2~G5) — 베뉴행/베뉴발 좌우 분할 + 미운행 칸 회색 */
 .tt-table td.tt-off{background:repeating-linear-gradient(45deg,#dde3e0,#dde3e0 6px,#d2d9d6 6px,#d2d9d6 12px);border-bottom-color:#cbd3cf}
-.tt-table td.tt-cc{padding:4px 9px;white-space:nowrap;line-height:1.25}
-.tt-table td.tt-cc i{display:block;font-style:normal;font-weight:800;font-size:11.5px}
-.tt-table td.tt-cc i.a{color:var(--navy)}
-.tt-table td.tt-cc i.d{color:var(--orange-600)}
-.tt-table td.tt-cc i.a::before{content:"▼ ";font-size:8px;opacity:.7}
-.tt-table td.tt-cc i.d::before{content:"▲ ";font-size:8px;opacity:.7}
-.tt-table td.tt-cc i.off{color:#aab3af;font-weight:700}
-.tt-table th.tt-cc-h small{white-space:nowrap}
+/* 그룹 머릿글(1행) */
+.tt-loop thead .tt-grp th{position:sticky;top:0;z-index:4;height:27px;font-size:11.5px;font-weight:800;letter-spacing:.4px;color:#fff;padding:5px 10px;border-bottom:2px solid #fff}
+.tt-loop thead .tt-grp th.tt-grp-to{background:var(--navy)}
+.tt-loop thead .tt-grp th.tt-grp-from{background:var(--orange)}
+.tt-loop thead .tt-grp th.tt-n{position:sticky;top:0;left:0;z-index:6;background:#fff;border-bottom:2px solid #fff}
+/* 정류장 머릿글(2행)은 그룹행 아래에 스티키 */
+.tt-loop thead .tt-cols th{position:sticky;top:29px;z-index:3}
+.tt-loop thead .tt-cols th.tt-n{z-index:5;top:29px}
+/* 베뉴행/베뉴발 경계 — 굵은 구분선(머릿글·본문 전체 열) */
+.tt-loop .tt-div{border-left:3px solid var(--navy)}
+.tt-loop thead .tt-grp th.tt-grp-from.tt-div{border-left:3px solid #fff}
 @media(max-width:560px){.lm-label{font-size:10px}.rroute{padding:18px 14px}}
 
 /* ══════════ 이중언어(KO/EN) + 네비 드롭다운 ══════════ */

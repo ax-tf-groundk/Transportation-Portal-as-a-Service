@@ -6,7 +6,7 @@
 (function () {
   'use strict';
 
-  var SITE_VERSION = '2026.07.13.20';
+  var SITE_VERSION = '2026.07.13.21';
   try { console.log('%cRIDEUS Events · ITS 2026 Gangneung · build ' + SITE_VERSION, 'color:#006241;font-weight:700'); } catch (e) {}
 
   var prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -316,7 +316,7 @@
   ];
   function buildGTimetable(cfg){
     var stops = cfg.stops, segs = cfg.segsOut || [], n = stops.length;
-    var ccKo = stops[n - 1], ccEn = STOP_EN[ccKo] || ccKo;
+    var ccKo = stops[n - 1];
     var off = [0]; for (var i = 0; i < segs.length; i++) off.push(off[i] + segs[i]);
     var total = off[n - 1];
     var rseg = segs.slice().reverse(), roff = [0];
@@ -325,26 +325,32 @@
     var retCols = stops.slice(0, n - 1).reverse();       // 컨벤션 직후 … 호텔
     function biTag(ko, en){ return '<small><span class="ko-only">' + ko + '</span><span class="en-only">' + en + '</span></small>'; }
 
-    var th = '<tr><th class="tt-n"><span class="ko-only">회차</span><span class="en-only">Run</span></th>';
+    // 1행: 그룹 머릿글(베뉴행 / 베뉴발) — 컨벤션센터 열을 기준으로 좌우 반 분할
+    var gr = '<tr class="tt-grp"><th class="tt-n"></th>' +
+      '<th class="tt-grp-to" colspan="' + n + '"><span class="ko-only">▶ 베뉴행 · To Venue</span><span class="en-only">▶ To Venue</span></th>' +
+      '<th class="tt-grp-from tt-div" colspan="' + n + '"><span class="ko-only">◀ 베뉴발 · From Venue</span><span class="en-only">◀ From Venue</span></th></tr>';
+    // 2행: 정류장 머릿글 — 컨벤션센터는 도착(베뉴행 끝)·출발(베뉴발 시작) 2열로 분리
+    var hr = '<tr class="tt-cols"><th class="tt-n"><span class="ko-only">회차</span><span class="en-only">Run</span></th>';
     outCols.forEach(function(nm, idx){
-      th += '<th' + (idx === 0 ? ' class="tt-hub"' : '') + '>' + stopBi(nm) + (idx === 0 ? biTag('출발', 'Depart') : '') + '</th>';
+      hr += '<th' + (idx === 0 ? ' class="tt-hub"' : '') + '>' + stopBi(nm) + (idx === 0 ? biTag('출발', 'Depart') : '') + '</th>';
     });
-    th += '<th class="tt-turn tt-cc-h">' + stopBi(ccKo) + biTag('도착 / 출발', 'Arr / Dep') + '</th>';
+    hr += '<th class="tt-turn">' + stopBi(ccKo) + biTag('도착', 'Arrive') + '</th>' +
+      '<th class="tt-turn tt-div">' + stopBi(ccKo) + biTag('출발', 'Depart') + '</th>';
     retCols.forEach(function(nm, idx){
       var isHotel = idx === retCols.length - 1;
-      th += '<th' + (isHotel ? ' class="tt-hub"' : '') + '>' + stopBi(nm) + (isHotel ? biTag('복귀', 'Return') : '') + '</th>';
+      hr += '<th' + (isHotel ? ' class="tt-hub"' : '') + '>' + stopBi(nm) + (isHotel ? biTag('복귀', 'Return') : '') + '</th>';
     });
-    th += '</tr>';
+    hr += '</tr>';
 
     var body = G_ROWS.map(function(row, r){
       var tr = '<tr><td class="tt-n">' + (r + 1) + '</td>';
+      // 베뉴행 블록: 호텔→…→강릉오발 + 컨벤션 도착
       outCols.forEach(function(nm, idx){
         tr += row.out ? '<td' + (idx === 0 ? ' class="tt-hub"' : '') + '>' + toHM(toMin(row.out) + off[idx]) + '</td>' : '<td class="tt-off"></td>';
       });
-      var a = row.out ? toHM(toMin(row.out) + total) : null;
-      var d = row.ret || null;
-      tr += '<td class="tt-turn tt-cc"><i class="' + (a ? 'a' : 'a off') + '">' + (a || '–') + '</i>' +
-        '<i class="' + (d ? 'd' : 'd off') + '">' + (d || '–') + '</i></td>';
+      tr += row.out ? '<td class="tt-turn">' + toHM(toMin(row.out) + total) + '</td>' : '<td class="tt-off"></td>';
+      // 베뉴발 블록: 컨벤션 출발 + 강릉오발→…→호텔
+      tr += row.ret ? '<td class="tt-turn tt-div">' + row.ret + '</td>' : '<td class="tt-off tt-div"></td>';
       retCols.forEach(function(nm, idx){
         var isHotel = idx === retCols.length - 1;
         tr += row.ret ? '<td' + (isHotel ? ' class="tt-hub"' : '') + '>' + toHM(toMin(row.ret) + roff[idx + 1]) + '</td>' : '<td class="tt-off"></td>';
@@ -356,9 +362,9 @@
     return '<details class="tt"><summary><span class="tt-sum-t"><span class="ko-only">📋 전체 시간표 보기</span><span class="en-only">📋 View full timetable</span></span>' +
       '<span class="tt-sum-m"><span class="ko-only">운행 ' + G_ROWS[0].out + '~' + lastArr + ' · 오전 15분 · 주간 60분 · 야간 15~30분 간격</span>' +
       '<span class="en-only">Service ' + G_ROWS[0].out + '–' + lastArr + ' · every 15 min AM / 60 min midday / 15–30 min PM</span></span></summary>' +
-      '<div class="tt-scroll"><table class="tt-table tt-loop"><thead>' + th + '</thead><tbody>' + body + '</tbody></table></div>' +
-      '<p class="tt-note"><span class="ko-only">※ 「2026 강릉 ITS 세계총회 수송계획(안)」 기준. 회색 칸은 해당 시간대 미운행(오전=귀가 편 없음 · 야간=등원 편 없음). 컨벤션센터 열은 도착/출발 시각이며, 각 정류장 시각은 출발+구간 소요시간으로 산출한 예시입니다. 확정 시간표는 조직위 안내에 따릅니다.</span>' +
-      '<span class="en-only">※ Based on the ITS 2026 transport plan (draft). Grey cells = not in service then (AM = no return leg · PM = no outbound leg). The Convention Center column shows arrival / departure; per-stop times are estimated from departure + segment durations. The final timetable follows the organizing committee.</span></p>' +
+      '<div class="tt-scroll"><table class="tt-table tt-loop"><thead>' + gr + hr + '</thead><tbody>' + body + '</tbody></table></div>' +
+      '<p class="tt-note"><span class="ko-only">※ 「2026 강릉 ITS 세계총회 수송계획(안)」 기준. 좌측 <b>베뉴행</b>(호텔→컨벤션)·우측 <b>베뉴발</b>(컨벤션→호텔)로 나뉩니다. 회색 칸은 해당 시간대 미운행(오전=베뉴발 없음 · 야간=베뉴행 없음). 각 정류장 시각은 출발+구간 소요시간으로 산출한 예시이며, 확정 시간표는 조직위 안내에 따릅니다.</span>' +
+      '<span class="en-only">※ Based on the ITS 2026 transport plan (draft). Left <b>To Venue</b> (Hotel→Convention) · right <b>From Venue</b> (Convention→Hotel). Grey cells = not in service then (AM = no From-Venue leg · PM = no To-Venue leg). Per-stop times are estimated from departure + segment durations; the final timetable follows the organizing committee.</span></p>' +
       '</details>';
   }
 
