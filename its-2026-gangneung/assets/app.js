@@ -6,7 +6,7 @@
 (function () {
   'use strict';
 
-  var SITE_VERSION = '2026.07.13.21';
+  var SITE_VERSION = '2026.07.13.22';
   try { console.log('%cRIDEUS Events · ITS 2026 Gangneung · build ' + SITE_VERSION, 'color:#006241;font-weight:700'); } catch (e) {}
 
   var prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -328,7 +328,7 @@
     // 1행: 그룹 머릿글(베뉴행 / 베뉴발) — 컨벤션센터 열을 기준으로 좌우 반 분할
     var gr = '<tr class="tt-grp"><th class="tt-n"></th>' +
       '<th class="tt-grp-to" colspan="' + n + '"><span class="ko-only">▶ 베뉴행 · To Venue</span><span class="en-only">▶ To Venue</span></th>' +
-      '<th class="tt-grp-from tt-div" colspan="' + n + '"><span class="ko-only">◀ 베뉴발 · From Venue</span><span class="en-only">◀ From Venue</span></th></tr>';
+      '<th class="tt-grp-from tt-div" colspan="' + n + '"><span class="ko-only">▶ 베뉴발 · From Venue</span><span class="en-only">▶ From Venue</span></th></tr>';
     // 2행: 정류장 머릿글 — 컨벤션센터는 도착(베뉴행 끝)·출발(베뉴발 시작) 2열로 분리
     var hr = '<tr class="tt-cols"><th class="tt-n"><span class="ko-only">회차</span><span class="en-only">Run</span></th>';
     outCols.forEach(function(nm, idx){
