@@ -100,12 +100,16 @@
   .sched-stops{display:flex;flex-direction:column;border:1px solid var(--line-2);border-radius:var(--radius-sm);overflow:hidden}
   .sched-stop-row{display:flex;align-items:center;border-bottom:1px solid var(--line-2)}
   .sched-stop-row:last-child{border-bottom:none}
-  .sched-stop-name{flex:0 0 auto;width:120px;font-size:13px;font-weight:700;color:var(--ink);padding:9px 13px;background:var(--bg-2);border-right:1px solid var(--line-2)}
+  .sched-stop-name{flex:0 0 auto;width:140px;font-size:13px;font-weight:700;color:var(--ink);padding:9px 13px;background:var(--bg-2);border-right:1px solid var(--line-2)}
+  /* 노선 진행 순서 보조 표시 — S(기점)/숫자(경유)/E(종점), 노선도의 진행 순서를 시간표에도 반영.
+     .sched-stop-name 자체에 display를 주면 같은 엘리먼트의 ko-only/en-only 토글(display:none)과
+     캐스케이드 순서 경합이 붙어 두 언어가 동시에 보이는 버그가 남 — 배지는 순수 인라인 흐름으로만 배치. */
+  .stop-badge{display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;border-radius:50%;background:var(--line);color:var(--muted);font-size:9px;font-weight:800;line-height:1;vertical-align:middle;margin-right:6px}
   .sched-chips{display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding:8px 10px;flex:1}
   .sched-chip{display:inline-flex;align-items:center;justify-content:center;width:50px;font-size:14px;letter-spacing:-.3px;font-weight:600;color:var(--ink);background:#fff;border-radius:8px;padding:0;height:23px;white-space:nowrap}
   .sched-chip.is-peak{color:var(--amber);background:#fdf1e0;font-weight:700}
   .sched-chip.is-dash{color:var(--soft);background:var(--bg,#f7f8fb)}
-  @media(max-width:560px){.sched-stop-name{width:96px;font-size:12px;padding:8px 10px}.sched-chip{width:44px;font-size:13px;height:21px}}
+  @media(max-width:560px){.sched-stop-name{width:110px;font-size:12px;padding:8px 10px}.stop-badge{width:14px;height:14px;font-size:8px;margin-right:5px}.sched-chip{width:44px;font-size:13px;height:21px}}
   /* 노선명 헤딩(sched-dir-h) 삭제로 표 사이 구분선도 불필요 — 여백만으로 분리.
      margin-top은 날짜 탭 바로 아래 시간표 카드 사이 간격(탭과 표가 딱 붙어있던 문제 보정). */
   .sched-dir{margin-top:16px;margin-bottom:28px}
@@ -270,19 +274,19 @@
     <div class="sched-dir reveal vr-a vd-1021">
       <div class="sched-stops">
         <div class="sched-stop-row">
-          <span class="sched-stop-name ko-only">시그니엘</span><span class="sched-stop-name en-only">Signiel</span>
+          <span class="sched-stop-name ko-only"><span class="stop-badge">S</span>시그니엘</span><span class="sched-stop-name en-only"><span class="stop-badge">S</span>Signiel</span>
           <div class="sched-chips">
             <span class="sched-chip is-peak">7:00</span><span class="sched-chip is-peak">7:20</span><span class="sched-chip is-peak">7:40</span><span class="sched-chip is-peak">8:00</span><span class="sched-chip is-peak">8:20</span><span class="sched-chip is-peak">8:40</span><span class="sched-chip is-peak">9:00</span><span class="sched-chip is-peak">9:20</span><span class="sched-chip is-peak">9:40</span><span class="sched-chip">10:00</span><span class="sched-chip">11:00</span><span class="sched-chip">12:00</span><span class="sched-chip">13:00</span><span class="sched-chip">14:00</span><span class="sched-chip">15:00</span><span class="sched-chip">16:00</span>
           </div>
         </div>
         <div class="sched-stop-row">
-          <span class="sched-stop-name ko-only">파라다이스</span><span class="sched-stop-name en-only">Paradise</span>
+          <span class="sched-stop-name ko-only"><span class="stop-badge">1</span>파라다이스</span><span class="sched-stop-name en-only"><span class="stop-badge">1</span>Paradise</span>
           <div class="sched-chips">
             <span class="sched-chip is-peak">7:07</span><span class="sched-chip is-peak">7:27</span><span class="sched-chip is-peak">7:47</span><span class="sched-chip is-peak">8:07</span><span class="sched-chip is-peak">8:27</span><span class="sched-chip is-peak">8:47</span><span class="sched-chip is-peak">9:07</span><span class="sched-chip is-peak">9:27</span><span class="sched-chip is-peak">9:47</span><span class="sched-chip">10:07</span><span class="sched-chip">11:07</span><span class="sched-chip">12:07</span><span class="sched-chip">13:07</span><span class="sched-chip">14:07</span><span class="sched-chip">15:07</span><span class="sched-chip">16:07</span>
           </div>
         </div>
         <div class="sched-stop-row">
-          <span class="sched-stop-name">BEXCO</span>
+          <span class="sched-stop-name"><span class="stop-badge">E</span>BEXCO</span>
           <div class="sched-chips">
             <span class="sched-chip is-peak">7:25</span><span class="sched-chip is-peak">7:45</span><span class="sched-chip is-peak">8:05</span><span class="sched-chip is-peak">8:25</span><span class="sched-chip is-peak">8:45</span><span class="sched-chip is-peak">9:05</span><span class="sched-chip is-peak">9:25</span><span class="sched-chip is-peak">9:45</span><span class="sched-chip is-peak">10:05</span><span class="sched-chip">10:25</span><span class="sched-chip">11:25</span><span class="sched-chip">12:25</span><span class="sched-chip">13:25</span><span class="sched-chip">14:25</span><span class="sched-chip">15:25</span><span class="sched-chip">16:25</span>
           </div>
@@ -294,19 +298,19 @@
     <div class="sched-dir reveal vr-a vd-1022">
       <div class="sched-stops">
         <div class="sched-stop-row">
-          <span class="sched-stop-name ko-only">시그니엘</span><span class="sched-stop-name en-only">Signiel</span>
+          <span class="sched-stop-name ko-only"><span class="stop-badge">S</span>시그니엘</span><span class="sched-stop-name en-only"><span class="stop-badge">S</span>Signiel</span>
           <div class="sched-chips">
             <span class="sched-chip is-peak">7:20</span><span class="sched-chip is-peak">7:30</span><span class="sched-chip is-peak">7:40</span><span class="sched-chip is-peak">7:50</span><span class="sched-chip is-peak">8:00</span><span class="sched-chip">9:00</span><span class="sched-chip">10:00</span><span class="sched-chip">11:00</span><span class="sched-chip">12:00</span><span class="sched-chip">13:00</span><span class="sched-chip">14:00</span><span class="sched-chip">15:00</span><span class="sched-chip">16:00</span>
           </div>
         </div>
         <div class="sched-stop-row">
-          <span class="sched-stop-name ko-only">파라다이스</span><span class="sched-stop-name en-only">Paradise</span>
+          <span class="sched-stop-name ko-only"><span class="stop-badge">1</span>파라다이스</span><span class="sched-stop-name en-only"><span class="stop-badge">1</span>Paradise</span>
           <div class="sched-chips">
             <span class="sched-chip is-peak">7:27</span><span class="sched-chip is-peak">7:37</span><span class="sched-chip is-peak">7:47</span><span class="sched-chip is-peak">7:57</span><span class="sched-chip is-peak">8:07</span><span class="sched-chip">9:07</span><span class="sched-chip">10:07</span><span class="sched-chip">11:07</span><span class="sched-chip">12:07</span><span class="sched-chip">13:07</span><span class="sched-chip">14:07</span><span class="sched-chip">15:07</span><span class="sched-chip">16:07</span>
           </div>
         </div>
         <div class="sched-stop-row">
-          <span class="sched-stop-name">BEXCO</span>
+          <span class="sched-stop-name"><span class="stop-badge">E</span>BEXCO</span>
           <div class="sched-chips">
             <span class="sched-chip is-peak">7:45</span><span class="sched-chip is-peak">7:55</span><span class="sched-chip is-peak">8:05</span><span class="sched-chip is-peak">8:15</span><span class="sched-chip is-peak">8:25</span><span class="sched-chip">9:25</span><span class="sched-chip">10:25</span><span class="sched-chip">11:25</span><span class="sched-chip">12:25</span><span class="sched-chip">13:25</span><span class="sched-chip">14:25</span><span class="sched-chip">15:25</span><span class="sched-chip">16:25</span>
           </div>
@@ -318,19 +322,19 @@
     <div class="sched-dir reveal vr-a vd-1023">
       <div class="sched-stops">
         <div class="sched-stop-row">
-          <span class="sched-stop-name ko-only">시그니엘</span><span class="sched-stop-name en-only">Signiel</span>
+          <span class="sched-stop-name ko-only"><span class="stop-badge">S</span>시그니엘</span><span class="sched-stop-name en-only"><span class="stop-badge">S</span>Signiel</span>
           <div class="sched-chips">
             <span class="sched-chip is-peak">7:20</span><span class="sched-chip is-peak">7:30</span><span class="sched-chip is-peak">7:40</span><span class="sched-chip is-peak">7:50</span><span class="sched-chip is-peak">8:00</span><span class="sched-chip">9:00</span><span class="sched-chip">10:00</span><span class="sched-chip">11:00</span><span class="sched-chip">12:00</span><span class="sched-chip">13:00</span><span class="sched-chip">14:00</span><span class="sched-chip">15:00</span><span class="sched-chip">16:00</span>
           </div>
         </div>
         <div class="sched-stop-row">
-          <span class="sched-stop-name ko-only">파라다이스</span><span class="sched-stop-name en-only">Paradise</span>
+          <span class="sched-stop-name ko-only"><span class="stop-badge">1</span>파라다이스</span><span class="sched-stop-name en-only"><span class="stop-badge">1</span>Paradise</span>
           <div class="sched-chips">
             <span class="sched-chip is-peak">7:27</span><span class="sched-chip is-peak">7:37</span><span class="sched-chip is-peak">7:47</span><span class="sched-chip is-peak">7:57</span><span class="sched-chip is-peak">8:07</span><span class="sched-chip">9:07</span><span class="sched-chip">10:07</span><span class="sched-chip">11:07</span><span class="sched-chip">12:07</span><span class="sched-chip">13:07</span><span class="sched-chip">14:07</span><span class="sched-chip">15:07</span><span class="sched-chip">16:07</span>
           </div>
         </div>
         <div class="sched-stop-row">
-          <span class="sched-stop-name">BEXCO</span>
+          <span class="sched-stop-name"><span class="stop-badge">E</span>BEXCO</span>
           <div class="sched-chips">
             <span class="sched-chip is-peak">7:45</span><span class="sched-chip is-peak">7:55</span><span class="sched-chip is-peak">8:05</span><span class="sched-chip is-peak">8:15</span><span class="sched-chip is-peak">8:25</span><span class="sched-chip">9:25</span><span class="sched-chip">10:25</span><span class="sched-chip">11:25</span><span class="sched-chip">12:25</span><span class="sched-chip">13:25</span><span class="sched-chip">14:25</span><span class="sched-chip">15:25</span><span class="sched-chip">16:25</span>
           </div>
@@ -342,19 +346,19 @@
     <div class="sched-dir reveal vr-a vd-1024">
       <div class="sched-stops">
         <div class="sched-stop-row">
-          <span class="sched-stop-name ko-only">시그니엘</span><span class="sched-stop-name en-only">Signiel</span>
+          <span class="sched-stop-name ko-only"><span class="stop-badge">S</span>시그니엘</span><span class="sched-stop-name en-only"><span class="stop-badge">S</span>Signiel</span>
           <div class="sched-chips">
             <span class="sched-chip is-peak">7:20</span><span class="sched-chip is-peak">7:30</span><span class="sched-chip is-peak">7:40</span><span class="sched-chip is-peak">7:50</span><span class="sched-chip is-peak">8:00</span><span class="sched-chip">9:00</span><span class="sched-chip">10:00</span><span class="sched-chip">11:00</span><span class="sched-chip">12:00</span><span class="sched-chip">13:00</span><span class="sched-chip">14:00</span>
           </div>
         </div>
         <div class="sched-stop-row">
-          <span class="sched-stop-name ko-only">파라다이스</span><span class="sched-stop-name en-only">Paradise</span>
+          <span class="sched-stop-name ko-only"><span class="stop-badge">1</span>파라다이스</span><span class="sched-stop-name en-only"><span class="stop-badge">1</span>Paradise</span>
           <div class="sched-chips">
             <span class="sched-chip is-peak">7:27</span><span class="sched-chip is-peak">7:37</span><span class="sched-chip is-peak">7:47</span><span class="sched-chip is-peak">7:57</span><span class="sched-chip is-peak">8:07</span><span class="sched-chip">9:07</span><span class="sched-chip">10:07</span><span class="sched-chip">11:07</span><span class="sched-chip">12:07</span><span class="sched-chip">13:07</span><span class="sched-chip">14:07</span>
           </div>
         </div>
         <div class="sched-stop-row">
-          <span class="sched-stop-name">BEXCO</span>
+          <span class="sched-stop-name"><span class="stop-badge">E</span>BEXCO</span>
           <div class="sched-chips">
             <span class="sched-chip is-peak">7:45</span><span class="sched-chip is-peak">7:55</span><span class="sched-chip is-peak">8:05</span><span class="sched-chip is-peak">8:15</span><span class="sched-chip is-peak">8:25</span><span class="sched-chip">9:25</span><span class="sched-chip">10:25</span><span class="sched-chip">11:25</span><span class="sched-chip">12:25</span><span class="sched-chip">13:25</span><span class="sched-chip">14:25</span>
           </div>
@@ -395,19 +399,19 @@
     <div class="sched-dir reveal vr-a vd-1021">
       <div class="sched-stops">
         <div class="sched-stop-row">
-          <span class="sched-stop-name">BEXCO</span>
+          <span class="sched-stop-name"><span class="stop-badge">S</span>BEXCO</span>
           <div class="sched-chips">
             <span class="sched-chip">10:30</span><span class="sched-chip">11:30</span><span class="sched-chip">12:30</span><span class="sched-chip">13:30</span><span class="sched-chip">14:30</span><span class="sched-chip">15:30</span><span class="sched-chip">16:30</span><span class="sched-chip is-peak">17:30</span><span class="sched-chip is-peak">17:50</span><span class="sched-chip is-peak">18:10</span><span class="sched-chip is-peak">18:30</span>
           </div>
         </div>
         <div class="sched-stop-row">
-          <span class="sched-stop-name ko-only">파라다이스</span><span class="sched-stop-name en-only">Paradise</span>
+          <span class="sched-stop-name ko-only"><span class="stop-badge">1</span>파라다이스</span><span class="sched-stop-name en-only"><span class="stop-badge">1</span>Paradise</span>
           <div class="sched-chips">
             <span class="sched-chip">10:48</span><span class="sched-chip">11:48</span><span class="sched-chip">12:48</span><span class="sched-chip">13:48</span><span class="sched-chip">14:48</span><span class="sched-chip">15:48</span><span class="sched-chip">16:48</span><span class="sched-chip is-peak">17:48</span><span class="sched-chip is-peak">18:08</span><span class="sched-chip is-peak">18:28</span><span class="sched-chip is-peak">18:48</span>
           </div>
         </div>
         <div class="sched-stop-row">
-          <span class="sched-stop-name ko-only">시그니엘</span><span class="sched-stop-name en-only">Signiel</span>
+          <span class="sched-stop-name ko-only"><span class="stop-badge">E</span>시그니엘</span><span class="sched-stop-name en-only"><span class="stop-badge">E</span>Signiel</span>
           <div class="sched-chips">
             <span class="sched-chip">10:53</span><span class="sched-chip">11:53</span><span class="sched-chip">12:53</span><span class="sched-chip">13:53</span><span class="sched-chip">14:53</span><span class="sched-chip">15:53</span><span class="sched-chip">16:53</span><span class="sched-chip is-peak">17:53</span><span class="sched-chip is-peak">18:13</span><span class="sched-chip is-peak">18:33</span><span class="sched-chip is-peak">18:53</span>
           </div>
@@ -421,19 +425,19 @@
     <div class="sched-dir reveal vr-a vd-1022">
       <div class="sched-stops">
         <div class="sched-stop-row">
-          <span class="sched-stop-name">BEXCO</span>
+          <span class="sched-stop-name"><span class="stop-badge">S</span>BEXCO</span>
           <div class="sched-chips">
             <span class="sched-chip">10:30</span><span class="sched-chip">11:30</span><span class="sched-chip">12:30</span><span class="sched-chip">13:30</span><span class="sched-chip">14:30</span><span class="sched-chip">15:30</span><span class="sched-chip">16:30</span><span class="sched-chip is-peak">17:00</span><span class="sched-chip is-peak">17:30</span><span class="sched-chip is-peak">18:00</span><span class="sched-chip is-peak">18:10</span><span class="sched-chip is-peak">18:20</span><span class="sched-chip is-peak">18:30</span><span class="sched-chip is-peak">19:40</span><span class="sched-chip is-peak">19:50</span>
           </div>
         </div>
         <div class="sched-stop-row">
-          <span class="sched-stop-name ko-only">파라다이스</span><span class="sched-stop-name en-only">Paradise</span>
+          <span class="sched-stop-name ko-only"><span class="stop-badge">1</span>파라다이스</span><span class="sched-stop-name en-only"><span class="stop-badge">1</span>Paradise</span>
           <div class="sched-chips">
             <span class="sched-chip">10:48</span><span class="sched-chip">11:48</span><span class="sched-chip">12:48</span><span class="sched-chip">13:48</span><span class="sched-chip">14:48</span><span class="sched-chip">15:48</span><span class="sched-chip">16:48</span><span class="sched-chip is-peak">17:18</span><span class="sched-chip is-peak">17:48</span><span class="sched-chip is-peak">18:18</span><span class="sched-chip is-peak">18:28</span><span class="sched-chip is-peak">18:38</span><span class="sched-chip is-peak">18:48</span><span class="sched-chip is-peak">19:58</span><span class="sched-chip is-peak">20:08</span>
           </div>
         </div>
         <div class="sched-stop-row">
-          <span class="sched-stop-name ko-only">시그니엘</span><span class="sched-stop-name en-only">Signiel</span>
+          <span class="sched-stop-name ko-only"><span class="stop-badge">E</span>시그니엘</span><span class="sched-stop-name en-only"><span class="stop-badge">E</span>Signiel</span>
           <div class="sched-chips">
             <span class="sched-chip">10:53</span><span class="sched-chip">11:53</span><span class="sched-chip">12:53</span><span class="sched-chip">13:53</span><span class="sched-chip">14:53</span><span class="sched-chip">15:53</span><span class="sched-chip">16:53</span><span class="sched-chip is-peak">17:23</span><span class="sched-chip is-peak">17:53</span><span class="sched-chip is-peak">18:23</span><span class="sched-chip is-peak">18:33</span><span class="sched-chip is-peak">18:43</span><span class="sched-chip is-peak">18:53</span><span class="sched-chip is-peak">20:03</span><span class="sched-chip is-peak">20:13</span>
           </div>
@@ -447,19 +451,19 @@
     <div class="sched-dir reveal vr-a vd-1023">
       <div class="sched-stops">
         <div class="sched-stop-row">
-          <span class="sched-stop-name">BEXCO</span>
+          <span class="sched-stop-name"><span class="stop-badge">S</span>BEXCO</span>
           <div class="sched-chips">
             <span class="sched-chip">10:30</span><span class="sched-chip">11:30</span><span class="sched-chip">12:30</span><span class="sched-chip">13:30</span><span class="sched-chip">14:30</span><span class="sched-chip">15:30</span><span class="sched-chip">16:30</span><span class="sched-chip is-peak">17:00</span><span class="sched-chip is-peak">17:10</span><span class="sched-chip is-peak">17:20</span><span class="sched-chip is-peak">17:30</span>
           </div>
         </div>
         <div class="sched-stop-row">
-          <span class="sched-stop-name ko-only">파라다이스</span><span class="sched-stop-name en-only">Paradise</span>
+          <span class="sched-stop-name ko-only"><span class="stop-badge">1</span>파라다이스</span><span class="sched-stop-name en-only"><span class="stop-badge">1</span>Paradise</span>
           <div class="sched-chips">
             <span class="sched-chip">10:48</span><span class="sched-chip">11:48</span><span class="sched-chip">12:48</span><span class="sched-chip">13:48</span><span class="sched-chip">14:48</span><span class="sched-chip">15:48</span><span class="sched-chip">16:48</span><span class="sched-chip is-peak">17:18</span><span class="sched-chip is-peak">17:28</span><span class="sched-chip is-peak">17:38</span><span class="sched-chip is-peak">17:48</span>
           </div>
         </div>
         <div class="sched-stop-row">
-          <span class="sched-stop-name ko-only">시그니엘</span><span class="sched-stop-name en-only">Signiel</span>
+          <span class="sched-stop-name ko-only"><span class="stop-badge">E</span>시그니엘</span><span class="sched-stop-name en-only"><span class="stop-badge">E</span>Signiel</span>
           <div class="sched-chips">
             <span class="sched-chip">10:53</span><span class="sched-chip">11:53</span><span class="sched-chip">12:53</span><span class="sched-chip">13:53</span><span class="sched-chip">14:53</span><span class="sched-chip">15:53</span><span class="sched-chip">16:53</span><span class="sched-chip is-peak">17:23</span><span class="sched-chip is-peak">17:33</span><span class="sched-chip is-peak">17:43</span><span class="sched-chip is-peak">17:53</span>
           </div>
@@ -473,19 +477,19 @@
     <div class="sched-dir reveal vr-a vd-1024">
       <div class="sched-stops">
         <div class="sched-stop-row">
-          <span class="sched-stop-name">BEXCO</span>
+          <span class="sched-stop-name"><span class="stop-badge">S</span>BEXCO</span>
           <div class="sched-chips">
             <span class="sched-chip">10:30</span><span class="sched-chip">11:30</span><span class="sched-chip">12:30</span><span class="sched-chip">13:30</span><span class="sched-chip">14:30</span><span class="sched-chip is-peak">15:20</span><span class="sched-chip is-peak">15:30</span><span class="sched-chip is-peak">15:40</span><span class="sched-chip is-peak">15:50</span><span class="sched-chip is-peak">16:00</span>
           </div>
         </div>
         <div class="sched-stop-row">
-          <span class="sched-stop-name ko-only">파라다이스</span><span class="sched-stop-name en-only">Paradise</span>
+          <span class="sched-stop-name ko-only"><span class="stop-badge">1</span>파라다이스</span><span class="sched-stop-name en-only"><span class="stop-badge">1</span>Paradise</span>
           <div class="sched-chips">
             <span class="sched-chip">10:48</span><span class="sched-chip">11:48</span><span class="sched-chip">12:48</span><span class="sched-chip">13:48</span><span class="sched-chip">14:48</span><span class="sched-chip is-peak">15:38</span><span class="sched-chip is-peak">15:48</span><span class="sched-chip is-peak">15:58</span><span class="sched-chip is-peak">16:08</span><span class="sched-chip is-peak">16:18</span>
           </div>
         </div>
         <div class="sched-stop-row">
-          <span class="sched-stop-name ko-only">시그니엘</span><span class="sched-stop-name en-only">Signiel</span>
+          <span class="sched-stop-name ko-only"><span class="stop-badge">E</span>시그니엘</span><span class="sched-stop-name en-only"><span class="stop-badge">E</span>Signiel</span>
           <div class="sched-chips">
             <span class="sched-chip">10:53</span><span class="sched-chip">11:53</span><span class="sched-chip">12:53</span><span class="sched-chip">13:53</span><span class="sched-chip">14:53</span><span class="sched-chip is-peak">15:43</span><span class="sched-chip is-peak">15:53</span><span class="sched-chip is-peak">16:03</span><span class="sched-chip is-peak">16:13</span><span class="sched-chip is-peak">16:23</span>
           </div>
@@ -530,19 +534,19 @@
     <div class="sched-dir reveal vr-b vd-1021">
       <div class="sched-stops">
         <div class="sched-stop-row">
-          <span class="sched-stop-name ko-only">웨스틴조선</span><span class="sched-stop-name en-only">Westin Josun</span>
+          <span class="sched-stop-name ko-only"><span class="stop-badge">S</span>웨스틴조선</span><span class="sched-stop-name en-only"><span class="stop-badge">S</span>Westin Josun</span>
           <div class="sched-chips">
             <span class="sched-chip is-peak">7:00</span><span class="sched-chip is-peak">7:20</span><span class="sched-chip is-peak">7:40</span><span class="sched-chip is-peak">8:00</span><span class="sched-chip is-peak">8:20</span><span class="sched-chip is-peak">8:40</span><span class="sched-chip is-peak">9:00</span><span class="sched-chip is-peak">9:20</span><span class="sched-chip is-peak">9:40</span><span class="sched-chip">10:00</span><span class="sched-chip">11:00</span><span class="sched-chip">12:00</span><span class="sched-chip">13:00</span><span class="sched-chip">14:00</span><span class="sched-chip">15:00</span><span class="sched-chip">16:00</span>
           </div>
         </div>
         <div class="sched-stop-row">
-          <span class="sched-stop-name ko-only">파크하얏트</span><span class="sched-stop-name en-only">Park Hyatt</span>
+          <span class="sched-stop-name ko-only"><span class="stop-badge">1</span>파크하얏트</span><span class="sched-stop-name en-only"><span class="stop-badge">1</span>Park Hyatt</span>
           <div class="sched-chips">
             <span class="sched-chip is-peak">7:10</span><span class="sched-chip is-peak">7:30</span><span class="sched-chip is-peak">7:50</span><span class="sched-chip is-peak">8:10</span><span class="sched-chip is-peak">8:30</span><span class="sched-chip is-peak">8:50</span><span class="sched-chip is-peak">9:10</span><span class="sched-chip is-peak">9:30</span><span class="sched-chip is-peak">9:50</span><span class="sched-chip">10:10</span><span class="sched-chip">11:10</span><span class="sched-chip">12:10</span><span class="sched-chip">13:10</span><span class="sched-chip">14:10</span><span class="sched-chip">15:10</span><span class="sched-chip">16:10</span>
           </div>
         </div>
         <div class="sched-stop-row">
-          <span class="sched-stop-name">BEXCO</span>
+          <span class="sched-stop-name"><span class="stop-badge">E</span>BEXCO</span>
           <div class="sched-chips">
             <span class="sched-chip is-peak">7:20</span><span class="sched-chip is-peak">7:40</span><span class="sched-chip is-peak">8:00</span><span class="sched-chip is-peak">8:20</span><span class="sched-chip is-peak">8:40</span><span class="sched-chip is-peak">9:00</span><span class="sched-chip is-peak">9:20</span><span class="sched-chip is-peak">9:40</span><span class="sched-chip is-peak">10:00</span><span class="sched-chip">10:20</span><span class="sched-chip">11:20</span><span class="sched-chip">12:20</span><span class="sched-chip">13:20</span><span class="sched-chip">14:20</span><span class="sched-chip">15:20</span><span class="sched-chip">16:20</span>
           </div>
@@ -553,19 +557,19 @@
     <div class="sched-dir reveal vr-b vd-1022">
       <div class="sched-stops">
         <div class="sched-stop-row">
-          <span class="sched-stop-name ko-only">웨스틴조선</span><span class="sched-stop-name en-only">Westin Josun</span>
+          <span class="sched-stop-name ko-only"><span class="stop-badge">S</span>웨스틴조선</span><span class="sched-stop-name en-only"><span class="stop-badge">S</span>Westin Josun</span>
           <div class="sched-chips">
             <span class="sched-chip is-peak">7:20</span><span class="sched-chip is-peak">7:30</span><span class="sched-chip is-peak">7:40</span><span class="sched-chip is-peak">7:50</span><span class="sched-chip is-peak">8:00</span><span class="sched-chip">9:00</span><span class="sched-chip">10:00</span><span class="sched-chip">11:00</span><span class="sched-chip">12:00</span><span class="sched-chip">13:00</span><span class="sched-chip">14:00</span><span class="sched-chip">15:00</span><span class="sched-chip">16:00</span>
           </div>
         </div>
         <div class="sched-stop-row">
-          <span class="sched-stop-name ko-only">파크하얏트</span><span class="sched-stop-name en-only">Park Hyatt</span>
+          <span class="sched-stop-name ko-only"><span class="stop-badge">1</span>파크하얏트</span><span class="sched-stop-name en-only"><span class="stop-badge">1</span>Park Hyatt</span>
           <div class="sched-chips">
             <span class="sched-chip is-peak">7:30</span><span class="sched-chip is-peak">7:40</span><span class="sched-chip is-peak">7:50</span><span class="sched-chip is-peak">8:00</span><span class="sched-chip is-peak">8:10</span><span class="sched-chip">9:10</span><span class="sched-chip">10:10</span><span class="sched-chip">11:10</span><span class="sched-chip">12:10</span><span class="sched-chip">13:10</span><span class="sched-chip">14:10</span><span class="sched-chip">15:10</span><span class="sched-chip">16:10</span>
           </div>
         </div>
         <div class="sched-stop-row">
-          <span class="sched-stop-name">BEXCO</span>
+          <span class="sched-stop-name"><span class="stop-badge">E</span>BEXCO</span>
           <div class="sched-chips">
             <span class="sched-chip is-peak">7:40</span><span class="sched-chip is-peak">7:50</span><span class="sched-chip is-peak">8:00</span><span class="sched-chip is-peak">8:10</span><span class="sched-chip is-peak">8:20</span><span class="sched-chip">9:20</span><span class="sched-chip">10:20</span><span class="sched-chip">11:20</span><span class="sched-chip">12:20</span><span class="sched-chip">13:20</span><span class="sched-chip">14:20</span><span class="sched-chip">15:20</span><span class="sched-chip">16:20</span>
           </div>
@@ -576,19 +580,19 @@
     <div class="sched-dir reveal vr-b vd-1023">
       <div class="sched-stops">
         <div class="sched-stop-row">
-          <span class="sched-stop-name ko-only">웨스틴조선</span><span class="sched-stop-name en-only">Westin Josun</span>
+          <span class="sched-stop-name ko-only"><span class="stop-badge">S</span>웨스틴조선</span><span class="sched-stop-name en-only"><span class="stop-badge">S</span>Westin Josun</span>
           <div class="sched-chips">
             <span class="sched-chip is-peak">7:20</span><span class="sched-chip is-peak">7:30</span><span class="sched-chip is-peak">7:40</span><span class="sched-chip is-peak">7:50</span><span class="sched-chip is-peak">8:00</span><span class="sched-chip">9:00</span><span class="sched-chip">10:00</span><span class="sched-chip">11:00</span><span class="sched-chip">12:00</span><span class="sched-chip">13:00</span><span class="sched-chip">14:00</span><span class="sched-chip">15:00</span><span class="sched-chip">16:00</span>
           </div>
         </div>
         <div class="sched-stop-row">
-          <span class="sched-stop-name ko-only">파크하얏트</span><span class="sched-stop-name en-only">Park Hyatt</span>
+          <span class="sched-stop-name ko-only"><span class="stop-badge">1</span>파크하얏트</span><span class="sched-stop-name en-only"><span class="stop-badge">1</span>Park Hyatt</span>
           <div class="sched-chips">
             <span class="sched-chip is-peak">7:30</span><span class="sched-chip is-peak">7:40</span><span class="sched-chip is-peak">7:50</span><span class="sched-chip is-peak">8:00</span><span class="sched-chip is-peak">8:10</span><span class="sched-chip">9:10</span><span class="sched-chip">10:10</span><span class="sched-chip">11:10</span><span class="sched-chip">12:10</span><span class="sched-chip">13:10</span><span class="sched-chip">14:10</span><span class="sched-chip">15:10</span><span class="sched-chip">16:10</span>
           </div>
         </div>
         <div class="sched-stop-row">
-          <span class="sched-stop-name">BEXCO</span>
+          <span class="sched-stop-name"><span class="stop-badge">E</span>BEXCO</span>
           <div class="sched-chips">
             <span class="sched-chip is-peak">7:40</span><span class="sched-chip is-peak">7:50</span><span class="sched-chip is-peak">8:00</span><span class="sched-chip is-peak">8:10</span><span class="sched-chip is-peak">8:20</span><span class="sched-chip">9:20</span><span class="sched-chip">10:20</span><span class="sched-chip">11:20</span><span class="sched-chip">12:20</span><span class="sched-chip">13:20</span><span class="sched-chip">14:20</span><span class="sched-chip">15:20</span><span class="sched-chip">16:20</span>
           </div>
@@ -599,19 +603,19 @@
     <div class="sched-dir reveal vr-b vd-1024">
       <div class="sched-stops">
         <div class="sched-stop-row">
-          <span class="sched-stop-name ko-only">웨스틴조선</span><span class="sched-stop-name en-only">Westin Josun</span>
+          <span class="sched-stop-name ko-only"><span class="stop-badge">S</span>웨스틴조선</span><span class="sched-stop-name en-only"><span class="stop-badge">S</span>Westin Josun</span>
           <div class="sched-chips">
             <span class="sched-chip is-peak">7:20</span><span class="sched-chip is-peak">7:30</span><span class="sched-chip is-peak">7:40</span><span class="sched-chip is-peak">7:50</span><span class="sched-chip is-peak">8:00</span><span class="sched-chip">9:00</span><span class="sched-chip">10:00</span><span class="sched-chip">11:00</span><span class="sched-chip">12:00</span><span class="sched-chip">13:00</span><span class="sched-chip">14:00</span>
           </div>
         </div>
         <div class="sched-stop-row">
-          <span class="sched-stop-name ko-only">파크하얏트</span><span class="sched-stop-name en-only">Park Hyatt</span>
+          <span class="sched-stop-name ko-only"><span class="stop-badge">1</span>파크하얏트</span><span class="sched-stop-name en-only"><span class="stop-badge">1</span>Park Hyatt</span>
           <div class="sched-chips">
             <span class="sched-chip is-peak">7:30</span><span class="sched-chip is-peak">7:40</span><span class="sched-chip is-peak">7:50</span><span class="sched-chip is-peak">8:00</span><span class="sched-chip is-peak">8:10</span><span class="sched-chip">9:10</span><span class="sched-chip">10:10</span><span class="sched-chip">11:10</span><span class="sched-chip">12:10</span><span class="sched-chip">13:10</span><span class="sched-chip">14:10</span>
           </div>
         </div>
         <div class="sched-stop-row">
-          <span class="sched-stop-name">BEXCO</span>
+          <span class="sched-stop-name"><span class="stop-badge">E</span>BEXCO</span>
           <div class="sched-chips">
             <span class="sched-chip is-peak">7:40</span><span class="sched-chip is-peak">7:50</span><span class="sched-chip is-peak">8:00</span><span class="sched-chip is-peak">8:10</span><span class="sched-chip is-peak">8:20</span><span class="sched-chip">9:20</span><span class="sched-chip">10:20</span><span class="sched-chip">11:20</span><span class="sched-chip">12:20</span><span class="sched-chip">13:20</span><span class="sched-chip">14:20</span>
           </div>
@@ -652,19 +656,19 @@
     <div class="sched-dir reveal vr-b vd-1021">
       <div class="sched-stops">
         <div class="sched-stop-row">
-          <span class="sched-stop-name">BEXCO</span>
+          <span class="sched-stop-name"><span class="stop-badge">S</span>BEXCO</span>
           <div class="sched-chips">
             <span class="sched-chip">10:30</span><span class="sched-chip">11:30</span><span class="sched-chip">12:30</span><span class="sched-chip">13:30</span><span class="sched-chip">14:30</span><span class="sched-chip">15:30</span><span class="sched-chip">16:30</span><span class="sched-chip is-peak">17:30</span><span class="sched-chip is-peak">17:50</span><span class="sched-chip is-peak">18:10</span><span class="sched-chip is-peak">18:30</span>
           </div>
         </div>
         <div class="sched-stop-row">
-          <span class="sched-stop-name ko-only">파크하얏트</span><span class="sched-stop-name en-only">Park Hyatt</span>
+          <span class="sched-stop-name ko-only"><span class="stop-badge">1</span>파크하얏트</span><span class="sched-stop-name en-only"><span class="stop-badge">1</span>Park Hyatt</span>
           <div class="sched-chips">
             <span class="sched-chip">10:42</span><span class="sched-chip">11:42</span><span class="sched-chip">12:42</span><span class="sched-chip">13:42</span><span class="sched-chip">14:42</span><span class="sched-chip">15:42</span><span class="sched-chip">16:42</span><span class="sched-chip is-peak">17:42</span><span class="sched-chip is-peak">18:02</span><span class="sched-chip is-peak">18:22</span><span class="sched-chip is-peak">18:42</span>
           </div>
         </div>
         <div class="sched-stop-row">
-          <span class="sched-stop-name ko-only">웨스틴조선</span><span class="sched-stop-name en-only">Westin Josun</span>
+          <span class="sched-stop-name ko-only"><span class="stop-badge">E</span>웨스틴조선</span><span class="sched-stop-name en-only"><span class="stop-badge">E</span>Westin Josun</span>
           <div class="sched-chips">
             <span class="sched-chip">10:50</span><span class="sched-chip">11:50</span><span class="sched-chip">12:50</span><span class="sched-chip">13:50</span><span class="sched-chip">14:50</span><span class="sched-chip">15:50</span><span class="sched-chip">16:50</span><span class="sched-chip is-peak">17:50</span><span class="sched-chip is-peak">18:10</span><span class="sched-chip is-peak">18:30</span><span class="sched-chip is-peak">18:50</span>
           </div>
@@ -678,19 +682,19 @@
     <div class="sched-dir reveal vr-b vd-1022">
       <div class="sched-stops">
         <div class="sched-stop-row">
-          <span class="sched-stop-name">BEXCO</span>
+          <span class="sched-stop-name"><span class="stop-badge">S</span>BEXCO</span>
           <div class="sched-chips">
             <span class="sched-chip">10:30</span><span class="sched-chip">11:30</span><span class="sched-chip">12:30</span><span class="sched-chip">13:30</span><span class="sched-chip">14:30</span><span class="sched-chip">15:30</span><span class="sched-chip">16:30</span><span class="sched-chip is-peak">17:00</span><span class="sched-chip is-peak">17:30</span><span class="sched-chip is-peak">18:00</span><span class="sched-chip is-peak">18:10</span><span class="sched-chip is-peak">18:20</span><span class="sched-chip is-peak">18:30</span><span class="sched-chip is-peak">19:40</span><span class="sched-chip is-peak">19:50</span>
           </div>
         </div>
         <div class="sched-stop-row">
-          <span class="sched-stop-name ko-only">파크하얏트</span><span class="sched-stop-name en-only">Park Hyatt</span>
+          <span class="sched-stop-name ko-only"><span class="stop-badge">1</span>파크하얏트</span><span class="sched-stop-name en-only"><span class="stop-badge">1</span>Park Hyatt</span>
           <div class="sched-chips">
             <span class="sched-chip">10:42</span><span class="sched-chip">11:42</span><span class="sched-chip">12:42</span><span class="sched-chip">13:42</span><span class="sched-chip">14:42</span><span class="sched-chip">15:42</span><span class="sched-chip">16:42</span><span class="sched-chip is-peak">17:12</span><span class="sched-chip is-peak">17:42</span><span class="sched-chip is-peak">18:12</span><span class="sched-chip is-peak">18:22</span><span class="sched-chip is-peak">18:32</span><span class="sched-chip is-peak">18:42</span><span class="sched-chip is-peak">19:52</span><span class="sched-chip is-peak">20:02</span>
           </div>
         </div>
         <div class="sched-stop-row">
-          <span class="sched-stop-name ko-only">웨스틴조선</span><span class="sched-stop-name en-only">Westin Josun</span>
+          <span class="sched-stop-name ko-only"><span class="stop-badge">E</span>웨스틴조선</span><span class="sched-stop-name en-only"><span class="stop-badge">E</span>Westin Josun</span>
           <div class="sched-chips">
             <span class="sched-chip">10:50</span><span class="sched-chip">11:50</span><span class="sched-chip">12:50</span><span class="sched-chip">13:50</span><span class="sched-chip">14:50</span><span class="sched-chip">15:50</span><span class="sched-chip">16:50</span><span class="sched-chip is-peak">17:20</span><span class="sched-chip is-peak">17:50</span><span class="sched-chip is-peak">18:20</span><span class="sched-chip is-peak">18:30</span><span class="sched-chip is-peak">18:40</span><span class="sched-chip is-peak">18:50</span><span class="sched-chip is-peak">20:00</span><span class="sched-chip is-peak">20:10</span>
           </div>
@@ -704,25 +708,25 @@
     <div class="sched-dir reveal vr-b vd-1023">
       <div class="sched-stops">
         <div class="sched-stop-row">
-          <span class="sched-stop-name">BEXCO</span>
+          <span class="sched-stop-name"><span class="stop-badge">S</span>BEXCO</span>
           <div class="sched-chips">
             <span class="sched-chip">10:30</span><span class="sched-chip">11:30</span><span class="sched-chip">12:30</span><span class="sched-chip">13:30</span><span class="sched-chip">14:30</span><span class="sched-chip">15:30</span><span class="sched-chip">16:30</span><span class="sched-chip is-peak">17:00</span><span class="sched-chip is-peak">17:10</span><span class="sched-chip is-peak">17:20</span><span class="sched-chip is-peak">17:30</span>
           </div>
         </div>
         <div class="sched-stop-row">
-          <span class="sched-stop-name ko-only">파크하얏트</span><span class="sched-stop-name en-only">Park Hyatt</span>
+          <span class="sched-stop-name ko-only"><span class="stop-badge">1</span>파크하얏트</span><span class="sched-stop-name en-only"><span class="stop-badge">1</span>Park Hyatt</span>
           <div class="sched-chips">
             <span class="sched-chip">10:42</span><span class="sched-chip">11:42</span><span class="sched-chip">12:42</span><span class="sched-chip">13:42</span><span class="sched-chip">14:42</span><span class="sched-chip">15:42</span><span class="sched-chip">16:42</span><span class="sched-chip is-peak">17:12</span><span class="sched-chip is-peak">17:22</span><span class="sched-chip is-peak">17:32</span><span class="sched-chip is-peak">17:42</span>
           </div>
         </div>
         <div class="sched-stop-row">
-          <span class="sched-stop-name ko-only">웨스틴조선</span><span class="sched-stop-name en-only">Westin Josun</span>
+          <span class="sched-stop-name ko-only"><span class="stop-badge">2</span>웨스틴조선</span><span class="sched-stop-name en-only"><span class="stop-badge">2</span>Westin Josun</span>
           <div class="sched-chips">
             <span class="sched-chip">10:50</span><span class="sched-chip">11:50</span><span class="sched-chip">12:50</span><span class="sched-chip">13:50</span><span class="sched-chip">14:50</span><span class="sched-chip">15:50</span><span class="sched-chip">16:50</span><span class="sched-chip is-peak">17:20</span><span class="sched-chip is-peak">17:30</span><span class="sched-chip is-peak">17:40</span><span class="sched-chip is-peak">17:50</span>
           </div>
         </div>
         <div class="sched-stop-row">
-          <span class="sched-stop-name ko-only">시그니엘(연장)</span><span class="sched-stop-name en-only">Signiel (ext.)</span>
+          <span class="sched-stop-name ko-only"><span class="stop-badge">E</span>시그니엘(연장)</span><span class="sched-stop-name en-only"><span class="stop-badge">E</span>Signiel (ext.)</span>
           <div class="sched-chips">
             <span class="sched-chip is-dash">—</span><span class="sched-chip is-dash">—</span><span class="sched-chip is-dash">—</span><span class="sched-chip is-dash">—</span><span class="sched-chip is-dash">—</span><span class="sched-chip is-dash">—</span><span class="sched-chip is-dash">—</span><span class="sched-chip is-peak">17:30</span><span class="sched-chip is-peak">17:40</span><span class="sched-chip is-peak">17:50</span><span class="sched-chip is-peak">18:00</span>
           </div>
@@ -736,19 +740,19 @@
     <div class="sched-dir reveal vr-b vd-1024">
       <div class="sched-stops">
         <div class="sched-stop-row">
-          <span class="sched-stop-name">BEXCO</span>
+          <span class="sched-stop-name"><span class="stop-badge">S</span>BEXCO</span>
           <div class="sched-chips">
             <span class="sched-chip">10:30</span><span class="sched-chip">11:30</span><span class="sched-chip">12:30</span><span class="sched-chip">13:30</span><span class="sched-chip">14:30</span><span class="sched-chip is-peak">15:20</span><span class="sched-chip is-peak">15:30</span><span class="sched-chip is-peak">15:40</span><span class="sched-chip is-peak">15:50</span><span class="sched-chip is-peak">16:00</span>
           </div>
         </div>
         <div class="sched-stop-row">
-          <span class="sched-stop-name ko-only">파크하얏트</span><span class="sched-stop-name en-only">Park Hyatt</span>
+          <span class="sched-stop-name ko-only"><span class="stop-badge">1</span>파크하얏트</span><span class="sched-stop-name en-only"><span class="stop-badge">1</span>Park Hyatt</span>
           <div class="sched-chips">
             <span class="sched-chip">10:42</span><span class="sched-chip">11:42</span><span class="sched-chip">12:42</span><span class="sched-chip">13:42</span><span class="sched-chip">14:42</span><span class="sched-chip is-peak">15:32</span><span class="sched-chip is-peak">15:42</span><span class="sched-chip is-peak">15:52</span><span class="sched-chip is-peak">16:02</span><span class="sched-chip is-peak">16:12</span>
           </div>
         </div>
         <div class="sched-stop-row">
-          <span class="sched-stop-name ko-only">웨스틴조선</span><span class="sched-stop-name en-only">Westin Josun</span>
+          <span class="sched-stop-name ko-only"><span class="stop-badge">E</span>웨스틴조선</span><span class="sched-stop-name en-only"><span class="stop-badge">E</span>Westin Josun</span>
           <div class="sched-chips">
             <span class="sched-chip">10:50</span><span class="sched-chip">11:50</span><span class="sched-chip">12:50</span><span class="sched-chip">13:50</span><span class="sched-chip">14:50</span><span class="sched-chip is-peak">15:40</span><span class="sched-chip is-peak">15:50</span><span class="sched-chip is-peak">16:00</span><span class="sched-chip is-peak">16:10</span><span class="sched-chip is-peak">16:20</span>
           </div>
@@ -775,25 +779,25 @@
     </div>
     <div class="sched-stops">
       <div class="sched-stop-row">
-        <span class="sched-stop-name ko-only">시그니엘</span><span class="sched-stop-name en-only">Signiel</span>
+        <span class="sched-stop-name ko-only"><span class="stop-badge">S</span>시그니엘</span><span class="sched-stop-name en-only"><span class="stop-badge">S</span>Signiel</span>
         <div class="sched-chips">
           <span class="sched-chip">20:00</span><span class="sched-chip">20:02</span><span class="sched-chip">20:04</span><span class="sched-chip">20:06</span><span class="sched-chip">20:08</span><span class="sched-chip">20:10</span><span class="sched-chip">20:12</span><span class="sched-chip">20:14</span><span class="sched-chip">20:16</span><span class="sched-chip">20:18</span>
         </div>
       </div>
       <div class="sched-stop-row">
-        <span class="sched-stop-name ko-only">웨스틴조선</span><span class="sched-stop-name en-only">Westin Josun</span>
+        <span class="sched-stop-name ko-only"><span class="stop-badge">1</span>웨스틴조선</span><span class="sched-stop-name en-only"><span class="stop-badge">1</span>Westin Josun</span>
         <div class="sched-chips">
           <span class="sched-chip">20:12</span><span class="sched-chip">20:14</span><span class="sched-chip">20:16</span><span class="sched-chip">20:18</span><span class="sched-chip">20:20</span><span class="sched-chip">20:22</span><span class="sched-chip">20:24</span><span class="sched-chip">20:26</span><span class="sched-chip">20:28</span><span class="sched-chip">20:30</span>
         </div>
       </div>
       <div class="sched-stop-row">
-        <span class="sched-stop-name ko-only">파크하얏트</span><span class="sched-stop-name en-only">Park Hyatt</span>
+        <span class="sched-stop-name ko-only"><span class="stop-badge">2</span>파크하얏트</span><span class="sched-stop-name en-only"><span class="stop-badge">2</span>Park Hyatt</span>
         <div class="sched-chips">
           <span class="sched-chip">20:22</span><span class="sched-chip">20:24</span><span class="sched-chip">20:26</span><span class="sched-chip">20:28</span><span class="sched-chip">20:30</span><span class="sched-chip">20:32</span><span class="sched-chip">20:34</span><span class="sched-chip">20:36</span><span class="sched-chip">20:38</span><span class="sched-chip">20:40</span>
         </div>
       </div>
       <div class="sched-stop-row">
-        <span class="sched-stop-name ko-only">BEXCO(연장)</span><span class="sched-stop-name en-only">BEXCO (ext.)</span>
+        <span class="sched-stop-name ko-only"><span class="stop-badge">E</span>BEXCO(연장)</span><span class="sched-stop-name en-only"><span class="stop-badge">E</span>BEXCO (ext.)</span>
         <div class="sched-chips">
           <span class="sched-chip">20:32</span><span class="sched-chip">20:34</span><span class="sched-chip">20:36</span><span class="sched-chip">20:38</span><span class="sched-chip">20:40</span><span class="sched-chip">20:42</span><span class="sched-chip">20:44</span><span class="sched-chip">20:46</span><span class="sched-chip">20:48</span><span class="sched-chip">20:50</span>
         </div>
