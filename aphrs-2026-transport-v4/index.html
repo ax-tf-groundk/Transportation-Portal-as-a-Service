@@ -350,6 +350,7 @@
 .spcard {
   background:var(--card); border:1px solid var(--line); border-radius:var(--radius);
   padding:28px 28px; box-shadow:var(--shadow);
+  display:flex; flex-direction:column;
 }
 .spcard h3 { font-size:18px; font-weight:700; color:var(--ink); }
 .spcard p { margin-top:8px; font-size:13.5px; color:var(--muted); line-height:1.6; }
@@ -361,6 +362,8 @@
 }
 .sp-row b { font-size:15px; color:var(--ink); display:block; font-weight:700; }
 .sp-row small { font-size:12.5px; color:var(--soft); display:block; margin-top:1px; }
+.sp-cta { margin-top:18px; flex:1; display:flex; align-items:center; }
+.sp-cta .btn { width:100%; padding-top:16px; padding-bottom:16px; }
 
 /* ── FOOTER ─────────────────────────────────────────────────────────── */
 .footer {
@@ -648,15 +651,12 @@
         <h3><span class="ko-only">예약 내역 확인</span><span class="en-only">Check Your Booking</span></h3>
         <p class="ko-block">예약번호와 이메일로 데모 예약 내역을 조회할 수 있습니다. (콘셉트 데모)</p>
         <p class="en-block">Look up your demo booking with your reservation number and email. (Concept demo)</p>
-        <div class="sp-rows">
-          <div class="sp-row">
-            <div class="sp-ic"><svg class="ico ico-lg" viewBox="0 0 24 24" aria-hidden="true"><path d="m21 21-4.34-4.34"/><circle cx="11" cy="11" r="8"/></svg></div>
-            <div><b><span class="ko-only">예약조회</span><span class="en-only">Booking Lookup</span></b><small><span class="ko-only">예약번호 + 이메일</span><span class="en-only">Booking No. + Email</span></small></div>
-          </div>
+        <div class="sp-cta">
+          <button class="btn btn-outline" id="lookupBtn2" type="button">
+            <svg class="ico ico-lg" viewBox="0 0 24 24" aria-hidden="true"><path d="m21 21-4.34-4.34"/><circle cx="11" cy="11" r="8"/></svg>
+            <span class="ko-only">예약조회 열기</span><span class="en-only">Open Lookup</span>
+          </button>
         </div>
-        <button class="btn btn-navy btn-sm" id="lookupBtn2" type="button" style="margin-top:18px">
-          <span class="ko-only">예약조회 열기 →</span><span class="en-only">Open Lookup →</span>
-        </button>
       </div>
     </div>
   </div>
