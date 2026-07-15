@@ -95,12 +95,15 @@
   .sched-stops{display:flex;flex-direction:column;border:1px solid var(--line-2);border-radius:var(--radius-sm);overflow:hidden}
   .sched-stop-row{display:flex;align-items:center;border-bottom:1px solid var(--line-2)}
   .sched-stop-row:last-child{border-bottom:none}
+  /* BEXCO 강조 — 기점(bx-start, 첫 행)이면 아래쪽, 종점(bx-end, 마지막 행)이면 위쪽 구분선을 포인트 컬러로 */
+  .sched-stop-row.bx-start{border-bottom:2px solid var(--red)}
+  .sched-stop-row.bx-end{border-top:2px solid var(--red)}
   .sched-stop-name{flex:0 0 auto;width:120px;font-size:13px;font-weight:700;color:var(--ink);padding:9px 13px;background:var(--bg-2);border-right:1px solid var(--line-2)}
   .sched-chips{display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding:8px 10px;flex:1}
-  .sched-chip{display:inline-flex;align-items:center;justify-content:center;width:50px;font-size:13px;font-weight:600;color:var(--ink);background:#fff;border-radius:8px;padding:0;height:23px;white-space:nowrap}
+  .sched-chip{display:inline-flex;align-items:center;justify-content:center;width:50px;font-size:14px;letter-spacing:-.3px;font-weight:600;color:var(--ink);background:#fff;border-radius:8px;padding:0;height:23px;white-space:nowrap}
   .sched-chip.is-peak{color:var(--amber);background:#fdf1e0;font-weight:700}
   .sched-chip.is-dash{color:var(--soft);background:var(--bg,#f7f8fb)}
-  @media(max-width:560px){.sched-stop-name{width:96px;font-size:12px;padding:8px 10px}.sched-chip{width:44px;font-size:12px;height:21px}}
+  @media(max-width:560px){.sched-stop-name{width:96px;font-size:12px;padding:8px 10px}.sched-chip{width:44px;font-size:13px;height:21px}}
   /* 노선명 헤딩(sched-dir-h) 삭제로 표 사이 구분선도 불필요 — 여백만으로 분리.
      margin-top은 날짜 탭 바로 아래 시간표 카드 사이 간격(탭과 표가 딱 붙어있던 문제 보정). */
   .sched-dir{margin-top:16px;margin-bottom:28px}
@@ -276,7 +279,7 @@
             <span class="sched-chip is-peak">7:07</span><span class="sched-chip is-peak">7:27</span><span class="sched-chip is-peak">7:47</span><span class="sched-chip is-peak">8:07</span><span class="sched-chip is-peak">8:27</span><span class="sched-chip is-peak">8:47</span><span class="sched-chip is-peak">9:07</span><span class="sched-chip is-peak">9:27</span><span class="sched-chip is-peak">9:47</span><span class="sched-chip">10:07</span><span class="sched-chip">11:07</span><span class="sched-chip">12:07</span><span class="sched-chip">13:07</span><span class="sched-chip">14:07</span><span class="sched-chip">15:07</span><span class="sched-chip">16:07</span>
           </div>
         </div>
-        <div class="sched-stop-row">
+        <div class="sched-stop-row bx-end">
           <span class="sched-stop-name">BEXCO</span>
           <div class="sched-chips">
             <span class="sched-chip is-peak">7:25</span><span class="sched-chip is-peak">7:45</span><span class="sched-chip is-peak">8:05</span><span class="sched-chip is-peak">8:25</span><span class="sched-chip is-peak">8:45</span><span class="sched-chip is-peak">9:05</span><span class="sched-chip is-peak">9:25</span><span class="sched-chip is-peak">9:45</span><span class="sched-chip is-peak">10:05</span><span class="sched-chip">10:25</span><span class="sched-chip">11:25</span><span class="sched-chip">12:25</span><span class="sched-chip">13:25</span><span class="sched-chip">14:25</span><span class="sched-chip">15:25</span><span class="sched-chip">16:25</span>
@@ -300,7 +303,7 @@
             <span class="sched-chip is-peak">7:27</span><span class="sched-chip is-peak">7:37</span><span class="sched-chip is-peak">7:47</span><span class="sched-chip is-peak">7:57</span><span class="sched-chip is-peak">8:07</span><span class="sched-chip">9:07</span><span class="sched-chip">10:07</span><span class="sched-chip">11:07</span><span class="sched-chip">12:07</span><span class="sched-chip">13:07</span><span class="sched-chip">14:07</span><span class="sched-chip">15:07</span><span class="sched-chip">16:07</span>
           </div>
         </div>
-        <div class="sched-stop-row">
+        <div class="sched-stop-row bx-end">
           <span class="sched-stop-name">BEXCO</span>
           <div class="sched-chips">
             <span class="sched-chip is-peak">7:45</span><span class="sched-chip is-peak">7:55</span><span class="sched-chip is-peak">8:05</span><span class="sched-chip is-peak">8:15</span><span class="sched-chip is-peak">8:25</span><span class="sched-chip">9:25</span><span class="sched-chip">10:25</span><span class="sched-chip">11:25</span><span class="sched-chip">12:25</span><span class="sched-chip">13:25</span><span class="sched-chip">14:25</span><span class="sched-chip">15:25</span><span class="sched-chip">16:25</span>
@@ -324,7 +327,7 @@
             <span class="sched-chip is-peak">7:27</span><span class="sched-chip is-peak">7:37</span><span class="sched-chip is-peak">7:47</span><span class="sched-chip is-peak">7:57</span><span class="sched-chip is-peak">8:07</span><span class="sched-chip">9:07</span><span class="sched-chip">10:07</span><span class="sched-chip">11:07</span><span class="sched-chip">12:07</span><span class="sched-chip">13:07</span><span class="sched-chip">14:07</span><span class="sched-chip">15:07</span><span class="sched-chip">16:07</span>
           </div>
         </div>
-        <div class="sched-stop-row">
+        <div class="sched-stop-row bx-end">
           <span class="sched-stop-name">BEXCO</span>
           <div class="sched-chips">
             <span class="sched-chip is-peak">7:45</span><span class="sched-chip is-peak">7:55</span><span class="sched-chip is-peak">8:05</span><span class="sched-chip is-peak">8:15</span><span class="sched-chip is-peak">8:25</span><span class="sched-chip">9:25</span><span class="sched-chip">10:25</span><span class="sched-chip">11:25</span><span class="sched-chip">12:25</span><span class="sched-chip">13:25</span><span class="sched-chip">14:25</span><span class="sched-chip">15:25</span><span class="sched-chip">16:25</span>
@@ -348,7 +351,7 @@
             <span class="sched-chip is-peak">7:27</span><span class="sched-chip is-peak">7:37</span><span class="sched-chip is-peak">7:47</span><span class="sched-chip is-peak">7:57</span><span class="sched-chip is-peak">8:07</span><span class="sched-chip">9:07</span><span class="sched-chip">10:07</span><span class="sched-chip">11:07</span><span class="sched-chip">12:07</span><span class="sched-chip">13:07</span><span class="sched-chip">14:07</span>
           </div>
         </div>
-        <div class="sched-stop-row">
+        <div class="sched-stop-row bx-end">
           <span class="sched-stop-name">BEXCO</span>
           <div class="sched-chips">
             <span class="sched-chip is-peak">7:45</span><span class="sched-chip is-peak">7:55</span><span class="sched-chip is-peak">8:05</span><span class="sched-chip is-peak">8:15</span><span class="sched-chip is-peak">8:25</span><span class="sched-chip">9:25</span><span class="sched-chip">10:25</span><span class="sched-chip">11:25</span><span class="sched-chip">12:25</span><span class="sched-chip">13:25</span><span class="sched-chip">14:25</span>
@@ -389,7 +392,7 @@
     <!-- ══════════ 노선 A — 10/21 (호텔행) ══════════ -->
     <div class="sched-dir reveal vr-a vd-1021">
       <div class="sched-stops">
-        <div class="sched-stop-row">
+        <div class="sched-stop-row bx-start">
           <span class="sched-stop-name">BEXCO</span>
           <div class="sched-chips">
             <span class="sched-chip">10:30</span><span class="sched-chip">11:30</span><span class="sched-chip">12:30</span><span class="sched-chip">13:30</span><span class="sched-chip">14:30</span><span class="sched-chip">15:30</span><span class="sched-chip">16:30</span><span class="sched-chip is-peak">17:30</span><span class="sched-chip is-peak">17:50</span><span class="sched-chip is-peak">18:10</span><span class="sched-chip is-peak">18:30</span>
@@ -415,7 +418,7 @@
     <!-- ══════════ 노선 A — 10/22 (호텔행) ══════════ -->
     <div class="sched-dir reveal vr-a vd-1022">
       <div class="sched-stops">
-        <div class="sched-stop-row">
+        <div class="sched-stop-row bx-start">
           <span class="sched-stop-name">BEXCO</span>
           <div class="sched-chips">
             <span class="sched-chip">10:30</span><span class="sched-chip">11:30</span><span class="sched-chip">12:30</span><span class="sched-chip">13:30</span><span class="sched-chip">14:30</span><span class="sched-chip">15:30</span><span class="sched-chip">16:30</span><span class="sched-chip is-peak">17:00</span><span class="sched-chip is-peak">17:30</span><span class="sched-chip is-peak">18:00</span><span class="sched-chip is-peak">18:10</span><span class="sched-chip is-peak">18:20</span><span class="sched-chip is-peak">18:30</span><span class="sched-chip is-peak">19:40</span><span class="sched-chip is-peak">19:50</span>
@@ -441,7 +444,7 @@
     <!-- ══════════ 노선 A — 10/23 (호텔행) ══════════ -->
     <div class="sched-dir reveal vr-a vd-1023">
       <div class="sched-stops">
-        <div class="sched-stop-row">
+        <div class="sched-stop-row bx-start">
           <span class="sched-stop-name">BEXCO</span>
           <div class="sched-chips">
             <span class="sched-chip">10:30</span><span class="sched-chip">11:30</span><span class="sched-chip">12:30</span><span class="sched-chip">13:30</span><span class="sched-chip">14:30</span><span class="sched-chip">15:30</span><span class="sched-chip">16:30</span><span class="sched-chip is-peak">17:00</span><span class="sched-chip is-peak">17:10</span><span class="sched-chip is-peak">17:20</span><span class="sched-chip is-peak">17:30</span>
@@ -467,7 +470,7 @@
     <!-- ══════════ 노선 A — 10/24 (호텔행) ══════════ -->
     <div class="sched-dir reveal vr-a vd-1024">
       <div class="sched-stops">
-        <div class="sched-stop-row">
+        <div class="sched-stop-row bx-start">
           <span class="sched-stop-name">BEXCO</span>
           <div class="sched-chips">
             <span class="sched-chip">10:30</span><span class="sched-chip">11:30</span><span class="sched-chip">12:30</span><span class="sched-chip">13:30</span><span class="sched-chip">14:30</span><span class="sched-chip is-peak">15:20</span><span class="sched-chip is-peak">15:30</span><span class="sched-chip is-peak">15:40</span><span class="sched-chip is-peak">15:50</span><span class="sched-chip is-peak">16:00</span>
@@ -536,7 +539,7 @@
             <span class="sched-chip is-peak">7:10</span><span class="sched-chip is-peak">7:30</span><span class="sched-chip is-peak">7:50</span><span class="sched-chip is-peak">8:10</span><span class="sched-chip is-peak">8:30</span><span class="sched-chip is-peak">8:50</span><span class="sched-chip is-peak">9:10</span><span class="sched-chip is-peak">9:30</span><span class="sched-chip is-peak">9:50</span><span class="sched-chip">10:10</span><span class="sched-chip">11:10</span><span class="sched-chip">12:10</span><span class="sched-chip">13:10</span><span class="sched-chip">14:10</span><span class="sched-chip">15:10</span><span class="sched-chip">16:10</span>
           </div>
         </div>
-        <div class="sched-stop-row">
+        <div class="sched-stop-row bx-end">
           <span class="sched-stop-name">BEXCO</span>
           <div class="sched-chips">
             <span class="sched-chip is-peak">7:20</span><span class="sched-chip is-peak">7:40</span><span class="sched-chip is-peak">8:00</span><span class="sched-chip is-peak">8:20</span><span class="sched-chip is-peak">8:40</span><span class="sched-chip is-peak">9:00</span><span class="sched-chip is-peak">9:20</span><span class="sched-chip is-peak">9:40</span><span class="sched-chip is-peak">10:00</span><span class="sched-chip">10:20</span><span class="sched-chip">11:20</span><span class="sched-chip">12:20</span><span class="sched-chip">13:20</span><span class="sched-chip">14:20</span><span class="sched-chip">15:20</span><span class="sched-chip">16:20</span>
@@ -559,7 +562,7 @@
             <span class="sched-chip is-peak">7:30</span><span class="sched-chip is-peak">7:40</span><span class="sched-chip is-peak">7:50</span><span class="sched-chip is-peak">8:00</span><span class="sched-chip is-peak">8:10</span><span class="sched-chip">9:10</span><span class="sched-chip">10:10</span><span class="sched-chip">11:10</span><span class="sched-chip">12:10</span><span class="sched-chip">13:10</span><span class="sched-chip">14:10</span><span class="sched-chip">15:10</span><span class="sched-chip">16:10</span>
           </div>
         </div>
-        <div class="sched-stop-row">
+        <div class="sched-stop-row bx-end">
           <span class="sched-stop-name">BEXCO</span>
           <div class="sched-chips">
             <span class="sched-chip is-peak">7:40</span><span class="sched-chip is-peak">7:50</span><span class="sched-chip is-peak">8:00</span><span class="sched-chip is-peak">8:10</span><span class="sched-chip is-peak">8:20</span><span class="sched-chip">9:20</span><span class="sched-chip">10:20</span><span class="sched-chip">11:20</span><span class="sched-chip">12:20</span><span class="sched-chip">13:20</span><span class="sched-chip">14:20</span><span class="sched-chip">15:20</span><span class="sched-chip">16:20</span>
@@ -582,7 +585,7 @@
             <span class="sched-chip is-peak">7:30</span><span class="sched-chip is-peak">7:40</span><span class="sched-chip is-peak">7:50</span><span class="sched-chip is-peak">8:00</span><span class="sched-chip is-peak">8:10</span><span class="sched-chip">9:10</span><span class="sched-chip">10:10</span><span class="sched-chip">11:10</span><span class="sched-chip">12:10</span><span class="sched-chip">13:10</span><span class="sched-chip">14:10</span><span class="sched-chip">15:10</span><span class="sched-chip">16:10</span>
           </div>
         </div>
-        <div class="sched-stop-row">
+        <div class="sched-stop-row bx-end">
           <span class="sched-stop-name">BEXCO</span>
           <div class="sched-chips">
             <span class="sched-chip is-peak">7:40</span><span class="sched-chip is-peak">7:50</span><span class="sched-chip is-peak">8:00</span><span class="sched-chip is-peak">8:10</span><span class="sched-chip is-peak">8:20</span><span class="sched-chip">9:20</span><span class="sched-chip">10:20</span><span class="sched-chip">11:20</span><span class="sched-chip">12:20</span><span class="sched-chip">13:20</span><span class="sched-chip">14:20</span><span class="sched-chip">15:20</span><span class="sched-chip">16:20</span>
@@ -605,7 +608,7 @@
             <span class="sched-chip is-peak">7:30</span><span class="sched-chip is-peak">7:40</span><span class="sched-chip is-peak">7:50</span><span class="sched-chip is-peak">8:00</span><span class="sched-chip is-peak">8:10</span><span class="sched-chip">9:10</span><span class="sched-chip">10:10</span><span class="sched-chip">11:10</span><span class="sched-chip">12:10</span><span class="sched-chip">13:10</span><span class="sched-chip">14:10</span>
           </div>
         </div>
-        <div class="sched-stop-row">
+        <div class="sched-stop-row bx-end">
           <span class="sched-stop-name">BEXCO</span>
           <div class="sched-chips">
             <span class="sched-chip is-peak">7:40</span><span class="sched-chip is-peak">7:50</span><span class="sched-chip is-peak">8:00</span><span class="sched-chip is-peak">8:10</span><span class="sched-chip is-peak">8:20</span><span class="sched-chip">9:20</span><span class="sched-chip">10:20</span><span class="sched-chip">11:20</span><span class="sched-chip">12:20</span><span class="sched-chip">13:20</span><span class="sched-chip">14:20</span>
@@ -646,7 +649,7 @@
     <!-- ══════════ 노선 B — 10/21 (호텔행) ══════════ -->
     <div class="sched-dir reveal vr-b vd-1021">
       <div class="sched-stops">
-        <div class="sched-stop-row">
+        <div class="sched-stop-row bx-start">
           <span class="sched-stop-name">BEXCO</span>
           <div class="sched-chips">
             <span class="sched-chip">10:30</span><span class="sched-chip">11:30</span><span class="sched-chip">12:30</span><span class="sched-chip">13:30</span><span class="sched-chip">14:30</span><span class="sched-chip">15:30</span><span class="sched-chip">16:30</span><span class="sched-chip is-peak">17:30</span><span class="sched-chip is-peak">17:50</span><span class="sched-chip is-peak">18:10</span><span class="sched-chip is-peak">18:30</span>
@@ -672,7 +675,7 @@
     <!-- ══════════ 노선 B — 10/22 (호텔행) ══════════ -->
     <div class="sched-dir reveal vr-b vd-1022">
       <div class="sched-stops">
-        <div class="sched-stop-row">
+        <div class="sched-stop-row bx-start">
           <span class="sched-stop-name">BEXCO</span>
           <div class="sched-chips">
             <span class="sched-chip">10:30</span><span class="sched-chip">11:30</span><span class="sched-chip">12:30</span><span class="sched-chip">13:30</span><span class="sched-chip">14:30</span><span class="sched-chip">15:30</span><span class="sched-chip">16:30</span><span class="sched-chip is-peak">17:00</span><span class="sched-chip is-peak">17:30</span><span class="sched-chip is-peak">18:00</span><span class="sched-chip is-peak">18:10</span><span class="sched-chip is-peak">18:20</span><span class="sched-chip is-peak">18:30</span><span class="sched-chip is-peak">19:40</span><span class="sched-chip is-peak">19:50</span>
@@ -698,7 +701,7 @@
     <!-- ══════════ 노선 B — 10/23 (호텔행) ══════════ -->
     <div class="sched-dir reveal vr-b vd-1023">
       <div class="sched-stops">
-        <div class="sched-stop-row">
+        <div class="sched-stop-row bx-start">
           <span class="sched-stop-name">BEXCO</span>
           <div class="sched-chips">
             <span class="sched-chip">10:30</span><span class="sched-chip">11:30</span><span class="sched-chip">12:30</span><span class="sched-chip">13:30</span><span class="sched-chip">14:30</span><span class="sched-chip">15:30</span><span class="sched-chip">16:30</span><span class="sched-chip is-peak">17:00</span><span class="sched-chip is-peak">17:10</span><span class="sched-chip is-peak">17:20</span><span class="sched-chip is-peak">17:30</span>
@@ -730,7 +733,7 @@
     <!-- ══════════ 노선 B — 10/24 (호텔행) ══════════ -->
     <div class="sched-dir reveal vr-b vd-1024">
       <div class="sched-stops">
-        <div class="sched-stop-row">
+        <div class="sched-stop-row bx-start">
           <span class="sched-stop-name">BEXCO</span>
           <div class="sched-chips">
             <span class="sched-chip">10:30</span><span class="sched-chip">11:30</span><span class="sched-chip">12:30</span><span class="sched-chip">13:30</span><span class="sched-chip">14:30</span><span class="sched-chip is-peak">15:20</span><span class="sched-chip is-peak">15:30</span><span class="sched-chip is-peak">15:40</span><span class="sched-chip is-peak">15:50</span><span class="sched-chip is-peak">16:00</span>
@@ -787,7 +790,7 @@
           <span class="sched-chip">20:22</span><span class="sched-chip">20:24</span><span class="sched-chip">20:26</span><span class="sched-chip">20:28</span><span class="sched-chip">20:30</span><span class="sched-chip">20:32</span><span class="sched-chip">20:34</span><span class="sched-chip">20:36</span><span class="sched-chip">20:38</span><span class="sched-chip">20:40</span>
         </div>
       </div>
-      <div class="sched-stop-row">
+      <div class="sched-stop-row bx-end">
         <span class="sched-stop-name ko-only">BEXCO(연장)</span><span class="sched-stop-name en-only">BEXCO (ext.)</span>
         <div class="sched-chips">
           <span class="sched-chip">20:32</span><span class="sched-chip">20:34</span><span class="sched-chip">20:36</span><span class="sched-chip">20:38</span><span class="sched-chip">20:40</span><span class="sched-chip">20:42</span><span class="sched-chip">20:44</span><span class="sched-chip">20:46</span><span class="sched-chip">20:48</span><span class="sched-chip">20:50</span>
