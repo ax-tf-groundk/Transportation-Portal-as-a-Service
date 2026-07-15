@@ -97,9 +97,9 @@
   .sched-stop-row:last-child{border-bottom:none}
   .sched-stop-name{flex:0 0 auto;width:120px;font-size:13px;font-weight:700;color:var(--ink);padding:9px 13px;border-right:1px solid var(--line-2)}
   .sched-chips{display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding:8px 10px;flex:1}
-  .sched-chip{display:inline-flex;align-items:center;justify-content:center;width:50px;font-size:13px;font-weight:600;color:var(--ink);background:#fff;border:1px solid #ddd;border-radius:8px;padding:0;height:23px;white-space:nowrap}
-  .sched-chip.is-peak{color:var(--amber);background:#fdf1e0;border-color:#f0d9a8;font-weight:700}
-  .sched-chip.is-dash{color:var(--soft);background:var(--bg,#f7f8fb);border-color:var(--line)}
+  .sched-chip{display:inline-flex;align-items:center;justify-content:center;width:50px;font-size:13px;font-weight:600;color:var(--ink);background:#fff;border-radius:8px;padding:0;height:23px;white-space:nowrap}
+  .sched-chip.is-peak{color:var(--amber);background:#fdf1e0;font-weight:700}
+  .sched-chip.is-dash{color:var(--soft);background:var(--bg,#f7f8fb)}
   @media(max-width:560px){.sched-stop-name{width:96px;font-size:12px;padding:8px 10px}.sched-chip{width:44px;font-size:12px;height:21px}}
   /* 노선명 헤딩(sched-dir-h) 삭제로 표 사이 구분선도 불필요 — 여백만으로 분리.
      margin-top은 날짜 탭 바로 아래 시간표 카드 사이 간격(탭과 표가 딱 붙어있던 문제 보정). */
@@ -208,8 +208,8 @@
   <div class="wrap">
     <div class="sec-head reveal">
       <h2 class="sec-h" id="rt-h">
-        <span class="ko-only">운행 노선</span>
-        <span class="en-only">Shuttle Routes</span>
+        <span class="ko-only">행사장 노선</span>
+        <span class="en-only">Venue Routes</span>
       </h2>
       <p class="sec-sub ko-block">전체 학회 기간 동안 5개 공식호텔과 BEXCO를 2개 노선으로 나누어 운행합니다.<br>무료, 예약 불필요.</p>
       <p class="sec-sub en-block">Two routes connect all 5 official hotels to BEXCO throughout the conference.<br>Free, no reservation needed.</p>
@@ -754,10 +754,21 @@
     <p class="sched-note reveal en-block vr-b vd-1024" style="margin-top:14px">Oct 24 (Sat, closing day) hours: Program 08:30-16:00 (sessions end 15:15) · Peak 07:20-08:00 (every 10 min) · Regular 09:00-14:30 (hourly) · Peak 15:20-16:00 (every 10 min)</p>
     </div>
     </div>
+  </div>
+</section>
 
-    <h3 class="ko-block" style="font-size:1.15rem;font-weight:700;color:var(--navy);margin-top:32px">Faculty Dinner 셔틀 <span style="font-weight:400;opacity:.7;font-size:.85em">— 10/23(금) 저녁, 노선 선택과 무관하게 운영</span></h3>
-    <h3 class="en-block" style="font-size:1.15rem;font-weight:700;color:var(--navy);margin-top:32px">Faculty Dinner Shuttle <span style="font-weight:400;opacity:.7;font-size:.85em">— Oct 23 (Fri) evening, runs independently of route selection</span></h3>
-    <div class="sched-stops" style="margin-top:14px">
+<!-- ===== FACULTY DINNER ===== -->
+<section class="section" style="padding-top:0" aria-labelledby="fd-h">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <h2 class="sec-h" id="fd-h">
+        <span class="ko-only">Faculty Dinner 셔틀</span>
+        <span class="en-only">Faculty Dinner Shuttle</span>
+      </h2>
+      <p class="sec-sub ko-block">10/23(금) 저녁, 노선 선택과 무관하게 운영</p>
+      <p class="sec-sub en-block">Oct 23 (Fri) evening, runs independently of route selection</p>
+    </div>
+    <div class="sched-stops">
       <div class="sched-stop-row">
         <span class="sched-stop-name ko-only">시그니엘</span><span class="sched-stop-name en-only">Signiel</span>
         <div class="sched-chips">
