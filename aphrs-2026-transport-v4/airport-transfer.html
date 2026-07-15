@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="ko" data-mode="bus">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Cache-Control" content="no-cache">
+<title>공항 ↔ 호텔 — 공항버스 · 전용차량 — APHRS 2026 Busan Transportation | RIDEUS Events</title>
+<meta name="description" content="APHRS 2026 공항 ↔ 호텔 이동 정보 페이지. 김해공항·부산역(KTX)에서 BEXCO까지 공항버스 이용 안내와 전용차량 예약을 한 페이지에서 확인하세요.">
+<meta name="version" content="2026.07.14.2">
+<link rel="stylesheet" href="assets/transport.css?v=2026.07.14.2">
+<style>
+/* ============================================================
+   Airport ↔ Hotel — 이동수단 탭(공항버스 · 전용차량)
+   상태는 html[data-mode] 속성으로 제어 (언어 토글 html[data-ui-lang] 관용구와 동일 패턴)
+   ============================================================ */
+html[data-mode="bus"] .mode-chauffeur{display:none}
+html[data-mode="chauffeur"] .mode-bus{display:none}
+
+/* ---- 선택 바 (스티키): 이동수단 탭 ---- */
+.sel-bar{position:sticky;top:70px;z-index:40;background:#fff;border-bottom:1px solid var(--line);
+  box-shadow:0 10px 24px -20px rgba(20,40,80,.35)}
+.sel-inner{max-width:var(--maxw);margin:0 auto;padding:0 24px}
+
+.mode-tabs{display:inline-grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:6px}
+.mode-tab{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-width:200px;padding:15px 26px;
+  background:none;border:none;border-bottom:3px solid transparent;cursor:pointer;font:inherit;font-size:17px;font-weight:700;color:var(--muted);
+  transition:color .15s,border-color .15s}
+.mode-tab:hover{color:var(--ink)}
+.mode-tab .mt-ic{display:inline-flex;font-size:20px}
+.mode-tab[aria-selected="true"]{color:var(--red);border-bottom-color:var(--red)}
+@media(max-width:760px){
+  .sel-bar{top:70px}
+  .sel-inner{padding:0 16px}
+  .mode-tab{min-width:150px;padding:12px 16px;font-size:15px}
+  .mode-tab .mt-ic{font-size:18px}
+}
+
+/* ---- 공항버스: 기점 타이틀 (h2 섹션 제목보다 한 단계 아래, 노선/시간표 라벨보다 위) ---- */
+.origin-h{font-size:21px;font-weight:800;color:var(--ink);letter-spacing:-.2px;margin:0 0 16px;padding-bottom:11px;border-bottom:2px solid var(--red)}
+.origin-h.mt{margin-top:44px}
+
+/* ---- 디자인 원칙: 한쪽 면 컬러 보더 악센트 금지(AI 슬롭, design-principles.md §3) ----
+   rt-card는 이미 rt-tag 배지로 카테고리를 전달하므로 좌측 스트라이프는 중복 신호 — 제거 */
+.rt-card::before,
+.route-map::before{content:none}
+
+/* ---- 공항리무진: 노선 탭 (장산행 / 기장행 — 기장행은 장산행 전 구간을 포함하는 완결된 별도 노선) ---- */
+.limo-tabs{display:flex;border-radius:var(--radius-sm);overflow:hidden;border:1px solid var(--line);margin-top:16px}
+.limo-tab{flex:1;padding:13px 16px;background:#fff;border:none;font:inherit;font-size:14.5px;font-weight:700;color:var(--muted);cursor:pointer;transition:background .15s,color .15s}
+.limo-tab:not(:last-child){border-right:1px solid var(--line)}
+.limo-tab[aria-selected="true"]{color:var(--red);background:var(--red-050)}
+.limo-tab:hover:not([aria-selected="true"]){color:var(--ink)}
+.limo-panel[hidden]{display:none}
+
+/* ---- 공항리무진 배차: 노선별 가로형 시간표 (회차를 컬럼으로, 노선당 2행) ---- */
+.sched-h{margin:0 0 8px;font-size:15px;font-weight:700}
+.sched-hbus{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.sched-hbus table{border-collapse:collapse;width:max-content;min-width:100%}
+.sched-hbus th,.sched-hbus td{padding:9px 13px;text-align:center;border-bottom:1px solid var(--line-2);border-right:1px solid var(--line-2);font-size:13px;white-space:nowrap}
+.sched-hbus th:last-child,.sched-hbus td:last-child{border-right:none}
+.sched-hbus thead th{background:var(--bg,#f7f8fb);color:var(--muted);font-weight:700;font-size:11px;letter-spacing:.4px;text-transform:uppercase}
+.sched-hbus tbody th{background:var(--bg,#f7f8fb);color:var(--ink);font-weight:700;text-align:left}
+.sched-hbus tbody td{font-weight:600;color:var(--ink)}
+.sched-hbus tbody tr:last-child th,.sched-hbus tbody tr:last-child td{border-bottom:none}
+
+/* ---- rules 리스트 긴 문장용 ----
+   .rules ul li 기본값은 display:flex(짧은 한 줄용) — 안에 <a> 등 인라인 태그가 2개 이상 섞이면
+   flex가 텍스트를 조각내 세로로 쪼개 보이는 버그가 생긴다. 링크 포함된 긴 문장은 block으로 풀어서 자연스럽게 줄바꿈 */
+.rules ul li.rl-long{display:block;word-break:keep-all}
+.rl-long::before{float:left;margin-right:9px}
+</style>
+</head>
+<body>
+<a class="skip" href="#main"><span class="ko-only">본문 바로가기</span><span class="en-only">Skip to main content</span></a>
+
+<div class="demo-banner">
+  <span class="ko-only">GroundK 콘셉트 데모 — 실제 예약·결제는 처리되지 않습니다. APHRS 2026 공식 사이트가 아닙니다(<b>aphrs2026.com</b> 별도).</span>
+  <span class="en-only">GroundK Concept Demo — No actual bookings or payments processed. This is not the official APHRS 2026 website (<b>aphrs2026.com</b>).</span>
+</div>
+
+<header class="site-head">
+  <div class="bar">
+    <a class="brand brand-aphrs" href="index.html" aria-label="APHRS 2026 Busan — Participant Transportation">
+      <img src="assets/img/brand/color/abbr_horz_1.png" alt="APHRS 2026 Busan"
+           onerror="this.onerror=null;this.src='assets/img/brand/color/abbr_horz_1.png'">
+      <span class="btag"><span class="ko-only">교통 포털</span><span class="en-only">Transport<br>Portal</span></span>
+    </a>
+    <nav class="nav" aria-label="Shuttle routes">
+      <a href="airport-transfer.html" class="active"><span class="ko-only">공항 ↔ 호텔</span><span class="en-only">Airport ↔ Hotel</span></a>
+      <a href="shuttle-venue.html"><span class="ko-only">행사장 셔틀</span><span class="en-only">Venue Shuttle</span></a>
+      <a href="shuttle-chauffeur.html"><span class="ko-only">전용차량</span><span class="en-only">Chauffeur</span></a>
+      <div class="nav-dd">
+        <a class="nav-dd-btn" href="travel.html" aria-haspopup="true"><span class="ko-only">여행 정보</span><span class="en-only">Travel Info</span><span class="dd-caret" aria-hidden="true">▾</span></a>
+        <div class="nav-dd-menu" role="menu">
+          <a href="travel.html#arrival" role="menuitem"><span class="ko-only">입국 안내</span><span class="en-only">Arrival Guide</span></a>
+          <a href="travel.html#ktx" role="menuitem"><span class="ko-only">KTX 예매</span><span class="en-only">KTX Booking</span></a>
+          <a href="travel.html#baggage" role="menuitem"><span class="ko-only">짐 배송</span><span class="en-only">Baggage Delivery</span></a>
+          <!-- 유심/eSIM 임시 숨김 <a href="travel.html#esim" role="menuitem"><span class="ko-only">유심 / eSIM</span><span class="en-only">SIM / eSIM</span></a> -->
+        </div>
+      </div>
+    </nav>
+    <div class="head-right">
+      <button class="lang" id="langToggle" type="button" aria-label="Toggle language (demo)">
+        <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg> <span class="seg on" data-lang="ko">KO</span><span class="seg" data-lang="en">EN</span>
+      </button>
+      <button class="head-link hide-sm" id="lookupBtn" type="button"><span class="ko-only">예약조회</span><span class="en-only">My Booking</span></button>
+      <a class="head-link ext hide-sm" href="https://aphrs2026.com" target="_blank" rel="noopener"><span class="ko-only">공식 사이트</span><span class="en-only">Official Site</span></a>
+    </div>
+    <button class="nav-toggle" id="navToggle" type="button" aria-label="Open menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<nav class="mobile-nav" id="mobileNav" aria-label="Mobile menu">
+  <a href="airport-transfer.html" class="active"><span class="ko-only">공항 ↔ 호텔</span><span class="en-only">Airport ↔ Hotel</span></a>
+  <a href="shuttle-venue.html"><span class="ko-only">행사장 셔틀</span><span class="en-only">Venue Shuttle</span></a>
+  <a href="shuttle-chauffeur.html"><span class="ko-only">전용차량</span><span class="en-only">Chauffeur</span></a>
+  <div class="mn-divider"></div>
+  <span class="mn-sub"><span class="ko-only">여행 정보</span><span class="en-only">Travel Info</span></span>
+  <a class="mn-child" href="travel.html#arrival"><span class="ko-only">입국 안내</span><span class="en-only">Arrival Guide</span></a>
+  <a class="mn-child" href="travel.html#ktx"><span class="ko-only">KTX 예매</span><span class="en-only">KTX Booking</span></a>
+  <a class="mn-child" href="travel.html#baggage"><span class="ko-only">짐 배송</span><span class="en-only">Baggage Delivery</span></a>
+  <!-- 유심/eSIM 임시 숨김 <a class="mn-child" href="travel.html#esim"><span class="ko-only">유심 / eSIM</span><span class="en-only">SIM / eSIM</span></a> -->
+  <div class="mn-divider"></div>
+  <a class="mn-ext" href="https://aphrs2026.com" target="_blank" rel="noopener"><span class="ko-only">공식 사이트 aphrs2026.com ↗</span><span class="en-only">Official Site aphrs2026.com ↗</span></a>
+  <div class="mn-divider"></div>
+  <button class="lang" type="button" aria-label="언어 전환 (데모)"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg> <span class="seg on" data-lang="ko">KO</span><span class="seg" data-lang="en">EN</span></button>
+</nav>
+
+<main id="main">
+
+<!-- ===== DETAIL HERO ===== -->
+<section class="detail-hero">
+  <img class="bgimg" src="assets/img/gimhae-airport.jpg" alt="Gimhae International Airport">
+  <div class="inner">
+    <nav class="crumb" aria-label="breadcrumb"><a href="index.html"><span class="ko-only">홈</span><span class="en-only">Home</span></a> › <a href="index.html#shuttle"><span class="ko-only">서비스</span><span class="en-only">Services</span></a> › <span><span class="ko-only">공항 ↔ 호텔</span><span class="en-only">Airport ↔ Hotel</span></span></nav>
+    <h1>
+      <span class="ko-only">공항 ↔ 호텔 <span style="font-size:.55em;font-weight:700;opacity:.85">공항버스 · 전용차량</span></span>
+      <span class="en-only">Airport ↔ Hotel <span style="font-size:.55em;font-weight:700;opacity:.85">Airport Bus · Chauffeur</span></span>
+    </h1>
+    <p class="dsub">
+      <span class="ko-only">김해공항·부산역(KTX) ↔ 해운대 공식호텔 구간, <b>공항버스 이용 정보와 전용차량 예약</b>을 한 페이지에서 확인하세요.</span>
+      <span class="en-only">Gimhae Airport &amp; Busan Station (KTX) ↔ official Haeundae hotels — <b>airport bus information and chauffeur booking</b> on one page.</span>
+    </p>
+  </div>
+</section>
+
+<!-- ===== SELECTION BAR (sticky) — 이동수단 탭 ===== -->
+<div class="sel-bar">
+  <div class="sel-inner">
+    <div class="mode-tabs" role="tablist" aria-label="이동수단 선택">
+      <button class="mode-tab" id="tab-bus" type="button" role="tab" data-mode-btn="bus"
+              aria-selected="true" aria-controls="panel-bus">
+        <span class="mt-ic" aria-hidden="true"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 6v6"/><path d="M15 6v6"/><path d="M2 12h19.6"/><path d="M18 18h3s.5-1.7.8-2.8c.1-.4.2-.8.2-1.2 0-.4-.1-.8-.2-1.2l-1.4-5C20.1 6.8 19.1 6 18 6H4a2 2 0 0 0-2 2v10h3"/><circle cx="7" cy="18" r="2"/><path d="M9 18h5"/><circle cx="16" cy="18" r="2"/></svg></span>
+        <span class="ko-only">공항버스</span><span class="en-only">Airport Bus</span>
+      </button>
+      <button class="mode-tab" id="tab-chauffeur" type="button" role="tab" data-mode-btn="chauffeur"
+              aria-selected="false" aria-controls="panel-chauffeur" tabindex="-1">
+        <span class="mt-ic" aria-hidden="true"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2"/><circle cx="7" cy="17" r="2"/><path d="M9 17h6"/><circle cx="17" cy="17" r="2"/></svg></span>
+        <span class="ko-only">전용차량</span><span class="en-only">Chauffeur</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     PANEL 1 — AIRPORT BUS (정보성 · 대중교통, 예약 없음)
+     ============================================================ -->
+<div class="mode-panel mode-bus" id="panel-bus" role="tabpanel" aria-labelledby="tab-bus">
+
+<section class="section" aria-labelledby="bus-h">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <h2 class="sec-h" id="bus-h"><span class="ko-only">공항버스 이용 안내</span><span class="en-only">Airport Bus Guide</span></h2>
+      <p class="sec-sub ko-only">김해국제공항·부산역(KTX)에서 BEXCO(센텀시티)까지 대중교통으로 이동하는 방법입니다.</p>
+      <p class="sec-sub en-only">How to reach BEXCO (Centum City) by public transit from Gimhae Airport or Busan Station (KTX).</p>
+    </div>
+
+    <!-- ═══ 김해국제공항 ═══ -->
+    <h3 class="origin-h"><span class="ko-only">김해국제공항 (PUS)</span><span class="en-only">Gimhae Int'l Airport (PUS)</span></h3>
+
+    <div class="route-rows">
+      <div class="rt-card reveal d1">
+        <span class="rt-tag"><span class="ko-only">공항리무진</span><span class="en-only">Limousine</span></span>
+        <div class="rt-path ko-only">김해공항 <span class="ar" aria-hidden="true">→</span> BEXCO <span class="ar" aria-hidden="true">→</span> 해운대</div>
+        <div class="rt-path en-only">Gimhae Airport <span class="ar" aria-hidden="true">→</span> BEXCO <span class="ar" aria-hidden="true">→</span> Haeundae</div>
+        <span class="rt-time"><span class="ko-only">약 60분</span><span class="en-only">~60 min</span> · ₩9,500</span>
+      </div>
+    </div>
+
+    <!-- 리무진 노선 탭 — 기장행은 장산행 전 구간을 포함하는 완결된 별도 노선(김해공항 공식 안내 기준) -->
+    <div class="limo-tabs" role="tablist" aria-label="공항리무진 노선 선택">
+      <button class="limo-tab" type="button" role="tab" data-limo-btn="jangsan" aria-selected="true" aria-controls="limo-jangsan">
+        <span class="ko-only">장산행 (13개 정류장)</span><span class="en-only">To Jangsan (13 stops)</span>
+      </button>
+      <button class="limo-tab" type="button" role="tab" data-limo-btn="gijang" aria-selected="false" aria-controls="limo-gijang" tabindex="-1">
+        <span class="ko-only">기장행 (15개 정류장)</span><span class="en-only">To Gijang (15 stops)</span>
+      </button>
+    </div>
+
+    <!-- 장산행 — 국제선터미널 → 장산역 -->
+    <div class="limo-panel" id="limo-jangsan" data-limo-panel="jangsan" role="tabpanel">
+      <div class="route-map reveal d1" style="margin-top:14px">
+        <div class="rm-track">
+          <ol class="rm-line" style="grid-template-columns:repeat(13,1fr)">
+            <li class="rm-stop rm-airport"><span class="rm-label ko-only">국제선터미널</span><span class="rm-label en-only">Int'l Terminal</span><span class="rm-dot" aria-hidden="true"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"/></svg></span></li>
+            <li class="rm-stop"><span class="rm-label ko-only">국내선터미널</span><span class="rm-label en-only">Domestic Terminal</span><span class="rm-dot"></span></li>
+            <li class="rm-stop"><span class="rm-label ko-only">남천동</span><span class="rm-label en-only">Namcheon-dong</span><span class="rm-dot"></span></li>
+            <li class="rm-stop"><span class="rm-label ko-only">더비치 푸르지오써밋</span><span class="rm-label en-only">Beach PRUGIO Summit</span><span class="rm-dot"></span></li>
+            <li class="rm-stop"><span class="rm-label ko-only">신세계 센텀시티</span><span class="rm-label en-only">Shinsegae Centum City</span><span class="rm-dot"></span></li>
+            <li class="rm-stop"><span class="rm-label" style="color:var(--red)">BEXCO</span><span class="rm-dot"></span></li>
+            <li class="rm-stop"><span class="rm-label ko-only">요트경기장</span><span class="rm-label en-only">Yachting Center</span><span class="rm-dot"></span></li>
+            <li class="rm-stop"><span class="rm-label ko-only">파크하얏트 부산</span><span class="rm-label en-only">Park Hyatt Busan</span><span class="rm-dot"></span></li>
+            <li class="rm-stop"><span class="rm-label ko-only">한화리조트 해운대</span><span class="rm-label en-only">Hanwha Resort Haeundae</span><span class="rm-dot"></span></li>
+            <li class="rm-stop"><span class="rm-label ko-only">동백섬입구</span><span class="rm-label en-only">DongBaekseom Entrance</span><span class="rm-dot"></span></li>
+            <li class="rm-stop"><span class="rm-label ko-only">해운대해수욕장</span><span class="rm-label en-only">Haeundae Beach</span><span class="rm-dot"></span></li>
+            <li class="rm-stop"><span class="rm-label ko-only">해운대온천교차로</span><span class="rm-label en-only">Haeundae Hot Spring Int.</span><span class="rm-dot"></span></li>
+            <li class="rm-stop rm-airport"><span class="rm-label ko-only">장산역(5번출구)</span><span class="rm-label en-only">Jangsan Stn. (Exit 5)</span><span class="rm-dot" aria-hidden="true"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3.1V7a4 4 0 0 0 8 0V3.1"/><path d="m9 15-1-1"/><path d="m15 15 1-1"/><path d="M9 19c-2.8 0-5-2.2-5-5v-4a8 8 0 0 1 16 0v4c0 2.8-2.2 5-5 5Z"/><path d="m8 19-2 3"/><path d="m16 19 2 3"/></svg></span></li>
+          </ol>
+        </div>
+      </div>
+      <div class="sched-hbus" style="margin-top:12px">
+        <table>
+          <thead>
+            <tr><th><span class="ko-only">회차</span><span class="en-only">Trip</span></th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th></tr>
+          </thead>
+          <tbody>
+            <tr><th><span class="ko-only">출발</span><span class="en-only">Dep.</span></th><td>07:10</td><td>07:50</td><td>08:30</td><td>09:10</td><td>15:30</td><td>16:10</td><td>16:50</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 기장행 — 장산행 전 구간 + 반얀트리 부산까지 연장 (15개 정류장) -->
+    <div class="limo-panel" id="limo-gijang" data-limo-panel="gijang" role="tabpanel" hidden>
+      <div class="route-map reveal d1" style="margin-top:14px">
+        <div class="rm-track">
+          <ol class="rm-line" style="grid-template-columns:repeat(15,1fr)">
+            <li class="rm-stop rm-airport"><span class="rm-label ko-only">국제선터미널</span><span class="rm-label en-only">Int'l Terminal</span><span class="rm-dot" aria-hidden="true"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"/></svg></span></li>
+            <li class="rm-stop"><span class="rm-label ko-only">국내선터미널</span><span class="rm-label en-only">Domestic Terminal</span><span class="rm-dot"></span></li>
+            <li class="rm-stop"><span class="rm-label ko-only">남천동</span><span class="rm-label en-only">Namcheon-dong</span><span class="rm-dot"></span></li>
+            <li class="rm-stop"><span class="rm-label ko-only">더비치 푸르지오써밋</span><span class="rm-label en-only">Beach PRUGIO Summit</span><span class="rm-dot"></span></li>
+            <li class="rm-stop"><span class="rm-label ko-only">신세계 센텀시티</span><span class="rm-label en-only">Shinsegae Centum City</span><span class="rm-dot"></span></li>
+            <li class="rm-stop"><span class="rm-label" style="color:var(--red)">BEXCO</span><span class="rm-dot"></span></li>
+            <li class="rm-stop"><span class="rm-label ko-only">요트경기장</span><span class="rm-label en-only">Yachting Center</span><span class="rm-dot"></span></li>
+            <li class="rm-stop"><span class="rm-label ko-only">파크하얏트 부산</span><span class="rm-label en-only">Park Hyatt Busan</span><span class="rm-dot"></span></li>
+            <li class="rm-stop"><span class="rm-label ko-only">한화리조트 해운대</span><span class="rm-label en-only">Hanwha Resort Haeundae</span><span class="rm-dot"></span></li>
+            <li class="rm-stop"><span class="rm-label ko-only">동백섬입구</span><span class="rm-label en-only">DongBaekseom Entrance</span><span class="rm-dot"></span></li>
+            <li class="rm-stop"><span class="rm-label ko-only">해운대해수욕장</span><span class="rm-label en-only">Haeundae Beach</span><span class="rm-dot"></span></li>
+            <li class="rm-stop"><span class="rm-label ko-only">해운대온천교차로</span><span class="rm-label en-only">Haeundae Hot Spring Int.</span><span class="rm-dot"></span></li>
+            <li class="rm-stop"><span class="rm-label ko-only">장산역(5번출구)</span><span class="rm-label en-only">Jangsan Stn. (Exit 5)</span><span class="rm-dot"></span></li>
+            <li class="rm-stop"><span class="rm-label ko-only">동백 백게이트(아난티코브)</span><span class="rm-label en-only">Dongbaek Back Gate (Ananti Cove)</span><span class="rm-dot"></span></li>
+            <li class="rm-stop rm-airport"><span class="rm-label ko-only">반얀트리 부산</span><span class="rm-label en-only">Banyan Tree Busan</span><span class="rm-dot" aria-hidden="true"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3.1V7a4 4 0 0 0 8 0V3.1"/><path d="m9 15-1-1"/><path d="m15 15 1-1"/><path d="M9 19c-2.8 0-5-2.2-5-5v-4a8 8 0 0 1 16 0v4c0 2.8-2.2 5-5 5Z"/><path d="m8 19-2 3"/><path d="m16 19 2 3"/></svg></span></li>
+          </ol>
+        </div>
+      </div>
+      <div class="sched-hbus" style="margin-top:12px">
+        <table>
+          <thead>
+            <tr><th><span class="ko-only">회차</span><span class="en-only">Trip</span></th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>11</th><th>12</th><th>13</th><th>14</th><th>15</th><th>16</th></tr>
+          </thead>
+          <tbody>
+            <tr><th><span class="ko-only">출발</span><span class="en-only">Dep.</span></th><td>10:10</td><td>10:50</td><td>11:30</td><td>12:19</td><td>12:30</td><td>13:10</td><td>14:10</td><td>15:30</td><td>16:10</td><td>17:10</td><td>17:30</td><td>18:00</td><td>18:50</td><td>19:30</td><td>20:30</td><td>21:40</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <p class="sched-note reveal ko-block"><span class="ko-only">위 시각은 모두 국제선터미널 기준 · 약 60분 간격. <b>국제선·국내선 청사 모두 1층 3번 승강장</b>에서 탑승, <b>신용카드 결제만</b> 가능(현금 불가). 운영사 Bus Inc. 051-583-7441.</span></p>
+    <p class="sched-note reveal en-block"><span class="en-only">All times from the Int'l Terminal · roughly every 60 min. Boards at <b>Platform 3, 1F, both terminals</b> — <b>credit card only</b> (no cash). Operator: Bus Inc. 051-583-7441.</span></p>
+
+    <div class="route-rows" style="margin-top:26px">
+      <div class="rt-card reveal d2">
+        <span class="rt-tag" style="background:var(--navy)"><span class="ko-only">지하철</span><span class="en-only">Subway</span></span>
+        <div class="rt-path ko-only">김해공항역 <span class="ar" aria-hidden="true">→</span> 사상 <span class="ar" aria-hidden="true">→</span> 서면 <span class="ar" aria-hidden="true">→</span> 센텀시티</div>
+        <div class="rt-path en-only">Gimhae Airport Stn. <span class="ar" aria-hidden="true">→</span> Sasang <span class="ar" aria-hidden="true">→</span> Seomyeon <span class="ar" aria-hidden="true">→</span> Centum City</div>
+        <span class="rt-time"><span class="ko-only">약 70분</span><span class="en-only">~70 min</span> · ₩2,300</span>
+      </div>
+    </div>
+
+    <!-- ═══ 부산역 ═══ -->
+    <h3 class="origin-h mt">
+      <span class="ko-only">부산역 (KTX)</span><span class="en-only">Busan Station (KTX)</span>
+    </h3>
+
+    <div class="route-rows">
+      <div class="rt-card reveal d1">
+        <span class="rt-tag"><span class="ko-only">버스 1001·1003</span><span class="en-only">Bus 1001·1003</span></span>
+        <div class="rt-path ko-only">부산역 <span class="ar" aria-hidden="true">→</span> BEXCO 정류장</div>
+        <div class="rt-path en-only">Busan Stn. <span class="ar" aria-hidden="true">→</span> BEXCO stop</div>
+        <span class="rt-time"><span class="ko-only">약 40분</span><span class="en-only">~40 min</span> · ₩2,100</span>
+      </div>
+    </div>
+    <p class="sched-note reveal ko-block" style="margin-top:14px">1001번 04:30~22:00 · 1003번 04:20~22:20 · 각 약 10분 간격 운행, BEXCO 정류장에 정차합니다. 정확한 부산역 승강장 위치는 현장 안내판을 확인해 주세요.</p>
+    <p class="sched-note reveal en-block" style="margin-top:14px">Bus 1001 runs 04:30–22:00, Bus 1003 runs 04:20–22:20, each roughly every 10 min, stopping at BEXCO. Check on-site signage at Busan Station for the exact boarding bay.</p>
+
+    <div class="route-rows" style="margin-top:26px">
+      <div class="rt-card reveal d2">
+        <span class="rt-tag" style="background:var(--navy)"><span class="ko-only">지하철</span><span class="en-only">Subway</span></span>
+        <div class="rt-path ko-only">부산역 <span class="ar" aria-hidden="true">→</span> 서면 <span class="ar" aria-hidden="true">→</span> 센텀시티</div>
+        <div class="rt-path en-only">Busan Stn. <span class="ar" aria-hidden="true">→</span> Seomyeon <span class="ar" aria-hidden="true">→</span> Centum City</div>
+        <span class="rt-time"><span class="ko-only">약 55분</span><span class="en-only">~55 min</span> · ₩1,800</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== RULES ===== -->
+<section class="section" style="padding-top:0" aria-labelledby="bus-rl-h">
+  <div class="wrap">
+    <div class="sec-head reveal"><h2 class="sec-h" id="bus-rl-h"><span class="ko-only">이용 안내</span><span class="en-only">Information</span></h2></div>
+    <div class="rules reveal">
+      <ul class="ko-block">
+        <li>반대 방향(BEXCO → 공항 / 역)도 동일한 노선·수단을 역방향으로 이용하시면 됩니다.</li>
+        <li class="rl-long">위 시간표·요금은 참고용이며 실제 배차·요금은 운수사 공지에 따라 변경될 수 있습니다. 공항리무진 상세 정보는 <a href="https://www.airport.co.kr/gimhaeeng/cms/frCon/index.do?MENU_ID=110&amp;CONTENTS_NO=1" target="_blank" rel="noopener">김해공항 공식 홈페이지</a>, 그 외 노선은 <a href="travel.html#arrival">여행 정보 · 입국 안내</a>를 참고하세요.</li>
+      </ul>
+      <ul class="en-block">
+        <li>The reverse direction (BEXCO → Airport / Station) uses the same routes and modes.</li>
+        <li class="rl-long">Schedules and fares above are for reference and may change per operator notice. See the <a href="https://www.airport.co.kr/gimhaeeng/cms/frCon/index.do?MENU_ID=110&amp;CONTENTS_NO=1" target="_blank" rel="noopener">official Gimhae Airport site</a> for limousine details, or <a href="travel.html#arrival">Travel Info · Arrival Guide</a> for other routes.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+</div><!-- /panel-bus -->
+
+<!-- ============================================================
+     PANEL 2 — CHAUFFEUR (T-RiseUp 위젯 · 차량 · 운행구간 · 안내)
+     ============================================================ -->
+<div class="mode-panel mode-chauffeur" id="panel-chauffeur" role="tabpanel" aria-labelledby="tab-chauffeur">
+
+<!-- booking widget -->
+<section class="section tight" id="book" aria-labelledby="book-h">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <h2 class="sec-h" id="book-h"><span class="ko-only">전용차량 예약</span><span class="en-only">Book a Chauffeur</span></h2>
+      <p class="sec-sub ko-block">일정과 인원에 맞는 차량을 선택해 바로 예약하세요.</p>
+      <p class="sec-sub en-block">Select a vehicle that fits your schedule and group size, then book instantly.</p>
+    </div>
+    <div class="chauffeur-widget-wrap reveal">
+      <div class="ko-block">
+        <t-booking-widget
+          api-key="pk_test_DWOuhH7hx2njOk2UFvSfP9BA"
+          preset="wp_2wes4edk"
+        ></t-booking-widget>
+      </div>
+      <div class="en-block">
+        <t-booking-widget
+          api-key="pk_test_DWOuhH7hx2njOk2UFvSfP9BA"
+          preset="wp_vjivac82"
+        ></t-booking-widget>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- vehicles -->
+<section class="section" style="padding-top:0" aria-labelledby="svc-h">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <h2 class="sec-h" id="svc-h"><span class="ko-only">차량 안내</span><span class="en-only">Vehicles</span></h2>
+      <p class="sec-sub ko-block">제공 차종 안내입니다.</p>
+      <p class="sec-sub en-block">Available vehicle types.</p>
+    </div>
+    <div class="svc-grid">
+      <div class="svc-card reveal d1">
+        <img src="assets/img/fleet_g90.webp" alt="Genesis G90" onerror="this.onerror=null;this.style.display='none'">
+        <div class="svc-badge">FIRST CLASS SEDAN</div>
+        <div class="svc-name">Genesis G90</div>
+        <div class="svc-cap"><span class="ko-only">최대 3인 · 캐리어 3개</span><span class="en-only">Up to 3 pax · 3 bags</span></div>
+      </div>
+      <div class="svc-card reveal d2">
+        <img src="assets/img/fleet_staria.webp" alt="Staria" onerror="this.onerror=null;this.style.display='none'">
+        <div class="svc-badge">PREMIUM VAN</div>
+        <div class="svc-name">Staria</div>
+        <div class="svc-cap"><span class="ko-only">최대 7인 · 캐리어 6개</span><span class="en-only">Up to 7 pax · 6 bags</span></div>
+      </div>
+      <div class="svc-card reveal d3">
+        <img src="assets/img/fleet_solati.webp" alt="Hyundai Solati" onerror="this.onerror=null;this.style.display='none'">
+        <div class="svc-badge">GROUP COACH</div>
+        <div class="svc-name">Hyundai Solati</div>
+        <div class="svc-cap"><span class="ko-only">8~13인 · 수하물 자유</span><span class="en-only">8–13 pax · luggage included</span></div>
+      </div>
+    </div>
+    <p class="svc-note reveal ko-block">* 요금은 출발지·거리·일정에 따라 산정되며, 상단 예약 위젯에서 확인할 수 있습니다.</p>
+    <p class="svc-note reveal en-block">* Fares depend on origin, distance and schedule — check exact rates in the booking widget above.</p>
+  </div>
+</section>
+
+<!-- rules (chauffeur) -->
+<section class="section" style="padding-top:0" aria-labelledby="crl-h">
+  <div class="wrap">
+    <div class="sec-head reveal"><h2 class="sec-h" id="crl-h"><span class="ko-only">이용 안내</span><span class="en-only">How It Works</span></h2></div>
+    <div class="rules reveal">
+      <h4><span class="ko-only">예약</span><span class="en-only">Booking</span></h4>
+      <ul>
+        <li><span class="ko-only"><b>사전 예약이 필수</b>입니다 — 당일 현장 예약은 불가합니다.</span><span class="en-only"><b>Advance booking is required</b> — same-day walk-up bookings are not accepted.</span></li>
+        <li><span class="ko-only">픽업 시간 기준 최소 <b>24시간 전</b>에 예약해 주세요.</span><span class="en-only">Please book at least <b>24 hours</b> before your pick-up time.</span></li>
+        <li><span class="ko-only">취소는 픽업 12시간 전까지 가능합니다. 늦은 취소는 취소 수수료가 발생할 수 있습니다.</span><span class="en-only">Cancellations are accepted up to 12 hours before pick-up. Late cancellations may incur a fee.</span></li>
+        <li><span class="ko-only">예약 확정 시 발송되는 e-바우처에 드라이버 연락처가 포함됩니다.</span><span class="en-only">The e-voucher sent upon booking confirmation includes the driver's contact details.</span></li>
+        <li><span class="ko-only">요청 시 김해공항 국제선 도착층에서 미트앤그리트 서비스를 제공합니다.</span><span class="en-only">Meet &amp; greet service at Gimhae Airport International Arrivals is available upon request.</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+</div><!-- /panel-chauffeur -->
+
+</main>
+
+<!-- ===== CORPORATE FOOTER ===== -->
+<footer class="corp-foot">
+  <div class="wrap">
+    <div class="top">
+      <a class="brand" href="index.html" aria-label="APHRS 2026 교통 포털 홈">
+        <img src="assets/img/brand/color/abbr_horz_1.png"
+             alt="APHRS 2026"
+             style="height:32px;object-fit:contain"
+             onerror="this.onerror=null;this.src='assets/img/brand/color/abbr_horz_1.png'">
+        <span class="wm"><b>APHRS 2026 Transportation</b><small><span class="ko-only">GroundK · 참가자 교통 포털 데모</span><span class="en-only">GroundK · Participant Transport Portal Demo</span></small></span>
+      </a>
+      <nav class="fnav" aria-label="Footer">
+        <a href="airport-transfer.html"><span class="ko-only">공항 ↔ 호텔</span><span class="en-only">Airport ↔ Hotel</span></a>
+        <a href="shuttle-venue.html"><span class="ko-only">행사장 셔틀</span><span class="en-only">Venue Shuttle</span></a>
+        <a href="index.html#support"><span class="ko-only">고객 지원</span><span class="en-only">Support</span></a>
+      </nav>
+    </div>
+    <div class="legal">
+      <b>GroundK Co., Ltd</b> · 대표 장동원 · 사업자등록번호 238-81-00429<br>
+      부산광역시 해운대구 센텀동로 45, 405호 (우 48059) · Tel +82-2-863-3540 · Fax +82-70-8275-3540 · ops@groundk.com<br>
+      <span class="ko-only">RIDEUS는 GroundK의 Transportation × Travel 플랫폼입니다. 모든 거래·교환·환불·민원은 GroundK가 처리합니다.</span><span class="en-only">RIDEUS is GroundK's Transportation × Travel platform. All transactions, exchanges, refunds &amp; inquiries are handled by GroundK.</span><br>
+      <span class="ver">© 2026 GroundK · <span class="ko-only">APHRS 2026 참가자 교통 포털 (콘셉트 데모)</span><span class="en-only">APHRS 2026 Participant Transport Portal (Concept Demo)</span> · build 2026.07.14.2</span>
+    </div>
+  </div>
+</footer>
+
+<div class="mockup-flag"><span class="ko-only">컨셉 목업<span class="mf-ext"> · 실제 예약 연동 예정</span></span><span class="en-only">Concept Mockup<span class="mf-ext"> · Booking integration planned</span></span></div>
+
+<!-- ===== BOOKING LOOKUP MODAL (UI mock) ===== -->
+<div class="modal-ov" id="lookupModal" role="dialog" aria-modal="true" aria-labelledby="lk-h">
+  <div class="modal">
+    <button class="modal-x" id="lookupClose" type="button" aria-label="Close">✕</button>
+    <h3 id="lk-h"><span class="ko-only">예약 내역 조회</span><span class="en-only">Booking Lookup</span></h3>
+    <p><span class="ko-only">예약번호와 이메일을 입력하면 데모 예약 내역을 확인합니다.</span><span class="en-only">Enter your booking number and email to check your demo booking.</span></p>
+    <div class="mf"><label for="lkCode"><span class="ko-only">예약번호</span><span class="en-only">Booking No.</span></label><input id="lkCode" type="text" placeholder="RE-APHRS-SH-0000"></div>
+    <div class="mf"><label for="lkEmail"><span class="ko-only">이메일</span><span class="en-only">Email</span></label><input id="lkEmail" type="email" placeholder="you@example.com"></div>
+    <div class="m-actions"><button class="btn btn-red btn-block btn-sm" id="lookupSubmit" type="button"><span class="ko-only">조회하기</span><span class="en-only">Search</span></button></div>
+    <p class="m-note" id="lkResult"><span class="ko-only">※ 콘셉트 데모입니다. 실제 예약 시스템과 연동되지 않으며, 예시 안내만 표시됩니다.</span><span class="en-only">※ Concept demo. Not connected to a real booking system; example results only.</span></p>
+  </div>
+</div>
+
+<script src="assets/app.js?v=2026.07.14.2"></script>
+<script src="https://connect.triseup.com/widget.js"></script>
+
+<script>
+/* transfer A — mode(공항버스/전용차량) 상태 관리
+   URL 파라미터 ?mode= ↔ html[data-mode], 리로드 없음 */
+(function(){
+  var root = document.documentElement;
+  function param(k){
+    try { return new URLSearchParams(location.search).get(k); } catch(e){ return null; }
+  }
+  var mode = param('mode') === 'chauffeur' ? 'chauffeur' : 'bus';
+
+  var modeTabs = Array.prototype.slice.call(document.querySelectorAll('.mode-tab'));
+
+  function apply(){
+    root.setAttribute('data-mode', mode);
+    modeTabs.forEach(function(t){
+      var on = t.getAttribute('data-mode-btn') === mode;
+      t.setAttribute('aria-selected', String(on));
+      t.setAttribute('tabindex', on ? '0' : '-1');
+    });
+    try {
+      var p = new URLSearchParams(location.search);
+      p.set('mode', mode);
+      history.replaceState(null, '', location.pathname + '?' + p.toString() + location.hash);
+    } catch(e){}
+  }
+
+  modeTabs.forEach(function(t, i){
+    t.addEventListener('click', function(){
+      mode = t.getAttribute('data-mode-btn'); apply();
+    });
+    t.addEventListener('keydown', function(e){
+      var d = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
+      if (!d) return;
+      var n = modeTabs[(i + d + modeTabs.length) % modeTabs.length];
+      n.focus(); n.click();
+    });
+  });
+
+  apply();
+})();
+</script>
+
+<script>
+/* 공항리무진 노선 탭 — 장산행 / 기장행 */
+(function(){
+  var tabs = Array.prototype.slice.call(document.querySelectorAll('.limo-tab'));
+  if (!tabs.length) return;
+  var panels = Array.prototype.slice.call(document.querySelectorAll('.limo-panel'));
+  tabs.forEach(function(t, i){
+    t.addEventListener('click', function(){
+      var route = t.getAttribute('data-limo-btn');
+      tabs.forEach(function(b){
+        var on = b === t;
+        b.setAttribute('aria-selected', String(on));
+        b.setAttribute('tabindex', on ? '0' : '-1');
+      });
+      panels.forEach(function(p){
+        p.hidden = p.getAttribute('data-limo-panel') !== route;
+      });
+    });
+    t.addEventListener('keydown', function(e){
+      var d = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
+      if (!d) return;
+      var n = tabs[(i + d + tabs.length) % tabs.length];
+      n.focus(); n.click();
+    });
+  });
+})();
+</script>
+
+<script>
+(function(){
+  var toggle = document.getElementById('navToggle');
+  var nav    = document.getElementById('mobileNav');
+  if(!toggle || !nav) return;
+  toggle.addEventListener('click', function(){
+    var open = nav.classList.toggle('open');
+    toggle.classList.toggle('open', open);
+    toggle.setAttribute('aria-expanded', open);
+    document.body.style.overflow = open ? 'hidden' : '';
+    if(open){
+      var head = document.querySelector('.site-head');
+      if(head) nav.style.top = head.getBoundingClientRect().bottom + 'px';
+    }
+  });
+  // ESC 닫기
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape' && nav.classList.contains('open')){
+      nav.classList.remove('open');
+      toggle.classList.remove('open');
+      toggle.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+    }
+  });
+})();
+</script>
+</body>
+</html>

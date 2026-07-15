@@ -1,0 +1,723 @@
+﻿<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Cache-Control" content="no-cache">
+<title>APHRS 2026 Busan — Transportation | RIDEUS Events · GroundK</title>
+<meta name="description" content="Official transportation portal for APHRS 2026 Busan (19th Asia Pacific Heart Rhythm Society, Oct 21–24, BEXCO). Airport shuttle, venue shuttle, private chauffeur, KTX & baggage.">
+<meta name="version" content="2026.07.14.2">
+<link rel="stylesheet" href="assets/transport.css?v=2026.07.14.2">
+<style>
+/* ── APHRS-specific overrides (index only) ─────────────────────── */
+
+/* Header: white, APHRS-official feel */
+.site-head { background:#fff; border-bottom:2px solid var(--line); backdrop-filter:none; }
+.site-head .bar { height:72px; }
+
+/* APHRS logo sizing */
+.brand-aphrs img { height:40px; }
+.brand-aphrs .btag {
+  font-size:11.5px; font-weight:700; color:var(--red);
+  border-left:2px solid var(--red-050); padding-left:13px;
+  letter-spacing:.3px; line-height:1.15;
+}
+
+/* NAV active state */
+.nav a.active { color:var(--red); background:var(--red-050); }
+
+/* ── HERO ────────────────────────────────────────────────────────── */
+.hero {
+  position:relative; overflow:hidden; color:#fff;
+  min-height:580px; display:flex; align-items:center;
+  border-bottom:1px solid #0003;
+}
+@media(max-width:760px){ .hero{ min-height:480px; } }
+.hero-bg {
+  position:absolute; inset:0; width:100%; height:100%;
+  object-fit:cover; z-index:0;
+  transform:scale(1.04);
+}
+.hero-ov {
+  position:absolute; inset:0; z-index:1;
+  background:linear-gradient(110deg,
+    rgba(10,14,35,.88) 0%,
+    rgba(26,32,68,.78) 42%,
+    rgba(26,32,68,.50) 100%);
+}
+.hero-inner {
+  position:relative; z-index:3; width:100%;
+  max-width:var(--maxw); margin:0 auto; padding:68px 24px 60px;
+}
+.hero-eyebrow {
+  display:inline-flex; align-items:center; gap:9px;
+  font-size:11.5px; font-weight:700; letter-spacing:1.4px; text-transform:uppercase;
+  color:#fff; background:rgba(200,16,46,.36); border:1px solid rgba(255,255,255,.28);
+  padding:7px 16px; border-radius:50px; margin-bottom:20px;
+}
+.hero-eyebrow::before {
+  content:""; width:7px; height:7px; border-radius:50%;
+  background:#ff6478;
+  box-shadow:0 0 0 0 rgba(255,100,120,.6);
+  animation:beat 1.5s ease-in-out infinite;
+}
+@keyframes beat {
+  0%,100%{ transform:scale(1); box-shadow:0 0 0 0 rgba(255,100,120,.6); }
+  18%{ transform:scale(1.5); }
+  30%{ transform:scale(1); box-shadow:0 0 0 9px rgba(255,100,120,0); }
+}
+.hero h1 {
+  font-size:clamp(38px,6vw,68px); font-weight:800;
+  letter-spacing:-2px; line-height:1.0; color:#fff;
+  text-shadow:0 2px 20px rgba(0,0,0,.4);
+}
+.hero h1 em { font-style:normal; color:#ff8a9a; }
+.hero-tagline {
+  margin-top:14px; font-size:17px; font-weight:500;
+  color:rgba(255,255,255,.88); letter-spacing:.2px;
+}
+.hero-tagline .official {
+  font-size:12px; font-weight:600; color:rgba(255,255,255,.6);
+  letter-spacing:.6px; margin-left:10px;
+}
+.hero-lead {
+  margin-top:16px; font-size:15.5px; color:rgba(255,255,255,.82);
+  max-width:54ch; line-height:1.65;
+}
+.hero-lead b { color:#fff; }
+.hero-cta-row {
+  display:flex; flex-wrap:wrap; gap:12px; margin-top:28px;
+}
+.hero-meta {
+  display:flex; flex-wrap:wrap; gap:10px; margin-top:28px;
+}
+.hero-chip {
+  display:inline-flex; align-items:center; gap:8px;
+  background:rgba(255,255,255,.14); border:1px solid rgba(255,255,255,.26);
+  backdrop-filter:blur(6px); border-radius:50px;
+  font-size:12.5px; font-weight:600; color:#fff;
+  padding:7px 15px;
+}
+.hero-chip .dot { width:7px; height:7px; border-radius:50%; background:#ff8a9a; flex-shrink:0; }
+
+/* ECG pulse overlay */
+.hero-ecg {
+  position:absolute; left:0; right:0; bottom:0; z-index:2;
+  height:70px; pointer-events:none; opacity:.7;
+}
+.hero-ecg svg { width:100%; height:100%; display:block; }
+.ecg-line {
+  fill:none; stroke:rgba(255,100,120,.9); stroke-width:2.2;
+  filter:drop-shadow(0 0 8px rgba(255,80,100,.8));
+  stroke-dasharray:1600; stroke-dashoffset:1600;
+  animation:ecgtrace 3.6s ease-out forwards;
+}
+@keyframes ecgtrace { to { stroke-dashoffset:0; } }
+@media(prefers-reduced-motion:reduce){
+  .hero-eyebrow::before { animation:none; }
+  .ecg-line { stroke-dashoffset:0; animation:none; }
+}
+
+/* ── SHUTTLE SERVICE SECTION ────────────────────────────────────── */
+.shuttle-section { padding:68px 0 56px; background:#fff; }
+.shuttle-grid-3 {
+  display:grid; grid-template-columns:1fr 1fr; gap:20px;
+  margin-top:36px;
+}
+@media(max-width:720px){ .shuttle-grid-3{ grid-template-columns:1fr; } }
+.shuttle-grid-3 .card-full { grid-column:1 / -1; }
+
+.scard {
+  position:relative; overflow:hidden; border-radius:var(--radius);
+  min-height:260px; display:flex; flex-direction:column;
+  box-shadow:var(--shadow); color:inherit;
+  transition:transform .28s cubic-bezier(.22,.61,.36,1), box-shadow .28s;
+  border:1px solid var(--line);
+  background:#fff;
+}
+.scard:hover { transform:translateY(-6px); box-shadow:var(--shadow-h); }
+.card-full { min-height:220px; }
+
+/* Top type bar */
+.scard-bar {
+  font-size:12px; font-weight:700; letter-spacing:.8px;
+  text-transform:uppercase; color:#fff; padding:9px 22px;
+  display:flex; align-items:center; gap:8px; flex-shrink:0;
+  position:relative; z-index:2;
+}
+.scard.paid .scard-bar { background:var(--red); }
+.scard.free .scard-bar { background:var(--green); }
+.scard-bar .fare-tag {
+  margin-left:auto; font-size:11px; opacity:.9;
+  background:rgba(255,255,255,.22); border-radius:50px; padding:2px 10px;
+}
+
+/* Photo */
+.scard-photo {
+  position:relative; overflow:hidden;
+  background:linear-gradient(135deg,var(--red-050),var(--line-2));
+  height:270px;
+}
+.card-full .scard-photo { height:220px; }
+.scard-photo img {
+  position:absolute; inset:0; width:100%; height:100%;
+  object-fit:cover; transition:transform .4s;
+}
+.scard:hover .scard-photo img { transform:scale(1.06); }
+.scard-photo::after {
+  content:""; position:absolute; inset:0;
+  background:linear-gradient(180deg, rgba(10,14,35,.0) 20%, rgba(10,14,35,.82));
+}
+
+/* Info overlay */
+.scard-info {
+  position:absolute; bottom:0; left:0; right:0; z-index:2;
+  padding:18px 24px 22px; color:#fff;
+}
+.scard-dir {
+  font-size:22px; font-weight:800; letter-spacing:-.5px;
+  line-height:1.1; display:flex; align-items:center; gap:10px; flex-wrap:wrap;
+}
+.scard-dir .ar { color:#ff8a9a; font-size:20px; }
+.scard.free .scard-dir .ar { color:#7eeaab; }
+.scard-sub {
+  margin-top:6px; font-size:13px; color:rgba(255,255,255,.82); line-height:1.5;
+}
+.scard-cta {
+  display:inline-flex; align-items:center; gap:7px; margin-top:13px;
+  font-size:13.5px; font-weight:700; color:#fff;
+  background:rgba(255,255,255,.2); border:1px solid rgba(255,255,255,.35);
+  backdrop-filter:blur(6px); border-radius:50px; padding:8px 18px;
+  transition:.2s;
+}
+.scard:hover .scard-cta { background:rgba(255,255,255,.3); gap:11px; }
+.scard.paid .scard-cta { background:var(--red); border-color:var(--red); }
+.scard.free .scard-cta { background:var(--green); border-color:var(--green); }
+
+/* ── PRIVATE CHAUFFEUR ────────────────────────────────────────────── */
+.chauffeur {
+  position:relative; overflow:hidden; color:#fff;
+  background:radial-gradient(900px 400px at 90% -10%, rgba(200,16,46,.4), transparent 60%),
+             linear-gradient(135deg,#0d1528 0%,#1A2044 55%,#243060 100%);
+  padding:60px 0;
+}
+.chauffeur-inner {
+  max-width:var(--maxw); margin:0 auto; padding:0 24px;
+  display:grid; grid-template-columns:1fr auto; gap:40px; align-items:center;
+}
+@media(max-width:720px){ .chauffeur-inner{ grid-template-columns:1fr; gap:24px; } }
+.chauffeur-photo {
+  width:340px; border-radius:var(--radius); overflow:hidden;
+  box-shadow:0 30px 60px -20px rgba(0,0,0,.6);
+  aspect-ratio:16/10; background:#1e2a4a; flex-shrink:0;
+}
+@media(max-width:720px){ .chauffeur-photo{ width:100%; aspect-ratio:16/9; } }
+.chauffeur-photo img { width:100%; height:100%; object-fit:cover; display:block; }
+.chauffeur-ic { font-size:40px; margin-bottom:6px; }
+.chauffeur h2 {
+  font-size:clamp(24px,3.6vw,36px); font-weight:800;
+  letter-spacing:-.6px; line-height:1.1;
+}
+.chauffeur h2 em { font-style:normal; color:#ff8a9a; }
+.chauffeur p {
+  margin-top:14px; font-size:15.5px; color:rgba(255,255,255,.82);
+  max-width:48ch; line-height:1.65;
+}
+.chauffeur .btn { margin-top:24px; }
+
+/* ── USEFUL INFORMATION ────────────────────────────────────────────── */
+.useful-section { padding:64px 0; background:var(--bg); }
+.useful-row {
+  display:grid; grid-template-columns:repeat(3,1fr); gap:18px; margin-top:32px;
+}
+.useful-row--4 { grid-template-columns:repeat(4,1fr); }
+@media(max-width:760px){ .useful-row, .useful-row--4 { grid-template-columns:1fr !important; } }
+.ucard {
+  display:flex; align-items:center; gap:18px;
+  background:var(--card); border:1px solid var(--line); border-radius:var(--radius);
+  padding:22px 22px; color:inherit; box-shadow:var(--shadow);
+  transition:transform .22s, box-shadow .22s, border-color .2s;
+}
+.ucard:hover { transform:translateY(-4px); box-shadow:var(--shadow-h); border-color:#d1d5db; }
+.ucard-ic {
+  width:56px; height:56px; border-radius:15px; flex-shrink:0;
+  display:grid; place-items:center; font-size:26px;
+  background:var(--line-2); border:1px solid var(--line);
+}
+.ucard.ktx .ucard-ic { background:#fff3e8; border-color:#fcd9b4; }
+.ucard.bag .ucard-ic { background:#e8f0ff; border-color:#c5d9fc; }
+.ucard.sim .ucard-ic { background:#e8fff4; border-color:#b4f0d4; }
+.ucard-body { flex:1; }
+.ucard-body b { font-size:16px; color:var(--ink); display:block; font-weight:700; }
+.ucard-body span { font-size:13px; color:var(--muted); display:block; margin-top:3px; line-height:1.5; }
+.ucard-go { color:var(--navy); font-size:20px; font-weight:700; flex-shrink:0; opacity:.5; transition:.15s; }
+.ucard:hover .ucard-go { opacity:1; }
+
+/* ── VENUE ACCESS ───────────────────────────────────────────────────── */
+.access-section { padding:64px 0; background:#fff; }
+.access-grid {
+  display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-top:32px;
+}
+@media(max-width:760px){ .access-grid{ grid-template-columns:1fr; } }
+.acard {
+  background:var(--card); border:1px solid var(--line);
+  border-radius:var(--radius); overflow:hidden; box-shadow:var(--shadow);
+}
+.acard-photo { height:180px; position:relative; overflow:hidden; background:var(--line-2); }
+.acard-photo img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
+.acard-photo::after {
+  content:""; position:absolute; inset:0;
+  background:linear-gradient(180deg,transparent 50%,rgba(10,14,35,.65));
+}
+.acard-photo .acard-label {
+  position:absolute; bottom:14px; left:18px; z-index:2;
+  color:#fff; font-size:17px; font-weight:800; letter-spacing:-.3px;
+}
+.acard-photo .acard-code {
+  position:absolute; top:12px; left:12px; z-index:2;
+  background:var(--red); color:#fff; font-size:11px; font-weight:700;
+  padding:4px 10px; border-radius:50px; letter-spacing:.3px;
+}
+.acard-rows { list-style:none; }
+.acard-row { display:flex; align-items:center; gap:10px; padding:10px 18px; border-bottom:1px solid var(--line-2); font-size:13.5px; }
+.acard-row:last-child { border-bottom:none; }
+.acard-row-head { display:flex; align-items:center; padding:8px 18px 6px; border-bottom:1px solid var(--line-2); background:var(--bg); }
+.acard-row-head span { font-size:10.5px; font-weight:700; color:var(--muted); letter-spacing:.5px; text-transform:uppercase; }
+.acard-row-head .arh-fare { margin-left:auto; font-size:10.5px; font-weight:700; color:var(--muted); letter-spacing:.5px; text-transform:uppercase; }
+.ar-ic { width:30px; height:30px; border-radius:8px; display:grid; place-items:center; font-size:15px; background:var(--red-050); border:1px solid #f6cdd5; flex-shrink:0; }
+.ar-name { flex:1; font-weight:700; color:var(--ink); min-width:0; }
+.ar-time { color:var(--muted); font-size:13px; white-space:nowrap; flex-shrink:0; }
+.ar-fare { color:var(--red); font-weight:700; white-space:nowrap; flex-shrink:0; margin-left:auto; font-size:13px; }
+
+/* ── ABOUT STRIP ───────────────────────────────────────────────────── */
+.about-section { padding:48px 0; background:var(--bg); }
+.about-strip {
+  display:flex; align-items:center; justify-content:space-between; gap:24px; flex-wrap:wrap;
+  background:linear-gradient(135deg,var(--navy) 0%,var(--navy-700) 100%);
+  border-radius:var(--radius-lg); padding:32px 36px; color:#fff;
+  box-shadow:0 20px 50px -24px rgba(26,32,68,.5);
+}
+.about-left { flex:1; min-width:260px; }
+.about-kicker {
+  font-size:11px; font-weight:700; color:rgba(255,255,255,.6);
+  letter-spacing:1.2px; text-transform:uppercase; margin-bottom:8px; display:block;
+}
+.about-strip h3 {
+  font-size:22px; font-weight:800; color:#fff; letter-spacing:-.4px; line-height:1.2;
+}
+.about-chips { display:flex; flex-wrap:wrap; gap:9px; margin-top:15px; }
+.about-chip {
+  display:inline-flex; align-items:center; gap:6px;
+  background:rgba(255,255,255,.12); border:1px solid rgba(255,255,255,.2);
+  border-radius:50px; font-size:12.5px; font-weight:600; color:#fff;
+  padding:6px 13px;
+}
+
+/* ── SUPPORT ───────────────────────────────────────────────────────── */
+.support-section { padding:64px 0; background:#fff; }
+.support-grid {
+  display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-top:32px;
+}
+@media(max-width:720px){ .support-grid{ grid-template-columns:1fr; } }
+.spcard {
+  background:var(--card); border:1px solid var(--line); border-radius:var(--radius);
+  padding:28px 28px; box-shadow:var(--shadow);
+}
+.spcard h3 { font-size:18px; font-weight:700; color:var(--ink); }
+.spcard p { margin-top:8px; font-size:13.5px; color:var(--muted); line-height:1.6; }
+.sp-rows { margin-top:18px; display:flex; flex-direction:column; gap:13px; }
+.sp-row { display:flex; align-items:center; gap:14px; }
+.sp-ic {
+  width:46px; height:46px; border-radius:12px; display:grid; place-items:center;
+  font-size:20px; background:var(--red-050); border:1px solid #f6cdd5; flex-shrink:0;
+}
+.sp-row b { font-size:15px; color:var(--ink); display:block; font-weight:700; }
+.sp-row small { font-size:12.5px; color:var(--soft); display:block; margin-top:1px; }
+
+/* ── FOOTER ─────────────────────────────────────────────────────────── */
+.footer {
+  background:var(--navy); color:rgba(255,255,255,.6); font-size:13px; padding:42px 0 50px;
+  border-top:3px solid var(--red);
+}
+.footer-inner {
+  max-width:var(--maxw); margin:0 auto; padding:0 24px;
+}
+.footer-top {
+  display:flex; justify-content:space-between; align-items:flex-start;
+  gap:24px; flex-wrap:wrap; padding-bottom:22px;
+  border-bottom:1px solid rgba(255,255,255,.1);
+}
+.footer-brand { display:flex; align-items:center; gap:11px; }
+.footer-brand img { height:30px; filter:brightness(0) invert(1); opacity:.8; }
+.footer-brand .wm { line-height:1.2; }
+.footer-brand .wm b { font-size:15px; font-weight:700; color:#fff; display:block; }
+.footer-brand .wm small { font-size:11px; color:rgba(255,255,255,.5); letter-spacing:.3px; }
+.footer-nav { display:flex; gap:20px; flex-wrap:wrap; align-items:center; }
+.footer-nav a { color:rgba(255,255,255,.55); transition:.15s; font-size:13px; font-weight:500; }
+.footer-nav a:hover { color:#fff; }
+.footer-legal {
+  padding-top:20px; font-size:12px; color:rgba(255,255,255,.4); line-height:1.9;
+}
+.footer-legal b { color:rgba(255,255,255,.65); }
+.footer-legal .ver { color:rgba(255,255,255,.28); }
+
+/* ── MOBILE FIX: .about-strip (390px overflow) ────────────────────
+   .about-strip padding:32px 36px + .about-left min-width:260px +
+   white-space:nowrap 버튼 → 모바일에서 버튼이 카드 밖으로 삐져나옴 */
+@media(max-width:760px){
+  .about-strip{
+    padding:24px 20px;
+    flex-direction:column;
+    align-items:stretch;
+  }
+  .about-left{ min-width:0; width:100%; }
+  .about-cta-btn{ width:100%; justify-content:center; white-space:normal; text-align:center; }
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main"><span class="ko-only">본문 바로가기</span><span class="en-only">Skip to main content</span></a>
+
+<!-- ── DEMO BANNER ─────────────────────────────────────────────────── -->
+<div class="demo-banner">
+  <span class="ko-only">GroundK 콘셉트 데모 — 실제 예약·결제는 처리되지 않습니다. APHRS 2026 공식 사이트가 아닙니다(<b>aphrs2026.com</b> 별도).</span>
+  <span class="en-only">GroundK Concept Demo — No actual bookings or payments processed. This is not the official APHRS 2026 website (<b>aphrs2026.com</b>).</span>
+</div>
+
+<!-- ── HEADER ──────────────────────────────────────────────────────── -->
+<header class="site-head">
+  <div class="bar">
+    <a class="brand brand-aphrs" href="index.html" aria-label="APHRS 2026 부산 — 참가자 교통">
+      <img src="assets/img/brand/color/abbr_horz_1.png"
+           alt="APHRS 2026 Busan"
+           onerror="this.onerror=null;this.src='assets/img/brand/color/abbr_horz_1.png'">
+      <span class="btag"><span class="ko-only">교통 포털</span><span class="en-only">Transport<br>Portal</span></span>
+    </a>
+    <nav class="nav" aria-label="셔틀 노선">
+      <a href="airport-transfer.html"><span class="ko-only">공항 ↔ 호텔</span><span class="en-only">Airport ↔ Hotel</span></a>
+      <a href="shuttle-venue.html"><span class="ko-only">행사장 셔틀</span><span class="en-only">Venue Shuttle</span></a>
+      <a href="shuttle-chauffeur.html"><span class="ko-only">전용차량</span><span class="en-only">Chauffeur</span></a>
+      <div class="nav-dd">
+        <a class="nav-dd-btn" href="travel.html" aria-haspopup="true"><span class="ko-only">여행 정보</span><span class="en-only">Travel Info</span><span class="dd-caret" aria-hidden="true">▾</span></a>
+        <div class="nav-dd-menu" role="menu">
+          <a href="travel.html#arrival" role="menuitem"><span class="ko-only">입국 안내</span><span class="en-only">Arrival Guide</span></a>
+          <a href="travel.html#ktx" role="menuitem"><span class="ko-only">KTX 예매</span><span class="en-only">KTX Booking</span></a>
+          <a href="travel.html#baggage" role="menuitem"><span class="ko-only">짐 배송</span><span class="en-only">Baggage Delivery</span></a>
+          <!-- 유심/eSIM 임시 숨김 <a href="travel.html#esim" role="menuitem"><span class="ko-only">유심 / eSIM</span><span class="en-only">SIM / eSIM</span></a> -->
+        </div>
+      </div>
+    </nav>
+    <div class="head-right">
+      <button class="lang" id="langToggle" type="button" aria-label="언어 전환 (데모)">
+        <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg> <span class="seg" data-lang="en">EN</span><span class="seg on" data-lang="ko">KO</span>
+      </button>
+      <button class="head-link hide-sm" id="lookupBtn" type="button"><span class="ko-only">예약조회</span><span class="en-only">My Booking</span></button>
+      <a class="head-link ext hide-sm" href="https://aphrs2026.com" target="_blank" rel="noopener"><span class="ko-only">공식 사이트</span><span class="en-only">Official Site</span></a>
+    </div>
+    <button class="nav-toggle" id="navToggle" type="button" aria-label="메뉴 열기" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<nav class="mobile-nav" id="mobileNav" aria-label="모바일 메뉴">
+  <a href="airport-transfer.html"><span class="ko-only">공항 ↔ 호텔</span><span class="en-only">Airport ↔ Hotel</span></a>
+  <a href="shuttle-venue.html"><span class="ko-only">행사장 셔틀</span><span class="en-only">Venue Shuttle</span></a>
+  <a href="shuttle-chauffeur.html"><span class="ko-only">전용차량</span><span class="en-only">Chauffeur</span></a>
+  <div class="mn-divider"></div>
+  <span class="mn-sub"><span class="ko-only">여행 정보</span><span class="en-only">Travel Info</span></span>
+  <a class="mn-child" href="travel.html#arrival"><span class="ko-only">입국 안내</span><span class="en-only">Arrival Guide</span></a>
+  <a class="mn-child" href="travel.html#ktx"><span class="ko-only">KTX 예매</span><span class="en-only">KTX Booking</span></a>
+  <a class="mn-child" href="travel.html#baggage"><span class="ko-only">짐 배송</span><span class="en-only">Baggage Delivery</span></a>
+  <!-- 유심/eSIM 임시 숨김 <a class="mn-child" href="travel.html#esim"><span class="ko-only">유심 / eSIM</span><span class="en-only">SIM / eSIM</span></a> -->
+  <div class="mn-divider"></div>
+  <a class="mn-ext" href="https://aphrs2026.com" target="_blank" rel="noopener"><span class="ko-only">공식 사이트 aphrs2026.com ↗</span><span class="en-only">Official Site aphrs2026.com ↗</span></a>
+  <div class="mn-divider"></div>
+  <button class="lang" type="button" aria-label="언어 전환 (데모)"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg> <span class="seg on" data-lang="ko">KO</span><span class="seg" data-lang="en">EN</span></button>
+</nav>
+
+<main id="main">
+
+<!-- ── HERO ───────────────────────────────────────────────────────── -->
+<section class="hero" aria-labelledby="hero-h">
+  <img class="hero-bg"
+       src="https://aphrs2026.com/home/2025/aphrs/image/main_visual_1.png"
+       alt="Busan, Korea"
+       onerror="this.onerror=null;this.src='assets/img/bexco.jpg'">
+  <div class="hero-ov"></div>
+
+  <div class="hero-inner">
+    <span class="hero-eyebrow"><span class="ko-only">APHRS 2026 · 부산 BEXCO · 10월 21–24일</span><span class="en-only">APHRS 2026 · Busan BEXCO · Oct 21–24</span></span>
+    <h1 id="hero-h">APHRS 2026<br><em><span class="ko-only">참가자 교통 포털</span><span class="en-only">Participant Transport Portal</span></em></h1>
+    <p class="hero-tagline">
+      "Feel the Rhythm, Feel the Future"
+      <span class="official">· <span class="ko-only">APHRS 2026 공식 슬로건</span><span class="en-only">APHRS 2026 Official Slogan</span></span>
+    </p>
+    <p class="hero-lead ko-block">
+      <b>APHRS 2026 참가자</b>를 위한 전용 셔틀 및 지상 교통 서비스.
+      김해공항·부산역 ↔ 공식 호텔 ↔ BEXCO — 간편하게 예약하세요.
+    </p>
+    <p class="hero-lead en-block">
+      Dedicated shuttle and ground transport for <b>APHRS 2026 participants</b>.
+      Gimhae Airport · Busan Station ↔ Official Hotels ↔ BEXCO — book with ease.
+    </p>
+    <div class="hero-cta-row">
+      <a class="btn btn-red" href="#shuttle"><span class="ko-only"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 6v6"/><path d="M15 6v6"/><path d="M2 12h19.6"/><path d="M18 18h3s.5-1.7.8-2.8c.1-.4.2-.8.2-1.2 0-.4-.1-.8-.2-1.2l-1.4-5C20.1 6.8 19.1 6 18 6H4a2 2 0 0 0-2 2v10h3"/><circle cx="7" cy="18" r="2"/><path d="M9 18h5"/><circle cx="16" cy="18" r="2"/></svg> 셔틀 노선 보기</span><span class="en-only"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 6v6"/><path d="M15 6v6"/><path d="M2 12h19.6"/><path d="M18 18h3s.5-1.7.8-2.8c.1-.4.2-.8.2-1.2 0-.4-.1-.8-.2-1.2l-1.4-5C20.1 6.8 19.1 6 18 6H4a2 2 0 0 0-2 2v10h3"/><circle cx="7" cy="18" r="2"/><path d="M9 18h5"/><circle cx="16" cy="18" r="2"/></svg> View Shuttle Routes</span></a>
+      <a class="btn btn-white" href="#access"><span class="ko-only">오시는 길</span><span class="en-only">Venue Access</span></a>
+    </div>
+  </div>
+
+
+
+</section>
+
+<!-- ── SHUTTLE SERVICE ─────────────────────────────────────────────── -->
+<section class="shuttle-section" id="shuttle" aria-labelledby="sh-h">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <h2 class="sec-h" id="sh-h"><span class="ko-only">APHRS 2026 참가자 전용 셔틀</span><span class="en-only">APHRS 2026 Participant Shuttle Services</span></h2>
+      <p class="sec-sub ko-block">노선을 선택하면 정류장·시간표·예약이 있는 상세 페이지로 이동합니다. 모든 셔틀은 RIDEUS Events · GroundK가 운영합니다.</p>
+      <p class="sec-sub en-block">Select a route to view stops, schedules, and bookings. All shuttles are operated by RIDEUS Events · GroundK.</p>
+    </div>
+
+    <div class="shuttle-grid-3">
+
+      <!-- Airport ↔ Hotel (INFO + CHAUFFEUR) -->
+      <a class="scard paid card-full reveal d1" href="airport-transfer.html" aria-label="공항 ↔ 호텔 이동 정보 및 전용차량 예약">
+        <div class="scard-bar">
+          <svg class="ico ico-lg" viewBox="0 0 24 24" aria-hidden="true"><path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"/></svg> <span class="ko-only">공항 ↔ 호텔</span><span class="en-only">Airport ↔ Hotel</span>
+          <span class="fare-tag"><span class="ko-only">공항버스 · 전용차량</span><span class="en-only">Airport Bus · Chauffeur</span></span>
+        </div>
+        <div class="scard-photo">
+          <img src="https://transport.apec2025.kr/shared/images/zones/bg-visual-gimhae-airport.jpg"
+               alt="김해국제공항"
+               onerror="this.onerror=null;this.src='assets/img/gimhae-airport.jpg'">
+          <div class="scard-info">
+            <div class="scard-dir">
+              <span class="ko-only">김해공항·부산역(KTX) <span class="ar">↔</span> 해운대 공식호텔</span>
+              <span class="en-only">Gimhae Airport &amp; Busan Station (KTX) <span class="ar">↔</span> Haeundae Official Hotels</span>
+            </div>
+            <p class="scard-sub ko-block">공항버스 이동 정보 + 전용차량 예약 · 해운대 공식호텔 5곳</p>
+            <p class="scard-sub en-block">Airport bus information + chauffeur booking · 5 official Haeundae hotels</p>
+            <span class="scard-cta"><span class="ko-only">자세히 보기 →</span><span class="en-only">Learn More →</span></span>
+          </div>
+        </div>
+      </a>
+
+      <!-- Venue Shuttle (FREE) full width -->
+      <a class="scard free card-full reveal d3" href="shuttle-venue.html" aria-label="행사장 셔틀 — 호텔↔BEXCO">
+        <div class="scard-bar">
+          <svg class="ico ico-lg" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 6v6"/><path d="M15 6v6"/><path d="M2 12h19.6"/><path d="M18 18h3s.5-1.7.8-2.8c.1-.4.2-.8.2-1.2 0-.4-.1-.8-.2-1.2l-1.4-5C20.1 6.8 19.1 6 18 6H4a2 2 0 0 0-2 2v10h3"/><circle cx="7" cy="18" r="2"/><path d="M9 18h5"/><circle cx="16" cy="18" r="2"/></svg> <span class="ko-only">행사장 셔틀 — 호텔 ↔ BEXCO</span><span class="en-only">Venue Shuttle — Hotels ↔ BEXCO</span>
+          <span class="fare-tag"><span class="ko-only">무료 · 등록 참가자</span><span class="en-only">Free · Registered Participants</span></span>
+        </div>
+        <div class="scard-photo">
+          <img src="https://transport.apec2025.kr/shared/images/zones/bg-visual-venue-busan.jpg"
+               alt="BEXCO, Busan — APHRS 2026 Venue"
+               onerror="this.onerror=null;this.src='assets/img/bexco.jpg'">
+          <div class="scard-info">
+            <div class="scard-dir">
+              <span class="ko-only">공식 호텔 <span class="ar">↔</span> BEXCO (행사장)</span>
+              <span class="en-only">Official Hotels <span class="ar">↔</span> BEXCO (Venue)</span>
+            </div>
+            <p class="scard-sub ko-block">정기 순환 · 공식호텔 5곳 ↔ BEXCO · 등록 참가자 무료 · 10/21~24</p>
+            <p class="scard-sub en-block">Regular circuit · 5 official hotels ↔ BEXCO · Free for registered participants · Oct 21–24</p>
+            <span class="scard-cta"><span class="ko-only">시간표 보기 →</span><span class="en-only">View Schedule →</span></span>
+          </div>
+        </div>
+      </a>
+
+    </div><!-- /shuttle-grid-3 -->
+  </div>
+</section>
+
+<!-- ── PRIVATE CHAUFFEUR ───────────────────────────────────────────── -->
+<section class="chauffeur" aria-label="전용차량 서비스">
+  <div class="chauffeur-inner wrap">
+    <div>
+      <span class="chauffeur-ic"><svg class="ico ico-lg" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2"/><circle cx="7" cy="17" r="2"/><path d="M9 17h6"/><circle cx="17" cy="17" r="2"/></svg></span>
+      <h2>Get a private chauffeur<br><em>just for you</em></h2>
+      <p class="ko-block">김해공항·부산역에서 목적지까지 도어 투 도어. 세단·밴·의전 차량. 연자·임원 의전 및 팀 단위 이동에 — 셔틀보다 유연하게.</p>
+      <p class="en-block">Door-to-door from Gimhae Airport or Busan Station. Sedans, vans &amp; VIP vehicles. For speakers, executives &amp; group transfers — more flexible than a shuttle.</p>
+      <a class="btn btn-white" href="shuttle-chauffeur.html"><span class="ko-only">자세히 보기 →</span><span class="en-only">Learn More →</span></a>
+    </div>
+    <div class="chauffeur-photo">
+      <img src="assets/img/chauffeur-g90-hotel-night.webp" alt="Private Chauffeur — G90 hotel drop-off, RIDEUS Events">
+    </div>
+  </div>
+</section>
+
+<!-- ── VENUE ACCESS ───────────────────────────────────────────────── -->
+<section class="access-section" id="access" aria-labelledby="ac-h">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <h2 class="sec-h" id="ac-h"><span class="ko-only">부산 BEXCO까지 오시는 길</span><span class="en-only">Getting to Busan BEXCO</span></h2>
+      <p class="sec-sub ko-block">주요 출발지에서 행사장까지 예상 소요 시간과 요금입니다.</p>
+      <p class="sec-sub en-block">Estimated travel times and fares from major departure points to the venue.</p>
+    </div>
+    <div class="access-grid">
+
+      <!-- 김해공항 -->
+      <div class="acard reveal d1">
+        <div class="acard-photo">
+          <img src="https://transport.apec2025.kr/shared/images/zones/bg-visual-gimhae-airport.jpg"
+               alt="김해국제공항"
+               onerror="this.onerror=null;this.src='assets/img/gimhae-airport.jpg'">
+          <span class="acard-code">PUS</span>
+          <span class="acard-label"><span class="ko-only">김해국제공항</span><span class="en-only">Gimhae Int'l Airport</span></span>
+        </div>
+        <div class="acard-row-head"><span><span class="ko-only">이동 수단</span><span class="en-only">Transport</span></span><span class="arh-fare"><span class="ko-only">예상 요금</span><span class="en-only">Est. Fare</span></span></div>
+        <ul class="acard-rows">
+          <li class="acard-row"><span class="ar-ic"><svg class="ico ico-lg" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 6v6"/><path d="M15 6v6"/><path d="M2 12h19.6"/><path d="M18 18h3s.5-1.7.8-2.8c.1-.4.2-.8.2-1.2 0-.4-.1-.8-.2-1.2l-1.4-5C20.1 6.8 19.1 6 18 6H4a2 2 0 0 0-2 2v10h3"/><circle cx="7" cy="18" r="2"/><path d="M9 18h5"/><circle cx="16" cy="18" r="2"/></svg></span><span class="ar-name">APHRS Shuttle</span><span class="ar-time"><span class="ko-only">약 60분</span><span class="en-only">~60 min</span></span><span class="ar-fare"><span class="ko-only">유료</span><span class="en-only">Paid</span></span></li>
+          <li class="acard-row"><span class="ar-ic"><svg class="ico ico-lg" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2"/><circle cx="7" cy="17" r="2"/><path d="M9 17h6"/><circle cx="17" cy="17" r="2"/></svg></span><span class="ar-name"><span class="ko-only">택시 / 앱</span><span class="en-only">Taxi / App</span></span><span class="ar-time"><span class="ko-only">약 40분</span><span class="en-only">~40 min</span></span><span class="ar-fare">≈ ₩35,000</span></li>
+          <li class="acard-row"><span class="ar-ic"><svg class="ico ico-lg" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3.1V7a4 4 0 0 0 8 0V3.1"/><path d="m9 15-1-1"/><path d="m15 15 1-1"/><path d="M9 19c-2.8 0-5-2.2-5-5v-4a8 8 0 0 1 16 0v4c0 2.8-2.2 5-5 5Z"/><path d="m8 19-2 3"/><path d="m16 19 2 3"/></svg></span><span class="ar-name"><span class="ko-only">지하철 (2개 노선)</span><span class="en-only">Subway (2 lines)</span></span><span class="ar-time"><span class="ko-only">약 60분</span><span class="en-only">~60 min</span></span><span class="ar-fare">≈ ₩2,000</span></li>
+        </ul>
+      </div>
+
+      <!-- 부산역 (KTX) -->
+      <div class="acard reveal d2">
+        <div class="acard-photo">
+          <img src="assets/img/busan-station-night.jpg"
+               alt="부산역 (KTX)"
+               onerror="this.onerror=null;this.src='assets/img/bexco.jpg'">
+          <span class="acard-code">KTX</span>
+          <span class="acard-label"><span class="ko-only">부산역 (KTX)</span><span class="en-only">Busan Station (KTX)</span></span>
+        </div>
+        <div class="acard-row-head"><span><span class="ko-only">이동 수단</span><span class="en-only">Transport</span></span><span class="arh-fare"><span class="ko-only">예상 요금</span><span class="en-only">Est. Fare</span></span></div>
+        <ul class="acard-rows">
+          <li class="acard-row"><span class="ar-ic"><svg class="ico ico-lg" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 6v6"/><path d="M15 6v6"/><path d="M2 12h19.6"/><path d="M18 18h3s.5-1.7.8-2.8c.1-.4.2-.8.2-1.2 0-.4-.1-.8-.2-1.2l-1.4-5C20.1 6.8 19.1 6 18 6H4a2 2 0 0 0-2 2v10h3"/><circle cx="7" cy="18" r="2"/><path d="M9 18h5"/><circle cx="16" cy="18" r="2"/></svg></span><span class="ar-name">APHRS Shuttle</span><span class="ar-time"><span class="ko-only">약 40분</span><span class="en-only">~40 min</span></span><span class="ar-fare"><span class="ko-only">유료</span><span class="en-only">Paid</span></span></li>
+          <li class="acard-row"><span class="ar-ic"><svg class="ico ico-lg" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2"/><circle cx="7" cy="17" r="2"/><path d="M9 17h6"/><circle cx="17" cy="17" r="2"/></svg></span><span class="ar-name"><span class="ko-only">택시 / 앱</span><span class="en-only">Taxi / App</span></span><span class="ar-time"><span class="ko-only">약 30분</span><span class="en-only">~30 min</span></span><span class="ar-fare">≈ ₩22,000</span></li>
+          <li class="acard-row"><span class="ar-ic"><svg class="ico ico-lg" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3.1V7a4 4 0 0 0 8 0V3.1"/><path d="m9 15-1-1"/><path d="m15 15 1-1"/><path d="M9 19c-2.8 0-5-2.2-5-5v-4a8 8 0 0 1 16 0v4c0 2.8-2.2 5-5 5Z"/><path d="m8 19-2 3"/><path d="m16 19 2 3"/></svg></span><span class="ar-name"><span class="ko-only">지하철 (1호선)</span><span class="en-only">Subway (Line 1)</span></span><span class="ar-time"><span class="ko-only">약 50분</span><span class="en-only">~50 min</span></span><span class="ar-fare">≈ ₩1,800</span></li>
+        </ul>
+      </div>
+
+    </div><!-- /access-grid -->
+  </div>
+</section>
+
+<!-- ── SUPPORT ────────────────────────────────────────────────────── -->
+<section class="support-section" id="support" aria-labelledby="sp-h">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <h2 class="sec-h" id="sp-h"><span class="ko-only">이동 관련 문의가 있으신가요?</span><span class="en-only">Need help with your transport?</span></h2>
+    </div>
+    <div class="support-grid">
+      <div class="spcard reveal d1">
+        <h3><span class="ko-only">RIDEUS Events 운영팀</span><span class="en-only">RIDEUS Events Team</span></h3>
+        <p class="ko-block">셔틀 예약·의전·단체 수송 문의를 도와드립니다. 평일 09:00–18:00 (KST) 운영.</p>
+        <p class="en-block">Here for shuttle bookings, chauffeur services &amp; group transport inquiries. Mon–Fri 09:00–18:00 KST.</p>
+        <div class="sp-rows">
+          <div class="sp-row">
+            <div class="sp-ic"><svg class="ico ico-lg" viewBox="0 0 24 24" aria-hidden="true"><path d="m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7"/><rect x="2" y="4" width="20" height="16" rx="2"/></svg></div>
+            <div><b>ops@groundk.com</b><small><span class="ko-only">이메일 문의</span><span class="en-only">Email inquiry</span></small></div>
+          </div>
+          <div class="sp-row">
+            <div class="sp-ic"><svg class="ico ico-lg" viewBox="0 0 24 24" aria-hidden="true"><path d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384"/></svg></div>
+            <div><b>+82-2-863-3540</b><small><span class="ko-only">평일 09:00–18:00 (KST)</span><span class="en-only">Mon–Fri 09:00–18:00 KST</span></small></div>
+          </div>
+        </div>
+      </div>
+      <div class="spcard reveal d2">
+        <h3><span class="ko-only">예약 내역 확인</span><span class="en-only">Check Your Booking</span></h3>
+        <p class="ko-block">예약번호와 이메일로 데모 예약 내역을 조회할 수 있습니다. (콘셉트 데모)</p>
+        <p class="en-block">Look up your demo booking with your reservation number and email. (Concept demo)</p>
+        <div class="sp-rows">
+          <div class="sp-row">
+            <div class="sp-ic"><svg class="ico ico-lg" viewBox="0 0 24 24" aria-hidden="true"><path d="m21 21-4.34-4.34"/><circle cx="11" cy="11" r="8"/></svg></div>
+            <div><b><span class="ko-only">예약조회</span><span class="en-only">Booking Lookup</span></b><small><span class="ko-only">예약번호 + 이메일</span><span class="en-only">Booking No. + Email</span></small></div>
+          </div>
+        </div>
+        <button class="btn btn-navy btn-sm" id="lookupBtn2" type="button" style="margin-top:18px">
+          <span class="ko-only">예약조회 열기 →</span><span class="en-only">Open Lookup →</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ── FOOTER ─────────────────────────────────────────────────────── -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <img src="assets/img/brand/color/abbr_horz_1.png"
+             alt="APHRS 2026 Busan"
+             onerror="this.onerror=null;this.src='assets/img/brand/color/abbr_horz_1.png'">
+        <div class="wm">
+          <b>RIDEUS Events</b>
+          <small><span class="ko-only">GroundK · 참가자 교통 포털 데모</span><span class="en-only">GroundK · Participant Transport Portal Demo</span></small>
+        </div>
+      </div>
+      <nav class="footer-nav" aria-label="Footer">
+        <a href="airport-transfer.html"><span class="ko-only">공항 ↔ 호텔</span><span class="en-only">Airport ↔ Hotel</span></a>
+        <a href="shuttle-venue.html"><span class="ko-only">행사장 셔틀</span><span class="en-only">Venue Shuttle</span></a>
+        <a href="shuttle-chauffeur.html"><span class="ko-only">전용차량</span><span class="en-only">Chauffeur</span></a>
+        <a href="#support"><span class="ko-only">고객 지원</span><span class="en-only">Support</span></a>
+        <a href="https://aphrs2026.com" target="_blank" rel="noopener">Official Site ↗</a>
+      </nav>
+    </div>
+    <div class="footer-legal">
+      <b>GroundK Co., Ltd</b> · CEO 장동원 · Business Reg. 238-81-00429<br>
+      405호, 45 Centum Dong-ro, Haeundae-gu, Busan 48059 · Tel +82-2-863-3540 · ops@groundk.com<br>
+      <span class="ko-only">RIDEUS는 GroundK의 Transportation × Travel 플랫폼입니다. 모든 거래·교환·환불·민원은 GroundK가 처리합니다.</span>
+      <span class="en-only">RIDEUS is GroundK's Transportation × Travel platform. All transactions, exchanges, refunds &amp; inquiries are handled by GroundK.</span><br>
+      <span class="ver">© 2026 GroundK · <span class="ko-only">APHRS 2026 참가자 교통 포털 (콘셉트 데모)</span><span class="en-only">APHRS 2026 Participant Transport Portal (Concept Demo)</span> · build 2026.07.14.2</span>
+    </div>
+  </div>
+</footer>
+
+<div class="mockup-flag" style="z-index:200"><span class="ko-only">콘셉트 목업<span class="mf-ext"> · 실제 예약 연동 예정</span></span><span class="en-only">Concept Mockup<span class="mf-ext"> · Booking integration planned</span></span></div>
+
+<!-- ── BOOKING LOOKUP MODAL ─────────────────────────────────────── -->
+<div class="modal-ov" id="lookupModal" role="dialog" aria-modal="true" aria-labelledby="lk-h">
+  <div class="modal">
+    <button class="modal-x" id="lookupClose" type="button" aria-label="닫기">✕</button>
+    <h3 id="lk-h"><span class="ko-only">예약 내역 조회</span><span class="en-only">Booking Lookup</span></h3>
+    <p class="ko-block">예약번호와 이메일을 입력하면 데모 예약 내역을 확인합니다.</p>
+    <p class="en-block">Enter your reservation number and email to view your demo booking.</p>
+    <div class="mf">
+      <label for="lkCode"><span class="ko-only">예약번호</span><span class="en-only">Booking No.</span></label>
+      <input id="lkCode" type="text" placeholder="RE-APHRS-SH-0000">
+    </div>
+    <div class="mf">
+      <label for="lkEmail"><span class="ko-only">이메일</span><span class="en-only">Email</span></label>
+      <input id="lkEmail" type="email" placeholder="you@example.com">
+    </div>
+    <div class="m-actions">
+      <button class="btn btn-red btn-block btn-sm" id="lookupSubmit" type="button"><span class="ko-only">조회하기</span><span class="en-only">Search</span></button>
+    </div>
+    <p class="m-note" id="lkResult"><span class="ko-only">※ 콘셉트 데모입니다. 실제 예약 시스템과 연동되지 않으며, 예시 안내만 표시됩니다.</span><span class="en-only">※ Concept demo. Not connected to an actual booking system — example results only.</span></p>
+  </div>
+</div>
+
+<script src="assets/app.js?v=2026.07.14.2"></script>
+
+<script>
+(function(){
+  var toggle = document.getElementById('navToggle');
+  var nav    = document.getElementById('mobileNav');
+  if(!toggle || !nav) return;
+  toggle.addEventListener('click', function(){
+    var open = nav.classList.toggle('open');
+    toggle.classList.toggle('open', open);
+    toggle.setAttribute('aria-expanded', open);
+    document.body.style.overflow = open ? 'hidden' : '';
+    if(open){
+      var head = document.querySelector('.site-head');
+      if(head) nav.style.top = head.getBoundingClientRect().bottom + 'px';
+    }
+  });
+  // ESC 닫기
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape' && nav.classList.contains('open')){
+      nav.classList.remove('open');
+      toggle.classList.remove('open');
+      toggle.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+    }
+  });
+})();
+</script>
+</body>
+</html>
