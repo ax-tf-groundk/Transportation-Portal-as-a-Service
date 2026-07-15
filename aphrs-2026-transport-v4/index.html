@@ -224,14 +224,20 @@
   position:absolute; inset:0;
   background:linear-gradient(to right, rgba(9,14,28,.82) 0%, rgba(9,14,28,.55) 40%, rgba(9,14,28,.18) 65%, rgba(9,14,28,0) 85%);
 }
-/* 모바일은 텍스트가 전체 폭을 쓰고 그 위에 겹칠 여유 공간이 없어 마스크/절대배치를 풀고
-   텍스트 아래 일반 사진 블록으로 되돌림(기존 .chauffeur-photo와 동일한 방식). */
+/* 모바일은 좌우가 아니라 위아래로 꽉 채움 — 텍스트는 위쪽에 쌓이므로 마스크·scrim도
+   상하 방향으로 뒤집어서 위쪽(텍스트 영역)은 진하게 눌러 가독성을 확보하고 아래쪽으로
+   갈수록 사진이 선명해지다 하단 가장자리에서 다시 완만하게 옅어짐. 텍스트 아래로 사진이
+   비쳐 보일 세로 공간을 위해 섹션에 min-height를 둠. */
 @media(max-width:720px){
+  .chauffeur { min-height:640px; }
   .chauffeur-content { max-width:none; }
   .chauffeur-bg {
-    position:static; inset:auto; transform:none; max-width:none;
-    margin-top:24px; border-radius:var(--radius); overflow:hidden;
-    aspect-ratio:16/9; -webkit-mask-image:none; mask-image:none;
+    max-width:none; left:0; transform:none;
+    -webkit-mask-image:linear-gradient(to bottom, transparent 0%, black 40%, black 60%, transparent 100%);
+    mask-image:linear-gradient(to bottom, transparent 0%, black 40%, black 60%, transparent 100%);
+  }
+  .chauffeur-bg::after {
+    background:linear-gradient(to bottom, rgba(9,14,28,.85) 0%, rgba(9,14,28,.55) 35%, rgba(9,14,28,.15) 60%, rgba(9,14,28,0) 85%);
   }
   .chauffeur-bg img { object-position:center 30%; }
 }
@@ -306,7 +312,7 @@
 .acard-row-head { display:flex; align-items:center; padding:8px 18px 6px; border-bottom:1px solid var(--line-2); background:var(--bg); }
 .acard-row-head span { font-size:10.5px; font-weight:700; color:var(--muted); letter-spacing:.5px; text-transform:uppercase; }
 .acard-row-head .arh-fare { margin-left:auto; font-size:10.5px; font-weight:700; color:var(--muted); letter-spacing:.5px; text-transform:uppercase; }
-.ar-ic { width:30px; height:30px; border-radius:8px; display:grid; place-items:center; font-size:15px; background:var(--red-050); border:1px solid #f6cdd5; flex-shrink:0; }
+.ar-ic { width:30px; height:30px; display:grid; place-items:center; font-size:15px; color:var(--red); flex-shrink:0; }
 .ar-name { flex:1; font-weight:700; color:var(--ink); min-width:0; }
 .ar-time { color:var(--muted); font-size:13px; white-space:nowrap; flex-shrink:0; }
 .ar-fare { color:var(--red); font-weight:700; white-space:nowrap; flex-shrink:0; margin-left:auto; font-size:13px; }
@@ -350,8 +356,8 @@
 .sp-rows { margin-top:18px; display:flex; flex-direction:column; gap:13px; }
 .sp-row { display:flex; align-items:center; gap:14px; }
 .sp-ic {
-  width:46px; height:46px; border-radius:12px; display:grid; place-items:center;
-  font-size:20px; background:var(--red-050); border:1px solid #f6cdd5; flex-shrink:0;
+  width:46px; height:46px; display:grid; place-items:center;
+  font-size:20px; color:var(--red); flex-shrink:0;
 }
 .sp-row b { font-size:15px; color:var(--ink); display:block; font-weight:700; }
 .sp-row small { font-size:12.5px; color:var(--soft); display:block; margin-top:1px; }
