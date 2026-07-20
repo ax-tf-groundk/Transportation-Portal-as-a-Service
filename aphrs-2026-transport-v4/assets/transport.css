@@ -727,11 +727,21 @@ h1,h2,h3,h4{line-height:1.16;letter-spacing:-.4px;text-wrap:balance}
 .rm-stop:not(:first-child)::before{content:"";position:absolute;z-index:0;top:50%;left:-50%;right:50%;height:3px;background:var(--red);transform:translateY(-50%)}
 .rm-stop.rm-airport::before{background:transparent;border-top:3px dashed var(--red);height:0}
 .rm-dot{position:relative;z-index:1;width:18px;height:18px;border-radius:50%;background:#fff;border:3px solid var(--red);box-sizing:border-box}
-.rm-stop.rm-airport .rm-dot{width:36px;height:36px;display:grid;place-items:center;background:var(--red);color:#fff;font-size:16px;border-color:var(--red);box-shadow:0 6px 16px -6px rgba(232,0,61,.7)}
+.rm-stop.rm-airport .rm-dot,
+.rm-stop.rm-venue .rm-dot,
+.rm-stop.rm-hotel .rm-dot{width:36px;height:36px;display:grid;place-items:center;font-size:16px;box-sizing:border-box}
+/* 행사장(BEXCO)·공항·역 — 채운 레드 원 (목적지·관문 강조) */
+.rm-stop.rm-venue .rm-dot,
+.rm-stop.rm-airport .rm-dot{background:var(--red);border-color:var(--red);color:#fff}
+/* 호텔 — 흰 원 + 핑크 아웃라인·아이콘 (원 테두리는 기본, 아이콘 스트로크만 두껍게) */
+.rm-stop.rm-hotel .rm-dot{background:#fff;border-color:var(--red);color:var(--red)}
+.rm-stop.rm-hotel .rm-dot .ico{stroke-width:2.75}
 .rm-label{position:absolute;left:calc(50% - 4px);bottom:calc(100% + 6px);transform-origin:left bottom;transform:rotate(-58deg);
   max-width:170px;font-size:12px;font-weight:700;color:var(--ink);line-height:1.2;
   white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.rm-stop.rm-airport .rm-label{color:var(--red)}
+.rm-stop.rm-airport .rm-label,
+.rm-stop.rm-venue .rm-label,
+.rm-stop.rm-hotel .rm-label{color:var(--red)}
 
 /* 모바일: 회전 라벨 대신 세로 타임라인 — 정류장이 많아도 가로 스크롤 없이 항상 폭에 맞음 */
 @media(max-width:620px){
@@ -742,7 +752,9 @@ h1,h2,h3,h4{line-height:1.16;letter-spacing:-.4px;text-wrap:balance}
   .rm-stop:not(:first-child)::before,
   .rm-stop.rm-airport::before{content:none}
   .rm-dot{order:-1;flex:0 0 auto}
-  .rm-stop.rm-airport .rm-dot{width:18px;height:18px;font-size:11px}
+  .rm-stop.rm-airport .rm-dot,
+  .rm-stop.rm-venue .rm-dot,
+  .rm-stop.rm-hotel .rm-dot{width:18px;height:18px;font-size:11px}
   .rm-label{position:static;transform:none;width:auto;bottom:auto;left:auto;
     display:block;-webkit-line-clamp:unset;overflow:visible;font-size:13.5px;line-height:1.35}
 }
